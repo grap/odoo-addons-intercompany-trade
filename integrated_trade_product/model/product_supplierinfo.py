@@ -102,6 +102,7 @@ class product_supplierinfo(Model):
                 'price': price}]],
         }
 
+    # Fields Function Section
     def _get_integrated_price(
             self, cr, uid, ids, field_name, arg, context=None):
         res = {}
@@ -109,13 +110,12 @@ class product_supplierinfo(Model):
             if psi.supplier_product_id and psi.pricelist_ids:
                 res[psi.id] = psi.pricelist_ids[0].price
             else:
-                # TODO Compute Price
                 res[psi.id] = 0
         return res
 
     _columns = {
         'integrated_price': fields.function(
-            _get_integrated_price, string='Unit Price',
+            _get_integrated_price, string='Unit Price', type='float',
             digits_compute=dp.get_precision('Integrated Product Price'),
             store={'product.supplierinfo': (
                 lambda self, cr, uid, ids, context=None: ids,

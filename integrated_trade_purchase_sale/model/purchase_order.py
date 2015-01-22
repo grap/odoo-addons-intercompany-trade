@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Purchase & Sale module for OpenERP
-#    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
+#    Integrated Trade - Purchase module for OpenERP
+#    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,4 +20,28 @@
 #
 ##############################################################################
 
-from . import purchase_order
+from openerp.osv import fields
+from openerp.osv.orm import Model
+
+
+class purchase_order(Model):
+    _inherit = 'purchase.order'
+
+    # Fields Function Section
+    def _get_integrated_trade(
+            self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
+        for po in self.browse(cr, uid, ids, context=context):
+            res[po.id] = po.partner_id.integrated_trade
+        return res
+
+    # Columns Section
+    _columns = {
+        'integrated_trade': fields.function(
+            _get_integrated_trade, type='boolean', string='Integrated Trade',
+            store={'purchase.order': (
+                lambda self, cr, uid, ids, context=None: ids,
+                [
+                    'partner_id',
+                ], 10)}),
+    }

@@ -50,6 +50,7 @@ Copyright, Authors and Licence:
         'demo/sale_shop.yml',
     ],
     'data': [
+        'view/view.xml',
     ],
     'auto_install': True,
 }
