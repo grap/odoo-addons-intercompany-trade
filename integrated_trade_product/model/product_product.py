@@ -27,22 +27,18 @@ class product_product(Model):
     _inherit = 'product.product'
 
     _INTEGRATED_FIELDS = [
-        'name', 'default_code', 'lst_price', 'price', 'price_extra',
-        #        'pricelist_id', # ?
-        #        'price_margin', # ?
+        'name', 'default_code',
         'taxes_id',
-        'list_price',
+        'standard_price', 'list_price',
     ]
 
-#    def write(self, cr, uid, ids, vals, context=None):
-#        res = super(product_product, self).write(
-#            cr, uid, ids, vals, context=context)
-#        # Update product in customer database if required
-#        if list(set(vals.keys()) & set(self._INTEGRATED_FIELDS)):
-#            pitc_obj = self.pool['product.integrated.trade.catalog']
-#            pitc_ids = pitc_obj.search(
-#                cr, uid,
-#                [('supplier_product_id', 'in', ids)], context=context)
-
-#            pitc_obj.update_product(cr, uid, pitc_ids, context=context)
-#        return res
+    def write(self, cr, uid, ids, vals, context=None):
+        """Update product supplierinfo in customer company, if required"""
+        psi_obj = self.pool['product.supplierinfo']
+        res = super(product_product, self).write(
+            cr, uid, ids, vals, context=context)
+        # Update product in customer database if required
+        if list(set(vals.keys()) & set(self._INTEGRATED_FIELDS)):
+            psi_obj._integrated_trade_update_multicompany(
+                cr, uid, ids, context=context)
+        return res

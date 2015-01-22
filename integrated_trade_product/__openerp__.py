@@ -33,11 +33,15 @@ Features:
     * Change the pricelist on customer change the pricelist on
       res.integrated.trade object;
 
+Features TO TEST:
+-----------------
+    * Change product information changes supplierinfo;
+    * Change price information changes supplierinfo;
+    * Change pricelist on partner changes supplierinfo;
+
 TODO:
 -----
     * Check uom coherence;
-    * Change product information must change supplierinfo;
-    * Change price information must change supplierinfo;
     * Change pricelist information must change supplierinfo;
     * Supplierinfo is readonly in integrated trade;
 

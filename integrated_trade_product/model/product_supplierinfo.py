@@ -31,6 +31,24 @@ from openerp.addons import decimal_precision as dp
 class product_supplierinfo(Model):
     _inherit = 'product.supplierinfo'
 
+    def _integrated_trade_update_multicompany(
+            self, cr, uid, supplier_product_ids, context=None):
+        rit_obj = self.pool['res.integrated.trade']
+        psi_obj = self.pool['product.supplierinfo']
+        for supplier_product_id in supplier_product_ids:
+            psi_ids = psi_obj.search(cr, SUPERUSER_ID, [
+                ('supplier_product_id', '=', supplier_product_id),
+            ], context=context)
+            for psi in psi_obj.browse(
+                    cr, SUPERUSER_ID, psi_ids, context=context):
+                rit_id = rit_obj.search(cr, uid, [
+                    ('customer_company_id', '=', psi.company_id.id),
+                    ('supplier_partner_id', '=', psi.name.id),
+                ], context=context)[0]
+                self._integrated_trade_update(
+                    cr, uid, rit_id, [supplier_product_id],
+                    context=context)
+
     def _integrated_trade_update(
             self, cr, uid, integrated_trade_id, supplier_product_ids,
             context=None):
