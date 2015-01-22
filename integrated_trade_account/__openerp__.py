@@ -41,7 +41,8 @@ Copyright, Authors and Licence:
     'website': 'http://www.grap.coop',
     'license': 'AGPL-3',
     'depends': [
-        'base',
+        'account',
+        'integrated_trade_base',
     ],
     'demo': [
         'demo/res_groups.yml',
