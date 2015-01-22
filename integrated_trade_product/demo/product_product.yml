@@ -1,0 +1,63 @@
+# -*- encoding: utf-8 -*-
+##############################################################################
+#
+#    Integrated Trade - Product module for OpenERP
+#    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
+#    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
+- !record {model: product.product, id: product_supplier_banana}:
+    name: Supplier Banana
+    default_code: SUPPLIER-BANA
+    categ_id: product.product_category_all
+    list_price: 3.05
+    uom_id: product.product_uom_kgm
+    uom_po_id: product.product_uom_kgm
+    uos_id: product.product_uom_kgm
+    sale_ok: True
+    company_id: integrated_trade_base.supplier_company
+
+- !record {model: product.product, id: product_supplier_strawberry}:
+    name: Supplier Strawberry (250 gr)
+    default_code: SUPPLIER-STRW
+    categ_id: product.product_category_all
+    list_price: 4.95
+    uom_id: product.product_uom_unit
+    uom_po_id: product.product_uom_unit
+    uos_id: product.product_uom_unit
+    sale_ok: True
+    company_id: integrated_trade_base.supplier_company
+
+- !record {model: product.product, id: product_supplier_apple}:
+    name: Supplier Apple
+    default_code: SUPPLIER-APPL
+    list_price: 2.45
+    uom_id: product.product_uom_kgm
+    uom_po_id: product.product_uom_kgm
+    uos_id: product.product_uom_kgm
+    sale_ok: True
+    company_id: integrated_trade_base.supplier_company
+
+- !record {model: product.product, id: product_customer_apple}:
+    name: Customer Apple
+    default_code: CUSTOMER-APPL
+    list_price: 2.80
+    uom_id: product.product_uom_kgm
+    uom_po_id: product.product_uom_kgm
+    uos_id: product.product_uom_kgm
+    sale_ok: True
+    company_id: integrated_trade_base.customer_company

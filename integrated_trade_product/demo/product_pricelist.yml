@@ -1,0 +1,36 @@
+# -*- encoding: utf-8 -*-
+##############################################################################
+#
+#    Integrated Trade - Product module for Odoo
+#    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
+#    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
+- !record {model: product.pricelist, id: pricelist_discount}:
+    name: Integrated Trade - Sale Pricelist (Discount)
+    company_id: integrated_trade_base.supplier_company
+    type: sale
+
+- !record {model: product.pricelist.version, id: pricelist_version_discount}:
+    name: Integrated Trade - Sale Pricelist Version (Discount)
+    pricelist_id: pricelist_discount
+
+- !record {model: product.pricelist.item, id: pricelist_item_discount}:
+    name: Integrated Trade - Sale Pricelist Item (Discount)
+    price_version_id: pricelist_version_discount
+    base: 1
+    price_discount: -0.10

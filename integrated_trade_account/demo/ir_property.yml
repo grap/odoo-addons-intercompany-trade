@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.property" id="supplier_property_account_payable">
+            <field name="name">property_account_payable</field>
+            <field name="company_id">integrated_trade_base.supplier_company</field>
+            <field name="fields_id">account.field_res_partner_property_account_payable</field>
+            <field eval="'account.account,'+str(ref('supplier_account_payable'))" name="value"/>
+        </record>
+
+        <record model="ir.property" id="supplier_property_account_payable">
+            <field name="name">property_account_payable</field>
+            <field name="company_id">integrated_trade_base.supplier_company</field>
+            <field name="fields_id">account.field_res_partner_property_account_payable</field>
+            <field eval="'account.account,'+str(ref('supplier_account_payable'))" name="value"/>
+        </record>
+    </data>
+</openerp>
+
+- !record {model: ir.property, id: }:
+    name: 
+    : 
+    fields_id: 
+    value_reference: ! 'account.account,'+str(ref('supplier_account_payable'))
+
+- !record {model: ir.property, id: supplier_property_account_receivable}:
+    name: property_account_receivable
+    company_id: integrated_trade_base.supplier_company
+    fields_id: account.field_res_partner_property_account_receivable
+    value_reference: ! 'account.account,'+str(ref('supplier_account_receivable'))
+

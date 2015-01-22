@@ -1,0 +1,45 @@
+# -*- encoding: utf-8 -*-
+##############################################################################
+#
+#    Integrated Trade - Account module for Odoo
+#    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
+#    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
+- !record {model: account.account, id: supplier_account_root}:
+    code: SUP_ROOT
+    name: Integrated Trade - Root Account
+    type: view
+    user_type: account.data_account_type_view
+    company_id: integrated_trade_base.supplier_company
+
+
+- !record {model: account.account, id: supplier_account_receivable}:
+    code: SUP_REC
+    name: Integrated Trade - Supplier Debtors
+    parent_id: supplier_account_root
+    type: receivable
+    user_type: account.data_account_type_receivable
+    company_id: integrated_trade_base.supplier_company
+
+- !record {model: account.account, id: supplier_account_payable}:
+    code: SUP_CRE
+    name: Integrated Trade - Supplier Creditors
+    parent_id: supplier_account_root
+    type: payable
+    user_type: account.data_account_type_payable
+    company_id: integrated_trade_base.supplier_company

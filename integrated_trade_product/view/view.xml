@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ********************************************************************** -->
+<!--    Integrated Trade - Product module for Odoo                          -->
+<!--    Copyright (C) 2014 -Today GRAP (http://www.grap.coop)               -->
+<!--    @author Sylvain LE GAL (https://twitter.com/legalsylvain)           -->
+
+<!--This program is free software: you can redistribute it and/or modify    -->
+<!--it under the terms of the GNU Affero General Public License as          -->
+<!--published by the Free Software Foundation, either version 3 of the      -->
+<!--License, or (at your option) any later version.                         -->
+
+<!--This program is distributed in the hope that it will be useful,         -->
+<!--but WITHOUT ANY WARRANTY; without even the implied warranty of          -->
+<!--MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           -->
+<!--GNU Affero General Public License for more details.                     -->
+
+<!--You should have received a copy of the GNU Affero General Public License-->
+<!--along with this program.  If not, see <http://www.gnu.org/licenses/>.   -->
+<!-- ********************************************************************** -->
+<openerp>
+    <data>
+
+<!-- Model: res.integrated.trade -->
+        <record id="view_res_integrated_trade_form" model="ir.ui.view">
+            <field name="model">res.integrated.trade</field>
+            <field name="inherit_id" ref="integrated_trade_base.view_res_integrated_trade_form" />
+            <field name="arch" type="xml">
+                    <field name="customer_partner_id" position="after">
+                        <field name="pricelist_id"/>
+                    </field>
+            </field>
+        </record>
+
+<!-- Define: product.integrated.trade.catalog -->
+        <record id="view_product_integrated_trade_catalog_tree" model="ir.ui.view">
+            <field name="model">product.integrated.trade.catalog</field>
+            <field name="arch" type="xml">
+                <tree string="Integrated Trade - Products Catalog">
+                    <field name="customer_product_tmpl_id"/>
+                    <field name="supplier_sale_price"/>
+                    <field name="supplier_product_uos"/>
+                    <field name="supplier_product_default_code"/>
+                    <field name="supplier_product_name"/>
+                    <field name="supplier_partner_name"/>
+                    <field name="customer_company_id" groups="base.group_multi_company"/>
+                    <button name="link_product_wizard" icon="gtk-add" type="object" string="Link Product Windows"
+                        attrs="{'invisible': [('customer_product_tmpl_id', '!=', False)]}"/>
+                    <button name="unlink_product" icon="gtk-cancel" type="object" string="Unlink Product"
+                        attrs="{'invisible': [('customer_product_tmpl_id', '=', False)]}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_product_integrated_trade_catalog_search" model="ir.ui.view">
+            <field name="model">product.integrated.trade.catalog</field>
+            <field name="arch" type="xml">
+                <search string="Integrated Trade - Products Catalog">
+                   <field name="supplier_product_name" string="Supplier Product" filter_domain="['|',('supplier_product_name','ilike',self),('supplier_product_default_code','ilike',self)]"/>
+                    <group expand="0" string="Group by...">
+                        <filter string="Partner" domain="[]" context="{'group_by' : 'supplier_partner_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+<!-- Define: integrated.trade.wizard.link.product -->
+        <record id="view_integrated_trade_wizard_link_product_form" model="ir.ui.view">
+            <field name="model">integrated.trade.wizard.link.product</field>
+            <field name="arch" type="xml">
+                <form string="Integrated Trade - Link Product">
+                    <group>
+                        <group string="Your Product">
+                            <field name="customer_product_tmpl_id" />
+                        </group>
+                        <group string="Supplier Product">
+                            <field name="supplier_product_code" />
+                            <field name="supplier_product_name" />
+                            <field name="supplier_product_price" />
+                        </group>
+                        <group colspan="4">
+                            <button name="link_product" type="object" string="Link Product"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
