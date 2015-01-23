@@ -48,6 +48,7 @@ Copyright, Authors and Licence:
     'demo': [
         'demo/res_groups.yml',
         'demo/sale_shop.yml',
+        'demo/ir_values.xml',
     ],
     'data': [
         'view/view.xml',

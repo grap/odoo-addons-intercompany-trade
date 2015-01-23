@@ -26,3 +26,10 @@
     lot_stock_id: supplier_stock_location_stock
     lot_output_id: supplier_stock_location_output
     company_id: integrated_trade_base.supplier_company
+
+- !record {model: stock.warehouse, id: customer_stock_warehouse}:
+    name: Integrated Trade - Customer Warehouse
+    lot_input_id: customer_stock_location_stock
+    lot_stock_id: customer_stock_location_stock
+    lot_output_id: customer_stock_location_output
+    company_id: integrated_trade_base.customer_company

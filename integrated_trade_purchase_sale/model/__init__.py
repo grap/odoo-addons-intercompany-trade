@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Integrated Trade - Purchase & Sale module for OpenERP
-#    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
+#    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,3 +21,4 @@
 ##############################################################################
 
 from . import purchase_order
+from . import sale_order

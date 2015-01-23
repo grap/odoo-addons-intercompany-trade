@@ -20,7 +20,7 @@
 <openerp>
     <data>
 
-<!-- Overload: res.partner -->
+<!-- Overload: purchase.order -->
         <record id="view_purchase_order_form" model="ir.ui.view">
             <field name="model">purchase.order</field>
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
@@ -30,6 +30,19 @@
                 </field>
             </field>
         </record>
+
+<!-- Overload: sale.order -->
+        <record id="view_sale_order_form" model="ir.ui.view">
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="integrated_trade"/>
+                </field>
+            </field>
+        </record>
+
+
 
     </data>
 </openerp>

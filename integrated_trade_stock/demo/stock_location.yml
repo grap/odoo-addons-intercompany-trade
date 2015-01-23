@@ -33,3 +33,17 @@
     chained_location_type: customer
     chained_auto_packing: transparent
     company_id: integrated_trade_base.supplier_company
+
+- !record {model: stock.location, id: customer_stock_location_stock}:
+    name: Integrated Trade - Customer Location Stock
+    usage: internal
+    chained_location_type: none
+    chained_auto_packing: manual
+    company_id: integrated_trade_base.customer_company
+
+- !record {model: stock.location, id: customer_stock_location_output}:
+    name: Integrated Trade - Customer Location Customer
+    usage: internal
+    chained_location_type: customer
+    chained_auto_packing: transparent
+    company_id: integrated_trade_base.customer_company
