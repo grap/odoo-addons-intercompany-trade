@@ -43,10 +43,12 @@
                     </group>
                     <group col="4" string="Information in Customer Database">
                         <field name="customer_company_id"/>
+                        <field name="customer_user_id"/>
                         <field name="supplier_partner_id"/>
                     </group>
                     <group col="4" string="Information in Supplier">
                         <field name="supplier_company_id"/>
+                        <field name="supplier_user_id"/>
                         <field name="customer_partner_id"/>
                     </group>
                 </form>

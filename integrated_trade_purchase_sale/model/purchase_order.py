@@ -20,7 +20,6 @@
 #
 ##############################################################################
 
-from openerp import SUPERUSER_ID
 from openerp.osv import fields
 from openerp.osv.orm import Model
 
@@ -53,11 +52,17 @@ class purchase_order(Model):
 
     # Overload Section
     def create(self, cr, uid, vals, context=None):
+        print "*******************\npo::create"
+        print vals
         rp_obj = self.pool['res.partner']
         rp = rp_obj.browse(cr, uid, vals['partner_id'], context=context)
         create_sale_order = (
             not vals.get('integrated_trade_sale_order_id', False)
             and rp.integrated_trade)
+
+        if create_sale_order:
+            line_ids = vals['order_line']
+            vals.pop('order_line')
 
         # Peut etre pop line_id et le writer ensuite (plus simple)
         res = super(purchase_order, self).create(
@@ -81,7 +86,7 @@ class purchase_order(Model):
             # to have the correct one
 
             shop_id = iv_obj.get_default(
-                cr, SUPERUSER_ID, 'sale.order', 'shop_id',
+                cr, rit.supplier_user_id.id, 'sale.order', 'shop_id',
                 company_id=rit.supplier_company_id.id)
             so_vals = {
                 'company_id': rit.customer_company_id.id,
@@ -93,15 +98,22 @@ class purchase_order(Model):
                 'pricelist_id': rit.pricelist_id.id,
                 'client_order_ref': po.name,
             }
-            so_id = so_obj.create(cr, SUPERUSER_ID, so_vals, context=context)
-            so = so_obj.browse(cr, SUPERUSER_ID, so_id, context=context)
+            print "***** BEFORE"
+            so_id = so_obj.create(
+                cr, rit.supplier_user_id.id, so_vals, context=context)
+            print "***** AFTER"
+            so = so_obj.browse(
+                cr, rit.supplier_user_id.id, so_id, context=context)
             # Update Purchase Order
             self.write(cr, uid, res, {
+                'integrated_trade_sale_order_id': so.id,
                 'partner_ref': so.name,
+                'order_line': line_ids,
             }, context=context)
         return res
 
     def write(self, cr, uid, ids, vals, context=None):
+        print "*******************\npo::write"
         res = super(purchase_order, self).write(
             cr, uid, ids, vals, context=context)
         return res

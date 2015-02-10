@@ -25,15 +25,15 @@ from openerp.osv import fields
 from openerp.osv.orm import Model
 
 
-class sale_order(Model):
-    _inherit = 'sale.order'
+class sale_order_line(Model):
+    _inherit = 'sale.order.line'
 
     # Fields Function Section
     def _get_integrated_trade(
             self, cr, uid, ids, field_name, arg, context=None):
         res = {}
-        for so in self.browse(cr, uid, ids, context=context):
-            res[so.id] = so.partner_id.integrated_trade
+        for sol in self.browse(cr, uid, ids, context=context):
+            res[sol.id] = False  # sol.order_id.partner_id.integrated_trade
         return res
 
     # Columns Section
@@ -45,23 +45,23 @@ class sale_order(Model):
                 [
                     'partner_id',
                 ], 10)}),
-        'integrated_trade_purchase_order_id': fields.many2one(
-            'purchase.order', string='Integrated Trade Purchase Order',
-            readonly=True,
+        'integrated_trade_purchase_order_line_id': fields.many2one(
+            'purchase.order.line',
+            string='Integrated Trade Purchase Order Line', readonly=True,
         ),
     }
 
     # Overload Section
     def create(self, cr, uid, vals, context=None):
-        print "*******************\nso::create"
+        print "*******************\nsol::create"
         print vals
-        res = super(sale_order, self).create(
+        res = super(sale_order_line, self).create(
             cr, uid, vals, context=context)
         return res
 
     def write(self, cr, uid, ids, vals, context=None):
-        print "*******************\nso::write"
+        print "*******************\nsol::write"
         print vals
-        res = super(sale_order, self).write(
+        res = super(sale_order_line, self).write(
             cr, uid, ids, vals, context=context)
         return res
