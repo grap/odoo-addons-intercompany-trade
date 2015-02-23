@@ -21,7 +21,7 @@
 ##############################################################################
 
 - !record {model: product.pricelist.item, id: intregrated_purchase_pricelist_item}:
-    price_version_id: intregrated_purchase_pricelist_version
+    price_version_id: purchase.ver0
     base: -2
     min_quantity: 0
     sequence: 5
