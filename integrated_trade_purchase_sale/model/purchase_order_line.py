@@ -178,7 +178,7 @@ class purchase_order_line(Model):
 
     def unlink(self, cr, uid, ids, context=None):
         """"- Unlink the according Sale Order Line."""
-        print "*******************\npol::unlink %s"  % (ids)
+        print "*******************\npol::unlink %s" % (ids)
         if not context:
             context = {}
         sol_obj = self.pool['sale.order.line']
@@ -195,5 +195,4 @@ class purchase_order_line(Model):
                     context=ctx)
         res = super(purchase_order_line, self).unlink(
             cr, uid, ids, context=context)
-        import pdb; pdb.set_trace()
         return res

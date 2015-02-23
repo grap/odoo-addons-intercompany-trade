@@ -38,13 +38,14 @@ class sale_order_line(Model):
 
     # Columns Section
     _columns = {
-#        'integrated_trade': fields.function(
-#            _get_integrated_trade, type='boolean', string='Integrated Trade',
-#            store={'sale.order': (
-#                lambda self, cr, uid, ids, context=None: ids,
-#                [
-#                    'partner_id',
-#                ], 10)}),
+        #        'integrated_trade': fields.function(
+        #            _get_integrated_trade, type='boolean',
+        #            string='Integrated Trade',
+        #            store={'sale.order': (
+        #                lambda self, cr, uid, ids, context=None: ids,
+        #                [
+        #                    'partner_id',
+        #                ], 10)}),
         'integrated_trade_purchase_order_line_id': fields.many2one(
             'purchase.order.line',
             string='Integrated Trade Purchase Order Line', readonly=True,
