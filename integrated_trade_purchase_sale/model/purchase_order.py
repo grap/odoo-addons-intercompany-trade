@@ -22,6 +22,8 @@
 
 from openerp.osv import fields
 from openerp.osv.orm import Model
+from openerp.osv.osv import except_osv
+from openerp.tools.translate import _
 
 
 class purchase_order(Model):
@@ -63,25 +65,25 @@ class purchase_order(Model):
 
     # Overload Section
     def create(self, cr, uid, vals, context=None):
-        print "*******************\npo::create"
-        print vals
         rp_obj = self.pool['res.partner']
+        so_obj = self.pool['sale.order']
+        iv_obj = self.pool['ir.values']
+
         rp = rp_obj.browse(cr, uid, vals['partner_id'], context=context)
         create_sale_order = (
-            not vals.get('integrated_trade_sale_order_id', False)
-            and rp.integrated_trade)
+            not context.get('integrated_trade_do_not_propagate', False) and
+            rp.integrated_trade)
 
         if create_sale_order:
             line_ids = vals['order_line']
             vals.pop('order_line')
 
-        # Peut etre pop line_id et le writer ensuite (plus simple)
         res = super(purchase_order, self).create(
             cr, uid, vals, context=context)
 
         if create_sale_order:
-            so_obj = self.pool['sale.order']
-            iv_obj = self.pool['ir.values']
+            ctx = context.copy()
+            ctx['integrated_trade_do_not_propagate'] = True
 
             # Create associated Sale Order
             po = self.browse(cr, uid, res, context=context)
@@ -105,12 +107,11 @@ class purchase_order(Model):
                 'pricelist_id': rit.pricelist_id.id,
                 'client_order_ref': po.name,
             }
-            print "***** BEFORE"
             so_id = so_obj.create(
-                cr, rit.supplier_user_id.id, so_vals, context=context)
-            print "***** AFTER"
+                cr, rit.supplier_user_id.id, so_vals, context=ctx)
             so = so_obj.browse(
                 cr, rit.supplier_user_id.id, so_id, context=context)
+
             # Update Purchase Order
             self.write(cr, uid, res, {
                 'integrated_trade_sale_order_id': so.id,
@@ -120,14 +121,20 @@ class purchase_order(Model):
         return res
 
     def write(self, cr, uid, ids, vals, context=None):
-        print "*******************\npo::write"
+        if 'partner_id' in vals:
+            for po in self.browse(cr, uid, ids, context=context):
+                if po.integrated_trade:
+                    raise except_osv(
+                        _("Error!"),
+                        _("""You can not change the customer of a Purchase"""
+                            """ Order 'Integrated Trade'. Please create a"""
+                            """ new one Purchase Order."""))
         res = super(purchase_order, self).write(
             cr, uid, ids, vals, context=context)
         return res
 
     def unlink(self, cr, uid, ids, context=None):
         """Delete according Purchase order"""
-        print "*******************\npo::unlink"
         if not context:
             context = {}
         so_obj = self.pool['sale.order']

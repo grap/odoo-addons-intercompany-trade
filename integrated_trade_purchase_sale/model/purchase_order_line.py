@@ -20,7 +20,6 @@
 #
 ##############################################################################
 
-from openerp import SUPERUSER_ID
 from openerp.osv import fields
 from openerp.osv.orm import Model
 from openerp.osv.osv import except_osv
@@ -30,23 +29,8 @@ from openerp.tools.translate import _
 class purchase_order_line(Model):
     _inherit = 'purchase.order.line'
 
-    # Fields Function Section
-    def _get_integrated_trade(
-            self, cr, uid, ids, field_name, arg, context=None):
-        res = {}
-        for pol in self.browse(cr, uid, ids, context=context):
-            res[pol.id] = pol.order_id.partner_id.integrated_trade
-        return res
-
     # Columns Section
     _columns = {
-        'integrated_trade': fields.function(
-            _get_integrated_trade, type='boolean', string='Integrated Trade',
-            store={'purchase.order.line': (
-                lambda self, cr, uid, ids, context=None: ids,
-                [
-                    'order_id',
-                ], 10)}),
         'integrated_trade_sale_order_line_id': fields.many2one(
             'sale.order.line', string='Integrated Trade Sale Order Line',
             readonly=True,
@@ -67,15 +51,13 @@ class purchase_order_line(Model):
     # Overload Section
     def create(self, cr, uid, vals, context=None):
         """Create the according Sale Order Line."""
-        print "*******************\npol::create"
-        print vals
         po_obj = self.pool['purchase.order']
         sol_obj = self.pool['sale.order.line']
         psi_obj = self.pool['product.supplierinfo']
 
         po = po_obj.browse(cr, uid, vals['order_id'], context=context)
         create_sale_order_line = (
-            not vals.get('integrated_trade_sale_order_line_id', False)
+            not context.get('integrated_trade_do_not_propagate', False)
             and po.integrated_trade)
 
         # Call Super: Create
@@ -90,7 +72,7 @@ class purchase_order_line(Model):
                 cr, uid, po.partner_id.id, po.company_id.id, context=context)
 
 #            # Create associated Sale Order Line
-            pol = self.browse(cr, SUPERUSER_ID, res, context=context)
+            pol = self.browse(cr, uid, res, context=context)
             psi_ids = psi_obj.search(cr, uid, [
                 ('product_id', '=', pol.product_id.id),
                 ('name', '=', pol.order_id.partner_id.id),
@@ -103,7 +85,7 @@ class purchase_order_line(Model):
                         """ product to any Supplier Product. Please do it"""
                         """ in the 'Integrated Trade' menu.""" % (
                             pol.product_id.name)))
-            psi = psi_obj.browse(cr, SUPERUSER_ID, psi_ids[0], context=context)
+            psi = psi_obj.browse(cr, uid, psi_ids[0], context=context)
 
             sol_vals = {
                 'order_id': pol.order_id.integrated_trade_sale_order_id.id,
@@ -124,7 +106,7 @@ class purchase_order_line(Model):
             }
 
             sol_id = sol_obj.create(
-                cr, rit.supplier_user_id.id, sol_vals, context=context)
+                cr, rit.supplier_user_id.id, sol_vals, context=ctx)
             # Force the call of the _amount_all
             sol_obj.write(
                 cr, rit.supplier_user_id.id, sol_id,
@@ -139,7 +121,6 @@ class purchase_order_line(Model):
     def write(self, cr, uid, ids, vals, context=None):
         """"- Update the according Sale Order Line with new data.
             - Block any changes of product."""
-        print "*******************\npol::write %s " % (ids)
         if not context:
             context = {}
         sol_obj = self.pool['sale.order.line']
@@ -178,7 +159,6 @@ class purchase_order_line(Model):
 
     def unlink(self, cr, uid, ids, context=None):
         """"- Unlink the according Sale Order Line."""
-        print "*******************\npol::unlink %s" % (ids)
         if not context:
             context = {}
         sol_obj = self.pool['sale.order.line']
