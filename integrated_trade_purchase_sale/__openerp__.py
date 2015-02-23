@@ -24,8 +24,8 @@
     'version': '0.1',
     'category': 'Purchase',
     'description': """
-Module for Integrated Trade for Stock Module
-==============================================
+Module for Integrated Trade for Purchase and Sale Module
+========================================================
 
 Features:
 ---------
@@ -46,6 +46,8 @@ Copyright, Authors and Licence:
         'sale',
     ],
     'demo': [
+        'demo/product_pricelist_item.yml',
+        'demo/res_partner.yml',
         'demo/res_groups.yml',
         'demo/sale_shop.yml',
         'demo/ir_values.xml',
