@@ -50,6 +50,17 @@ class purchase_order(Model):
         ),
     }
 
+    # Private Function
+    def _get_res_integrated_trade(
+            self, cr, uid, supplier_partner_id, customer_company_id,
+            context=None):
+        rit_obj = self.pool['res.integrated.trade']
+        rit_id = rit_obj.search(cr, uid, [
+            ('supplier_partner_id', '=', supplier_partner_id),
+            ('customer_company_id', '=', customer_company_id),
+        ], context=context)[0]
+        return rit_obj.browse(cr, uid, rit_id, context=context)
+
     # Overload Section
     def create(self, cr, uid, vals, context=None):
         print "*******************\npo::create"
@@ -70,16 +81,12 @@ class purchase_order(Model):
 
         if create_sale_order:
             so_obj = self.pool['sale.order']
-            rit_obj = self.pool['res.integrated.trade']
             iv_obj = self.pool['ir.values']
 
             # Create associated Sale Order
             po = self.browse(cr, uid, res, context=context)
-            rit_id = rit_obj.search(cr, uid, [
-                ('supplier_partner_id', '=', po.partner_id.id),
-                ('customer_company_id', '=', po.company_id.id),
-            ], context=context)[0]
-            rit = rit_obj.browse(cr, uid, rit_id, context=context)
+            rit = self._get_res_integrated_trade(
+                cr, uid, po.partner_id.id, po.company_id.id, context=context)
 
             # WEIRD: sale_order has a bad _get_default_shop base on the
             # company of the current user, so we request ir.values
@@ -116,4 +123,25 @@ class purchase_order(Model):
         print "*******************\npo::write"
         res = super(purchase_order, self).write(
             cr, uid, ids, vals, context=context)
+        return res
+
+    def unlink(self, cr, uid, ids, context=None):
+        """Delete according Purchase order"""
+        print "*******************\npo::unlink"
+        if not context:
+            context = {}
+        so_obj = self.pool['sale.order']
+        if 'integrated_trade_do_not_propagate' not in context.keys():
+            ctx = context.copy()
+            ctx['integrated_trade_do_not_propagate'] = True
+            for po in self.browse(cr, uid, ids, context=context):
+                rit = self._get_res_integrated_trade(
+                    cr, uid, po.partner_id.id,
+                    po.company_id.id, context=context)
+                if po.integrated_trade:
+                    so_obj.unlink(
+                        cr, rit.supplier_user_id.id,
+                        [po.integrated_trade_sale_order_id.id], context=ctx)
+        res = super(purchase_order, self).unlink(
+            cr, uid, ids, context=context)
         return res

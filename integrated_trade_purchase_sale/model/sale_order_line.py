@@ -28,28 +28,38 @@ from openerp.osv.orm import Model
 class sale_order_line(Model):
     _inherit = 'sale.order.line'
 
-    # Fields Function Section
-    def _get_integrated_trade(
-            self, cr, uid, ids, field_name, arg, context=None):
-        res = {}
-        for sol in self.browse(cr, uid, ids, context=context):
-            res[sol.id] = False  # sol.order_id.partner_id.integrated_trade
-        return res
+#    # Fields Function Section
+#    def _get_integrated_trade(
+#            self, cr, uid, ids, field_name, arg, context=None):
+#        res = {}
+#        for sol in self.browse(cr, uid, ids, context=context):
+#            res[sol.id] = False  # sol.order_id.partner_id.integrated_trade
+#        return res
 
     # Columns Section
     _columns = {
-        'integrated_trade': fields.function(
-            _get_integrated_trade, type='boolean', string='Integrated Trade',
-            store={'sale.order': (
-                lambda self, cr, uid, ids, context=None: ids,
-                [
-                    'partner_id',
-                ], 10)}),
+#        'integrated_trade': fields.function(
+#            _get_integrated_trade, type='boolean', string='Integrated Trade',
+#            store={'sale.order': (
+#                lambda self, cr, uid, ids, context=None: ids,
+#                [
+#                    'partner_id',
+#                ], 10)}),
         'integrated_trade_purchase_order_line_id': fields.many2one(
             'purchase.order.line',
             string='Integrated Trade Purchase Order Line', readonly=True,
         ),
     }
+
+    def _get_integrated_trade(
+            self, cr, uid, customer_partner_id, supplier_company_id,
+            context=None):
+        rit_obj = self.pool['res.integrated.trade']
+        rit_id = rit_obj.search(cr, uid, [
+            ('customer_partner_id', '=', customer_partner_id),
+            ('supplier_company_id', '=', supplier_company_id),
+        ], context=context)[0]
+        return rit_obj.browse(cr, uid, rit_id, context=context)
 
     # Overload Section
     def create(self, cr, uid, vals, context=None):
@@ -60,8 +70,27 @@ class sale_order_line(Model):
         return res
 
     def write(self, cr, uid, ids, vals, context=None):
-        print "*******************\nsol::write"
+        print "*******************\nsol::write %s" % (ids)
         print vals
         res = super(sale_order_line, self).write(
             cr, uid, ids, vals, context=context)
+        return res
+
+    def unlink(self, cr, uid, ids, context=None):
+        """"- Unlink the according Purchase Order Line."""
+        print "*******************\nsol::unlink %s" % (ids)
+        pol_obj = self.pool['purchase.order.line']
+        if 'integrated_trade_do_not_propagate' not in context.keys():
+            ctx = context.copy()
+            ctx['integrated_trade_do_not_propagate'] = True
+            for sol in self.browse(cr, uid, ids, context=context):
+                rit = self._get_integrated_trade(
+                    cr, uid, sol.order_id.partner_id.id,
+                    sol.order_id.company_id.id, context=context)
+                pol_obj.unlink(
+                    cr, rit.customer_user_id.id,
+                    [sol.integrated_trade_purchase_order_line_id.id],
+                    context=ctx)
+        res = super(sale_order_line, self).unlink(
+            cr, uid, ids, context=context)
         return res
