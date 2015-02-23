@@ -86,7 +86,8 @@ class product_integrated_trade_catalog(Model):
         'customer_product_tmpl_id': fields.many2one(
             'product.template', 'Customer Product', readonly=True),
         'supplier_sale_price': fields.function(
-            _get_supplier_sale_price, 'Supplier Sale Price', type='float',
+            _get_supplier_sale_price, string='Supplier Sale Price',
+            type='float',
             digits_compute=dp.get_precision('Integrated Product Price')),
         'customer_purchase_price': fields.float(
             'Customer Purchase Price', readonly=True),
