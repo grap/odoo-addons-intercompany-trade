@@ -57,8 +57,8 @@ class purchase_order_line(Model):
 
         po = po_obj.browse(cr, uid, vals['order_id'], context=context)
         create_sale_order_line = (
-            not context.get('integrated_trade_do_not_propagate', False)
-            and po.integrated_trade)
+            not context.get('integrated_trade_do_not_propagate', False) and
+            po.integrated_trade)
 
         # Call Super: Create
         res = super(purchase_order_line, self).create(
