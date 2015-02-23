@@ -31,7 +31,6 @@ class res_partner(Model):
     _columns = {
         'integrated_trade': fields.boolean(
             'Integrated Trade',
-            groups='integrated_trade_base.integrated_trade_user',
             help="Indicate that this partner is a company in Odoo."),
     }
 

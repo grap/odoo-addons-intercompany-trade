@@ -60,8 +60,9 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-                <field name="customer" position="before">
-                    <field name="integrated_trade"/>
+                <field name="user_id" position="after">
+                    <field name="integrated_trade"
+                        groups="integrated_trade_base.integrated_trade_manager"/>
                 </field>
             </field>
         </record>
