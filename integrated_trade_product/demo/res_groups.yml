@@ -29,3 +29,15 @@
     users:
         - base.user_root
         - integrated_trade_base.customer_user
+
+- !record {model: res.groups, id: product.group_uom}:
+    users:
+        - base.user_root
+        - integrated_trade_base.supplier_user
+        - integrated_trade_base.customer_user
+
+- !record {model: res.groups, id: product.group_uos}:
+    users:
+        - base.user_root
+        - integrated_trade_base.supplier_user
+        - integrated_trade_base.customer_user
