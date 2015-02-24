@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Account module for OpenERP
+#    Integrated Trade - Account module for Odoo
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -19,38 +19,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'Integrated Trade - Account',
-    'version': '0.1',
-    'category': 'Base',
-    'description': """
-Module for Integrated Trade for Account Module
-==============================================
 
-Features :
-----------
-    * Add Demo Data;
+- !record {model: account.journal, id: customer_journal_purchase}:
+    code: CUS_PURCHASE
+    name: Integrated Trade - Customer Purchase Journal
+    type: purchase
+    company_id: integrated_trade_base.customer_company
 
-Copyright, Authors and Licence:
--------------------------------
-    * Copyright: 2015, GRAP: Groupement Régional Alimentaire de Proximité;
-    * Author:
-        * Sylvain LE GAL (https://twitter.com/legalsylvain);
-    * Licence: AGPL-3 (http://www.gnu.org/licenses/);""",
-    'author': 'GRAP',
-    'website': 'http://www.grap.coop',
-    'license': 'AGPL-3',
-    'depends': [
-        'account',
-        'integrated_trade_base',
-    ],
-    'demo': [
-        'demo/res_groups.yml',
-        'demo/account_account.yml',
-        'demo/account_journal.yml',
-        'demo/ir_property.xml',
-    ],
-    'data': [
-    ],
-    'auto_install': True,
-}
+- !record {model: account.journal, id: supplier_journal_sale}:
+    code: SUP_SALE
+    name: Integrated Trade - Supplier Sale Journal
+    type: sale
+    company_id: integrated_trade_base.supplier_company

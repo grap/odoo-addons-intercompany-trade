@@ -22,9 +22,16 @@
 
 - !record {model: account.account, id: supplier_account_root}:
     code: SUP_ROOT
-    name: Integrated Trade - Root Account
+    name: Integrated Trade - Supplier Root Account
     type: view
     user_type: account.data_account_type_view
+    company_id: integrated_trade_base.supplier_company
+
+- !record {model: account.account, id: supplier_account_income}:
+    code: CUS_INC
+    name: Integrated Trade - Supplier Incomes
+    type: other
+    user_type: account.data_account_type_income
     company_id: integrated_trade_base.supplier_company
 
 
@@ -43,3 +50,33 @@
     type: payable
     user_type: account.data_account_type_payable
     company_id: integrated_trade_base.supplier_company
+
+- !record {model: account.account, id: customer_account_root}:
+    code: CUS_ROOT
+    name: Integrated Trade - Customer Root Account
+    type: view
+    user_type: account.data_account_type_view
+    company_id: integrated_trade_base.customer_company
+
+- !record {model: account.account, id: customer_account_expense}:
+    code: CUS_EXP
+    name: Integrated Trade - Customer Expenses
+    type: other
+    user_type: account.data_account_type_expense
+    company_id: integrated_trade_base.customer_company
+
+- !record {model: account.account, id: customer_account_receivable}:
+    code: CUS_REC
+    name: Integrated Trade - Customer Debtors
+    parent_id: customer_account_root
+    type: receivable
+    user_type: account.data_account_type_receivable
+    company_id: integrated_trade_base.customer_company
+
+- !record {model: account.account, id: customer_account_payable}:
+    code: CUS_CRE
+    name: Integrated Trade - Customer Creditors
+    parent_id: customer_account_root
+    type: payable
+    user_type: account.data_account_type_payable
+    company_id: integrated_trade_base.customer_company

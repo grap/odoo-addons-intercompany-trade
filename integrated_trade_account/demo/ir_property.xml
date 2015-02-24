@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+        <record model="ir.property" id="supplier_property_account_income">
+            <field name="name">property_account_income_categ</field>
+            <field name="company_id" ref="integrated_trade_base.supplier_company" />
+            <field name="fields_id" ref="account.field_product_category_property_account_income_categ" />
+            <field name="value" eval="'account.account,'+str(ref('supplier_account_income'))"/>
+        </record>
+
         <record model="ir.property" id="supplier_property_account_payable">
             <field name="name">property_account_payable</field>
             <field name="company_id" ref="integrated_trade_base.supplier_company" />
@@ -13,6 +20,27 @@
             <field name="company_id" ref="integrated_trade_base.supplier_company" />
             <field name="fields_id" ref="account.field_res_partner_property_account_receivable" />
             <field name="value" eval="'account.account,'+str(ref('supplier_account_receivable'))"/>
+        </record>
+
+        <record model="ir.property" id="customer_property_account_expense">
+            <field name="name">property_account_expense_categ</field>
+            <field name="company_id" ref="integrated_trade_base.customer_company" />
+            <field name="fields_id" ref="account.field_product_category_property_account_expense_categ" />
+            <field name="value" eval="'account.account,'+str(ref('customer_account_expense'))"/>
+        </record>
+
+        <record model="ir.property" id="customer_property_account_payable">
+            <field name="name">property_account_payable</field>
+            <field name="company_id" ref="integrated_trade_base.customer_company" />
+            <field name="fields_id" ref="account.field_res_partner_property_account_payable" />
+            <field name="value" eval="'account.account,'+str(ref('customer_account_payable'))"/>
+        </record>
+
+        <record model="ir.property" id="customer_property_account_receivable">
+            <field name="name">property_account_receivable</field>
+            <field name="company_id" ref="integrated_trade_base.customer_company" />
+            <field name="fields_id" ref="account.field_res_partner_property_account_receivable" />
+            <field name="value" eval="'account.account,'+str(ref('customer_account_receivable'))"/>
         </record>
     </data>
 </openerp>
