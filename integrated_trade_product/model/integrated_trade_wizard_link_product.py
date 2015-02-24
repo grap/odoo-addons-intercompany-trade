@@ -20,8 +20,11 @@
 #
 ##############################################################################
 
+from openerp import SUPERUSER_ID
 from openerp.osv import fields
 from openerp.osv.orm import TransientModel
+from openerp.osv.osv import except_osv
+from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp
 
 
@@ -74,11 +77,45 @@ class integrated_trade_wizard_link_product(TransientModel):
     # Button Section
     def link_product(self, cr, uid, ids, context=None):
         psi_obj = self.pool['product.supplierinfo']
+        pt_obj = self.pool['product.template']
+        pp_obj = self.pool['product.product']
+        pitc_obj = self.pool['product.integrated.trade.catalog']
         for itwlp in self.browse(cr, uid, ids, context=context):
-            # TODO raise error if there is a product linked
+            # Prepare Product Supplierinfo
             psi_vals = psi_obj._integrated_trade_prepare(
                 cr, uid, itwlp.integrated_trade_id.id,
                 itwlp.supplier_product_id.id, context=context)
             psi_vals['product_id'] = itwlp.customer_product_tmpl_id.id
+
+            cus_pt = pt_obj.browse(
+                cr, uid, psi_vals['product_id'], context=context)
+            sup_pp = pp_obj.browse(
+                cr, SUPERUSER_ID, psi_vals['supplier_product_id'],
+                context=context)
+            # raise error if there is a product linked
+            pitc_ids = pitc_obj.search(cr, uid, [
+                ('customer_product_tmpl_id', '=', psi_vals['product_id']),
+                ('customer_company_id', '=', psi_vals['company_id']),
+            ], context=context)
+            if len(pitc_ids) != 0:
+
+                raise except_osv(
+                    _("Duplicated Reference!"),
+                    _("""You can not link the product %s because it is"""
+                        """ yet linked to another supplier product."""
+                        """ Please unlink the product and try again.""") % (
+                        cus_pt.name))
+
+            # Raise an error if Unit doesn't match
+            if cus_pt.uom_id.category_id.id != sup_pp.uom_id.category_id.id:
+                raise except_osv(
+                    _("Unit Mismatch!"),
+                    _("""The type of Unit of Mesure of your product"""
+                        """ is '%s'.\nThe type of Unit of Mesure of the"""
+                        """ supplier product is '%s'.\n\nThe type must"""
+                        """ be the same.""") % (
+                        cus_pt.uom_id.category_id.name,
+                        sup_pp.uom_id.category_id.name))
+
             psi_obj.create(cr, uid, psi_vals, context=context)
         return True
