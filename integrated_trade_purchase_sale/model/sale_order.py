@@ -20,6 +20,7 @@
 #
 ##############################################################################
 
+from openerp import netsvc
 from openerp.osv import fields
 from openerp.osv.orm import Model
 from openerp.osv.osv import except_osv
@@ -184,7 +185,8 @@ class sale_order(Model):
 
             # Get Picking In generated (from purchase)
             spi_id = sp_obj.search(cr, rit.customer_user_id.id, [
-                ('purchase_id', '=', so.integrated_trade_purchase_order_id.id)],
+                ('purchase_id', '=',
+                    so.integrated_trade_purchase_order_id.id)],
                 context=context)[0]
 
             # Get Picking Out generated (from sale)
