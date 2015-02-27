@@ -157,9 +157,9 @@ class purchase_order(Model):
                         raise except_osv(
                             _("Error!"),
                             _("""You can not change Lines of a Sent Purchase"""
-                            """Order because of 'Integrated 'Trade' Rules."""
-                            """ Please cancel this Purchase Order and create"""
-                            """ a new one, duplicating it."""))
+                                """ Order because of 'Integrated 'Trade'"""
+                                """ Rules. Please cancel this Purchase Order"""
+                                """  and create a new one, duplicating it."""))
                     rit = self._get_res_integrated_trade(
                         cr, uid, po.partner_id.id, po.company_id.id,
                         context=context)

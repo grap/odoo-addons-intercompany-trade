@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Purchase module for OpenERP
+#    Integrated Trade - Purchase - Sale module for OpenERP
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -20,7 +20,6 @@
 #
 ##############################################################################
 
-from openerp import netsvc 
 from openerp.osv import fields
 from openerp.osv.orm import Model
 from openerp.osv.osv import except_osv
@@ -161,10 +160,10 @@ class sale_order(Model):
                         raise except_osv(
                             _("Error!"),
                             _("""You can not change Lines of a Sent Sale"""
-                            """Order because of 'Integrated 'Trade' Rules."""
-                            """ Please ask to your Customer to cancel the"""
-                            """ Purchase Order and create a new one,"""
-                            """ duplicating it."""))
+                                """ Order because of 'Integrated 'Trade'"""
+                                """ Rules. Please ask to your Customer to"""
+                                """  cancel the Purchase Order and create a"""
+                                """  new one, duplicating it."""))
         return res
 
     def action_button_confirm(self, cr, uid, ids, context=None):
@@ -193,7 +192,6 @@ class sale_order(Model):
                 ('sale_id', '=', so.id)],
                 context=context)[0]
 
-            import pdb; pdb.set_trace()
             # Associate Picking Out and Picking In
             sp_obj.write(cr, uid, [spo_id], {
                 'integrated_trade_picking_in_id': spi_id}, context=context)

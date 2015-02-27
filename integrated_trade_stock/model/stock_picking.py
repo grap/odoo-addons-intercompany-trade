@@ -20,11 +20,10 @@
 #
 ##############################################################################
 
-from openerp import netsvc
 from openerp.osv import fields
 from openerp.osv.orm import Model
-from openerp.osv.osv import except_osv
-from openerp.tools.translate import _
+# from openerp.osv.osv import except_osv
+# from openerp.tools.translate import _
 
 
 class stock_picking(Model):
@@ -56,4 +55,3 @@ class stock_picking(Model):
             readonly=True,
         ),
     }
-
