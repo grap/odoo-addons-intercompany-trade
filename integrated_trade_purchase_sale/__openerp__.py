@@ -27,9 +27,26 @@
 Module for Integrated Trade for Purchase and Sale Module
 ========================================================
 
+With this module, create a Purchase Order (or a Sale Order) will create a Sale
+Order (respectivly, a Purchase Order) in the according company of the supplier
+(respectivly, the customer), based on the settings done in the module
+'integrated_trade_base'.
+
 Features:
 ---------
-    *
+    * Link between Purchase Order and Sale Order;
+        * Add / update / delete lines (bi-directionnal);
+        * PO.status 'sent' -> SO.status 'sent';
+        * PO.status 'cancel' -> SO.status 'cancel';
+        * PO set to 'draft' -> forbidden;
+        * PO set to 'confirm' -> forbiden;
+        * SO set to 'sent' -> forbiden;
+        * SO set to 'cancel' -> forbiden;
+        * SO from 'draft' to 'confirm' -> forbiden;
+
+TODO Features:
+--------------
+    * Manage price changes. (forbid, ou force to recompute);
 
 Copyright, Authors and Licence:
 -------------------------------
@@ -51,6 +68,7 @@ Copyright, Authors and Licence:
         'demo/res_groups.yml',
         'demo/sale_shop.yml',
         'demo/ir_values.xml',
+        'demo/ir_values.yml',
     ],
     'data': [
         'view/view.xml',

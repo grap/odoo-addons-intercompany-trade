@@ -20,6 +20,7 @@
 #
 ##############################################################################
 
+from openerp import netsvc 
 from openerp.osv import fields
 from openerp.osv.orm import Model
 from openerp.osv.osv import except_osv
@@ -51,6 +52,22 @@ class sale_order(Model):
             readonly=True,
         ),
     }
+
+    # Constraint Section
+    def _check_integrated_trade_order_policy(
+            self, cr, uid, ids, context=None):
+        for so in self.browse(cr, uid, ids, context=context):
+            if so.integrated_trade and so.order_policy != 'picking':
+                return False
+        return True
+
+    _constraints = [
+        (
+            _check_integrated_trade_order_policy,
+            """Error: The module 'Integrated Trade' Only works with"""
+            """ 'Order Policy' set to 'Picking'.""",
+            ['integrated_trade', 'order_policy']),
+    ]
 
     # Private Function
     def _get_res_integrated_trade(
@@ -117,7 +134,7 @@ class sale_order(Model):
                 cr, rit.customer_user_id.id, po_id, context=ctx)
 
             # Update Sale Order
-            self.write(cr, uid, res, {
+            self.write(cr, uid, [res], {
                 'integrated_trade_purchase_order_id': po.id,
                 'client_order_ref': po.name,
                 'order_line': line_ids,
@@ -125,14 +142,62 @@ class sale_order(Model):
         return res
 
     def write(self, cr, uid, ids, vals, context=None):
-        if 'partner_id' in vals:
-            for so in self.browse(cr, uid, ids, context=context):
-                if so.integrated_trade:
-                    raise except_osv(
-                        _("Error!"),
-                        _("""You can not change the customer of a Sale Order"""
-                            """ 'Integrated Trade'. Please create a new one"""
-                            """ Sale Order."""))
+        context = context if context else {}
         res = super(sale_order, self).write(
             cr, uid, ids, vals, context=context)
+        if 'integrated_trade_do_not_propagate' not in context.keys():
+            for so in self.browse(cr, uid, ids, context=context):
+                if so.integrated_trade:
+                    if 'partner_id' in vals:
+                        raise except_osv(
+                            _("Error!"),
+                            _("""You can not change the customer because"""
+                                """ of 'Integrated Trade' Rules'. Please"""
+                                """ create a new one Sale Order."""))
+                    # Disable possibility to change lines if the Sale
+                    # Order is not a 'draft' state
+                    if (so.state not in ['draft', 'cancel'] and
+                            vals.get('order_line', False)):
+                        raise except_osv(
+                            _("Error!"),
+                            _("""You can not change Lines of a Sent Sale"""
+                            """Order because of 'Integrated 'Trade' Rules."""
+                            """ Please ask to your Customer to cancel the"""
+                            """ Purchase Order and create a new one,"""
+                            """ duplicating it."""))
+        return res
+
+    def action_button_confirm(self, cr, uid, ids, context=None):
+        sp_obj = self.pool['stock.picking']
+        wf_service = netsvc.LocalService('workflow')
+        res = super(sale_order, self).action_button_confirm(
+            cr, uid, ids, context=context)
+        so = self.browse(cr, uid, ids[0], context=context)
+        if so.integrated_trade:
+            rit = self._get_res_integrated_trade(
+                cr, uid, so.partner_id.id, so.company_id.id, context=context)
+
+            # Validate The according Purchase Order
+            wf_service.trg_validate(
+                rit.customer_user_id.id, 'purchase.order',
+                so.integrated_trade_purchase_order_id.id,
+                'purchase_confirm', cr)
+
+            # Get Picking In generated (from purchase)
+            spi_id = sp_obj.search(cr, rit.customer_user_id.id, [
+                ('purchase_id', '=', so.integrated_trade_purchase_order_id.id)],
+                context=context)[0]
+
+            # Get Picking Out generated (from sale)
+            spo_id = sp_obj.search(cr, uid, [
+                ('sale_id', '=', so.id)],
+                context=context)[0]
+
+            import pdb; pdb.set_trace()
+            # Associate Picking Out and Picking In
+            sp_obj.write(cr, uid, [spo_id], {
+                'integrated_trade_picking_in_id': spi_id}, context=context)
+            sp_obj.write(cr, rit.customer_user_id.id, [spi_id], {
+                'integrated_trade_picking_out_id': spo_id}, context=context)
+
         return res

@@ -27,7 +27,24 @@
             <field name="arch" type="xml">
                 <field name="partner_ref" position="after">
                     <field name="integrated_trade"/>
+                    <field name="integrated_trade_sale_order_id" groups="integrated_trade_base.integrated_trade_manager"/>
                 </field>
+                <xpath expr="//button[@name='purchase_confirm' and @states='draft']" position="attributes">
+                    <attribute name="states" />
+                    <attribute name="attrs">{'invisible': [('integrated_trade','=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='purchase_confirm' and @states='sent']" position="attributes">
+                    <attribute name="states" />
+                    <attribute name="attrs">{'invisible': [('integrated_trade','=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_cancel_draft' and @states='cancel,sent,confirmed']" position="attributes">
+                    <attribute name="states" />
+                    <attribute name="attrs">{'invisible': [('integrated_trade','=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='wkf_send_rfq' and @states='sent']" position="attributes">
+                    <attribute name="states" />
+                    <attribute name="attrs">{'invisible': [('integrated_trade','=', True)]}</attribute>
+                </xpath>
             </field>
         </record>
 
@@ -38,11 +55,30 @@
             <field name="arch" type="xml">
                 <field name="partner_id" position="after">
                     <field name="integrated_trade"/>
+                    <field name="integrated_trade_purchase_order_id" groups="integrated_trade_base.integrated_trade_manager"/>
                 </field>
+                <xpath expr="//button[@name='action_quotation_send' and @states='draft']" position="attributes">
+                    <attribute name="states" />
+                    <attribute name="attrs">{'invisible': ['|', ('integrated_trade','=', True), ('state', 'not in', 'draft')]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_quotation_send' and @states='sent,progress,manual']" position="attributes">
+                    <attribute name="states" />
+                    <attribute name="attrs">{'invisible': ['|', ('integrated_trade','=', True), ('state', 'not in', 'sent,progress,manual')]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='cancel' and @states='draft,sent']" position="attributes">
+                    <attribute name="states" />
+                    <attribute name="attrs">{'invisible': ['|', ('integrated_trade','=', True), ('state', 'not in', 'draft,sent')]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_button_confirm' and @states='draft']" position="attributes">
+                    <attribute name="states" />
+                    <attribute name="attrs">{'invisible': ['|', ('integrated_trade','=', True), ('state', 'not in', 'draft')]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='copy_quotation' and @states='cancel']" position="attributes">
+                    <attribute name="states" />
+                    <attribute name="attrs">{'invisible': ['|', ('integrated_trade','=', True), ('state', 'not in', 'cancel')]}</attribute>
+                </xpath>
             </field>
         </record>
-
-
 
     </data>
 </openerp>

@@ -20,6 +20,7 @@
 #
 ##############################################################################
 
+from openerp import netsvc
 from openerp.osv import fields
 from openerp.osv.orm import Model
 from openerp.osv.osv import except_osv
@@ -51,6 +52,22 @@ class purchase_order(Model):
             readonly=True,
         ),
     }
+
+    # Constraint Section
+    def _check_integrated_trade_invoice_method(
+            self, cr, uid, ids, context=None):
+        for po in self.browse(cr, uid, ids, context=context):
+            if po.integrated_trade and po.invoice_method != 'picking':
+                return False
+        return True
+
+    _constraints = [
+        (
+            _check_integrated_trade_invoice_method,
+            """Error: The module 'Integrated Trade' Only works with"""
+            """ 'Invoice Method' set to 'Picking'.""",
+            ['integrated_trade', 'invoice_method']),
+    ]
 
     # Private Function
     def _get_res_integrated_trade(
@@ -98,7 +115,7 @@ class purchase_order(Model):
                 cr, rit.supplier_user_id.id, 'sale.order', 'shop_id',
                 company_id=rit.supplier_company_id.id)
             so_vals = {
-                'company_id': rit.customer_company_id.id,
+                'company_id': rit.supplier_company_id.id,
                 'partner_id': rit.customer_partner_id.id,
                 'partner_invoice_id': rit.customer_partner_id.id,
                 'partner_shipping_id': rit.customer_partner_id.id,
@@ -113,7 +130,7 @@ class purchase_order(Model):
                 cr, rit.supplier_user_id.id, so_id, context=context)
 
             # Update Purchase Order
-            self.write(cr, uid, res, {
+            self.write(cr, uid, [res], {
                 'integrated_trade_sale_order_id': so.id,
                 'partner_ref': so.name,
                 'order_line': line_ids,
@@ -121,22 +138,62 @@ class purchase_order(Model):
         return res
 
     def write(self, cr, uid, ids, vals, context=None):
-        if 'partner_id' in vals:
-            for po in self.browse(cr, uid, ids, context=context):
-                if po.integrated_trade:
-                    raise except_osv(
-                        _("Error!"),
-                        _("""You can not change the customer of a Purchase"""
-                            """ Order 'Integrated Trade'. Please create a"""
-                            """ new one Purchase Order."""))
+        context = context if context else {}
         res = super(purchase_order, self).write(
             cr, uid, ids, vals, context=context)
+        if 'integrated_trade_do_not_propagate' not in context.keys():
+            for po in self.browse(cr, uid, ids, context=context):
+                if po.integrated_trade:
+                    if 'partner_id' in vals:
+                        raise except_osv(
+                            _("Error!"),
+                            _("""You can not change the customer because"""
+                                """ of 'Integrated Trade' Rules'. Please"""
+                                """ create a new one Purchase Order."""))
+                    # Disable possibility to change lines if the Purchase
+                    # Order is not a 'draft' state
+                    if (po.state not in ['draft', 'cancel'] and
+                            vals.get('order_line', False)):
+                        raise except_osv(
+                            _("Error!"),
+                            _("""You can not change Lines of a Sent Purchase"""
+                            """Order because of 'Integrated 'Trade' Rules."""
+                            """ Please cancel this Purchase Order and create"""
+                            """ a new one, duplicating it."""))
+                    rit = self._get_res_integrated_trade(
+                        cr, uid, po.partner_id.id, po.company_id.id,
+                        context=context)
+                    if vals.get('state', False) == 'sent':
+                        # Change state of purchase order to 'sent' must change
+                        # the status of the Sale Order (more easy to do that
+                        # here, because the activity 'act_sent' is bad
+                        # hardcoded)
+                        wf_service = netsvc.LocalService("workflow")
+                        wf_service.trg_validate(
+                            rit.supplier_user_id.id, 'sale.order',
+                            po.integrated_trade_sale_order_id.id,
+                            'quotation_sent', cr)
+                    if vals.get('state', False) == 'cancel':
+                        # Change state of purchase order to 'cancel' must
+                        # change the status of the Sale Order
+                        wf_service = netsvc.LocalService("workflow")
+                        wf_service.trg_validate(
+                            rit.supplier_user_id.id, 'sale.order',
+                            po.integrated_trade_sale_order_id.id,
+                            'cancel', cr)
+                    if vals.get('state', False) == 'draft':
+                        raise except_osv(
+                            _("Error!"),
+                            _("""You can not change set to 'draft' again"""
+                                """ this Quotation because of 'Integrated"""
+                                """ 'Trade' Rules. Please cancel this"""
+                                """ one and create a new one, duplicating"""
+                                """ it."""))
         return res
 
     def unlink(self, cr, uid, ids, context=None):
         """Delete according Purchase order"""
-        if not context:
-            context = {}
+        context = context if context else {}
         so_obj = self.pool['sale.order']
         if 'integrated_trade_do_not_propagate' not in context.keys():
             ctx = context.copy()
