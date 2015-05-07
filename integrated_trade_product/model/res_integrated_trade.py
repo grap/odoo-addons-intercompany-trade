@@ -44,10 +44,10 @@ class res_integrated_trade(Model):
         res = {}
         rp_obj = self.pool['res.partner']
         for rit in self.browse(cr, uid, ids, context=context):
-            context_tmp = context.copy()
-            context_tmp['company_id'] = rit.supplier_company_id.id
+            ctx = context.copy()
+            ctx['force_company'] = rit.supplier_company_id.id
             rp = rp_obj.browse(
-                cr, uid, rit.customer_partner_id.id, context_tmp)
+                cr, uid, rit.customer_partner_id.id, context=ctx)
             res[rit.id] = rp.property_product_pricelist.id
         return res
 
