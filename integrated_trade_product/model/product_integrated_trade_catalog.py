@@ -27,6 +27,7 @@ from openerp import tools
 from openerp.osv import fields
 from openerp.osv.orm import Model
 from openerp.addons import decimal_precision as dp
+from custom_tools import _compute_supplier_price
 
 
 class product_integrated_trade_catalog(Model):
@@ -63,20 +64,27 @@ class product_integrated_trade_catalog(Model):
         return True
 
     # Fields Function Section
-    def _get_supplier_sale_price(self, cr, uid, ids, name, arg, context=None):
+    def _get_supplier_price(self, cr, uid, ids, name, arg, context=None):
         res = {}
         ppl_obj = self.pool['product.pricelist']
-        for pitc in self.browse(cr, uid, ids, context=context):
-            if pitc.customer_purchase_price != 0:
-                res[pitc.id] = pitc.customer_purchase_price
-            else:
-                res[pitc.id] = ppl_obj.price_get(
-                    cr, SUPERUSER_ID, [pitc.pricelist_id.id],
-                    pitc.supplier_product_id.id,
-                    1.0, pitc.supplier_partner_id.id, {
-                        'uom': pitc.supplier_product_uos.id,
-                        'date': date.today().strftime('%Y-%m-%d'),
-                    })[pitc.pricelist_id.id]
+        at_obj = self.pool['account.tax']
+        for pitc in self.browse(cr, SUPERUSER_ID, ids, context=context):
+            res[pitc.id] = {}
+            supplier_price = ppl_obj.price_get(
+                cr, SUPERUSER_ID, [pitc.pricelist_id.id],
+                pitc.supplier_product_id.id,
+                1.0, pitc.supplier_partner_id.id, {
+                    'uom': pitc.supplier_product_uom.id,
+                    'date': date.today().strftime('%Y-%m-%d'),
+                })[pitc.pricelist_id.id]
+            tax_info = at_obj.compute_all(
+                cr, SUPERUSER_ID, pitc.supplier_product_id.taxes_id,
+                supplier_price, 1.0, pitc.supplier_product_id.id)
+            res[pitc.id]['supplier_sale_price'] = supplier_price
+            res[pitc.id]['supplier_sale_price_vat_excl'] =\
+                tax_info['total']
+            res[pitc.id]['supplier_sale_price_vat_incl'] =\
+                tax_info['total_included']
         return res
 
     # Column Section
@@ -86,8 +94,16 @@ class product_integrated_trade_catalog(Model):
         'customer_product_tmpl_id': fields.many2one(
             'product.template', 'Customer Product', readonly=True),
         'supplier_sale_price': fields.function(
-            _get_supplier_sale_price, string='Supplier Sale Price',
-            type='float',
+            _get_supplier_price, string='Supplier Sale Price',
+            multi='supplier_price', type='float',
+            digits_compute=dp.get_precision('Integrated Product Price')),
+        'supplier_sale_price_vat_excl': fields.function(
+            _get_supplier_price, string='Supplier Sale Price VAT Excluded',
+            multi='supplier_price', type='float',
+            digits_compute=dp.get_precision('Integrated Product Price')),
+        'supplier_sale_price_vat_incl': fields.function(
+            _get_supplier_price, string='Supplier Sale Price VAT Included',
+            multi='supplier_price', type='float',
             digits_compute=dp.get_precision('Integrated Product Price')),
         'customer_purchase_price': fields.float(
             'Customer Purchase Price', readonly=True),
@@ -97,8 +113,8 @@ class product_integrated_trade_catalog(Model):
             'res.company', 'Customer Company', readonly=True),
         'supplier_product_name': fields.char(
             'Supplier Product Name', readonly=True),
-        'supplier_product_uos': fields.many2one(
-            'product.uom', 'Supplier Product UoS', readonly=True),
+        'supplier_product_uom': fields.many2one(
+            'product.uom', 'Supplier Product UoM', readonly=True),
         'supplier_product_default_code': fields.char(
             'Supplier Product Code', readonly=True),
         'supplier_partner_id': fields.many2one(
@@ -123,7 +139,7 @@ CREATE OR REPLACE VIEW %s AS (
             rit.pricelist_id as pricelist_id,
             rit.customer_partner_id,
             s_pp.id as supplier_product_id,
-            s_pt.uos_id as supplier_product_uos,
+            s_pt.uom_id as supplier_product_uom,
             s_pt.name as supplier_product_name,
             s_pp.default_code as supplier_product_default_code,
             c_psi.integrated_price as customer_purchase_price,
@@ -139,4 +155,8 @@ CREATE OR REPLACE VIEW %s AS (
             ON rit.supplier_partner_id = c_rp.id
         LEFT JOIN product_supplierinfo c_psi
             ON c_psi.supplier_product_id = s_pp.id
+        WHERE
+            (s_pp.active = True and s_pt.sale_ok = True)
+            OR c_psi.product_id is not null
+        ORDER BY s_pt.name
 )""" % (self._table))

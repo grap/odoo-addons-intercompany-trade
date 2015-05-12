@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Product module for OpenERP
+#    Integrated Trade - Product module for Odoo
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -20,6 +20,7 @@
 #
 ##############################################################################
 
+from . import tools
 from . import res_partner
 from . import product_product
 from . import product_supplierinfo

@@ -42,7 +42,8 @@ class integrated_trade_wizard_link_product(TransientModel):
         integrated_trade_id = pitc_obj._get_integrated_trade_id_from_id(
             context.get('active_id'))
         psi_vals = psi_obj._integrated_trade_prepare(
-            cr, uid, integrated_trade_id, supplier_product_id, context=context)
+            cr, uid, integrated_trade_id, supplier_product_id, None,
+            context=context)
         res.update({
             'supplier_product_id': supplier_product_id,
             'integrated_trade_id': integrated_trade_id,
@@ -57,8 +58,12 @@ class integrated_trade_wizard_link_product(TransientModel):
         'integrated_trade_id': fields.many2one(
             'res.integrated.trade', 'Integrated Trade',
             required=True, readonly=True),
-        'customer_product_tmpl_id': fields.many2one(
-            'product.template', 'Customer Product', required=True),
+        'customer_product_id': fields.many2one(
+            'product.product', 'Customer Product', required=True),
+        'customer_product_tmpl_id': fields.related(
+            'customer_product_id', 'product_tmpl_id', type='many2one',
+            relation='product.template', string='Customer Template',
+            readonly=True),
         'supplier_product_id': fields.many2one(
             'product.product', 'Supplier Product',
             required=True, readonly=True),
@@ -84,7 +89,8 @@ class integrated_trade_wizard_link_product(TransientModel):
             # Prepare Product Supplierinfo
             psi_vals = psi_obj._integrated_trade_prepare(
                 cr, uid, itwlp.integrated_trade_id.id,
-                itwlp.supplier_product_id.id, context=context)
+                itwlp.supplier_product_id.id,
+                itwlp.customer_product_id.id, context=context)
             psi_vals['product_id'] = itwlp.customer_product_tmpl_id.id
 
             cus_pt = pt_obj.browse(
@@ -92,18 +98,31 @@ class integrated_trade_wizard_link_product(TransientModel):
             sup_pp = pp_obj.browse(
                 cr, SUPERUSER_ID, psi_vals['supplier_product_id'],
                 context=context)
+
+            # Raise error if there is many products associated to the template
+            pp_qty = pp_obj.search(cr, uid, [
+                ('product_tmpl_id', '=', itwlp.customer_product_tmpl_id.id),
+            ], context=context)
+            if len(pp_qty) != 1:
+                raise except_osv(
+                    _("Too Many Products for the Template!"),
+                    _("""You can not link this Template %s because there are"""
+                    """ %d Products associated.""") % (
+                        cus_pt.name, len(pp_qty)))
+
+
             # raise error if there is a product linked
             pitc_ids = pitc_obj.search(cr, uid, [
                 ('customer_product_tmpl_id', '=', psi_vals['product_id']),
                 ('customer_company_id', '=', psi_vals['company_id']),
             ], context=context)
             if len(pitc_ids) != 0:
-
                 raise except_osv(
                     _("Duplicated Reference!"),
-                    _("""You can not link the product %s because it is"""
-                        """ yet linked to another supplier product."""
-                        """ Please unlink the product and try again.""") % (
+                    _("""You can not link the Product Template %s because"""
+                        """ it is yet linked to another supplier product."""
+                        """ Please unlink the Product Template and try"""
+                        """ again.""") % (
                         cus_pt.name))
 
             # Raise an error if Unit doesn't match
