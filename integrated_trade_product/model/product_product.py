@@ -32,6 +32,15 @@ class product_product(Model):
         'standard_price', 'list_price',
     ]
 
+    def  copy_data(self, cr, uid, id, default=None, context=None):
+        default = default and default or {}
+        # TODO: improve me.
+        # It's not necessary to remove all seller_ids, only ones that
+        # come from integrated_trade
+        default['seller_ids'] = False
+        return super(product_product, self).copy_data(
+            cr, uid, id, default, context=context)
+
     def write(self, cr, uid, ids, vals, context=None):
         """Update product supplierinfo in customer company, if required"""
         psi_obj = self.pool['product.supplierinfo']

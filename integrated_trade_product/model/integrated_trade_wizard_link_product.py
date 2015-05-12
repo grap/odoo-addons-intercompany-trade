@@ -27,7 +27,7 @@ from openerp.osv.osv import except_osv
 from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp
 
-from custom_tools import _compute_integrated_price
+from custom_tools import _compute_integrated_prices
 
 
 class integrated_trade_wizard_link_product(TransientModel):
@@ -49,13 +49,10 @@ class integrated_trade_wizard_link_product(TransientModel):
             cr, SUPERUSER_ID, integrated_trade_id, context=context)
         supplier_pp = pp_obj.browse(
             cr, SUPERUSER_ID, supplier_product_id, context=context)
-        price_info = _compute_integrated_price(
-            self.pool, cr, SUPERUSER_ID, supplier_pp, supplier_pp.uom_id,
+        price_info = _compute_integrated_prices(
+            self.pool, cr, SUPERUSER_ID, supplier_pp,
             rit.supplier_partner_id, rit.pricelist_id, customer_product=False,
             context=context)
-#        psi_vals = psi_obj._integrated_trade_prepare(
-#            cr, uid, integrated_trade_id, supplier_product_id,
-#            context=context)
         res.update({
             'supplier_product_id': supplier_product_id,
             'integrated_trade_id': integrated_trade_id,

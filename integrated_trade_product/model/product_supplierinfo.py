@@ -27,17 +27,46 @@ from openerp.osv import fields
 from openerp.osv.orm import Model
 from openerp.addons import decimal_precision as dp
 
-from custom_tools import _compute_integrated_price
+from custom_tools import _compute_integrated_prices
+
 
 class product_supplierinfo(Model):
     _inherit = 'product.supplierinfo'
+
+    def _integrated_trade_update_multicompany(
+            self, cr, uid, supplier_product_ids, context=None):
+        """
+        This function update supplierinfo in customer database,
+        depending of changes in supplier database, for all integrated trade
+        define.
+        Call this function when there is a change of product price,
+        product taxes, partner pricelist, etc...
+        :supplier_product_ids (list of ids of product.product):
+            products that has been changed in the supplier database;
+        """
+        rit_obj = self.pool['res.integrated.trade']
+        psi_obj = self.pool['product.supplierinfo']
+        for supplier_product_id in supplier_product_ids:
+            psi_ids = psi_obj.search(cr, SUPERUSER_ID, [
+                ('supplier_product_id', '=', supplier_product_id),
+            ], context=context)
+            for psi in psi_obj.browse(
+                    cr, SUPERUSER_ID, psi_ids, context=context):
+                rit_id = rit_obj.search(cr, uid, [
+                    ('customer_company_id', '=', psi.company_id.id),
+                    ('supplier_partner_id', '=', psi.name.id),
+                ], context=context)[0]
+                self._integrated_trade_update(
+                    cr, uid, rit_id, [supplier_product_id],
+                    context=context)
 
     def _integrated_trade_update(
             self, cr, uid, integrated_trade_id, supplier_product_ids,
             context=None):
         """
         This function update supplierinfo in customer database,
-        depending of changes in supplier database.
+        depending of changes in supplier database, depending of
+        a specific integrated trade.
         Call this function when there is a change of product price,
         product taxes, partner pricelist, etc...
         :param integrated_trade_id (id of res.integrated.trade):
@@ -83,10 +112,12 @@ class product_supplierinfo(Model):
             cr, SUPERUSER_ID, integrated_trade_id, context=context)
         supplier_pp = pp_obj.browse(
             cr, SUPERUSER_ID, supplier_product_id, context=context)
-        price_info = _compute_integrated_price(
-            self.pool, cr, SUPERUSER_ID, supplier_pp, supplier_pp.uom_id,
-            rit.supplier_partner_id, rit.pricelist_id, customer_product=False,
-            context=context)
+        customer_pp = pp_obj.browse(
+            cr, SUPERUSER_ID, customer_product_id, context=context)
+        price_info = _compute_integrated_prices(
+            self.pool, cr, SUPERUSER_ID, supplier_pp,
+            rit.supplier_partner_id, rit.pricelist_id,
+            customer_product=customer_pp, context=context)
         
         return {
             'min_qty': 0.0,
@@ -97,8 +128,7 @@ class product_supplierinfo(Model):
             'supplier_product_id': supplier_pp.id,
             'pricelist_ids': [[5], [0, False, {
                 'min_quantity': 0.0,
-                # FIXME it depends of customer taxes settings. 
-                'price': price_info['supplier_sale_price_vat_incl']}]],
+                'price': price_info['customer_purchase_price']}]],
         }
 
     # Fields Function Section
