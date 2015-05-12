@@ -37,23 +37,24 @@ def _compute_integrated_customer_price(
         * if tax type is not 'percent';
     """
     customer_price = supplier_price
-    print "_compute_integrated_customer_price"
     # Check if taxes are correct
     if (len(supplier_product.taxes_id)
             != len(customer_product.supplier_taxes_id)):
         raise except_osv(
             _("Taxes Mismatch!"),
-            _("""You can not link Supplier Product that has %d Sale"""
-            """ Tax(es) with this Customer Product that has %d"""
-            """ Supplier Taxes.""") % (
-                len(supplier_product.taxes_id),
-                len(customer_product.supplier_taxes_id)))
+            _(
+                """You can not link Supplier Product that has %d Sale"""
+                """ Tax(es) with this Customer Product that has %d"""
+                """ Supplier Taxes.""") % (
+                    len(supplier_product.taxes_id),
+                    len(customer_product.supplier_taxes_id)))
     if (len(supplier_product.taxes_id) > 1):
         raise except_osv(
             _("Too Complex Taxes Setting!"),
-            _("""You can not link this Supplier Product. It has more"""
-            """ than 1 Sale Taxes (%d)"""
-            """""") % (len(supplier_product.taxes_id)))
+            _(
+                """You can not link this Supplier Product. It has more"""
+                """ than 1 Sale Taxes (%d)"""
+                """""") % (len(supplier_product.taxes_id)))
     if supplier_product.taxes_id:
         supplier_tax = supplier_product.taxes_id[0]
         customer_tax = customer_product.supplier_taxes_id[0]
@@ -61,38 +62,39 @@ def _compute_integrated_customer_price(
         if supplier_tax.type != 'percent':
             raise except_osv(
                 _("Too Complex Taxes Setting!"),
-                _("""You can not link this Supplier Product. The tax """
-                """ setting of %s is %s. (Only 'percent' is accepted)"""
-                """""") % (supplier_tax.name, supplier_tax.type))
+                _(
+                    """You can not link this Supplier Product. The tax """
+                    """ setting of %s is %s. (Only 'percent' is accepted)"""
+                    """""") % (supplier_tax.name, supplier_tax.type))
         if customer_tax.type != 'percent':
             raise except_osv(
                 _("Too Complex Taxes Setting!"),
-                _("""You can not link this Customer Product. The tax """
-                """ setting of %s is %s. (Only 'percent' is accepted)"""
-                """""") % (customer_tax.name, customer_tax.type))
+                _(
+                    """You can not link this Customer Product. The tax """
+                    """ setting of %s is %s. (Only 'percent' is accepted)"""
+                    """""") % (customer_tax.name, customer_tax.type))
         # Check amount
         if supplier_tax.amount != customer_tax.amount:
             raise except_osv(
                 _("Taxes Mismatch!"),
-                _("""You can not link this Customer Product to this"""
-                """ Supplier Product because taxes values doesn't"""
-                """ match:\n"""
-                """  Customer Tax value: %s %%;\n """
-                """  Supplier Tax value: %s %%;\n """
-                """""") % (
-                    customer_tax.amount * 100, supplier_tax.amount * 100))
+                _(
+                    """You can not link this Customer Product to this"""
+                    """ Supplier Product because taxes values doesn't"""
+                    """ match:\n"""
+                    """  Customer Tax value: %s %%;\n """
+                    """  Supplier Tax value: %s %%;\n """
+                    """""") % (
+                        customer_tax.amount * 100, supplier_tax.amount * 100))
         if (customer_tax.amount != 0 and
                 customer_tax.price_include != supplier_tax.price_include):
-            print "type different"
             if supplier_tax.price_include:
                 customer_price = supplier_price / (1 + supplier_tax.amount)
-                print "type 1"
             else:
                 customer_price = supplier_price * (1 + supplier_tax.amount)
-                print "type 2"
     return {
         'customer_purchase_price': customer_price,
     }
+
 
 def _compute_integrated_prices(
         pool, cr, uid, supplier_product,

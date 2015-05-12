@@ -26,7 +26,7 @@ from openerp.osv import fields
 from openerp.osv.orm import Model
 from openerp.addons import decimal_precision as dp
 
-from custom_tools import _compute_integrated_prices
+from .custom_tools import _compute_integrated_prices
 
 
 class product_integrated_trade_catalog(Model):

@@ -20,14 +20,12 @@
 #
 ##############################################################################
 
-from datetime import date
-
 from openerp import SUPERUSER_ID
 from openerp.osv import fields
 from openerp.osv.orm import Model
 from openerp.addons import decimal_precision as dp
 
-from custom_tools import _compute_integrated_prices
+from .custom_tools import _compute_integrated_prices
 
 
 class product_supplierinfo(Model):
@@ -87,8 +85,6 @@ class product_supplierinfo(Model):
                 ('supplier_product_id', 'in', supplier_product_ids)
             ], context=context)
         for psi in self.browse(cr, uid, psi_ids, context=context):
-            pp_ids = pp_obj.search(
-                cr, uid, ['psi.name' '=', psi.name], context=context)
             psi_vals = self._integrated_trade_prepare(
                 cr, uid, integrated_trade_id, psi.supplier_product_id.id,
                 context=context)
@@ -103,10 +99,7 @@ class product_supplierinfo(Model):
         This function prepares supplier_info values.
         Please overload this function to change the datas of the supplierinfo
         created when a link between two products is done."""
-        print "_integrated_trade_prepare"
-        at_obj = self.pool['account.tax']
         pp_obj = self.pool['product.product']
-        ppl_obj = self.pool['product.pricelist']
         rit_obj = self.pool['res.integrated.trade']
         rit = rit_obj.browse(
             cr, SUPERUSER_ID, integrated_trade_id, context=context)
@@ -118,7 +111,6 @@ class product_supplierinfo(Model):
             self.pool, cr, SUPERUSER_ID, supplier_pp,
             rit.supplier_partner_id, rit.pricelist_id,
             customer_product=customer_pp, context=context)
-        
         return {
             'min_qty': 0.0,
             'name': rit.supplier_partner_id.id,

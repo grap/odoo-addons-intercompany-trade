@@ -58,10 +58,10 @@ class integrated_trade_wizard_link_product(TransientModel):
             'integrated_trade_id': integrated_trade_id,
             'supplier_product_name': supplier_pp.name,
             'supplier_product_code': supplier_pp.default_code,
-            'supplier_sale_price_vat_excl':\
-                price_info['supplier_sale_price_vat_excl'],
-            'supplier_sale_price_vat_incl':\
-                price_info['supplier_sale_price_vat_incl'],
+            'supplier_sale_price_vat_excl': (
+                price_info['supplier_sale_price_vat_excl']),
+            'supplier_sale_price_vat_incl': (
+                price_info['supplier_sale_price_vat_incl']),
         })
         return res
 
@@ -91,7 +91,6 @@ class integrated_trade_wizard_link_product(TransientModel):
         'supplier_sale_price_vat_incl': fields.float(
             'Supplier Sale Price VAT Included', readonly=True,
             digits_compute=dp.get_precision('Integrated Product Price')),
-
     }
 
     # Button Section
@@ -124,7 +123,6 @@ class integrated_trade_wizard_link_product(TransientModel):
                     _("""You can not link this Template %s because there are"""
                     """ %d Products associated.""") % (
                         cus_pt.name, len(pp_qty)))
-
 
             # raise error if there is a product linked
             pitc_ids = pitc_obj.search(cr, uid, [
