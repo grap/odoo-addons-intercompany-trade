@@ -20,18 +20,43 @@
 #
 ##############################################################################
 
+from datetime import date
+
+
 def _compute_supplier_price(
-        pool, cr, uid, supplier_product_id,supplier_product_uom,
-        supplier_partner_id):
+        pool, cr, uid, supplier_product_id, supplier_product_uom,
+        supplier_partner_id, pricelist_id):
+        # TODO supplier_product_uom: ?? Check if product_id is sufficient
         """
         This xxx
 
         :param supplier_product_id (product.product):
              Product to sell in the supplier database;
         :param supplier_product_uom (product.uom):
+            
              UoM of the supplier product;
         :param supplier_partner_id (res.partner):
             Supplier in the CUSTOMER Database;
-
+        : pricelist_id (product.pricelist):
+            Sale Pricelist in the supplier database;
         :returns: return a dictionary containing
         """
+        ppl_obj = pool['product.pricelist']
+        at_obj = pool['account.tax']
+        # Compute Sale Price
+        supplier_price = ppl_obj.price_get(
+            cr, uid, [pricelist_id.id],
+            supplier_product_id.id,
+            1.0, supplier_partner_id.id, {
+                'uom': supplier_product_uom.id,
+                'date': date.today().strftime('%Y-%m-%d'),
+            })[pricelist_id.id]
+        # Compute Taxes detail
+        tax_info = at_obj.compute_all(
+            cr, uid, supplier_product_id.taxes_id,
+            supplier_price, 1.0, supplier_product_id.id)
+        return {
+            'supplier_sale_price': supplier_price,
+            'supplier_sale_price_vat_excl': tax_info['total'],
+            'supplier_sale_price_vat_incl': tax_info['total_included'],
+        }

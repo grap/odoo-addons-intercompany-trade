@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from . import tools
+from . import custom_tools
 from . import res_partner
 from . import product_product
 from . import product_supplierinfo

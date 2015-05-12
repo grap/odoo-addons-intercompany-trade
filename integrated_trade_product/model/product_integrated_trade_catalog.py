@@ -20,8 +20,6 @@
 #
 ##############################################################################
 
-from datetime import date
-
 from openerp import SUPERUSER_ID
 from openerp import tools
 from openerp.osv import fields
@@ -66,25 +64,11 @@ class product_integrated_trade_catalog(Model):
     # Fields Function Section
     def _get_supplier_price(self, cr, uid, ids, name, arg, context=None):
         res = {}
-        ppl_obj = self.pool['product.pricelist']
-        at_obj = self.pool['account.tax']
         for pitc in self.browse(cr, SUPERUSER_ID, ids, context=context):
-            res[pitc.id] = {}
-            supplier_price = ppl_obj.price_get(
-                cr, SUPERUSER_ID, [pitc.pricelist_id.id],
-                pitc.supplier_product_id.id,
-                1.0, pitc.supplier_partner_id.id, {
-                    'uom': pitc.supplier_product_uom.id,
-                    'date': date.today().strftime('%Y-%m-%d'),
-                })[pitc.pricelist_id.id]
-            tax_info = at_obj.compute_all(
-                cr, SUPERUSER_ID, pitc.supplier_product_id.taxes_id,
-                supplier_price, 1.0, pitc.supplier_product_id.id)
-            res[pitc.id]['supplier_sale_price'] = supplier_price
-            res[pitc.id]['supplier_sale_price_vat_excl'] =\
-                tax_info['total']
-            res[pitc.id]['supplier_sale_price_vat_incl'] =\
-                tax_info['total_included']
+            res[pitc.id] = _compute_supplier_price(
+                self.pool, cr, SUPERUSER_ID,
+                pitc.supplier_product_id, pitc.supplier_product_uom,
+                pitc.supplier_partner_id, pitc.pricelist_id)
         return res
 
     # Column Section
