@@ -37,8 +37,9 @@
             <field name="arch" type="xml">
                 <tree string="Integrated Trade - Products Catalog">
                     <field name="customer_product_tmpl_id"/>
-                    <field name="supplier_sale_price"/>
-                    <field name="supplier_product_uos"/>
+                    <field name="supplier_sale_price_vat_excl"/>
+                    <field name="supplier_sale_price_vat_incl"/>
+                    <field name="supplier_product_uom"/>
                     <field name="supplier_product_default_code"/>
                     <field name="supplier_product_name"/>
                     <field name="supplier_partner_name"/>
@@ -70,6 +71,7 @@
                 <form string="Integrated Trade - Link Product">
                     <group>
                         <group string="Your Product">
+                            <field name="customer_product_id" />
                             <field name="customer_product_tmpl_id" />
                         </group>
                         <group string="Supplier Product">

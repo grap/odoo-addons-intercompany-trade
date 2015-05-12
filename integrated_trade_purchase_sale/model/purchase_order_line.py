@@ -71,10 +71,10 @@ class purchase_order_line(Model):
             rit = self._get_res_integrated_trade(
                 cr, uid, po.partner_id.id, po.company_id.id, context=context)
 
-#            # Create associated Sale Order Line
+            # Create associated Sale Order Line
             pol = self.browse(cr, uid, res, context=context)
             psi_ids = psi_obj.search(cr, uid, [
-                ('product_id', '=', pol.product_id.id),
+                ('product_id', '=', pol.product_id.product_tmpl_id.id),
                 ('name', '=', pol.order_id.partner_id.id),
             ], context=context)
             if len(psi_ids) == 0:

@@ -82,6 +82,7 @@ class sale_order(Model):
 
     # Overload Section
     def create(self, cr, uid, vals, context=None):
+        context = context and context or {}
         rp_obj = self.pool['res.partner']
         po_obj = self.pool['purchase.order']
         iv_obj = self.pool['ir.values']

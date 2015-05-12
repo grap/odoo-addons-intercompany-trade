@@ -31,27 +31,29 @@ from openerp.addons import decimal_precision as dp
 class product_supplierinfo(Model):
     _inherit = 'product.supplierinfo'
 
-    def _integrated_trade_update_multicompany(
-            self, cr, uid, supplier_product_ids, context=None):
-        rit_obj = self.pool['res.integrated.trade']
-        psi_obj = self.pool['product.supplierinfo']
-        for supplier_product_id in supplier_product_ids:
-            psi_ids = psi_obj.search(cr, SUPERUSER_ID, [
-                ('supplier_product_id', '=', supplier_product_id),
-            ], context=context)
-            for psi in psi_obj.browse(
-                    cr, SUPERUSER_ID, psi_ids, context=context):
-                rit_id = rit_obj.search(cr, uid, [
-                    ('customer_company_id', '=', psi.company_id.id),
-                    ('supplier_partner_id', '=', psi.name.id),
-                ], context=context)[0]
-                self._integrated_trade_update(
-                    cr, uid, rit_id, [supplier_product_id],
-                    context=context)
+#    def _integrated_trade_update_multicompany(
+#            self, cr, uid, supplier_product_ids, context=None):
+#        print "_integrated_trade_update_multicompany"
+#        rit_obj = self.pool['res.integrated.trade']
+#        psi_obj = self.pool['product.supplierinfo']
+#        for supplier_product_id in supplier_product_ids:
+#            psi_ids = psi_obj.search(cr, SUPERUSER_ID, [
+#                ('supplier_product_id', '=', supplier_product_id),
+#            ], context=context)
+#            for psi in psi_obj.browse(
+#                    cr, SUPERUSER_ID, psi_ids, context=context):
+#                rit_id = rit_obj.search(cr, uid, [
+#                    ('customer_company_id', '=', psi.company_id.id),
+#                    ('supplier_partner_id', '=', psi.name.id),
+#                ], context=context)[0]
+#                self._integrated_trade_update(
+#                    cr, uid, rit_id, [supplier_product_id],
+#                    context=context)
 
     def _integrated_trade_update(
             self, cr, uid, integrated_trade_id, supplier_product_ids,
             context=None):
+        print "_integrated_trade_update"
         rit_obj = self.pool['res.integrated.trade']
         rit = rit_obj.browse(cr, uid, integrated_trade_id, context=context)
         if not supplier_product_ids:
@@ -65,6 +67,8 @@ class product_supplierinfo(Model):
                 ('supplier_product_id', 'in', supplier_product_ids)
             ], context=context)
         for psi in self.browse(cr, uid, psi_ids, context=context):
+            pp_ids = pp_obj.search(
+                cr, uid, ['psi.name' '=', psi.name], context=context)
             psi_vals = self._integrated_trade_prepare(
                 cr, uid, integrated_trade_id, psi.supplier_product_id.id,
                 context=context)
@@ -77,6 +81,8 @@ class product_supplierinfo(Model):
             context=None):
         """Overload this function to change the datas of the supplierinfo
         create when a link between a two products is done."""
+        print "_integrated_trade_prepare"
+        at_obj = self.pool['account.tax']
         pp_obj = self.pool['product.product']
         ppl_obj = self.pool['product.pricelist']
         rit_obj = self.pool['res.integrated.trade']
@@ -87,9 +93,13 @@ class product_supplierinfo(Model):
         price = ppl_obj.price_get(
             cr, SUPERUSER_ID, [rit.pricelist_id.id], pp.id,
             1.0, rit.supplier_partner_id.id, {
-                'uom': pp.uos_id.id,
+                'uom': pp.uom_id.id,
                 'date': date.today().strftime('%Y-%m-%d'),
             })[rit.pricelist_id.id]
+        tax_info = at_obj.compute_all(
+            cr, SUPERUSER_ID, pp.taxes_id,
+            price, 1.0, pp.id)
+        
         return {
             'min_qty': 0.0,
             'name': rit.supplier_partner_id.id,
