@@ -28,6 +28,9 @@ from openerp.osv.orm import Model
 from openerp.osv.osv import except_osv
 from openerp.tools.translate import _
 
+from openerp.addons.integrated_trade_product.model.custom_tools \
+    import _compute_integrated_customer_price
+
 
 class sale_order_line(Model):
     _inherit = 'sale.order.line'
@@ -56,6 +59,7 @@ class sale_order_line(Model):
         """Create the according Purchase Order Line."""
         context = context and context or {}
         pp_obj = self.pool['product.product']
+        pp_obj = self.pool['product.product']
         so_obj = self.pool['sale.order']
         pol_obj = self.pool['purchase.order.line']
         psi_obj = self.pool['product.supplierinfo']
@@ -76,7 +80,8 @@ class sale_order_line(Model):
             rit = self._get_res_integrated_trade(
                 cr, uid, so.partner_id.id, so.company_id.id, context=context)
 
-#            # Create associated Purchase Order Line
+            # Create associated Purchase Order Line
+            # TODO Check if taxes are changed (with products value)
             sol = self.browse(cr, uid, res, context=context)
             psi_ids = psi_obj.search(cr, SUPERUSER_ID, [
                 ('supplier_product_id', '=', sol.product_id.id),
@@ -105,32 +110,36 @@ class sale_order_line(Model):
                         """ say him to add the product to him purchase"""
                         """ order.""" % (
                             sol.product_id.name)))
+            else:
+                customer_pp = pp_obj.browse(
+                    cr, SUPERUSER_ID, pp_ids[0], context=context)
+
+            price_info = _compute_integrated_customer_price(
+                self.pool, cr, SUPERUSER_ID, sol.product_id, customer_pp,
+                (100 - sol.discount) / 100 * sol.price_unit, context=context)
 
             pol_vals = {
                 'order_id': sol.order_id.integrated_trade_purchase_order_id.id,
-                'price_unit': sol.price_unit,
+                'price_unit': 0,
                 'name': '[%s] %s' % (
                     sol.product_id.default_code, sol.product_id.name),
-                'product_id': pp_ids[0],
-                'product_qty': sol.product_uos_qty,
-                'product_uom': sol.product_uos.id,
+                'product_id': customer_pp.id,
+                'product_qty': sol.product_uom_qty,
+                'product_uom': sol.product_uom.id,
                 'integrated_trade_purchase_order_line_id': sol.id,
-                # Constant TODO
                 'date_planned': datetime.now().strftime('%d-%m-%Y'),
-                'tax_id': [[6, False, []]],
-                # Constant
-                'discount': 0,
-                'delay': 0,
+                'taxes_id': [[6, False, price_info['customer_taxes_id']]],
             }
 
             pol_id = pol_obj.create(
                 cr, rit.customer_user_id.id, pol_vals, context=ctx)
             # Force the call of the _amount_all
             pol_obj.write(
-                cr, rit.customer_user_id.id, pol_id,
-                {'price_unit': sol.price_unit}, context=ctx)
+                cr, rit.customer_user_id.id, pol_id, {
+                    'price_unit': price_info['customer_purchase_price'],
+                }, context=ctx)
 
-#            # Update Sale Order line
+            # Update Sale Order line
             self.write(cr, uid, res, {
                 'integrated_trade_purchase_order_line_id': pol_id,
             }, context=ctx)
@@ -139,9 +148,9 @@ class sale_order_line(Model):
     def write(self, cr, uid, ids, vals, context=None):
         """"- Update the according Purchase Order Line with new data;
             - Block any changes of product."""
-        if not context:
-            context = {}
+        context = context and context or {}
         pol_obj = self.pool['purchase.order.line']
+        pp_obj = self.pool['product.product']
 
         res = super(sale_order_line, self).write(
             cr, uid, ids, vals, context=context)
@@ -149,24 +158,42 @@ class sale_order_line(Model):
         if 'integrated_trade_do_not_propagate' not in context.keys():
             ctx = context.copy()
             ctx['integrated_trade_do_not_propagate'] = True
-            for sol in self.browse(cr, uid, ids, context=context):
+            for sol in self.browse(cr, SUPERUSER_ID, ids, context=context):
                 if sol.integrated_trade_purchase_order_line_id:
                     rit = self._get_res_integrated_trade(
                         cr, uid, sol.order_id.partner_id.id,
                         sol.order_id.company_id.id, context=context)
+                    customer_pp = pp_obj.browse(
+                        cr, SUPERUSER_ID,
+                        sol.integrated_trade_purchase_order_line_id\
+                            .product_id.id,
+                        context=context)
                     pol_vals = {}
 
                     if 'product_id' in vals.keys():
                         raise except_osv(
                             _("Error!"),
-                            _("""You can not change the product. %s"""
-                                """Please remove this line and choose a"""
+                            _("""You can not change the product '%s'.\n"""
+                                """ Please remove this line and choose a"""
                                 """ a new one.""" % (sol.product_id.name)))
+                    if 'tax_id' in vals.keys():
+                        raise except_osv(
+                            _("Integrated Trade Error!"),
+                            _("""You can not change Taxes in a Sale"""))
                     if 'product_uom_qty' in vals:
                         pol_vals['product_qty'] = sol.product_uom_qty
                     if 'product_uom' in vals:
                         pol_vals['product_uom'] = sol.product_uom.id
-                    # TODO Manage discount / delay / tax
+                    if 'discount' in vals or 'price_unit' in vals:
+                        pol_vals['discount'] = sol.discount
+                        price_info = _compute_integrated_customer_price(
+                            self.pool, cr, SUPERUSER_ID, sol.product_id,
+                            customer_pp,
+                            (100 - sol.discount) / 100 * sol.price_unit,
+                            context=context)
+                        pol_vals['price_unit'] =\
+                            price_info['customer_purchase_price']
+
                     pol_obj.write(
                         cr, rit.customer_user_id.id,
                         sol.integrated_trade_purchase_order_line_id.id,

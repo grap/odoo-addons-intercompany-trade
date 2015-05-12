@@ -36,6 +36,10 @@ def _compute_integrated_customer_price(
         * if tax amount are different;
         * if tax type is not 'percent';
     """
+    print "compute price"
+    print supplier_product
+    print customer_product
+    
     customer_price = supplier_price
     # Check if taxes are correct
     if (len(supplier_product.taxes_id)
@@ -93,6 +97,7 @@ def _compute_integrated_customer_price(
                 customer_price = supplier_price * (1 + supplier_tax.amount)
     return {
         'customer_purchase_price': customer_price,
+        'customer_taxes_id': customer_tax and [customer_tax.id] or [],
     }
 
 

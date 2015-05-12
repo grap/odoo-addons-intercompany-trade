@@ -25,7 +25,7 @@ from openerp.osv import fields
 from openerp.osv.orm import Model
 from openerp.addons import decimal_precision as dp
 
-from .custom_tools import _compute_integrated_prices
+from .custom_tools import _compute_integrated_customer_price
 
 
 class product_supplierinfo(Model):
@@ -107,7 +107,7 @@ class product_supplierinfo(Model):
             cr, SUPERUSER_ID, supplier_product_id, context=context)
         customer_pp = pp_obj.browse(
             cr, SUPERUSER_ID, customer_product_id, context=context)
-        price_info = _compute_integrated_prices(
+        price_info = _compute_integrated_customer_price(
             self.pool, cr, SUPERUSER_ID, supplier_pp,
             rit.supplier_partner_id, rit.pricelist_id,
             customer_product=customer_pp, context=context)
