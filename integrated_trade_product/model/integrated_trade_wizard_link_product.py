@@ -27,7 +27,7 @@ from openerp.osv.osv import except_osv
 from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp
 
-from custom_tools import _compute_integrated_prices
+from .custom_tools import _compute_integrated_prices
 
 
 class integrated_trade_wizard_link_product(TransientModel):
@@ -35,7 +35,6 @@ class integrated_trade_wizard_link_product(TransientModel):
 
     # Default Get Section
     def default_get(self, cr, uid, fields, context=None):
-        psi_obj = self.pool['product.supplierinfo']
         pp_obj = self.pool['product.product']
         pitc_obj = self.pool['product.integrated.trade.catalog']
         rit_obj = self.pool['res.integrated.trade']
@@ -120,8 +119,9 @@ class integrated_trade_wizard_link_product(TransientModel):
             if len(pp_qty) != 1:
                 raise except_osv(
                     _("Too Many Products for the Template!"),
-                    _("""You can not link this Template %s because there are"""
-                    """ %d Products associated.""") % (
+                    _(
+                        """You can not link this Template %s because there"""
+                        """ are %d Products associated.""") % (
                         cus_pt.name, len(pp_qty)))
 
             # raise error if there is a product linked
@@ -132,22 +132,23 @@ class integrated_trade_wizard_link_product(TransientModel):
             if len(pitc_ids) != 0:
                 raise except_osv(
                     _("Duplicated Reference!"),
-                    _("""You can not link the Product Template %s because"""
+                    _(
+                        """You can not link the Product Template %s because"""
                         """ it is yet linked to another supplier product."""
                         """ Please unlink the Product Template and try"""
-                        """ again.""") % (
-                        cus_pt.name))
+                        """ again.""") % (cus_pt.name))
 
             # Raise an error if Unit doesn't match
             if cus_pt.uom_id.category_id.id != sup_pp.uom_id.category_id.id:
                 raise except_osv(
                     _("Unit Mismatch!"),
-                    _("""The type of Unit of Mesure of your product"""
+                    _(
+                        """The type of Unit of Mesure of your product"""
                         """ is '%s'.\nThe type of Unit of Mesure of the"""
                         """ supplier product is '%s'.\n\nThe type must"""
                         """ be the same.""") % (
-                        cus_pt.uom_id.category_id.name,
-                        sup_pp.uom_id.category_id.name))
+                            cus_pt.uom_id.category_id.name,
+                            sup_pp.uom_id.category_id.name))
 
             psi_obj.create(cr, uid, psi_vals, context=context)
         return True

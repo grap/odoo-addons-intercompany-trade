@@ -32,7 +32,7 @@ class product_product(Model):
         'standard_price', 'list_price',
     ]
 
-    def  copy_data(self, cr, uid, id, default=None, context=None):
+    def copy_data(self, cr, uid, id, default=None, context=None):
         default = default and default or {}
         # TODO: improve me.
         # It's not necessary to remove all seller_ids, only ones that
