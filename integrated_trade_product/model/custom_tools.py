@@ -23,21 +23,22 @@
 from datetime import date
 
 
-def _compute_supplier_price(
-        pool, cr, uid, supplier_product_id, supplier_product_uom,
-        supplier_partner_id, pricelist_id):
-        # TODO supplier_product_uom: ?? Check if product_id is sufficient
+def _compute_integrated_price(
+        pool, cr, uid, supplier_product, supplier_product_uom,
+        supplier_partner, pricelist, customer_product=False,
+        context=None):
+        # TODO supplier_product_uom: ?? Check if supplier_product is sufficient
         """
         This xxx
 
-        :param supplier_product_id (product.product):
+        :param supplier_product (product.product):
              Product to sell in the supplier database;
         :param supplier_product_uom (product.uom):
             
              UoM of the supplier product;
-        :param supplier_partner_id (res.partner):
+        :param supplier_partner (res.partner):
             Supplier in the CUSTOMER Database;
-        : pricelist_id (product.pricelist):
+        : pricelist (product.pricelist):
             Sale Pricelist in the supplier database;
         :returns: return a dictionary containing
         """
@@ -45,16 +46,16 @@ def _compute_supplier_price(
         at_obj = pool['account.tax']
         # Compute Sale Price
         supplier_price = ppl_obj.price_get(
-            cr, uid, [pricelist_id.id],
-            supplier_product_id.id,
-            1.0, supplier_partner_id.id, {
+            cr, uid, [pricelist.id],
+            supplier_product.id,
+            1.0, supplier_partner.id, {
                 'uom': supplier_product_uom.id,
                 'date': date.today().strftime('%Y-%m-%d'),
-            })[pricelist_id.id]
+            })[pricelist.id]
         # Compute Taxes detail
         tax_info = at_obj.compute_all(
-            cr, uid, supplier_product_id.taxes_id,
-            supplier_price, 1.0, supplier_product_id.id)
+            cr, uid, supplier_product.taxes_id,
+            supplier_price, 1.0, supplier_product.id)
         return {
             'supplier_sale_price': supplier_price,
             'supplier_sale_price_vat_excl': tax_info['total'],

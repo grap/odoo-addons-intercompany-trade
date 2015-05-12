@@ -77,7 +77,8 @@
                         <group string="Supplier Product">
                             <field name="supplier_product_code" />
                             <field name="supplier_product_name" />
-                            <field name="supplier_product_price" />
+                            <field name="supplier_sale_price_vat_excl" />
+                            <field name="supplier_sale_price_vat_incl" />
                         </group>
                         <group colspan="4">
                             <button name="link_product" type="object" string="Link Product"/>
