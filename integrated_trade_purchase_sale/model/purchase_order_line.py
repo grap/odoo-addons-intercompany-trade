@@ -161,13 +161,13 @@ class purchase_order_line(Model):
                         raise except_osv(
                             _("Error!"),
                             _("""You can not change the UoM of the Product"""
-                            """ %s.""" % (pol.product_id.name)))
+                                """ %s.""" % (pol.product_id.name)))
                     if 'price_unit' in vals.keys():
                         raise except_osv(
                             _("Error!"),
                             _("""You can not change the Product Price '%s'."""
-                            """ Please ask to your supplier.""" % (
-                                pol.product_id.name)))
+                                """ Please ask to your supplier.""" % (
+                                    pol.product_id.name)))
                     if 'product_qty' in vals:
                         sol_vals['product_uos_qty'] = pol.product_qty
                         sol_vals['product_uom_qty'] = pol.product_qty

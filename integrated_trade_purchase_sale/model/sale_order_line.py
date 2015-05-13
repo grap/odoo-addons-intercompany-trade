@@ -158,15 +158,13 @@ class sale_order_line(Model):
             ctx = context.copy()
             ctx['integrated_trade_do_not_propagate'] = True
             for sol in self.browse(cr, SUPERUSER_ID, ids, context=context):
-                if sol.integrated_trade_purchase_order_line_id:
+                pol = sol.integrated_trade_purchase_order_line_id
+                if pol:
                     rit = self._get_res_integrated_trade(
                         cr, uid, sol.order_id.partner_id.id,
                         sol.order_id.company_id.id, context=context)
                     customer_pp = pp_obj.browse(
-                        cr, SUPERUSER_ID,
-                        sol.integrated_trade_purchase_order_line_id\
-                            .product_id.id,
-                        context=context)
+                        cr, SUPERUSER_ID, pol.product_id.id, context=context)
                     pol_vals = {}
 
                     if 'product_id' in vals.keys():
@@ -195,7 +193,7 @@ class sale_order_line(Model):
 
                     pol_obj.write(
                         cr, rit.customer_user_id.id,
-                        sol.integrated_trade_purchase_order_line_id.id,
+                        pol.id,
                         pol_vals, context=ctx)
         return res
 

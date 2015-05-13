@@ -57,19 +57,6 @@ class stock_picking(Model):
     }
 
     # Overload Section
-    def create(self, cr, uid, vals, context=None):
-        print "***************************"
-        rp_obj = self.pool['res.partner']
-#        sp = self.browse(cr, uid, id, context=context)
-#        if sp.integrated_trade:
-#            raise except_osv(
-#                _("Integrated Trade - Unimplemented Feature!"),
-#                _(
-#                    """You can not duplicate a Picking that come from"""
-#                    """ Integrated Trade."""))
-        return super(stock_picking, self).create(
-            cr, uid, vals, context=context)
-
     def copy(self, cr, uid, id, default=None, context=None):
         sp = self.browse(cr, uid, id, context=context)
         if sp.integrated_trade:

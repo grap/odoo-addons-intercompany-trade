@@ -38,7 +38,7 @@ class stock_return_picking(TransientModel):
                 _("Integrated Trade - Unimplemented Feature!"),
                 _(
                     """You can not return a Picking that come from"""
-                """ Integrated Trade. Please make another Sale Order"""
-                """ or Purchase Order."""))
+                    """ Integrated Trade. Please make another Sale Order"""
+                    """ or Purchase Order."""))
         return super(stock_return_picking, self).create_returns(
             cr, uid, ids, context=context)

@@ -25,6 +25,7 @@ from datetime import date
 from openerp.tools.translate import _
 from openerp.osv.osv import except_osv
 
+
 def _check_taxes(
         pool, cr, uid, supplier_product, customer_product, context=None):
     """
@@ -83,6 +84,7 @@ def _check_taxes(
                     """""") % (
                         customer_tax.amount * 100, supplier_tax.amount * 100))
 
+
 def _compute_integrated_customer_price(
         pool, cr, uid, supplier_product, customer_product,
         supplier_price, context=None):
@@ -104,6 +106,7 @@ def _compute_integrated_customer_price(
         'customer_purchase_price': customer_price,
         'customer_taxes_id': customer_tax and [customer_tax.id] or [],
     }
+
 
 def _compute_integrated_supplier_price(
         pool, cr, uid, supplier_product, customer_product,
