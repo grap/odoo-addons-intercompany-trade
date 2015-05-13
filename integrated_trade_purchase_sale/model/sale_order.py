@@ -170,6 +170,7 @@ class sale_order(Model):
 
     def action_button_confirm(self, cr, uid, ids, context=None):
         sp_obj = self.pool['stock.picking']
+        spp_wizard_obj = self.pool['stock.partial.picking']
         wf_service = netsvc.LocalService('workflow')
         res = super(sale_order, self).action_button_confirm(
             cr, uid, ids, context=context)
@@ -200,5 +201,28 @@ class sale_order(Model):
                 'integrated_trade_picking_in_id': spi_id}, context=context)
             sp_obj.write(cr, rit.customer_user_id.id, [spi_id], {
                 'integrated_trade_picking_out_id': spo_id}, context=context)
+
+            # FIXME : set this part of code in a module
+            # integrated_trade_stock
+            # Confirm Supplier Picking Out
+            sp_obj.check_assign_all(
+                cr, uid, [spo_id], context=context)
+            sp_obj.force_assign(cr, uid, [spo_id])
+            ctx = context.copy()
+            ctx['active_ids'] = [spo_id]
+            ctx['active_model'] = 'stock.picking.out'
+            spp_wizard_id = spp_wizard_obj.create(
+                cr, uid, {}, context=ctx)
+            spp_wizard_obj.do_partial(
+                cr, uid, [spp_wizard_id], context=context)
+
+            # Confirm Customer Picking In
+            ctx = context.copy()
+            ctx['active_ids'] = [spi_id]
+            ctx['active_model'] = 'stock.picking.in'
+            spp_wizard_id = spp_wizard_obj.create(
+                cr, rit.customer_user_id.id, {}, context=ctx)
+            spp_wizard_obj.do_partial(
+                cr, rit.customer_user_id.id, [spp_wizard_id], context=context)
 
         return res

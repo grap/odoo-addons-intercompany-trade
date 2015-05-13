@@ -70,7 +70,6 @@
                     <attribute name="states" />
                     <attribute name="attrs">{'invisible': ['|', ('integrated_trade','=', True), ('state', 'not in', 'cancel,sent,confirmed')]}</attribute>
                 </xpath>
-
             </field>
         </record>
 

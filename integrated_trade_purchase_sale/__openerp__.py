@@ -46,7 +46,8 @@ Features:
 
 TODO Features:
 --------------
-    * Manage price changes. (forbid, ou force to recompute);
+    * Fix possibility to change some values when creating a new line in a
+      Sale Order or a Purchase Order;
 
 Copyright, Authors and Licence:
 -------------------------------

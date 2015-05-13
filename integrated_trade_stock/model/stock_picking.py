@@ -22,8 +22,8 @@
 
 from openerp.osv import fields
 from openerp.osv.orm import Model
-# from openerp.osv.osv import except_osv
-# from openerp.tools.translate import _
+from openerp.osv.osv import except_osv
+from openerp.tools.translate import _
 
 
 class stock_picking(Model):
@@ -55,3 +55,28 @@ class stock_picking(Model):
             readonly=True,
         ),
     }
+
+    # Overload Section
+    def create(self, cr, uid, vals, context=None):
+        print "***************************"
+        rp_obj = self.pool['res.partner']
+#        sp = self.browse(cr, uid, id, context=context)
+#        if sp.integrated_trade:
+#            raise except_osv(
+#                _("Integrated Trade - Unimplemented Feature!"),
+#                _(
+#                    """You can not duplicate a Picking that come from"""
+#                    """ Integrated Trade."""))
+        return super(stock_picking, self).create(
+            cr, uid, vals, context=context)
+
+    def copy(self, cr, uid, id, default=None, context=None):
+        sp = self.browse(cr, uid, id, context=context)
+        if sp.integrated_trade:
+            raise except_osv(
+                _("Integrated Trade - Unimplemented Feature!"),
+                _(
+                    """You can not duplicate a Picking that come from"""
+                    """ Integrated Trade."""))
+        return super(stock_picking, self).copy(
+            cr, uid, id, default=default, context=context)

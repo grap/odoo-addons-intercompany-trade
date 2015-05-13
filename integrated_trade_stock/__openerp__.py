@@ -50,6 +50,7 @@ Copyright, Authors and Licence:
         'demo/stock_warehouse.yml',
     ],
     'data': [
+        'view/view.xml',
     ],
     'auto_install': True,
 }
