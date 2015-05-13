@@ -59,7 +59,6 @@ class sale_order_line(Model):
         """Create the according Purchase Order Line."""
         context = context and context or {}
         pp_obj = self.pool['product.product']
-        pp_obj = self.pool['product.product']
         so_obj = self.pool['sale.order']
         pol_obj = self.pool['purchase.order.line']
         psi_obj = self.pool['product.supplierinfo']
@@ -97,11 +96,11 @@ class sale_order_line(Model):
                         """ say him to do it.""" % (
                             sol.product_id.name)))
             psi = psi_obj.browse(cr, SUPERUSER_ID, psi_ids[0], context=context)
-            pp_ids = pp_obj.search(cr, SUPERUSER_ID, [
+            customer_pp_ids = pp_obj.search(cr, SUPERUSER_ID, [
                 ('company_id', '=', rit.customer_company_id.id),
                 ('product_tmpl_id', '=', psi.product_id.id),
             ], context=context)
-            if len(pp_ids) != 1:
+            if len(customer_pp_ids) != 1:
                 raise except_osv(
                     _("Product Selection Error!"),
                     _("""You can not add the product '%s' to the current"""
@@ -112,7 +111,7 @@ class sale_order_line(Model):
                             sol.product_id.name)))
             else:
                 customer_pp = pp_obj.browse(
-                    cr, SUPERUSER_ID, pp_ids[0], context=context)
+                    cr, SUPERUSER_ID, customer_pp_ids[0], context=context)
 
             price_info = _compute_integrated_customer_price(
                 self.pool, cr, SUPERUSER_ID, sol.product_id, customer_pp,
@@ -126,7 +125,7 @@ class sale_order_line(Model):
                 'product_id': customer_pp.id,
                 'product_qty': sol.product_uom_qty,
                 'product_uom': sol.product_uom.id,
-                'integrated_trade_purchase_order_line_id': sol.id,
+                'integrated_trade_sale_order_line_id': sol.id,
                 'date_planned': datetime.now().strftime('%d-%m-%Y'),
                 'taxes_id': [[6, False, price_info['customer_taxes_id']]],
             }

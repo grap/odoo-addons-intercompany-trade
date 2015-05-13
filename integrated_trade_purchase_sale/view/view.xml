@@ -25,26 +25,52 @@
             <field name="model">purchase.order</field>
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <span class="integrated_trade_todo"
+                        attrs="{'invisible': ['|', ('state', 'not in', ['draft']), ('integrated_trade','=', False)]}">Request To Confirm</span>
+                    <span class="integrated_trade_waiting"
+                        attrs="{'invisible': ['|', ('state', 'not in', ['sent']), ('integrated_trade','=', False)]}">On Hold</span>
+                </field>
                 <field name="partner_ref" position="after">
-                    <field name="integrated_trade"/>
+                    <field name="integrated_trade" groups="integrated_trade_base.integrated_trade_user"
+                        attrs="{'invisible': [('integrated_trade', '=', False)]}"/>
                     <field name="integrated_trade_sale_order_id" groups="integrated_trade_base.integrated_trade_manager"/>
                 </field>
-                <xpath expr="//button[@name='purchase_confirm' and @states='draft']" position="attributes">
-                    <attribute name="states" />
-                    <attribute name="attrs">{'invisible': [('integrated_trade','=', True)]}</attribute>
+                <xpath expr="//button[@name='wkf_send_rfq' and @states='draft']" position="after">
+                    <button name="integrated_trade_request" type="object" string="Send Request"
+                        attrs="{'invisible': ['|', ('integrated_trade','=', False), ('state', 'not in', 'draft')]}"
+                    />
                 </xpath>
-                <xpath expr="//button[@name='purchase_confirm' and @states='sent']" position="attributes">
+                <xpath expr="//button[@name='wkf_send_rfq' and @states='draft']" position="attributes">
                     <attribute name="states" />
-                    <attribute name="attrs">{'invisible': [('integrated_trade','=', True)]}</attribute>
-                </xpath>
-                <xpath expr="//button[@name='action_cancel_draft' and @states='cancel,sent,confirmed']" position="attributes">
-                    <attribute name="states" />
-                    <attribute name="attrs">{'invisible': [('integrated_trade','=', True)]}</attribute>
+                    <attribute name="attrs">{'invisible': ['|', ('integrated_trade','=', True), ('state', 'not in', 'draft')]}</attribute>
                 </xpath>
                 <xpath expr="//button[@name='wkf_send_rfq' and @states='sent']" position="attributes">
                     <attribute name="states" />
-                    <attribute name="attrs">{'invisible': [('integrated_trade','=', True)]}</attribute>
+                    <attribute name="attrs">{'invisible': ['|', ('integrated_trade','=', True), ('state', 'not in', 'sent')]}</attribute>
                 </xpath>
+
+                <xpath expr="//button[@name='print_quotation' and @states='draft']" position="attributes">
+                    <attribute name="states" />
+                    <attribute name="attrs">{'invisible': ['|', ('integrated_trade','=', True), ('state', 'not in', 'draft')]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='print_quotation' and @states='sent']" position="attributes">
+                    <attribute name="states" />
+                    <attribute name="attrs">{'invisible': ['|', ('integrated_trade','=', True), ('state', 'not in', 'sent')]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='purchase_confirm' and @states='draft']" position="attributes">
+                    <attribute name="states" />
+                    <attribute name="attrs">{'invisible': ['|', ('integrated_trade','=', True), ('state', 'not in', 'draft')]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='purchase_confirm' and @states='sent']" position="attributes">
+                    <attribute name="states" />
+                    <attribute name="attrs">{'invisible': ['|', ('integrated_trade','=', True), ('state', 'not in', 'sent')]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_cancel_draft' and @states='cancel,sent,confirmed']" position="attributes">
+                    <attribute name="states" />
+                    <attribute name="attrs">{'invisible': ['|', ('integrated_trade','=', True), ('state', 'not in', 'cancel,sent,confirmed')]}</attribute>
+                </xpath>
+
             </field>
         </record>
 
@@ -53,10 +79,25 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <span class="integrated_trade_waiting"
+                        attrs="{'invisible': ['|', ('state', 'not in', ['draft']), ('integrated_trade','=', False)]}">On Hold</span>
+                    <span class="integrated_trade_todo"
+                        attrs="{'invisible': ['|', ('state', 'not in', ['sent']), ('integrated_trade','=', False)]}">Sale To Confirm</span>
+                </field>
                 <field name="partner_id" position="after">
-                    <field name="integrated_trade"/>
+                    <field name="integrated_trade" groups="integrated_trade_base.integrated_trade_user"
+                        attrs="{'invisible': [('integrated_trade', '=', False)]}"/>
                     <field name="integrated_trade_purchase_order_id" groups="integrated_trade_base.integrated_trade_manager"/>
                 </field>
+                <xpath expr="//button[@name='print_quotation' and @states='draft']" position="attributes">
+                    <attribute name="states" />
+                    <attribute name="attrs">{'invisible': ['|', ('integrated_trade','=', True), ('state', 'not in', 'draft')]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='print_quotation' and @states='sent,progress,manual']" position="attributes">
+                    <attribute name="states" />
+                    <attribute name="attrs">{'invisible': ['|', ('integrated_trade','=', True), ('state', 'not in', 'sent,progress,manual')]}</attribute>
+                </xpath>
                 <xpath expr="//button[@name='action_quotation_send' and @states='draft']" position="attributes">
                     <attribute name="states" />
                     <attribute name="attrs">{'invisible': ['|', ('integrated_trade','=', True), ('state', 'not in', 'draft')]}</attribute>

@@ -25,10 +25,8 @@ from datetime import date
 from openerp.tools.translate import _
 from openerp.osv.osv import except_osv
 
-
-def _compute_integrated_customer_price(
-        pool, cr, uid, supplier_product, customer_product,
-        supplier_price, context=None):
+def _check_taxes(
+        pool, cr, uid, supplier_product, customer_product, context=None):
     """
     :error raised:
         * If customer and supplier product taxes quantities doesn't match;
@@ -36,11 +34,6 @@ def _compute_integrated_customer_price(
         * if tax amount are different;
         * if tax type is not 'percent';
     """
-    print "compute price"
-    print supplier_product
-    print customer_product
-    
-    customer_price = supplier_price
     # Check if taxes are correct
     if (len(supplier_product.taxes_id)
             != len(customer_product.supplier_taxes_id)):
@@ -89,6 +82,18 @@ def _compute_integrated_customer_price(
                     """  Supplier Tax value: %s %%;\n """
                     """""") % (
                         customer_tax.amount * 100, supplier_tax.amount * 100))
+
+def _compute_integrated_customer_price(
+        pool, cr, uid, supplier_product, customer_product,
+        supplier_price, context=None):
+
+    customer_price = supplier_price
+    _check_taxes(
+        pool, cr, uid, supplier_product, customer_product, context=context)
+
+    if supplier_product.taxes_id:
+        supplier_tax = supplier_product.taxes_id[0]
+        customer_tax = customer_product.supplier_taxes_id[0]
         if (customer_tax.amount != 0 and
                 customer_tax.price_include != supplier_tax.price_include):
             if supplier_tax.price_include:
@@ -98,6 +103,28 @@ def _compute_integrated_customer_price(
     return {
         'customer_purchase_price': customer_price,
         'customer_taxes_id': customer_tax and [customer_tax.id] or [],
+    }
+
+def _compute_integrated_supplier_price(
+        pool, cr, uid, supplier_product, customer_product,
+        customer_price, context=None):
+
+    supplier_price = customer_price
+    _check_taxes(
+        pool, cr, uid, supplier_product, customer_product, context=context)
+
+    if supplier_product.taxes_id:
+        supplier_tax = supplier_product.taxes_id[0]
+        customer_tax = customer_product.supplier_taxes_id[0]
+        if (customer_tax.amount != 0 and
+                customer_tax.price_include != supplier_tax.price_include):
+            if customer_tax.price_include:
+                supplier_price = customer_price / (1 + customer_tax.amount)
+            else:
+                supplier_price = customer_price * (1 + customer_tax.amount)
+    return {
+        'supplier_sale_price': supplier_price,
+        'supplier_taxes_id': supplier_tax and [supplier_tax.id] or [],
     }
 
 

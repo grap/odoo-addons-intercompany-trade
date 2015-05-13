@@ -80,6 +80,10 @@ class purchase_order(Model):
         ], context=context)[0]
         return rit_obj.browse(cr, uid, rit_id, context=context)
 
+    # View Section
+    def integrated_trade_request(self, cr, uid, ids, context=None):
+        return self.print_quotation(cr, uid, ids, context=context)
+
     # Overload Section
     def create(self, cr, uid, vals, context=None):
         rp_obj = self.pool['res.partner']

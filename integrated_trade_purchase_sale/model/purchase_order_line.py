@@ -20,10 +20,14 @@
 #
 ##############################################################################
 
+from openerp import SUPERUSER_ID
 from openerp.osv import fields
 from openerp.osv.orm import Model
 from openerp.osv.osv import except_osv
 from openerp.tools.translate import _
+
+from openerp.addons.integrated_trade_product.model.custom_tools \
+    import _compute_integrated_supplier_price
 
 
 class purchase_order_line(Model):
@@ -31,6 +35,9 @@ class purchase_order_line(Model):
 
     # Columns Section
     _columns = {
+        'integrated_trade': fields.related(
+            'order_id', 'integrated_trade', type='boolean',
+            string='Integrated Trade'),
         'integrated_trade_sale_order_line_id': fields.many2one(
             'sale.order.line', string='Integrated Trade Sale Order Line',
             readonly=True,
@@ -53,6 +60,7 @@ class purchase_order_line(Model):
         """Create the according Sale Order Line."""
         po_obj = self.pool['purchase.order']
         sol_obj = self.pool['sale.order.line']
+        pp_obj = self.pool['product.product']
         psi_obj = self.pool['product.supplierinfo']
 
         po = po_obj.browse(cr, uid, vals['order_id'], context=context)
@@ -86,21 +94,25 @@ class purchase_order_line(Model):
                         """ in the 'Integrated Trade' menu.""" % (
                             pol.product_id.name)))
             psi = psi_obj.browse(cr, uid, psi_ids[0], context=context)
+            supplier_pp = pp_obj.browse(
+                cr, SUPERUSER_ID, psi.supplier_product_id.id, context=context)
+
+            price_info = _compute_integrated_supplier_price(
+                self.pool, cr, SUPERUSER_ID, supplier_pp, pol.product_id,
+                pol.price_unit, context=context)
 
             sol_vals = {
                 'order_id': pol.order_id.integrated_trade_sale_order_id.id,
-                'price_unit': pol.price_unit,
+                'price_unit': 0,
                 'name': '[%s] %s' % (
-                    pol.product_id.default_code, pol.product_id.name),
-                'product_id': psi.supplier_product_id.id,
+                    supplier_pp.default_code, supplier_pp.name),
+                'product_id': supplier_pp.id,
                 'product_uos_qty': pol.product_qty,
                 'product_uos': pol.product_uom.id,
                 'product_uom_qty': pol.product_qty,
                 'product_uom': pol.product_uom.id,
                 'integrated_trade_purchase_order_line_id': pol.id,
-                # Constant TODO
-                'tax_id': [[6, False, []]],
-                # Constant
+                'tax_id': [[6, False, price_info['supplier_taxes_id']]],
                 'discount': 0,
                 'delay': 0,
             }
@@ -109,10 +121,11 @@ class purchase_order_line(Model):
                 cr, rit.supplier_user_id.id, sol_vals, context=ctx)
             # Force the call of the _amount_all
             sol_obj.write(
-                cr, rit.supplier_user_id.id, sol_id,
-                {'price_unit': pol.price_unit}, context=ctx)
+                cr, rit.supplier_user_id.id, sol_id, {
+                    'price_unit': price_info['supplier_sale_price'],
+                }, context=ctx)
 
-#            # Update Purchase Order line
+            # Update Purchase Order line
             self.write(cr, uid, res, {
                 'integrated_trade_sale_order_line_id': sol_id,
             }, context=ctx)
@@ -144,12 +157,20 @@ class purchase_order_line(Model):
                             _("""You can not change the product. %s"""
                                 """Please remove this line and choose a"""
                                 """ a new one.""" % (pol.product_id.name)))
+                    if 'product_uom' in vals.keys():
+                        raise except_osv(
+                            _("Error!"),
+                            _("""You can not change the UoM of the Product"""
+                            """ %s.""" % (pol.product_id.name)))
+                    if 'price_unit' in vals.keys():
+                        raise except_osv(
+                            _("Error!"),
+                            _("""You can not change the Product Price '%s'."""
+                            """ Please ask to your supplier.""" % (
+                                pol.product_id.name)))
                     if 'product_qty' in vals:
                         sol_vals['product_uos_qty'] = pol.product_qty
                         sol_vals['product_uom_qty'] = pol.product_qty
-                    if 'product_uom' in vals:
-                        sol_vals['product_uos'] = pol.product_uom.id
-                        sol_vals['product_uom'] = pol.product_uom.id
                     # TODO Manage discount / delay / tax
                     sol_obj.write(
                         cr, rit.supplier_user_id.id,
