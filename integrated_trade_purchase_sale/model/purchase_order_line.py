@@ -44,17 +44,6 @@ class purchase_order_line(Model):
         ),
     }
 
-    # # Private Function
-    # def _get_res_integrated_trade(
-    #         self, cr, uid, supplier_partner_id, customer_company_id,
-    #         context=None):
-    #     rit_obj = self.pool['res.integrated.trade']
-    #     rit_id = rit_obj.search(cr, uid, [
-    #         ('supplier_partner_id', '=', supplier_partner_id),
-    #         ('customer_company_id', '=', customer_company_id),
-    #     ], context=context)[0]
-    #     return rit_obj.browse(cr, uid, rit_id, context=context)
-
     # Overload Section
     def create(self, cr, uid, vals, context=None):
         """Create the according Sale Order Line."""

@@ -69,17 +69,6 @@ class purchase_order(Model):
             ['integrated_trade', 'invoice_method']),
     ]
 
-    # # Private Function
-    # def _get_res_integrated_trade(
-    #         self, cr, uid, supplier_partner_id, customer_company_id,
-    #         context=None):
-    #     rit_obj = self.pool['res.integrated.trade']
-    #     rit_id = rit_obj.search(cr, uid, [
-    #         ('supplier_partner_id', '=', supplier_partner_id),
-    #         ('customer_company_id', '=', customer_company_id),
-    #     ], context=context)[0]
-    #     return rit_obj.browse(cr, uid, rit_id, context=context)
-
     # View Section
     def integrated_trade_request(self, cr, uid, ids, context=None):
         return self.print_quotation(cr, uid, ids, context=context)

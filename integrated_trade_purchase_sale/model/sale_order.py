@@ -69,17 +69,6 @@ class sale_order(Model):
             ['integrated_trade', 'order_policy']),
     ]
 
-    # Private Function
-    # def _get_res_integrated_trade(
-    #         self, cr, uid, customer_partner_id, supplier_company_id,
-    #         context=None):
-    #     rit_obj = self.pool['res.integrated.trade']
-    #     rit_id = rit_obj.search(cr, uid, [
-    #         ('customer_partner_id', '=', customer_partner_id),
-    #         ('supplier_company_id', '=', supplier_company_id),
-    #     ], context=context)[0]
-    #     return rit_obj.browse(cr, uid, rit_id, context=context)
-
     # Overload Section
     def create(self, cr, uid, vals, context=None):
         rit_obj = self.pool['res.integrated.trade']
