@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Purchase module for OpenERP
+#    Integrated Trade - Account module for Odoo
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -20,52 +20,28 @@
 #
 ##############################################################################
 
-from openerp import SUPERUSER_ID
 from openerp.osv import fields
 from openerp.osv.orm import Model
-from openerp.osv.osv import except_osv
-from openerp.tools.translate import _
 
 
-class stock_picking(Model):
-    _inherit = 'stock.picking'
+class accountInvoice(Model):
+    _inherit = 'account.invoice'
 
     # Fields Function Section
     def _get_integrated_trade(
             self, cr, uid, ids, field_name, arg, context=None):
         res = {}
-        for sp in self.browse(cr, SUPERUSER_ID, ids, context=context):
-            res[sp.id] = sp.partner_id.integrated_trade
+        for ai in self.browse(cr, uid, ids, context=context):
+            res[ai.id] = ai.partner_id.integrated_trade
         return res
 
     # Columns Section
     _columns = {
         'integrated_trade': fields.function(
-            _get_integrated_trade, type='boolean',
-            string='Integrated Trade',
-            store={'stock.picking': (
+            _get_integrated_trade, type='boolean', string='Integrated Trade',
+            store={'account.invoice': (
                 lambda self, cr, uid, ids, context=None: ids,
                 [
                     'partner_id',
                 ], 10)}),
-        'integrated_trade_picking_out_id': fields.many2one(
-            'stock.picking.out', string='Integrated Trade Picking Out',
-            readonly=True,
-        ),
-        'integrated_trade_picking_in_id': fields.many2one(
-            'stock.picking.in', string='Integrated Trade Picking In',
-            readonly=True,
-        ),
     }
-
-    # Overload Section
-    def copy(self, cr, uid, id, default=None, context=None):
-        sp = self.browse(cr, uid, id, context=context)
-        if sp.integrated_trade:
-            raise except_osv(
-                _("Integrated Trade - Unimplemented Feature!"),
-                _(
-                    """You can not duplicate a Picking that come from"""
-                    """ Integrated Trade."""))
-        return super(stock_picking, self).copy(
-            cr, uid, id, default=default, context=context)

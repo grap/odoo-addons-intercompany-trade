@@ -44,10 +44,15 @@
             sequence="2"/>
 
 <!-- Model: res.integrated.trade -->
-        <menuitem id="menu_res_integrated_trade"
+        <menuitem id="menu_integrated_trade"
             parent="base.menu_res_company_global"
-            action="action_res_integrated_trade"
+            name="Integrated Trade"
             sequence="25"/>
+
+        <menuitem id="menu_res_integrated_trade"
+            parent="menu_integrated_trade"
+            action="action_res_integrated_trade"
+            sequence="1"/>
 
 
     </data>

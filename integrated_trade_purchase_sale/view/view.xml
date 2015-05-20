@@ -37,7 +37,7 @@
                     <field name="integrated_trade_sale_order_id" groups="integrated_trade_base.integrated_trade_manager"/>
                 </field>
                 <xpath expr="//button[@name='wkf_send_rfq' and @states='draft']" position="after">
-                    <button name="integrated_trade_request" type="object" string="Send Request"
+                    <button name="integrated_trade_request" type="object" string="Confirm Request"
                         attrs="{'invisible': ['|', ('integrated_trade','=', False), ('state', 'not in', 'draft')]}"
                     />
                 </xpath>

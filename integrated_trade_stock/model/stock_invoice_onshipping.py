@@ -31,13 +31,15 @@ class stock_invoice_onshipping(TransientModel):
     # View Section
     def create_invoice(self, cr, uid, ids, context=None):
         sp_obj = self.pool['stock.picking']
-        sp_id = context.get('active_id', False)
-        sp = sp_obj.browse(cr, uid, sp_id, context=context)
-        if sp.integrated_trade:
-            raise except_osv(
-                _("Integrated Trade - Unimplemented Feature!"),
-                _(
-                    """You can not Invoice a Picking that come from"""
-                    """ Integrated Trade."""))
+        sp_ids = context.get('active_ids', False)
+        for sp in sp_obj.browse(cr, uid, sp_ids, context=context):
+            if sp.type != 'out' and sp.integrated_trade:
+                raise except_osv(
+                    _("Integrated Trade - Unimplemented Feature!"),
+                    _(
+                        """You can not Invoice a Picking Out that come from"""
+                        """ Integrated Trade."""
+                        """ Only Picking In can be invoiced. Please ask"""
+                        """ to your supplier to invoice the Trade."""))
         return super(stock_invoice_onshipping, self).create_invoice(
             cr, uid, ids, context=context)
