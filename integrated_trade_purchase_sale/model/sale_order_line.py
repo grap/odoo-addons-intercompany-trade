@@ -43,25 +43,27 @@ class sale_order_line(Model):
         ),
     }
 
-    # Private Function
-    def _get_res_integrated_trade(
-            self, cr, uid, customer_partner_id, supplier_company_id,
-            context=None):
-        rit_obj = self.pool['res.integrated.trade']
-        rit_id = rit_obj.search(cr, uid, [
-            ('customer_partner_id', '=', customer_partner_id),
-            ('supplier_company_id', '=', supplier_company_id),
-        ], context=context)[0]
-        return rit_obj.browse(cr, uid, rit_id, context=context)
+    # # Private Function
+    # def _get_res_integrated_trade(
+    #         self, cr, uid, customer_partner_id, supplier_company_id,
+    #         context=None):
+    #     rit_obj = self.pool['res.integrated.trade']
+    #     rit_id = rit_obj.search(cr, uid, [
+    #         ('customer_partner_id', '=', customer_partner_id),
+    #         ('supplier_company_id', '=', supplier_company_id),
+    #     ], context=context)[0]
+    #     return rit_obj.browse(cr, uid, rit_id, context=context)
 
     # Overload Section
     def create(self, cr, uid, vals, context=None):
         """Create the according Purchase Order Line."""
-        context = context and context or {}
+        rit_obj = self.pool['res.integrated.trade']
         pp_obj = self.pool['product.product']
         so_obj = self.pool['sale.order']
         pol_obj = self.pool['purchase.order.line']
         psi_obj = self.pool['product.supplierinfo']
+
+        context = context and context or {}
 
         so = so_obj.browse(cr, uid, vals['order_id'], context=context)
         create_purchase_order_line = (
@@ -76,8 +78,9 @@ class sale_order_line(Model):
             ctx = context.copy()
             ctx['integrated_trade_do_not_propagate'] = True
 
-            rit = self._get_res_integrated_trade(
-                cr, uid, so.partner_id.id, so.company_id.id, context=context)
+            rit = rit_obj._get_integrated_trade_by_partner_company(
+                cr, uid, so.partner_id.id, so.company_id.id, 'out',
+                context=context)
 
             # Create associated Purchase Order Line
             # TODO Check if taxes are changed (with products value)
@@ -147,9 +150,11 @@ class sale_order_line(Model):
     def write(self, cr, uid, ids, vals, context=None):
         """"- Update the according Purchase Order Line with new data;
             - Block any changes of product."""
-        context = context and context or {}
+        rit_obj = self.pool['res.integrated.trade']
         pol_obj = self.pool['purchase.order.line']
         pp_obj = self.pool['product.product']
+
+        context = context and context or {}
 
         res = super(sale_order_line, self).write(
             cr, uid, ids, vals, context=context)
@@ -160,9 +165,9 @@ class sale_order_line(Model):
             for sol in self.browse(cr, SUPERUSER_ID, ids, context=context):
                 pol = sol.integrated_trade_purchase_order_line_id
                 if pol:
-                    rit = self._get_res_integrated_trade(
+                    rit = rit_obj._get_integrated_trade_by_partner_company(
                         cr, uid, sol.order_id.partner_id.id,
-                        sol.order_id.company_id.id, context=context)
+                        sol.order_id.company_id.id, 'out', context=context)
                     customer_pp = pp_obj.browse(
                         cr, SUPERUSER_ID, pol.product_id.id, context=context)
                     pol_vals = {}
@@ -199,14 +204,16 @@ class sale_order_line(Model):
 
     def unlink(self, cr, uid, ids, context=None):
         """"- Unlink the according Purchase Order Line."""
+        rit_obj = self.pool['res.integrated.trade']
         pol_obj = self.pool['purchase.order.line']
+
         if 'integrated_trade_do_not_propagate' not in context.keys():
             ctx = context.copy()
             ctx['integrated_trade_do_not_propagate'] = True
             for sol in self.browse(cr, uid, ids, context=context):
-                rit = self._get_res_integrated_trade(
+                rit = rit_obj._get_integrated_trade_by_partner_company(
                     cr, uid, sol.order_id.partner_id.id,
-                    sol.order_id.company_id.id, context=context)
+                    sol.order_id.company_id.id, 'out', context=context)
                 pol_obj.unlink(
                     cr, rit.customer_user_id.id,
                     [sol.integrated_trade_purchase_order_line_id.id],

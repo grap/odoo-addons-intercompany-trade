@@ -70,22 +70,24 @@ class sale_order(Model):
     ]
 
     # Private Function
-    def _get_res_integrated_trade(
-            self, cr, uid, customer_partner_id, supplier_company_id,
-            context=None):
-        rit_obj = self.pool['res.integrated.trade']
-        rit_id = rit_obj.search(cr, uid, [
-            ('customer_partner_id', '=', customer_partner_id),
-            ('supplier_company_id', '=', supplier_company_id),
-        ], context=context)[0]
-        return rit_obj.browse(cr, uid, rit_id, context=context)
+    # def _get_res_integrated_trade(
+    #         self, cr, uid, customer_partner_id, supplier_company_id,
+    #         context=None):
+    #     rit_obj = self.pool['res.integrated.trade']
+    #     rit_id = rit_obj.search(cr, uid, [
+    #         ('customer_partner_id', '=', customer_partner_id),
+    #         ('supplier_company_id', '=', supplier_company_id),
+    #     ], context=context)[0]
+    #     return rit_obj.browse(cr, uid, rit_id, context=context)
 
     # Overload Section
     def create(self, cr, uid, vals, context=None):
-        context = context and context or {}
+        rit_obj = self.pool['res.integrated.trade']
         rp_obj = self.pool['res.partner']
         po_obj = self.pool['purchase.order']
         iv_obj = self.pool['ir.values']
+
+        context = context and context or {}
 
         rp = rp_obj.browse(cr, uid, vals['partner_id'], context=context)
         create_purchase_order = (
@@ -105,8 +107,9 @@ class sale_order(Model):
 
             # Create associated Purchase Order
             so = self.browse(cr, uid, res, context=context)
-            rit = self._get_res_integrated_trade(
-                cr, uid, so.partner_id.id, so.company_id.id, context=context)
+            rit = rit_obj._get_integrated_trade_by_partner_company(
+                cr, uid, so.partner_id.id, so.company_id.id, 'out',
+                context=context)
 
             # Get default warehouse
             sw_id = iv_obj.get_default(
@@ -171,13 +174,16 @@ class sale_order(Model):
     def action_button_confirm(self, cr, uid, ids, context=None):
         sp_obj = self.pool['stock.picking']
         spp_wizard_obj = self.pool['stock.partial.picking']
+        rit_obj = self.pool['res.integrated.trade']
         wf_service = netsvc.LocalService('workflow')
+
         res = super(sale_order, self).action_button_confirm(
             cr, uid, ids, context=context)
         so = self.browse(cr, uid, ids[0], context=context)
         if so.integrated_trade:
-            rit = self._get_res_integrated_trade(
-                cr, uid, so.partner_id.id, so.company_id.id, context=context)
+            rit = rit_obj._get_integrated_trade_by_partner_company(
+                cr, uid, so.partner_id.id, so.company_id.id, 'out',
+                context=context)
 
             # Validate The according Purchase Order
             wf_service.trg_validate(

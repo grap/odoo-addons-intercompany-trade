@@ -69,16 +69,16 @@ class purchase_order(Model):
             ['integrated_trade', 'invoice_method']),
     ]
 
-    # Private Function
-    def _get_res_integrated_trade(
-            self, cr, uid, supplier_partner_id, customer_company_id,
-            context=None):
-        rit_obj = self.pool['res.integrated.trade']
-        rit_id = rit_obj.search(cr, uid, [
-            ('supplier_partner_id', '=', supplier_partner_id),
-            ('customer_company_id', '=', customer_company_id),
-        ], context=context)[0]
-        return rit_obj.browse(cr, uid, rit_id, context=context)
+    # # Private Function
+    # def _get_res_integrated_trade(
+    #         self, cr, uid, supplier_partner_id, customer_company_id,
+    #         context=None):
+    #     rit_obj = self.pool['res.integrated.trade']
+    #     rit_id = rit_obj.search(cr, uid, [
+    #         ('supplier_partner_id', '=', supplier_partner_id),
+    #         ('customer_company_id', '=', customer_company_id),
+    #     ], context=context)[0]
+    #     return rit_obj.browse(cr, uid, rit_id, context=context)
 
     # View Section
     def integrated_trade_request(self, cr, uid, ids, context=None):
@@ -86,6 +86,7 @@ class purchase_order(Model):
 
     # Overload Section
     def create(self, cr, uid, vals, context=None):
+        rit_obj = self.pool['res.integrated.trade']
         rp_obj = self.pool['res.partner']
         so_obj = self.pool['sale.order']
         iv_obj = self.pool['ir.values']
@@ -108,8 +109,9 @@ class purchase_order(Model):
 
             # Create associated Sale Order
             po = self.browse(cr, uid, res, context=context)
-            rit = self._get_res_integrated_trade(
-                cr, uid, po.partner_id.id, po.company_id.id, context=context)
+            rit = rit_obj._get_integrated_trade_by_partner_company(
+                cr, uid, po.partner_id.id, po.company_id.id, 'in',
+                context=context)
 
             # WEIRD: sale_order has a bad _get_default_shop base on the
             # company of the current user, so we request ir.values
@@ -142,9 +144,12 @@ class purchase_order(Model):
         return res
 
     def write(self, cr, uid, ids, vals, context=None):
+        rit_obj = self.pool['res.integrated.trade']
+
         context = context if context else {}
         res = super(purchase_order, self).write(
             cr, uid, ids, vals, context=context)
+
         if 'integrated_trade_do_not_propagate' not in context.keys():
             for po in self.browse(cr, uid, ids, context=context):
                 if po.integrated_trade:
@@ -164,9 +169,9 @@ class purchase_order(Model):
                                 """ Order because of 'Integrated 'Trade'"""
                                 """ Rules. Please cancel this Purchase Order"""
                                 """  and create a new one, duplicating it."""))
-                    rit = self._get_res_integrated_trade(
+                    rit = rit_obj._get_integrated_trade_by_partner_company(
                         cr, uid, po.partner_id.id, po.company_id.id,
-                        context=context)
+                        'in', context=context)
                     if vals.get('state', False) == 'sent':
                         # Change state of purchase order to 'sent' must change
                         # the status of the Sale Order (more easy to do that
@@ -197,15 +202,17 @@ class purchase_order(Model):
 
     def unlink(self, cr, uid, ids, context=None):
         """Delete according Purchase order"""
-        context = context if context else {}
+        rit_obj = self.pool['res.integrated.trade']
         so_obj = self.pool['sale.order']
+
+        context = context if context else {}
         if 'integrated_trade_do_not_propagate' not in context.keys():
             ctx = context.copy()
             ctx['integrated_trade_do_not_propagate'] = True
             for po in self.browse(cr, uid, ids, context=context):
-                rit = self._get_res_integrated_trade(
-                    cr, uid, po.partner_id.id,
-                    po.company_id.id, context=context)
+                rit = self._get_integrated_trade_by_partner_company(
+                    cr, uid, po.partner_id.id, po.company_id.id,
+                    'in', context=context)
                 if po.integrated_trade:
                     so_obj.unlink(
                         cr, rit.supplier_user_id.id,

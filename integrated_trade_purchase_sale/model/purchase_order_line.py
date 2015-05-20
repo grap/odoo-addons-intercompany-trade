@@ -44,20 +44,21 @@ class purchase_order_line(Model):
         ),
     }
 
-    # Private Function
-    def _get_res_integrated_trade(
-            self, cr, uid, supplier_partner_id, customer_company_id,
-            context=None):
-        rit_obj = self.pool['res.integrated.trade']
-        rit_id = rit_obj.search(cr, uid, [
-            ('supplier_partner_id', '=', supplier_partner_id),
-            ('customer_company_id', '=', customer_company_id),
-        ], context=context)[0]
-        return rit_obj.browse(cr, uid, rit_id, context=context)
+    # # Private Function
+    # def _get_res_integrated_trade(
+    #         self, cr, uid, supplier_partner_id, customer_company_id,
+    #         context=None):
+    #     rit_obj = self.pool['res.integrated.trade']
+    #     rit_id = rit_obj.search(cr, uid, [
+    #         ('supplier_partner_id', '=', supplier_partner_id),
+    #         ('customer_company_id', '=', customer_company_id),
+    #     ], context=context)[0]
+    #     return rit_obj.browse(cr, uid, rit_id, context=context)
 
     # Overload Section
     def create(self, cr, uid, vals, context=None):
         """Create the according Sale Order Line."""
+        rit_obj = self.pool['res.integrated.trade']
         po_obj = self.pool['purchase.order']
         sol_obj = self.pool['sale.order.line']
         pp_obj = self.pool['product.product']
@@ -76,8 +77,9 @@ class purchase_order_line(Model):
             ctx = context.copy()
             ctx['integrated_trade_do_not_propagate'] = True
 
-            rit = self._get_res_integrated_trade(
-                cr, uid, po.partner_id.id, po.company_id.id, context=context)
+            rit = rit_obj._get_integrated_trade_by_partner_company(
+                cr, uid, po.partner_id.id, po.company_id.id, 'in',
+                context=context)
 
             # Create associated Sale Order Line
             pol = self.browse(cr, uid, res, context=context)
@@ -137,6 +139,8 @@ class purchase_order_line(Model):
         if not context:
             context = {}
         sol_obj = self.pool['sale.order.line']
+        rit_obj = self.pool['res.integrated.trade']
+
 
         res = super(purchase_order_line, self).write(
             cr, uid, ids, vals, context=context)
@@ -146,9 +150,9 @@ class purchase_order_line(Model):
             ctx['integrated_trade_do_not_propagate'] = True
             for pol in self.browse(cr, uid, ids, context=context):
                 if pol.integrated_trade_sale_order_line_id:
-                    rit = self._get_res_integrated_trade(
+                    rit = rit_obj._get_integrated_trade_by_partner_company(
                         cr, uid, pol.order_id.partner_id.id,
-                        pol.order_id.company_id.id, context=context)
+                        pol.order_id.company_id.id, 'in', context=context)
                     sol_vals = {}
 
                     if 'product_id' in vals.keys():
@@ -183,13 +187,14 @@ class purchase_order_line(Model):
         if not context:
             context = {}
         sol_obj = self.pool['sale.order.line']
+        rit_obj = self.pool['res.integrated.trade']
         if 'integrated_trade_do_not_propagate' not in context.keys():
             ctx = context.copy()
             ctx['integrated_trade_do_not_propagate'] = True
             for pol in self.browse(cr, uid, ids, context=context):
-                rit = self._get_res_integrated_trade(
+                rit = rit_obj._get_integrated_trade_by_partner_company(
                     cr, uid, pol.order_id.partner_id.id,
-                    pol.order_id.company_id.id, context=context)
+                    pol.order_id.company_id.id, 'in', context=context)
                 sol_obj.unlink(
                     cr, rit.supplier_user_id.id,
                     [pol.integrated_trade_sale_order_line_id.id],

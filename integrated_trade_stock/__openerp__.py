@@ -25,7 +25,7 @@
     'category': 'Purchase',
     'description': """
 Module for Integrated Trade for Stock Module
-==============================================
+============================================
 
 Features:
 ---------

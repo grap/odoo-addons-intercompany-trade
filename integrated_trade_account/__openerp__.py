@@ -51,6 +51,7 @@ Copyright, Authors and Licence:
         'demo/ir_property.xml',
     ],
     'data': [
+        'view/view.xml',
     ],
     'auto_install': True,
 }

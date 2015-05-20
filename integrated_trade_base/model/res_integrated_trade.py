@@ -81,7 +81,32 @@ class res_integrated_trade(Model):
     ]
 
     # Custom Section
+    def _get_integrated_trade_by_partner_company(
+            self, cr, uid, partner_id, company_id, type,
+            context=None):
+        """
+        Return a res.integrated.trade.
+        * If type='in', partner_id is a supplier in the customer company;
+          (purchase workflow)
+        * If type='out', partner_id is a customer in the supplier company;
+          (sale workflow)
+        """
+        if type == 'in':
+            domain = [
+                ('supplier_partner_id', '=', partner_id),
+                ('customer_company_id', '=', company_id),
+            ]
+        else:
+            domain = [
+                ('customer_partner_id', '=', partner_id),
+                ('supplier_company_id', '=', company_id),
+            ]
+        rit_id = self.search(cr, uid, domain, context=context)[0]
+        return self.browse(cr, uid, rit_id, context=context)
+
     def _prepare_partner_from_company(self, cr, uid, company_id, context=None):
+        """ Return vals for the creation of a partner, depending of """
+        """ a company_id."""
         rc_obj = self.pool['res.company']
         rc = rc_obj.browse(cr, uid, company_id, context=context)
         return {
