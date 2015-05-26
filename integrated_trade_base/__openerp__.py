@@ -70,4 +70,7 @@ Copyright, Authors and Licence:
         'view/action.xml',
         'view/menu.xml',
     ],
+    'css': [
+        'static/src/css/itb.css',
+    ],
 }

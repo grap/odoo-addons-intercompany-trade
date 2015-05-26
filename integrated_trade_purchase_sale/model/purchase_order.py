@@ -199,7 +199,7 @@ class purchase_order(Model):
             ctx = context.copy()
             ctx['integrated_trade_do_not_propagate'] = True
             for po in self.browse(cr, uid, ids, context=context):
-                rit = self._get_integrated_trade_by_partner_company(
+                rit = rit_obj._get_integrated_trade_by_partner_company(
                     cr, uid, po.partner_id.id, po.company_id.id,
                     'in', context=context)
                 if po.integrated_trade:

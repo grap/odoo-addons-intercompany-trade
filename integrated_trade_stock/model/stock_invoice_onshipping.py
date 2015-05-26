@@ -52,6 +52,5 @@ class stock_invoice_onshipping(TransientModel):
                             """ to your supplier to invoice the Trade."""))
         res = super(stock_invoice_onshipping, self).create_invoice(
             cr, uid, ids, context=context)
-        import pdb; pdb.set_trace()
 
         return res

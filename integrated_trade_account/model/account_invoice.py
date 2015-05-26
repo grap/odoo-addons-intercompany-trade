@@ -23,6 +23,7 @@
 from openerp.osv import fields
 from openerp.osv.osv import except_osv
 from openerp.osv.orm import Model
+from openerp.tools.translate import _
 
 
 class AccountInvoice(Model):
@@ -70,15 +71,7 @@ class AccountInvoice(Model):
 
     # Overload Section
     def create(self, cr, uid, vals, context=None):
-        print "============================================="
-        print "============================================="
-        print "******************************** CONTEXT"
-        print context
-        print "******************************** VALS"
-        print vals
-
         rp_obj = self.pool['res.partner']
-        iv_obj = self.pool['ir.values']
 
         rp = rp_obj.browse(cr, uid, vals['partner_id'], context=context)
         create_account_invoice = (
@@ -109,22 +102,11 @@ class AccountInvoice(Model):
                 raise except_osv(
                     _("Unimplemented Feature!"),
                     _("""You can not change create an invoice %s with a"""
-                    """ partner flagged as 'Integratedd Trade'. """ % (
-                        ai.type)))
+                        """ partner flagged as 'Integratedd Trade'. """ % (
+                            ai.type)))
             rit = self._get_res_integrated_trade(
                 cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
                 context=context)
-
-            print rit.name
-
-            # # WEIRD: sale_order has a bad _get_default_shop base on the
-            # # company of the current user, so we request ir.values
-            # # to have the correct one
-            #
-            # shop_id = iv_obj.get_default(
-            #     cr, rit.supplier_user_id.id, 'sale.order', 'shop_id',
-            #     company_id=rit.supplier_company_id.id)
-
 
             if create_type == 'out_invoice':
                 # A Purchase Invoice Create a Sale Invoice
@@ -161,7 +143,6 @@ class AccountInvoice(Model):
                 cr, other_user_id, ai_other_vals, context=ctx)
             ai_other = self.browse(
                 cr, other_user_id, ai_other_id, context=context)
-
 
             # Update Proper Account Invoice
             self.write(cr, uid, [ai.id], {

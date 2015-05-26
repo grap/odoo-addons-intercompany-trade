@@ -21,7 +21,6 @@
 ##############################################################################
 
 from openerp.osv import fields
-from openerp.osv.osv import except_osv
 from openerp.osv.orm import Model
 
 
@@ -40,14 +39,12 @@ class AccountInvoiceLine(Model):
         ),
     }
 
-
     # Overload Section
     def create(self, cr, uid, vals, context=None):
         """Create the according Account Invoice Line."""
         ai_obj = self.pool['account.invoice']
-        # sol_obj = self.pool['sale.order.line']
-        pp_obj = self.pool['product.product']
-        psi_obj = self.pool['product.supplierinfo']
+        # pp_obj = self.pool['product.product']
+        # psi_obj = self.pool['product.supplierinfo']
 
         ai = ai_obj.browse(cr, uid, vals['invoice_id'], context=context)
         create_account_invoice_line = (
@@ -58,12 +55,15 @@ class AccountInvoiceLine(Model):
         res = super(AccountInvoiceLine, self).create(
             cr, uid, vals, context=context)
 
-        # if create_sale_order_line:
+        if create_account_invoice_line:
+            pass
+        return res
         #     ctx = context.copy()
         #     ctx['integrated_trade_do_not_propagate'] = True
         #
         #     rit = ai_obj._get_res_integrated_trade(
-        #         cr, uid, ai.partner_id.id, ai.company_id.id, ai.type, context=context)
+        #         cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
+        #         context=context)
         #
         #     # Create associated Sale Order Line
         #     ail = self.browse(cr, uid, res, context=context)
@@ -81,7 +81,8 @@ class AccountInvoiceLine(Model):
         #                     pol.product_id.name)))
         #     psi = psi_obj.browse(cr, uid, psi_ids[0], context=context)
         #     supplier_pp = pp_obj.browse(
-        #         cr, SUPERUSER_ID, psi.supplier_product_id.id, context=context)
+        #         cr, SUPERUSER_ID, psi.supplier_product_id.id,
+        #         context=context)
         #
         #     price_info = _compute_integrated_supplier_price(
         #         self.pool, cr, SUPERUSER_ID, supplier_pp, pol.product_id,
@@ -151,8 +152,8 @@ class AccountInvoiceLine(Model):
     #                 if 'price_unit' in vals.keys():
     #                     raise except_osv(
     #                         _("Error!"),
-    #                         _("""You can not change the Product Price '%s'."""
-    #                             """ Please ask to your supplier.""" % (
+    #                         _("""You can not change the Product Price"""
+    #                             """ '%s'. Please ask to your supplier.""" % (
     #                                 pol.product_id.name)))
     #                 if 'product_qty' in vals:
     #                     sol_vals['product_uos_qty'] = pol.product_qty

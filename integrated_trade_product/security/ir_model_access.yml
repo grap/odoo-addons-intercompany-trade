@@ -29,24 +29,6 @@
     perm_write: false
     perm_unlink: false
 
-- !record {model: ir.model.access, id: res_integrated_trade_user_access}:
-    group_id: integrated_trade_base.integrated_trade_user
-    model_id: model_res_integrated_trade
-    name: Integrated Trade - User
-    perm_read: true
-    perm_create: false
-    perm_write: false
-    perm_unlink: false
-
-- !record {model: ir.model.access, id: res_integrated_trade_manager_access}:
-    group_id: integrated_trade_base.integrated_trade_manager
-    model_id: model_res_integrated_trade
-    name: Integrated Trade - Manager
-    perm_read: true
-    perm_create: true
-    perm_write: true
-    perm_unlink: true
-
 # TODO WHAT THE FUCK ?!?
 #- !record {model: ir.model.access, id: product_supplier_info_sale_manager_access}:
 #    group_id: base.group_sale_manager

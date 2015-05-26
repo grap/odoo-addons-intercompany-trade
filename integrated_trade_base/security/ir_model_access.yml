@@ -21,7 +21,6 @@
 ##############################################################################
 
 - !record {model: ir.model.access, id: res_integrated_trade_user_access}:
-    group_id: integrated_trade_user
     model_id: model_res_integrated_trade
     name: Integrated Trade - User
     perm_read: true
