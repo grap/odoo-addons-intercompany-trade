@@ -105,8 +105,10 @@ class res_integrated_trade(Model):
         return self.browse(cr, uid, rit_id, context=context)
 
     def _prepare_partner_from_company(self, cr, uid, company_id, context=None):
-        """ Return vals for the creation of a partner, depending of """
-        """ a company_id."""
+        """
+            Return vals for the creation of a partner, depending of
+            a company_id.
+        """
         rc_obj = self.pool['res.company']
         rc = rc_obj.browse(cr, uid, company_id, context=context)
         return {
