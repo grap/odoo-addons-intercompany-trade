@@ -46,10 +46,13 @@ class AccountInvoiceLine(Model):
         # pp_obj = self.pool['product.product']
         # psi_obj = self.pool['product.supplierinfo']
 
-        ai = ai_obj.browse(cr, uid, vals['invoice_id'], context=context)
-        create_account_invoice_line = (
-            not context.get('integrated_trade_do_not_propagate', False) and
-            ai.integrated_trade)
+        if vals.get('invoice_id', False):
+            ai = ai_obj.browse(cr, uid, vals['invoice_id'], context=context)
+            create_account_invoice_line = (
+                not context.get('integrated_trade_do_not_propagate', False) and
+                ai.integrated_trade)
+        else:
+            create_account_invoice_line = False
 
         # Call Super: Create
         res = super(AccountInvoiceLine, self).create(
