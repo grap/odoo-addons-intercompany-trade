@@ -26,8 +26,6 @@
     street2: Télédoc 136 Cedex 12
     zip: 75572
     city: Paris
-    required: True
-#    country_id: base.fr
 
 - !record {model: res.company, id: supplier_company}:
     name: French Ministry of Agriculture SUPPLIER
@@ -35,5 +33,3 @@
     street2: SP 07
     zip: 75349
     city: Paris
-    required: True
-#    country_id: base.fr
