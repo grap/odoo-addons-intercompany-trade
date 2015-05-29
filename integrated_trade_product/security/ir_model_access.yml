@@ -29,12 +29,22 @@
     perm_write: false
     perm_unlink: false
 
-# TODO WHAT THE FUCK ?!?
-#- !record {model: ir.model.access, id: product_supplier_info_sale_manager_access}:
-#    group_id: base.group_sale_manager
-#    model_id: model_product_supplierinfo
-#    name: Product Supplier Info - Sale Manager
-#    perm_read: true
-#    perm_create: true
-#    perm_write: true
-#    perm_unlink: true
+# Give write access to integrated trade user for product.supplier_info
+- !record {model: ir.model.access, id: product_supplierinfo_user_access}:
+    group_id: integrated_trade_base.integrated_trade_user
+    model_id: product.model_product_supplierinfo
+    name: Product Supplier Info - Integrated Trade User
+    perm_read: true
+    perm_create: true
+    perm_write: true
+    perm_unlink: true
+
+# Give write access to integrated trade user for pricelist.partnerinfo
+- !record {model: ir.model.access, id: pricelist_partnerinfo_user_access}:
+    group_id: integrated_trade_base.integrated_trade_user
+    model_id: product.model_pricelist_partnerinfo
+    name: Pricelist Partner Info - Integrated Trade User
+    perm_read: true
+    perm_create: true
+    perm_write: true
+    perm_unlink: true

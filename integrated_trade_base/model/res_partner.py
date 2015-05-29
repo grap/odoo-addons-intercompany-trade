@@ -22,9 +22,11 @@
 
 from openerp.osv import fields
 from openerp.osv.orm import Model
+from openerp.osv.osv import except_osv
+from openerp.tools.translate import _
 
 
-class res_partner(Model):
+class ResPartner(Model):
     _inherit = 'res.partner'
 
     # Columns section
@@ -34,26 +36,38 @@ class res_partner(Model):
             help="Indicate that this partner is a company in Odoo."),
     }
 
-    # TODO
-    # Ref, check on write / create / delete / to have the possibility to
-    # allow user to change pricelist;
-    # if pricelist_changed, --> update the product;
-    def _check_integrated_trade_access(self, cr, uid, ids, context=None):
+    def _integrated_fields_allowed(self):
+        """Overload this function to allow basic to change
+        some fields for integrated partner"""
+        return []
+
+    def _check_integrated_trade_access(
+            self, cr, uid, ids, fields, context=None):
         """Restrict access of partner set as integrated_trade for only
         'integrated_trade_manager' users."""
+        unallowed_fields =\
+            set(fields) - set(self._integrated_fields_allowed())
         ru_obj = self.pool['res.users']
         if not ru_obj.has_group(
                 cr, uid,
                 'integrated_trade_base.integrated_trade_manager'):
             for rp in self.browse(cr, uid, ids, context=context):
-                if rp.integrated_trade:
-                    return False
-        return True
+                if rp.integrated_trade and unallowed_fields:
+                    raise except_osv(
+                        _("Access Denied!"),
+                        _(
+                            """Error: You have no right to create or"""
+                            """ update a partner that is set as"""
+                            """ 'Integrated Trade'"""))
 
-    _constraints = [
-        (
-            _check_integrated_trade_access,
-            """Error: You have no right to create or update a partner"""
-            """ that is set as 'Integrated Trade'""",
-            []),
-    ]
+    def write(self, cr, uid, ids, vals, context=None):
+        self._check_integrated_trade_access(
+            cr, uid, ids, vals.keys(), context=context)
+        return super(ResPartner, self).write(
+            cr, uid, ids, vals, context=context)
+
+    def unlink(self, cr, uid, ids, context=None):
+        self._check_integrated_trade_access(
+            cr, uid, ids, [0], context=context)
+        return super(ResPartner, self).unlink(
+            cr, uid, ids, context=context)

@@ -33,4 +33,4 @@
     name: Integrated Trade - Sale Pricelist Item (Discount)
     price_version_id: pricelist_version_discount
     base: 1
-    price_discount: -0.10
+    price_surcharge: -0.10

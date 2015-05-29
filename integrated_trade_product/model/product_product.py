@@ -21,7 +21,7 @@
 ##############################################################################
 
 from openerp.osv.orm import Model
-
+from .custom_tools import _integrated_trade_update_multicompany
 
 class product_product(Model):
     _inherit = 'product.product'
@@ -43,11 +43,10 @@ class product_product(Model):
 
     def write(self, cr, uid, ids, vals, context=None):
         """Update product supplierinfo in customer company, if required"""
-        psi_obj = self.pool['product.supplierinfo']
         res = super(product_product, self).write(
             cr, uid, ids, vals, context=context)
         # Update product in customer database if required
         if list(set(vals.keys()) & set(self._INTEGRATED_FIELDS)):
-            psi_obj._integrated_trade_update_multicompany(
-                cr, uid, ids, context=context)
+            _integrated_trade_update_multicompany(
+                self.pool, cr, uid, ids, context=context)
         return res

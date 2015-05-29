@@ -27,6 +27,7 @@ from openerp.osv.osv import except_osv
 from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp
 
+from .custom_tools import _integrated_trade_prepare
 from .custom_tools import _compute_integrated_prices
 
 
@@ -45,11 +46,11 @@ class integrated_trade_wizard_link_product(TransientModel):
         integrated_trade_id = pitc_obj._get_integrated_trade_id_from_id(
             context.get('active_id'))
         rit = rit_obj.browse(
-            cr, SUPERUSER_ID, integrated_trade_id, context=context)
+            cr, uid, integrated_trade_id, context=context)
         supplier_pp = pp_obj.browse(
-            cr, SUPERUSER_ID, supplier_product_id, context=context)
+            cr, rit.supplier_user_id.id, supplier_product_id, context=context)
         price_info = _compute_integrated_prices(
-            self.pool, cr, SUPERUSER_ID, supplier_pp,
+            self.pool, cr, rit.supplier_user_id.id, supplier_pp,
             rit.supplier_partner_id, rit.pricelist_id, customer_product=False,
             context=context)
         res.update({
@@ -57,10 +58,12 @@ class integrated_trade_wizard_link_product(TransientModel):
             'integrated_trade_id': integrated_trade_id,
             'supplier_product_name': supplier_pp.name,
             'supplier_product_code': supplier_pp.default_code,
-            'supplier_sale_price_vat_excl': (
-                price_info['supplier_sale_price_vat_excl']),
-            'supplier_sale_price_vat_incl': (
-                price_info['supplier_sale_price_vat_incl']),
+            'supplier_sale_price': (
+                price_info['supplier_sale_price']),
+#            'supplier_sale_price_vat_excl': (
+#                price_info['supplier_sale_price_vat_excl']),
+#            'supplier_sale_price_vat_incl': (
+#                price_info['supplier_sale_price_vat_incl']),
         })
         return res
 
@@ -84,12 +87,15 @@ class integrated_trade_wizard_link_product(TransientModel):
             'Supplier Product Code', readonly=True),
         'supplier_product_name': fields.char(
             'Supplier Product Name', readonly=True),
-        'supplier_sale_price_vat_excl': fields.float(
-            'Supplier Sale Price VAT Excluded', readonly=True,
+        'supplier_sale_price': fields.float(
+            string='Supplier Sale Price', readonly=True,
             digits_compute=dp.get_precision('Integrated Product Price')),
-        'supplier_sale_price_vat_incl': fields.float(
-            'Supplier Sale Price VAT Included', readonly=True,
-            digits_compute=dp.get_precision('Integrated Product Price')),
+#        'supplier_sale_price_vat_excl': fields.float(
+#            'Supplier Sale Price VAT Excluded', readonly=True,
+#            digits_compute=dp.get_precision('Integrated Product Price')),
+#        'supplier_sale_price_vat_incl': fields.float(
+#            'Supplier Sale Price VAT Included', readonly=True,
+#            digits_compute=dp.get_precision('Integrated Product Price')),
     }
 
     # Button Section
@@ -100,8 +106,8 @@ class integrated_trade_wizard_link_product(TransientModel):
         pitc_obj = self.pool['product.integrated.trade.catalog']
         for itwlp in self.browse(cr, uid, ids, context=context):
             # Prepare Product Supplierinfo
-            psi_vals = psi_obj._integrated_trade_prepare(
-                cr, uid, itwlp.integrated_trade_id.id,
+            psi_vals = _integrated_trade_prepare(
+                self.pool, cr, uid, itwlp.integrated_trade_id.id,
                 itwlp.supplier_product_id.id,
                 itwlp.customer_product_id.id, context=context)
             psi_vals['product_id'] = itwlp.customer_product_tmpl_id.id

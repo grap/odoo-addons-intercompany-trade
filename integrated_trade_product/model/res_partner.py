@@ -20,25 +20,30 @@
 #
 ##############################################################################
 
-# from openerp import SUPERUSER_ID
 from openerp.osv.orm import Model
+from .custom_tools import _integrated_trade_update
 
-
-class res_partner(Model):
+class ResPartner(Model):
     _inherit = 'res.partner'
+
+    def _integrated_fields_allowed(self):
+        """allow basic user to change pricelist"""
+        res = super(ResPartner, self)._integrated_fields_allowed()
+        res.append('property_product_pricelist')
+        return res
 
     def write(self, cr, uid, ids, vals, context=None):
         """If customer partner pricelist has changed (in supplier database),
         recompute Pricelist info in customer database"""
         rit_obj = self.pool['res.integrated.trade']
         psi_obj = self.pool['product.supplierinfo']
-        res = super(res_partner, self).write(
+        res = super(ResPartner, self).write(
             cr, uid, ids, vals, context=context)
         rit_ids = rit_obj.search(cr, uid, [
             ('customer_partner_id', 'in', ids)
         ], context=context)
         for rit in rit_obj.browse(cr, uid, rit_ids, context=context):
             # Recompute Pricelist
-            psi_obj._integrated_trade_update(
-                cr, uid, rit.id, None, context=context)
+            _integrated_trade_update(
+                self.pool, cr, uid, rit.id, None, context=context)
         return res

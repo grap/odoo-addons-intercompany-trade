@@ -83,14 +83,14 @@ class product_integrated_trade_catalog(Model):
             _get_supplier_price, string='Supplier Sale Price',
             multi='supplier_price', type='float',
             digits_compute=dp.get_precision('Integrated Product Price')),
-        'supplier_sale_price_vat_excl': fields.function(
-            _get_supplier_price, string='Supplier Sale Price VAT Excluded',
-            multi='supplier_price', type='float',
-            digits_compute=dp.get_precision('Integrated Product Price')),
-        'supplier_sale_price_vat_incl': fields.function(
-            _get_supplier_price, string='Supplier Sale Price VAT Included',
-            multi='supplier_price', type='float',
-            digits_compute=dp.get_precision('Integrated Product Price')),
+#        'supplier_sale_price_vat_excl': fields.function(
+#            _get_supplier_price, string='Supplier Sale Price VAT Excluded',
+#            multi='supplier_price', type='float',
+#            digits_compute=dp.get_precision('Integrated Product Price')),
+#        'supplier_sale_price_vat_incl': fields.function(
+#            _get_supplier_price, string='Supplier Sale Price VAT Included',
+#            multi='supplier_price', type='float',
+#            digits_compute=dp.get_precision('Integrated Product Price')),
         'customer_purchase_price': fields.float(
             'Customer Purchase Price', readonly=True),
         'pricelist_id': fields.many2one(
