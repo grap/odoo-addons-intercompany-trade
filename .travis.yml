@@ -19,10 +19,21 @@ virtualenv:
   system_site_packages: true
 
 before_install:
+    # <dependencies> with odoo-addons-misc
+  - sudo pip install GitPython bzr
+  - sudo apt-get install bzr
+  - sudo pip install cairosvg
+  - sudo apt-get install wkhtmltopdf
+    # </dependencies>
 
 install:
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - git clone https://github.com/grap/odoo-addons-misc.git -b 7.0 ${HOME}/odoo-addons-misc
+    # <dependencies> with odoo-addons-misc
+  - git clone https://github.com/OCA/web.git $HOME/web -b 7.0
+  - git clone https://github.com/OCA/pos.git $HOME/pos -b 7.0
+  - git clone https://github.com/OCA/l10n-france.git $HOME/l10n-france -b 7.0
+    # </dependencies>
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly ${VERSION}
   - printf '[options]\n\nrunning_env = dev' > ${HOME}/.openerp_serverrc
