@@ -43,6 +43,7 @@ Copyright, Authors and Licence:
     'depends': [
         'account',
         'integrated_trade_base',
+        'simple_tax_account',
     ],
     'demo': [
         'demo/res_groups.yml',
