@@ -26,8 +26,6 @@ from openerp.osv import fields
 from openerp.osv.orm import Model
 from openerp.addons import decimal_precision as dp
 
-from .custom_tools import _compute_integrated_prices
-
 
 class product_integrated_trade_catalog(Model):
     _name = 'product.integrated.trade.catalog'
@@ -64,13 +62,13 @@ class product_integrated_trade_catalog(Model):
 
     # Fields Function Section
     def _get_supplier_price(self, cr, uid, ids, name, arg, context=None):
+        ppl_obj = self.pool['product.pricelist']
         res = {}
         for pitc in self.browse(cr, SUPERUSER_ID, ids, context=context):
-            res[pitc.id] = _compute_integrated_prices(
+            res[pitc.id] = ppl_obj._compute_integrated_prices(
                 self.pool, cr, SUPERUSER_ID,
                 pitc.supplier_product_id,
-                pitc.supplier_partner_id, pitc.pricelist_id,
-                customer_product=False, context=context)
+                pitc.supplier_partner_id, pitc.pricelist_id, context=context)
         return res
 
     # Column Section

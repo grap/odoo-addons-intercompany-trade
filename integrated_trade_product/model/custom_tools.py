@@ -153,12 +153,11 @@ def _integrated_trade_update(
 #                        customer_tax.amount * 100, supplier_tax.amount * 100))
 
 
-def _compute_integrated_customer_price(
-        pool, cr, uid, supplier_product, customer_product,
-        supplier_price, context=None):
-    # FIXME
-    pass
-    
+#def _compute_integrated_customer_price(
+#        pool, cr, uid, supplier_product, customer_product,
+#        supplier_price, context=None):
+#    # FIXME
+#    pass
 
 #    customer_price = supplier_price
 #    _check_taxes(
@@ -212,16 +211,16 @@ def _integrated_trade_prepare(
     created when a link between two products is done."""
     pp_obj = pool['product.product']
     rit_obj = pool['res.integrated.trade']
+    ppl_obj = pool['product.pricelist']
     rit = rit_obj.browse(
         cr, uid, integrated_trade_id, context=context)
     supplier_pp = pp_obj.browse(
         cr, rit.supplier_user_id.id, supplier_product_id, context=context)
     customer_pp = pp_obj.browse(
         cr, rit.customer_user_id.id, customer_product_id, context=context)
-    price_info = _compute_integrated_prices(
-        pool, cr, rit.supplier_user_id.id, supplier_pp,
-        rit.supplier_partner_id, rit.pricelist_id,
-        customer_product=customer_pp, context=context)
+    price_info = ppl_obj._compute_integrated_prices(
+        cr, rit.supplier_user_id.id, supplier_pp,
+        rit.supplier_partner_id, rit.pricelist_id, context=context)
     return {
         'min_qty': 0.0,
         'name': rit.supplier_partner_id.id,
@@ -233,49 +232,3 @@ def _integrated_trade_prepare(
             'min_quantity': 0.0,
             'price': price_info['supplier_sale_price']}]],
     }
-
-
-def _compute_integrated_prices(
-        pool, cr, uid, supplier_product,
-        supplier_partner, pricelist, customer_product=False,
-        context=None):
-    """
-    This xxx
-
-    :param supplier_product (product.product):
-         Product to sell in the supplier database;
-    :param supplier_partner (res.partner):
-        Supplier in the CUSTOMER Database;
-    : pricelist (product.pricelist):
-        Sale Pricelist in the supplier database;
-#    :param customer_product (product.product) - Optional:
-#         Product to buy in the customer database;
-    :returns:
-        return a dictionary containing supplier and optionaly
-        customer price;
-
-    """
-    ppl_obj = pool['product.pricelist']
-#    at_obj = pool['account.tax']
-    # Compute Sale Price
-    supplier_price = ppl_obj.price_get(
-        cr, uid, [pricelist.id],
-        supplier_product.id,
-        1.0, supplier_partner.id, {
-            'uom': supplier_product.uom_id.id,
-            'date': date.today().strftime('%Y-%m-%d'),
-        })[pricelist.id]
-    # Compute Taxes detail
-#    tax_info = at_obj.compute_all(
-#        cr, uid, supplier_product.taxes_id,
-#        supplier_price, 1.0, supplier_product.id)
-    res = {
-        'supplier_sale_price': supplier_price,
-#        'supplier_sale_price_vat_excl': tax_info['total'],
-#        'supplier_sale_price_vat_incl': tax_info['total_included'],
-    }
-#    if customer_product:
-#        res.update(_compute_integrated_customer_price(
-#            pool, cr, uid, supplier_product, customer_product,
-#            supplier_price))
-    return res

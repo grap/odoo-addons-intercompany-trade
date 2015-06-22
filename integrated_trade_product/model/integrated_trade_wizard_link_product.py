@@ -28,7 +28,6 @@ from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp
 
 from .custom_tools import _integrated_trade_prepare
-from .custom_tools import _compute_integrated_prices
 
 
 class integrated_trade_wizard_link_product(TransientModel):
@@ -39,6 +38,7 @@ class integrated_trade_wizard_link_product(TransientModel):
         pp_obj = self.pool['product.product']
         pitc_obj = self.pool['product.integrated.trade.catalog']
         rit_obj = self.pool['res.integrated.trade']
+        ppl_obj = self.pool['product.pricelist']
         res = super(integrated_trade_wizard_link_product, self).default_get(
             cr, uid, fields, context=context)
         supplier_product_id = pitc_obj._get_supplier_product_id_from_id(
@@ -49,22 +49,25 @@ class integrated_trade_wizard_link_product(TransientModel):
             cr, uid, integrated_trade_id, context=context)
         supplier_pp = pp_obj.browse(
             cr, rit.supplier_user_id.id, supplier_product_id, context=context)
-        price_info = _compute_integrated_prices(
-            self.pool, cr, rit.supplier_user_id.id, supplier_pp,
-            rit.supplier_partner_id, rit.pricelist_id, customer_product=False,
+        price_info = ppl_obj._compute_integrated_prices(
+            cr, rit.supplier_user_id.id, supplier_pp,
+            rit.supplier_partner_id, rit.pricelist_id,
             context=context)
         res.update({
             'supplier_product_id': supplier_product_id,
             'integrated_trade_id': integrated_trade_id,
             'supplier_product_name': supplier_pp.name,
             'supplier_product_code': supplier_pp.default_code,
-            'supplier_sale_price': (
-                price_info['supplier_sale_price']),
-#            'supplier_sale_price_vat_excl': (
-#                price_info['supplier_sale_price_vat_excl']),
-#            'supplier_sale_price_vat_incl': (
-#                price_info['supplier_sale_price_vat_incl']),
         })
+        for k, v in price_info.items():
+            res[k] = v
+#            'supplier_sale_price': (
+#                price_info['supplier_sale_price']),
+##            'supplier_sale_price_vat_excl': (
+##                price_info['supplier_sale_price_vat_excl']),
+##            'supplier_sale_price_vat_incl': (
+##                price_info['supplier_sale_price_vat_incl']),
+        print res
         return res
 
     # Column Section

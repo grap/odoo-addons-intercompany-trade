@@ -37,7 +37,6 @@ class Test(TransactionCase):
         self.pitc_obj = self.registry('product.integrated.trade.catalog')
         self.pp_obj = self.registry('product.product')
         self.itwlp_obj = self.registry('integrated.trade.wizard.link.product')
-        self.pitc_obj = self.registry('product.integrated.trade.catalog')
 
         # Get ids from xml_ids
         self.rit_id = self.imd_obj.get_object_reference(
