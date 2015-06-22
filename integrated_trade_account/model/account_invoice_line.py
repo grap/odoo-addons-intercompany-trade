@@ -45,6 +45,7 @@ class AccountInvoiceLine(Model):
         ai_obj = self.pool['account.invoice']
         # pp_obj = self.pool['product.product']
         # psi_obj = self.pool['product.supplierinfo']
+        ppl_obj = self.pool['product.pricelist']
 
         if vals.get('invoice_id', False):
             ai = ai_obj.browse(cr, uid, vals['invoice_id'], context=context)
@@ -53,6 +54,16 @@ class AccountInvoiceLine(Model):
                 ai.integrated_trade)
         else:
             create_account_invoice_line = False
+
+        # if this is a supplier invoice and an integrated trade, the user
+        # doesn't have the right to change the unit price, so we will
+        # erase the unit price, and recover the good one.
+        if create_account_invoice_line and ai.type == 'in_invoice':
+            vals['price_unit'] = ppl_obj.price_get(
+                cr, uid, [ai.partner_pricelist_id.id], vals['product_id'],
+                vals['quantity'], ai.partner_id.id,
+                {'uom': vals['uos_id'], 'date': ai.date_invoice}
+            )[ai.partner_pricelist_id.id]
 
         # Call Super: Create
         res = super(AccountInvoiceLine, self).create(

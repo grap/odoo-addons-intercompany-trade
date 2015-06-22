@@ -44,12 +44,15 @@ Copyright, Authors and Licence:
         'account',
         'integrated_trade_base',
         'simple_tax_account',
+        'account_invoice_pricelist',
     ],
     'demo': [
         'demo/res_groups.yml',
         'demo/account_account.yml',
         'demo/account_journal.yml',
         'demo/ir_property.xml',
+        'demo/account_tax.yml',
+        'demo/product_product.yml',
     ],
     'data': [
         'view/view.xml',

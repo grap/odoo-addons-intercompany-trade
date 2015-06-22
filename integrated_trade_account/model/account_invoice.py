@@ -95,9 +95,9 @@ class AccountInvoice(Model):
             # Create associated Invoice
             ai = self.browse(cr, uid, res, context=context)
             if ai.type == 'out_invoice':
-                create_type = 'in_invoice'
+                ctx['type'] = 'in_invoice'
             elif ai.type == 'in_invoice':
-                create_type = 'out_invoice'
+                ctx['type'] = 'out_invoice'
             else:
                 raise except_osv(
                     _("Unimplemented Feature!"),
@@ -108,7 +108,7 @@ class AccountInvoice(Model):
                 cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
                 context=context)
 
-            if create_type == 'out_invoice':
+            if ctx['type'] == 'out_invoice':
                 # A Purchase Invoice Create a Sale Invoice
                 other_user_id = rit.supplier_user_id.id
                 other_company_id = rit.supplier_company_id.id
@@ -124,15 +124,15 @@ class AccountInvoice(Model):
             ctx['uid'] = other_user_id
 
             account_info = self.onchange_partner_id(
-                cr, other_user_id, [], create_type, other_partner_id,
+                cr, other_user_id, [], ctx['type'], other_partner_id,
                 company_id=other_company_id)['value']
 
             account_journal_id = self._get_journal(cr, other_user_id, {
-                'type': create_type, 'company_id': other_company_id})
+                'type': ctx['type'], 'company_id': other_company_id})
 
             ai_other_vals = {
                 'integrated_trade_account_invoice_id': ai.id,
-                'type': create_type,
+                'type': ctx['type'],
                 'company_id': other_company_id,
                 'partner_id': other_partner_id,
                 'account_id': account_info['account_id'],
@@ -148,5 +148,6 @@ class AccountInvoice(Model):
             self.write(cr, uid, [ai.id], {
                 'integrated_trade_account_invoice_id': ai_other.id,
                 'order_line': line_ids,
+                'invoice_line': line_ids,
             }, context=context)
         return res
