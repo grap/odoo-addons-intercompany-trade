@@ -1,0 +1,59 @@
+# -*- encoding: utf-8 -*-
+##############################################################################
+#
+#    Integrated Trade - Account module for OpenERP
+#    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
+#    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
+- !record {model: product.product, id: product_supplier_service_incl}:
+    name: Supplier Service VAT INCLUDED
+    default_code: SUPPLIER-SERVICE-VAT-INCL
+    categ_id: product.product_category_all
+    list_price: 500
+    uom_id: product.product_uom_unit
+    uom_po_id: product.product_uom_unit
+    uos_id: product.product_uom_unit
+    sale_ok: True
+    company_id: integrated_trade_base.supplier_company
+    taxes_id:
+        - sale_vat_included
+
+- !record {model: product.product, id: product_supplier_service_excl}:
+    name: Supplier Service VAT EXCLUDED
+    default_code: SUPPLIER-SERVICE-VAT-EXCL
+    categ_id: product.product_category_all
+    list_price: 300
+    uom_id: product.product_uom_unit
+    uom_po_id: product.product_uom_unit
+    uos_id: product.product_uom_unit
+    sale_ok: True
+    company_id: integrated_trade_base.supplier_company
+    taxes_id:
+        - sale_vat_excluded
+
+- !record {model: product.product, id: product_customer_service_excl}:
+    name: Customer Service VAT EXCLUDED
+    default_code: CUSTOMER-SERVICE-VAT-EXCL
+    categ_id: product.product_category_all
+    list_price: 0
+    uom_id: product.product_uom_unit
+    uom_po_id: product.product_uom_unit
+    uos_id: product.product_uom_unit
+    company_id: integrated_trade_base.customer_company
+    supplier_taxes_id:
+        - purchase_vat_excluded
