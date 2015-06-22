@@ -42,6 +42,7 @@ class AccountInvoiceLine(Model):
     # Overload Section
     def create(self, cr, uid, vals, context=None):
         """Create the according Account Invoice Line."""
+        print "*********** CREATE ACCOUNT.INVOICE.LINE ********** "
         ai_obj = self.pool['account.invoice']
         # pp_obj = self.pool['product.product']
         # psi_obj = self.pool['product.supplierinfo']
@@ -59,6 +60,8 @@ class AccountInvoiceLine(Model):
         # doesn't have the right to change the unit price, so we will
         # erase the unit price, and recover the good one.
         if create_account_invoice_line and ai.type == 'in_invoice':
+            print "WE HAVE TO SHOOT PRICE"
+            print vals
             vals['price_unit'] = ppl_obj.price_get(
                 cr, uid, [ai.partner_pricelist_id.id], vals['product_id'],
                 vals['quantity'], ai.partner_id.id,
@@ -69,7 +72,8 @@ class AccountInvoiceLine(Model):
         res = super(AccountInvoiceLine, self).create(
             cr, uid, vals, context=context)
 
-        if create_account_invoice_line:
+        if False: #create_account_invoice_line:
+            print "*********** CREATE ACCOUNT.INVOICE.LINE (OTHER) ********** "
             pass
         return res
         #     ctx = context.copy()

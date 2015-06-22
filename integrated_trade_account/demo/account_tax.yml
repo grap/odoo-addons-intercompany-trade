@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-- !record {model: account.tax, id: sale_vat_excluded}:
+- !record {model: account.tax, id: sale_vat_10_excluded}:
     name: SALE VAT 10% Excluded
     type_tax_use: sale
     type: percent
@@ -28,7 +28,7 @@
     price_include: False
     company_id: integrated_trade_base.supplier_company
 
-- !record {model: account.tax, id: sale_vat_included}:
+- !record {model: account.tax, id: sale_vat_10_included}:
     name: SALE VAT 10% Included
     type_tax_use: sale
     type: percent
@@ -36,13 +36,35 @@
     price_include: True
     company_id: integrated_trade_base.supplier_company
 
-- !record {model: account.tax, id: sale_vat_excluded}:
-    simple_tax_id: sale_vat_included
+- !record {model: account.tax, id: sale_vat_10_excluded}:
+    simple_tax_id: sale_vat_10_included
 
-- !record {model: account.tax, id: sale_vat_included}:
-    simple_tax_id: sale_vat_excluded
+- !record {model: account.tax, id: sale_vat_10_included}:
+    simple_tax_id: sale_vat_10_excluded
 
-- !record {model: account.tax, id: purchase_vat_excluded}:
+- !record {model: account.tax, id: sale_vat_25_excluded}:
+    name: SALE VAT 25% Excluded
+    type_tax_use: sale
+    type: percent
+    amount: 0.25
+    price_include: False
+    company_id: integrated_trade_base.supplier_company
+
+- !record {model: account.tax, id: sale_vat_25_included}:
+    name: SALE VAT 25% Included
+    type_tax_use: sale
+    type: percent
+    amount: 0.25
+    price_include: True
+    company_id: integrated_trade_base.supplier_company
+
+- !record {model: account.tax, id: sale_vat_25_excluded}:
+    simple_tax_id: sale_vat_25_included
+
+- !record {model: account.tax, id: sale_vat_25_included}:
+    simple_tax_id: sale_vat_25_excluded
+
+- !record {model: account.tax, id: purchase_vat_10_excluded}:
     name: PURCHASE VAT 10% Excluded
     type_tax_use: purchase
     type: percent
@@ -50,7 +72,7 @@
     price_include: False
     company_id: integrated_trade_base.customer_company
 
-- !record {model: account.tax, id: purchase_vat_included}:
+- !record {model: account.tax, id: purchase_vat_10_included}:
     name: PURCHASE VAT 10% Included
     type_tax_use: purchase
     type: percent
@@ -58,8 +80,8 @@
     price_include: True
     company_id: integrated_trade_base.customer_company
 
-- !record {model: account.tax, id: purchase_vat_excluded}:
-    simple_tax_id: purchase_vat_included
+- !record {model: account.tax, id: purchase_vat_10_excluded}:
+    simple_tax_id: purchase_vat_10_included
 
-- !record {model: account.tax, id: purchase_vat_included}:
-    simple_tax_id: purchase_vat_excluded
+- !record {model: account.tax, id: purchase_vat_10_included}:
+    simple_tax_id: purchase_vat_10_excluded

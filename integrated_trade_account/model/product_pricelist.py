@@ -30,38 +30,32 @@ from openerp.osv.orm import Model
 
 #    
 
-class product_pricelist(Model):
+class ProductPricelist(Model):
     _inherit = 'product.pricelist'
 
+    # Overlad Section
     def _compute_integrated_prices(
             self, cr, uid, supplier_product,
             supplier_partner, pricelist,
             context=None):
         """
-        This function return the purchase price of a product, depending
-        of a supplier product, and a pricelist defined in the customer
-        company
-
-        :param supplier_product (product.product):
-             Product to sell in the SUPPLIER database;
-        :param supplier_partner (res.partner):
-            Supplier in the CUSTOMER database;
-        : pricelist (product.pricelist):
-            Sale Pricelist in the SUPPLIER database;
-
-        :returns:
-            return a dictionary containing supplier price.
-
+        This function Overload the original one, adding vat exclude / incude
+        values;
+        Sale price is always said as vat excluded;
         """
-        # Compute Sale Price
-        supplier_price = self.price_get(
-            cr, uid, [pricelist.id],
-            supplier_product.id,
-            1.0, supplier_partner.id, {
-                'uom': supplier_product.uom_id.id,
-                'date': date.today().strftime('%Y-%m-%d'),
-            })[pricelist.id]
-        res = {
-            'supplier_sale_price': supplier_price,
-        }
+        at_obj = self.pool['account.tax']
+
+        res = super(ProductPricelist, self)._compute_integrated_prices(
+            cr, uid, supplier_product, supplier_partner, pricelist,
+            context=context)
+
+        # Compute Taxes detail
+        tax_info = at_obj.compute_all(
+            cr, uid, supplier_product.taxes_id,
+            res['supplier_sale_price'], 1.0, supplier_product.id)
+        res.update({
+            'supplier_sale_price': tax_info['total'],
+            'supplier_sale_price_vat_excl': tax_info['total'],
+            'supplier_sale_price_vat_incl': tax_info['total_included'],
+        })
         return res

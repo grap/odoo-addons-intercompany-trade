@@ -20,9 +20,22 @@
 #
 ##############################################################################
 
-- !record {model: product.product, id: product_supplier_service_incl}:
-    name: Supplier Service VAT INCLUDED
-    default_code: SUPPLIER-SERVICE-VAT-INCL
+- !record {model: product.product, id: product_supplier_service_25_incl}:
+    name: Supplier Service VAT 25% INCLUDED
+    default_code: SUPPLIER-SERVICE-VAT-25-INCL
+    categ_id: product.product_category_all
+    list_price: 1000
+    uom_id: product.product_uom_unit
+    uom_po_id: product.product_uom_unit
+    uos_id: product.product_uom_unit
+    sale_ok: True
+    company_id: integrated_trade_base.supplier_company
+    taxes_id:
+        - sale_vat_25_included
+
+- !record {model: product.product, id: product_supplier_service_10_incl}:
+    name: Supplier Service VAT 10% INCLUDED
+    default_code: SUPPLIER-SERVICE-VAT-10-INCL
     categ_id: product.product_category_all
     list_price: 500
     uom_id: product.product_uom_unit
@@ -31,11 +44,11 @@
     sale_ok: True
     company_id: integrated_trade_base.supplier_company
     taxes_id:
-        - sale_vat_included
+        - sale_vat_10_included
 
-- !record {model: product.product, id: product_supplier_service_excl}:
-    name: Supplier Service VAT EXCLUDED
-    default_code: SUPPLIER-SERVICE-VAT-EXCL
+- !record {model: product.product, id: product_supplier_service_10_excl}:
+    name: Supplier Service VAT 10% EXCLUDED
+    default_code: SUPPLIER-SERVICE-VAT-10-EXCL
     categ_id: product.product_category_all
     list_price: 300
     uom_id: product.product_uom_unit
@@ -44,11 +57,11 @@
     sale_ok: True
     company_id: integrated_trade_base.supplier_company
     taxes_id:
-        - sale_vat_excluded
+        - sale_vat_10_excluded
 
-- !record {model: product.product, id: product_customer_service_excl}:
-    name: Customer Service VAT EXCLUDED
-    default_code: CUSTOMER-SERVICE-VAT-EXCL
+- !record {model: product.product, id: product_customer_service_10_excl}:
+    name: Customer Service VAT 10% EXCLUDED
+    default_code: CUSTOMER-SERVICE-VAT-10-EXCL
     categ_id: product.product_category_all
     list_price: 0
     uom_id: product.product_uom_unit
@@ -56,4 +69,4 @@
     uos_id: product.product_uom_unit
     company_id: integrated_trade_base.customer_company
     supplier_taxes_id:
-        - purchase_vat_excluded
+        - purchase_vat_10_excluded

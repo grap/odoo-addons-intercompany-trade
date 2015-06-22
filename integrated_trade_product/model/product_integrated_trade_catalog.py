@@ -27,7 +27,7 @@ from openerp.osv.orm import Model
 from openerp.addons import decimal_precision as dp
 
 
-class product_integrated_trade_catalog(Model):
+class ProductIntegratedTradeCatalog(Model):
     _name = 'product.integrated.trade.catalog'
     _auto = False
     _table = 'product_integrated_trade_catalog'
@@ -66,9 +66,10 @@ class product_integrated_trade_catalog(Model):
         res = {}
         for pitc in self.browse(cr, SUPERUSER_ID, ids, context=context):
             res[pitc.id] = ppl_obj._compute_integrated_prices(
-                self.pool, cr, SUPERUSER_ID,
-                pitc.supplier_product_id,
+                cr, SUPERUSER_ID, pitc.supplier_product_id,
                 pitc.supplier_partner_id, pitc.pricelist_id, context=context)
+        print "ORIGINAL : RES"
+        print res
         return res
 
     # Column Section

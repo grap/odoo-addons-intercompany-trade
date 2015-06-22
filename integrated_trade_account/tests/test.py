@@ -32,25 +32,89 @@ class Test(TransactionCase):
 
         # Get Registries
         self.imd_obj = self.registry('ir.model.data')
+        self.pitc_obj = self.registry('product.integrated.trade.catalog')
+        self.itwlp_obj = self.registry('integrated.trade.wizard.link.product')
 
         # Get ids from xml_ids
-        self.rit_id = self.imd_obj.get_object_reference(
+#        self.rit_id = self.imd_obj.get_object_reference(
+#            self.cr, self.uid,
+#            'integrated_trade_base', 'integrated_trade')[1]
+
+        self.product_supplier_service_25_incl =\
+            self.imd_obj.get_object_reference(
+                self.cr, self.uid, 'integrated_trade_account',
+                'product_supplier_service_25_incl')[1]
+
+        self.product_supplier_service_10_excl =\
+            self.imd_obj.get_object_reference(
+                self.cr, self.uid, 'integrated_trade_account',
+                'product_supplier_service_10_excl')[1]
+
+        self.product_customer_service_10_excl =\
+            self.imd_obj.get_object_reference(
+                self.cr, self.uid, 'integrated_trade_account',
+                'product_customer_service_10_excl')[1]
+
+        self.product_customer_apple =\
+            self.imd_obj.get_object_reference(
+                self.cr, self.uid, 'integrated_trade_product',
+                'product_customer_apple')[1]
+
+        self.customer_user_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
-            'integrated_trade_base', 'integrated_trade')[1]
+            'integrated_trade_base', 'customer_user')[1]
 
     def test_01_vat_association_bad(self):
         """[Functional Test] Associate products with incompatible VAT"""
         """ must fail"""
-        pass
+        cr, uid = self.cr, self.customer_user_id
+
+        # Associate with bad VAT 
+        # (Customer Service VAT 10% EXCLUDED - Supplier Service VAT 25%)
+        active_id = self.pitc_obj.search(cr, uid, [(
+            'supplier_product_id', '=',
+            self.product_supplier_service_25_incl)])[0]
+
+        itwlp_id = self.itwlp_obj.create(cr, uid, {
+            'customer_product_id': self.product_customer_service_10_excl,
+        }, context={'active_id': active_id})
+        with self.assertRaises(except_osv):
+            self.itwlp_obj.link_product(cr, uid, [itwlp_id])
+
+        # Associate with bad VAT 
+        # (Customer Product with no VAT - Supplier Service VAT 25%)
+        active_id = self.pitc_obj.search(cr, uid, [(
+            'supplier_product_id', '=',
+            self.product_supplier_service_25_incl)])[0]
+
+        itwlp_id = self.itwlp_obj.create(cr, uid, {
+            'customer_product_id': self.product_customer_apple,
+        }, context={'active_id': active_id})
+        with self.assertRaises(except_osv):
+            self.itwlp_obj.link_product(cr, uid, [itwlp_id])
 
     def test_02_vat_association_good(self):
-        """[Functional Test] Associate products with incompatible VAT"""
-        """ must succeed"""
-        pass
+        """[Functional Test] Associate products with compatible VAT"""
+        """ must succeed (excluded both)"""
+        cr, uid = self.cr, self.customer_user_id
+        # Associate with bad VAT 
+        # (Customer Service VAT 10% EXCLUDED - Supplier Service VAT 10% EXCLUDED)
+        active_id = self.pitc_obj.search(cr, uid, [(
+            'supplier_product_id', '=',
+            self.product_supplier_service_10_excl)])[0]
 
+        itwlp_id = self.itwlp_obj.create(cr, uid, {
+            'customer_product_id': self.product_customer_service_10_excl,
+        }, context={'active_id': active_id})
+        res = self.itwlp_obj.link_product(cr, uid, [itwlp_id])
+        self.assertEqual(
+            res, True,
+            """Associate a Customer Product with 10% Excl VAT to """
+            """ a supplier Product with 10% Excl VAT"""
+            """ must succeed.""")
 
-    def test_03_create_invoice_in(self):
-        """Create an In Invoice with correct VAT, must create """
+#    def test_03_create_invoice_in(self):
+#        """Create an In Invoice must create Out Invoice"""
 
 #    # Test Section
 #    def test_XX_product_association(self):

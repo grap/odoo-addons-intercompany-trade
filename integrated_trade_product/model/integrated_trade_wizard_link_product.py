@@ -61,13 +61,6 @@ class integrated_trade_wizard_link_product(TransientModel):
         })
         for k, v in price_info.items():
             res[k] = v
-#            'supplier_sale_price': (
-#                price_info['supplier_sale_price']),
-##            'supplier_sale_price_vat_excl': (
-##                price_info['supplier_sale_price_vat_excl']),
-##            'supplier_sale_price_vat_incl': (
-##                price_info['supplier_sale_price_vat_incl']),
-        print res
         return res
 
     # Column Section
@@ -93,12 +86,6 @@ class integrated_trade_wizard_link_product(TransientModel):
         'supplier_sale_price': fields.float(
             string='Supplier Sale Price', readonly=True,
             digits_compute=dp.get_precision('Integrated Product Price')),
-#        'supplier_sale_price_vat_excl': fields.float(
-#            'Supplier Sale Price VAT Excluded', readonly=True,
-#            digits_compute=dp.get_precision('Integrated Product Price')),
-#        'supplier_sale_price_vat_incl': fields.float(
-#            'Supplier Sale Price VAT Included', readonly=True,
-#            digits_compute=dp.get_precision('Integrated Product Price')),
     }
 
     # Button Section
