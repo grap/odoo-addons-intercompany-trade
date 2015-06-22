@@ -32,7 +32,7 @@ class ResPartner(Model):
     # Columns section
     _columns = {
         'integrated_trade': fields.boolean(
-            'Integrated Trade',
+            'Integrated Trade',readonly=True,
             help="Indicate that this partner is a company in Odoo."),
     }
 
@@ -60,7 +60,15 @@ class ResPartner(Model):
                             """ update a partner that is set as"""
                             """ 'Integrated Trade'"""))
 
+    def create(self, cr, uid, vals, context=None):
+        if vals.get('integrated_trade', False):
+            vals['simple_tax_type'] = 'excluded'
+        return super(ResPartner, self).create(
+            cr, uid, vals, context=context)
+
     def write(self, cr, uid, ids, vals, context=None):
+        if vals.get('integrated_trade', False):
+            vals['simple_tax_type'] = 'excluded'
         self._check_integrated_trade_access(
             cr, uid, ids, vals.keys(), context=context)
         return super(ResPartner, self).write(
