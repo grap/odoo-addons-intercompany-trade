@@ -71,7 +71,6 @@ class AccountInvoice(Model):
 
     # Overload Section
     def create(self, cr, uid, vals, context=None):
-        print "*********** CREATE ACCOUNT.INVOICE ********** "
         rp_obj = self.pool['res.partner']
 
         rp = rp_obj.browse(cr, uid, vals['partner_id'], context=context)
@@ -80,19 +79,18 @@ class AccountInvoice(Model):
             rp.integrated_trade)
 
         if create_account_invoice:
-            line_ids = vals['invoice_line']
-            vals.pop('invoice_line')
+            line_ids = vals.get('invoice_line', False)
+            vals.pop('invoice_line', None)
 
         res = super(AccountInvoice, self).create(
             cr, uid, vals, context=context)
 
-        print "*********** CREATE ACCOUNT.INVOICE OTHER ********** "
         if create_account_invoice:
             ctx = context.copy()
             ctx['integrated_trade_do_not_propagate'] = True
-            ctx.pop('type')
-            ctx.pop('journal_type')
-            ctx.pop('default_type')
+            ctx.pop('type', None)
+            ctx.pop('journal_type', None)
+            ctx.pop('default_type', None)
 
             # Create associated Invoice
             ai = self.browse(cr, uid, res, context=context)
@@ -147,8 +145,6 @@ class AccountInvoice(Model):
                 cr, other_user_id, ai_other_id, context=context)
 
             # Update Proper Account Invoice
-            print "#######"
-            print line_ids
             self.write(cr, uid, [ai.id], {
                 'integrated_trade_account_invoice_id': ai_other.id,
                 'invoice_line': line_ids,

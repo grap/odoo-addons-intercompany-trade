@@ -54,7 +54,7 @@ class Test(TransactionCase):
         self.pricelist_discount_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
             'integrated_trade_product', 'pricelist_discount')[1]
-            
+
         self.customer_user_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
             'integrated_trade_base', 'customer_user')[1]

@@ -28,7 +28,7 @@
     company_id: integrated_trade_base.supplier_company
 
 - !record {model: account.account, id: supplier_account_income}:
-    code: CUS_INC
+    code: CUS_7
     name: Integrated Trade - Supplier Incomes
     type: other
     user_type: account.data_account_type_income
@@ -36,7 +36,7 @@
 
 
 - !record {model: account.account, id: supplier_account_receivable}:
-    code: SUP_REC
+    code: SUP_411
     name: Integrated Trade - Supplier Debtors
     parent_id: supplier_account_root
     type: receivable
@@ -44,7 +44,7 @@
     company_id: integrated_trade_base.supplier_company
 
 - !record {model: account.account, id: supplier_account_payable}:
-    code: SUP_CRE
+    code: SUP_401
     name: Integrated Trade - Supplier Creditors
     parent_id: supplier_account_root
     type: payable
@@ -59,14 +59,14 @@
     company_id: integrated_trade_base.customer_company
 
 - !record {model: account.account, id: customer_account_expense}:
-    code: CUS_EXP
+    code: CUS_6
     name: Integrated Trade - Customer Expenses
     type: other
     user_type: account.data_account_type_expense
     company_id: integrated_trade_base.customer_company
 
 - !record {model: account.account, id: customer_account_receivable}:
-    code: CUS_REC
+    code: CUS_411
     name: Integrated Trade - Customer Debtors
     parent_id: customer_account_root
     type: receivable
@@ -74,7 +74,7 @@
     company_id: integrated_trade_base.customer_company
 
 - !record {model: account.account, id: customer_account_payable}:
-    code: CUS_CRE
+    code: CUS_401
     name: Integrated Trade - Customer Creditors
     parent_id: customer_account_root
     type: payable
