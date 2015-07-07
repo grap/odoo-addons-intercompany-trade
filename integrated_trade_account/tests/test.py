@@ -201,7 +201,7 @@ class Test(TransactionCase):
 
         cus_ail_id = self.ail_obj.create(cr, cus_uid, vals, context=context)
 
-        # CHECKS
+        # Checks creation of the according Invoice Line
         SUPER_ail = self.ail_obj.browse(cr, self.uid, cus_ail_id)
         SUPER_ail_other = SUPER_ail.integrated_trade_account_invoice_line_id
 
@@ -213,3 +213,31 @@ class Test(TransactionCase):
             SUPER_ail_other.price_unit, sup_pp.list_price,
             """Create a In Invoice Line must automatically reset the"""
             """ price_unit, using the sale price of the supplier.""")
+
+        # Update Invoice Line (change price = must fail)
+        with self.assertRaises(except_osv):
+            self.ail_obj.write(
+                cr, cus_uid, [cus_ail_id], {'price_unit': 10}, context=context)
+
+        # Update Invoice Line (change quantity = must succeed)
+        self.ail_obj.write(
+            cr, cus_uid, [cus_ail_id], {'quantity': 2}, context=context)
+        SUPER_ail = self.ail_obj.browse(cr, self.uid, cus_ail_id)
+        SUPER_ail_other = SUPER_ail.integrated_trade_account_invoice_line_id
+
+        self.assertEqual(
+            SUPER_ail_other.price_subtotal, 2 * sup_pp.list_price,
+            """Double Quantity asked by the customer must double price"""
+            """ subtotal of the according Sale Invoice of the supplier.""")
+
+        sup_ail_id = SUPER_ail.integrated_trade_account_invoice_line_id.id
+
+        # Unlink customer Invoice line (must unlink according supplier line)
+        self.ail_obj.unlink(cr, cus_uid, [cus_ail_id], context=context)
+        count_ail = self.ail_obj.search(cr, sup_uid, [('id', '=', sup_ail_id)])
+
+        self.assertEqual(
+            len(count_ail), 0,
+            """Delete customer Invoice Line must delete according"""
+            """ Supplier Invoice Line.""")
+
