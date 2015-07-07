@@ -23,6 +23,7 @@
 from openerp.osv.orm import Model
 from .custom_tools import _integrated_trade_update
 
+
 class ResPartner(Model):
     _inherit = 'res.partner'
 
@@ -36,7 +37,6 @@ class ResPartner(Model):
         """If customer partner pricelist has changed (in supplier database),
         recompute Pricelist info in customer database"""
         rit_obj = self.pool['res.integrated.trade']
-        psi_obj = self.pool['product.supplierinfo']
         res = super(ResPartner, self).write(
             cr, uid, ids, vals, context=context)
         rit_ids = rit_obj.search(cr, uid, [

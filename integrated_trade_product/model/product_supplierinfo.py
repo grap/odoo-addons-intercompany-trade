@@ -20,7 +20,6 @@
 #
 ##############################################################################
 
-from openerp import SUPERUSER_ID
 from openerp.osv import fields
 from openerp.osv.orm import Model
 from openerp.addons import decimal_precision as dp

@@ -71,8 +71,8 @@ class Test(TransactionCase):
         cr, uid = self.cr, self.customer_user_id
 
         # Associate with bad product (customer apple - supplier banana)
-        active_id = self.pitc_obj.search(cr, uid,
-            [('supplier_product_id', '=', self.supplier_banana_id)])[0]
+        active_id = self.pitc_obj.search(cr, uid, [
+            ('supplier_product_id', '=', self.supplier_banana_id)])[0]
 
         itwlp_id = self.itwlp_obj.create(cr, uid, {
             'customer_product_id': self.customer_apple_id,
@@ -106,8 +106,8 @@ class Test(TransactionCase):
 
         # Reassociate with correct product (customer apple - supplier apple)
         # Must Fail
-        active_id_2 = self.pitc_obj.search(cr, uid,
-            [('supplier_product_id', '=', self.supplier_apple_id)])[0]
+        active_id_2 = self.pitc_obj.search(cr, uid, [
+            ('supplier_product_id', '=', self.supplier_apple_id)])[0]
 
         itwlp_id = self.itwlp_obj.create(cr, uid, {
             'customer_product_id': self.customer_apple_id,
@@ -131,8 +131,8 @@ class Test(TransactionCase):
         cr, uid = self.cr, self.customer_user_id
 
         # Associate with product (customer apple - supplier apple)
-        active_id = self.pitc_obj.search(cr, uid,
-            [('supplier_product_id', '=', self.supplier_apple_id)])[0]
+        active_id = self.pitc_obj.search(cr, uid, [
+            ('supplier_product_id', '=', self.supplier_apple_id)])[0]
 
         itwlp_id = self.itwlp_obj.create(cr, uid, {
             'customer_product_id': self.customer_apple_id,
@@ -164,8 +164,8 @@ class Test(TransactionCase):
         cr, uid = self.cr, self.customer_user_id
 
         # Associate with product (customer apple - supplier apple)
-        active_id = self.pitc_obj.search(cr, uid,
-            [('supplier_product_id', '=', self.supplier_apple_id)])[0]
+        active_id = self.pitc_obj.search(cr, uid, [
+            ('supplier_product_id', '=', self.supplier_apple_id)])[0]
 
         itwlp_id = self.itwlp_obj.create(cr, uid, {
             'customer_product_id': self.customer_apple_id,
@@ -187,15 +187,14 @@ class Test(TransactionCase):
             """Change price in supplier database must change prices"""
             """ in customer database.""")
 
-
     def test_04_product_update(self):
         """[Functional Test] Check if change a supplier product update the
         product supplierinfo in the customer database"""
         cr, uid = self.cr, self.uid
 
         # Associate with product (customer apple - supplier apple)
-        active_id = self.pitc_obj.search(cr, uid,
-            [('supplier_product_id', '=', self.supplier_apple_id)])[0]
+        active_id = self.pitc_obj.search(cr, uid, [
+            ('supplier_product_id', '=', self.supplier_apple_id)])[0]
 
         itwlp_id = self.itwlp_obj.create(cr, uid, {
             'customer_product_id': self.customer_apple_id,
@@ -217,7 +216,7 @@ class Test(TransactionCase):
         # Change code in the supplier product
         new_code = '[SUPPLIER-NEW-CODE]'
         self.pp_obj.write(cr, uid, [self.supplier_apple_id], {
-            'default_code': new_code,})
+            'default_code': new_code})
 
         pp_c_apple = self.pp_obj.browse(cr, uid, self.customer_apple_id)
         self.assertEqual(
@@ -235,8 +234,8 @@ class Test(TransactionCase):
         rit = self.rit_obj.browse(cr, cus_uid, self.rit_id)
 
         # Associate a product
-        active_id = self.pitc_obj.search(cr, cus_uid,
-            [('supplier_product_id', '=', self.supplier_apple_id)])[0]
+        active_id = self.pitc_obj.search(cr, cus_uid, [
+            ('supplier_product_id', '=', self.supplier_apple_id)])[0]
 
         itwlp_id = self.itwlp_obj.create(cr, cus_uid, {
             'customer_product_id': self.customer_apple_id,
@@ -260,4 +259,3 @@ class Test(TransactionCase):
             res['product_id'],
             """Function to recovery customer product info from supplier"""
             """ product doesn't work.""")
-

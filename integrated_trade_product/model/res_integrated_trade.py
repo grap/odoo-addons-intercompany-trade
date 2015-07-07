@@ -22,9 +22,7 @@
 
 
 from openerp.osv import fields
-from openerp.osv.osv import except_osv
 from openerp.osv.orm import Model
-from openerp.tools.translate import _
 
 
 class res_integrated_trade(Model):

@@ -32,7 +32,7 @@ class ResPartner(Model):
     # Columns section
     _columns = {
         'integrated_trade': fields.boolean(
-            'Integrated Trade',readonly=True,
+            'Integrated Trade', readonly=True,
             help="Indicate that this partner is a company in Odoo."),
     }
 

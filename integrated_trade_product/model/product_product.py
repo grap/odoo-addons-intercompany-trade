@@ -23,6 +23,7 @@
 from openerp.osv.orm import Model
 from .custom_tools import _integrated_trade_update_multicompany
 
+
 class product_product(Model):
     _inherit = 'product.product'
 

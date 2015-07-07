@@ -21,7 +21,7 @@
 ##############################################################################
 
 
-from datetime import date
+# from datetime import date
 
 from openerp import SUPERUSER_ID
 from openerp.tools.translate import _
@@ -139,7 +139,7 @@ def _get_other_product_info(
                     """ Order or Invoice because you didn't linked the"""
                     """ product to any Supplier Product. Please do it"""
                     """ in the 'Integrated Trade' menu.""" % (
-                    pp.name)))
+                        pp.name)))
 
         psi = psi_obj.browse(cr, uid, psi_ids[0], context=context)
         res['product_id'] = psi.supplier_product_id.id
@@ -176,9 +176,7 @@ def _get_other_product_info(
         res['product_id'] = customer_pp_ids[0]
     return res
 
-
-
-#def _check_taxes(
+# def _check_taxes(
 #        pool, cr, uid, supplier_product, customer_product, context=None):
 #    """
 #    :error raised:
@@ -237,7 +235,7 @@ def _get_other_product_info(
 #                        customer_tax.amount * 100, supplier_tax.amount * 100))
 
 
-#def _compute_integrated_customer_price(
+# def _compute_integrated_customer_price(
 #        pool, cr, uid, supplier_product, customer_product,
 #        supplier_price, context=None):
 #    # FIXME
@@ -262,7 +260,7 @@ def _get_other_product_info(
 #    }
 
 
-#def _compute_integrated_supplier_price(
+# def _compute_integrated_supplier_price(
 #        pool, cr, uid, supplier_product, customer_product,
 #        customer_price, context=None):
 
@@ -300,8 +298,6 @@ def _integrated_trade_prepare(
         cr, uid, integrated_trade_id, context=context)
     supplier_pp = pp_obj.browse(
         cr, rit.supplier_user_id.id, supplier_product_id, context=context)
-    customer_pp = pp_obj.browse(
-        cr, rit.customer_user_id.id, customer_product_id, context=context)
     price_info = ppl_obj._compute_integrated_prices(
         cr, rit.supplier_user_id.id, supplier_pp,
         rit.supplier_partner_id, rit.pricelist_id, context=context)

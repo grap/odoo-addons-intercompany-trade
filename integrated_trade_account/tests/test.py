@@ -90,7 +90,6 @@ class Test(TransactionCase):
             self.cr, self.uid,
             'product', 'product_uom_unit')[1]
 
-
     def test_01_vat_association_bad(self):
         """[Functional Test] Associate products with incompatible VAT"""
         """ must fail"""
