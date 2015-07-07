@@ -249,7 +249,6 @@ class Test(TransactionCase):
         count_ai = self.ai_obj.search(cr, sup_uid, [('id', '=', sup_ai_id)])
 
         self.assertEqual(
-            len(count_ail), 0,
+            len(count_ai), 0,
             """Delete customer Invoice must delete according"""
             """ Supplier Invoice.""")
-
