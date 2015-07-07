@@ -91,55 +91,55 @@ class Test(TransactionCase):
             'product', 'product_uom_unit')[1]
 
 
-#    def test_01_vat_association_bad(self):
-#        """[Functional Test] Associate products with incompatible VAT"""
-#        """ must fail"""
-#        cr, uid = self.cr, self.customer_user_id
+    def test_01_vat_association_bad(self):
+        """[Functional Test] Associate products with incompatible VAT"""
+        """ must fail"""
+        cr, uid = self.cr, self.customer_user_id
 
-#        # Associate with bad VAT
-#        # (Customer Service VAT 10% EXCLUDED - Supplier Service VAT 25%)
-#        active_id = self.pitc_obj.search(cr, uid, [(
-#            'supplier_product_id', '=',
-#            self.product_supplier_service_25_incl)])[0]
+        # Associate with bad VAT
+        # (Customer Service VAT 10% EXCLUDED - Supplier Service VAT 25%)
+        active_id = self.pitc_obj.search(cr, uid, [(
+            'supplier_product_id', '=',
+            self.product_supplier_service_25_incl)])[0]
 
-#        itwlp_id = self.itwlp_obj.create(cr, uid, {
-#            'customer_product_id': self.product_customer_service_10_excl,
-#        }, context={'active_id': active_id})
-#        with self.assertRaises(except_osv):
-#            self.itwlp_obj.link_product(cr, uid, [itwlp_id])
+        itwlp_id = self.itwlp_obj.create(cr, uid, {
+            'customer_product_id': self.product_customer_service_10_excl,
+        }, context={'active_id': active_id})
+        with self.assertRaises(except_osv):
+            self.itwlp_obj.link_product(cr, uid, [itwlp_id])
 
-#        # Associate with bad VAT
-#        # (Customer Product with no VAT -> Supplier Service VAT 25%)
-#        active_id = self.pitc_obj.search(cr, uid, [(
-#            'supplier_product_id', '=',
-#            self.product_supplier_service_25_incl)])[0]
+        # Associate with bad VAT
+        # (Customer Product with no VAT -> Supplier Service VAT 25%)
+        active_id = self.pitc_obj.search(cr, uid, [(
+            'supplier_product_id', '=',
+            self.product_supplier_service_25_incl)])[0]
 
-#        itwlp_id = self.itwlp_obj.create(cr, uid, {
-#            'customer_product_id': self.product_customer_apple,
-#        }, context={'active_id': active_id})
-#        with self.assertRaises(except_osv):
-#            self.itwlp_obj.link_product(cr, uid, [itwlp_id])
+        itwlp_id = self.itwlp_obj.create(cr, uid, {
+            'customer_product_id': self.product_customer_apple,
+        }, context={'active_id': active_id})
+        with self.assertRaises(except_osv):
+            self.itwlp_obj.link_product(cr, uid, [itwlp_id])
 
-#    def test_02_vat_association_good(self):
-#        """[Functional Test] Associate products with compatible VAT"""
-#        """ must succeed (Incl / excl)"""
-#        cr, uid = self.cr, self.customer_user_id
-#        # Associate with good VAT
-#        # (Customer Service VAT 10% EXCLUDED
-#        # -> Supplier Service VAT 10% INCLUDE)
-#        active_id = self.pitc_obj.search(cr, uid, [(
-#            'supplier_product_id', '=',
-#            self.product_supplier_service_10_incl)])[0]
+    def test_02_vat_association_good(self):
+        """[Functional Test] Associate products with compatible VAT"""
+        """ must succeed (Incl / excl)"""
+        cr, uid = self.cr, self.customer_user_id
+        # Associate with good VAT
+        # (Customer Service VAT 10% EXCLUDED
+        # -> Supplier Service VAT 10% INCLUDE)
+        active_id = self.pitc_obj.search(cr, uid, [(
+            'supplier_product_id', '=',
+            self.product_supplier_service_10_incl)])[0]
 
-#        itwlp_id = self.itwlp_obj.create(cr, uid, {
-#            'customer_product_id': self.product_customer_service_10_excl,
-#        }, context={'active_id': active_id})
-#        res = self.itwlp_obj.link_product(cr, uid, [itwlp_id])
-#        self.assertEqual(
-#            res, True,
-#            """Associate a Customer Product with 10% Excl VAT to """
-#            """ a supplier Product with 10% Incl VAT"""
-#            """ must succeed.""")
+        itwlp_id = self.itwlp_obj.create(cr, uid, {
+            'customer_product_id': self.product_customer_service_10_excl,
+        }, context={'active_id': active_id})
+        res = self.itwlp_obj.link_product(cr, uid, [itwlp_id])
+        self.assertEqual(
+            res, True,
+            """Associate a Customer Product with 10% Excl VAT to """
+            """ a supplier Product with 10% Incl VAT"""
+            """ must succeed.""")
 
     def test_03_create_invoice_in(self):
         """Create an In Invoice (Supplier Invoice) by the customer"""

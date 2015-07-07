@@ -68,8 +68,6 @@ class ProductIntegratedTradeCatalog(Model):
             res[pitc.id] = ppl_obj._compute_integrated_prices(
                 cr, SUPERUSER_ID, pitc.supplier_product_id,
                 pitc.supplier_partner_id, pitc.pricelist_id, context=context)
-        print "ORIGINAL : RES"
-        print res
         return res
 
     # Column Section
@@ -82,14 +80,6 @@ class ProductIntegratedTradeCatalog(Model):
             _get_supplier_price, string='Supplier Sale Price',
             multi='supplier_price', type='float',
             digits_compute=dp.get_precision('Integrated Product Price')),
-#        'supplier_sale_price_vat_excl': fields.function(
-#            _get_supplier_price, string='Supplier Sale Price VAT Excluded',
-#            multi='supplier_price', type='float',
-#            digits_compute=dp.get_precision('Integrated Product Price')),
-#        'supplier_sale_price_vat_incl': fields.function(
-#            _get_supplier_price, string='Supplier Sale Price VAT Included',
-#            multi='supplier_price', type='float',
-#            digits_compute=dp.get_precision('Integrated Product Price')),
         'customer_purchase_price': fields.float(
             'Customer Purchase Price', readonly=True),
         'pricelist_id': fields.many2one(
