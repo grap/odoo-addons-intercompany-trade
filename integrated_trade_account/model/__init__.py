@@ -21,7 +21,7 @@
 ##############################################################################
 
 from . import custom_tools
-
+from . import res_partner
 from . import product_pricelist
 from . import product_integrated_trade_catalog
 from . import integrated_trade_wizard_link_product

@@ -94,6 +94,90 @@ def _integrated_trade_update(
         psi_obj.write(
             cr, SUPERUSER_ID, [psi.id], psi_vals, context=context)
 
+
+def _get_other_product_info(
+        pool, cr, uid, rit, product_id, direction,
+        context=None):
+    """
+        Deliver a product id from another product id.
+        Usefull to call when create (sale / purchase / invoice) line to
+        create according line with correct product;
+
+        Realize correct check if the product is not referenced.
+
+        :param @rit : model of res.integrated.trade
+            current trade;
+        :param @product_id: id of a product.product
+            Current product, added by the customer / the supplier.
+        :param @direction: 'in' / 'out'.
+            'in': for a 'purchase' / 'In Invoice';
+            'out': for a 'sale' / 'Out Invoice';
+
+        :return : {
+            'product_id': xxx;
+        }
+    """
+    res = {}
+
+    pp_obj = pool['product.product']
+    psi_obj = pool['product.supplierinfo']
+
+    # Get current Product
+    pp = pp_obj.browse(cr, uid, product_id, context=context)
+
+    if direction == 'in':
+        # Get product supplier info (if any)
+        psi_ids = psi_obj.search(cr, uid, [
+            ('product_id', '=', pp.product_tmpl_id.id),
+            ('name', '=', rit.supplier_partner_id.id),
+            ('company_id', '=', rit.customer_company_id.id),
+        ], context=context)
+        if len(psi_ids) == 0:
+            raise except_osv(
+                _("Product Selection Error!"),
+                _("""You can not add the product '%s' to the current"""
+                    """ Order or Invoice because you didn't linked the"""
+                    """ product to any Supplier Product. Please do it"""
+                    """ in the 'Integrated Trade' menu.""" % (
+                    pp.name)))
+
+        psi = psi_obj.browse(cr, uid, psi_ids[0], context=context)
+        res['product_id'] = psi.supplier_product_id.id
+
+    else:
+        psi_ids = psi_obj.search(cr, rit.customer_user_id.id, [
+            ('supplier_product_id', '=', product_id),
+            ('name', '=', rit.supplier_partner_id.id),
+            ('company_id', '=', rit.customer_company_id.id),
+        ], context=context)
+        if len(psi_ids) == 0:
+            raise except_osv(
+                _("Product Selection Error!"),
+                _("""You can not add the product '%s' to the current"""
+                    """ Order or Invoice because the customer didn't"""
+                    """ referenced your product. Please contact him and"""
+                    """ say him to do it.""" % (
+                        pp.name)))
+        psi = psi_obj.browse(
+            cr, rit.customer_user_id.id, psi_ids[0], context=context)
+        customer_pp_ids = pp_obj.search(cr, rit.customer_user_id.id, [
+            ('company_id', '=', rit.customer_company_id.id),
+            ('product_tmpl_id', '=', psi.product_id.id),
+        ], context=context)
+        if len(customer_pp_ids) != 1:
+            raise except_osv(
+                _("Product Selection Error!"),
+                _("""You can not add the product '%s' to the current"""
+                    """ Order or Invoice because the customer referenced"""
+                    """ many variants of this product. Please contact him"""
+                    """ and say him to add the product manually to his """
+                    """ Order or Invoice.""" % (
+                        pp.name)))
+        res['product_id'] = customer_pp_ids[0]
+    return res
+
+
+
 #def _check_taxes(
 #        pool, cr, uid, supplier_product, customer_product, context=None):
 #    """

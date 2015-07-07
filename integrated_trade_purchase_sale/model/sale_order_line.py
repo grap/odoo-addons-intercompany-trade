@@ -74,33 +74,34 @@ class sale_order_line(Model):
             # Create associated Purchase Order Line
             # TODO Check if taxes are changed (with products value)
             sol = self.browse(cr, uid, res, context=context)
-            psi_ids = psi_obj.search(cr, SUPERUSER_ID, [
-                ('supplier_product_id', '=', sol.product_id.id),
-                ('name', '=', rit.supplier_partner_id.id),
-                ('company_id', '=', rit.customer_company_id.id),
-            ], context=context)
-            if len(psi_ids) == 0:
-                raise except_osv(
-                    _("Product Selection Error!"),
-                    _("""You can not add the product '%s' to the current"""
-                        """ Sale Order because the customer didn't"""
-                        """ referenced your product. Please contact him and"""
-                        """ say him to do it.""" % (
-                            sol.product_id.name)))
-            psi = psi_obj.browse(cr, SUPERUSER_ID, psi_ids[0], context=context)
-            customer_pp_ids = pp_obj.search(cr, SUPERUSER_ID, [
-                ('company_id', '=', rit.customer_company_id.id),
-                ('product_tmpl_id', '=', psi.product_id.id),
-            ], context=context)
-            if len(customer_pp_ids) != 1:
-                raise except_osv(
-                    _("Product Selection Error!"),
-                    _("""You can not add the product '%s' to the current"""
-                        """ Sale Order because the customer referenced many"""
-                        """ variants of this product. Please contact him and"""
-                        """ say him to add the product to him purchase"""
-                        """ order.""" % (
-                            sol.product_id.name)))
+            # TODO call custom_tools....
+#            psi_ids = psi_obj.search(cr, SUPERUSER_ID, [
+#                ('supplier_product_id', '=', sol.product_id.id),
+#                ('name', '=', rit.supplier_partner_id.id),
+#                ('company_id', '=', rit.customer_company_id.id),
+#            ], context=context)
+#            if len(psi_ids) == 0:
+#                raise except_osv(
+#                    _("Product Selection Error!"),
+#                    _("""You can not add the product '%s' to the current"""
+#                        """ Sale Order because the customer didn't"""
+#                        """ referenced your product. Please contact him and"""
+#                        """ say him to do it.""" % (
+#                            sol.product_id.name)))
+#            psi = psi_obj.browse(cr, SUPERUSER_ID, psi_ids[0], context=context)
+#            customer_pp_ids = pp_obj.search(cr, SUPERUSER_ID, [
+#                ('company_id', '=', rit.customer_company_id.id),
+#                ('product_tmpl_id', '=', psi.product_id.id),
+#            ], context=context)
+#            if len(customer_pp_ids) != 1:
+#                raise except_osv(
+#                    _("Product Selection Error!"),
+#                    _("""You can not add the product '%s' to the current"""
+#                        """ Sale Order because the customer referenced many"""
+#                        """ variants of this product. Please contact him and"""
+#                        """ say him to add the product to him purchase"""
+#                        """ order.""" % (
+#                            sol.product_id.name)))
             else:
                 customer_pp = pp_obj.browse(
                     cr, SUPERUSER_ID, customer_pp_ids[0], context=context)

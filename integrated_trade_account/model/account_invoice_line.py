@@ -20,8 +20,13 @@
 #
 ##############################################################################
 
+from openerp.osv.osv import except_osv
+from openerp.tools.translate import _
 from openerp.osv import fields
 from openerp.osv.orm import Model
+
+from openerp.addons.integrated_trade_product.model.custom_tools\
+    import _get_other_product_info
 
 
 class AccountInvoiceLine(Model):
@@ -42,10 +47,9 @@ class AccountInvoiceLine(Model):
     # Overload Section
     def create(self, cr, uid, vals, context=None):
         """Create the according Account Invoice Line."""
-        print "*********** CREATE ACCOUNT.INVOICE.LINE ********** "
         ai_obj = self.pool['account.invoice']
-        # pp_obj = self.pool['product.product']
-        # psi_obj = self.pool['product.supplierinfo']
+        pp_obj = self.pool['product.product']
+        psi_obj = self.pool['product.supplierinfo']
         ppl_obj = self.pool['product.pricelist']
 
         if vals.get('invoice_id', False):
@@ -56,149 +60,176 @@ class AccountInvoiceLine(Model):
         else:
             create_account_invoice_line = False
 
-        # if this is a supplier invoice and an integrated trade, the user
-        # doesn't have the right to change the unit price, so we will
-        # erase the unit price, and recover the good one.
-        if create_account_invoice_line and ai.type == 'in_invoice':
-            print "WE HAVE TO SHOOT PRICE"
-            print vals
-            vals['price_unit'] = ppl_obj.price_get(
-                cr, uid, [ai.partner_pricelist_id.id], vals['product_id'],
-                vals['quantity'], ai.partner_id.id,
-                {'uom': vals['uos_id'], 'date': ai.date_invoice}
-            )[ai.partner_pricelist_id.id]
-
         # Call Super: Create
         res = super(AccountInvoiceLine, self).create(
             cr, uid, vals, context=context)
 
-        if False: #create_account_invoice_line:
-            print "*********** CREATE ACCOUNT.INVOICE.LINE (OTHER) ********** "
-            pass
+        if create_account_invoice_line:
+            ctx = context.copy()
+            ctx['integrated_trade_do_not_propagate'] = True
+
+            rit = ai_obj._get_res_integrated_trade(
+                cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
+                context=context)
+
+            if ai.type in ('in_invoice', 'in_refund'):
+                direction = 'in'
+                other_user_id = rit.supplier_user_id.id
+                other_type = 'out_invoice'
+                other_company_id = rit.supplier_company_id.id
+                other_partner_id = rit.customer_partner_id.id
+            else:
+                direction = 'out'
+                other_user_id = rit.customer_user_id.id
+                other_type = 'in_invoice'
+                other_company_id = rit.customer_company_id.id
+                other_partner_id = rit.supplier_partner_id.id
+
+            # Create according account invoice line
+            other_product_info = _get_other_product_info(
+                self.pool, cr, uid, rit, vals['product_id'], direction,
+                context=context)
+
+            ail_other_vals = self.product_id_change(
+                    cr, other_user_id, False, other_product_info['product_id'],
+                    False, type=other_type, company_id=other_company_id,
+                    partner_id=other_partner_id)['value']
+            ail_other_vals.update({
+                'invoice_id': ai.integrated_trade_account_invoice_id.id,
+                'product_id': other_product_info['product_id'],
+                'company_id': other_company_id,
+                'partner_id': other_partner_id,
+                'quantity': vals['quantity'],
+                'uos_id': vals['uos_id'],
+                'invoice_line_tax_id': [[
+                    6, False, ail_other_vals['invoice_line_tax_id']]],
+                })
+
+            ail_other_id = self.create(
+                cr, other_user_id, ail_other_vals, context=ctx)
+
+            # if this is a supplier invoice and an integrated trade, the user
+            # doesn't have the right to change the unit price, so we will
+            # erase the unit price, and recover the good one.
+            if ai.type in ('in_invoice', 'in_refund'):
+                supplier_pp = pp_obj.browse(
+                    cr, rit.supplier_user_id.id,
+                    other_product_info['product_id'], context=context)
+                price_unit = ppl_obj._compute_integrated_prices(
+                    cr, rit.supplier_user_id.id, supplier_pp,
+                    ai.partner_id, rit.pricelist_id,
+                    context=None)['supplier_sale_price']
+            else:
+                price_unit = vals['price_unit']
+
+            # Update Original Account Invoice Line
+            self.write(cr, uid, res, {
+                'integrated_trade_account_invoice_line_id': ail_other_id,
+                'price_unit': price_unit,
+            }, context=ctx)
+
+            # Update Other Account Invoice Line
+            self.write(
+                cr, other_user_id, ail_other_id, {
+                    'integrated_trade_account_invoice_line_id': res,
+                    'price_unit': price_unit,
+            }, context=ctx)
+
+            # Recompute All Invoice
+            ai_obj.button_reset_taxes(
+                cr, uid, [ai.id], context=context)
+            ai_obj.button_reset_taxes(
+                cr, other_user_id, [ai.integrated_trade_account_invoice_id.id],
+                context=context)
+
         return res
-        #     ctx = context.copy()
-        #     ctx['integrated_trade_do_not_propagate'] = True
-        #
-        #     rit = ai_obj._get_res_integrated_trade(
-        #         cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
-        #         context=context)
-        #
-        #     # Create associated Sale Order Line
-        #     ail = self.browse(cr, uid, res, context=context)
-        #     psi_ids = psi_obj.search(cr, uid, [
-        #         ('product_id', '=', pol.product_id.product_tmpl_id.id),
-        #         ('name', '=', pol.order_id.partner_id.id),
-        #     ], context=context)
-        #     if len(psi_ids) == 0:
-        #         raise except_osv(
-        #             _("Product Selection Error!"),
-        #             _("""You can not add the product '%s' to the current"""
-        #                 """ Purchase Order because you didn't linked the"""
-        #                 """ product to any Supplier Product. Please do it"""
-        #                 """ in the 'Integrated Trade' menu.""" % (
-        #                     pol.product_id.name)))
-        #     psi = psi_obj.browse(cr, uid, psi_ids[0], context=context)
-        #     supplier_pp = pp_obj.browse(
-        #         cr, SUPERUSER_ID, psi.supplier_product_id.id,
-        #         context=context)
-        #
-        #     price_info = _compute_integrated_supplier_price(
-        #         self.pool, cr, SUPERUSER_ID, supplier_pp, pol.product_id,
-        #         pol.price_unit, context=context)
-        #
-        #     sol_vals = {
-        #         'order_id': pol.order_id.integrated_trade_sale_order_id.id,
-        #         'price_unit': 0,
-        #         'name': '[%s] %s' % (
-        #             supplier_pp.default_code, supplier_pp.name),
-        #         'product_id': supplier_pp.id,
-        #         'product_uos_qty': pol.product_qty,
-        #         'product_uos': pol.product_uom.id,
-        #         'product_uom_qty': pol.product_qty,
-        #         'product_uom': pol.product_uom.id,
-        #         'integrated_trade_purchase_order_line_id': pol.id,
-        #         'tax_id': [[6, False, price_info['supplier_taxes_id']]],
-        #         'discount': 0,
-        #         'delay': 0,
-        #     }
-        #
-        #     sol_id = sol_obj.create(
-        #         cr, rit.supplier_user_id.id, sol_vals, context=ctx)
-        #     # Force the call of the _amount_all
-        #     sol_obj.write(
-        #         cr, rit.supplier_user_id.id, sol_id, {
-        #             'price_unit': price_info['supplier_sale_price'],
-        #         }, context=ctx)
-        #
-        #     # Update Purchase Order line
-        #     self.write(cr, uid, res, {
-        #         'integrated_trade_sale_order_line_id': sol_id,
-        #     }, context=ctx)
-        # return res
-    #
-    # def write(self, cr, uid, ids, vals, context=None):
-    #     """"- Update the according Sale Order Line with new data.
-    #         - Block any changes of product."""
-    #     if not context:
-    #         context = {}
-    #     sol_obj = self.pool['sale.order.line']
-    #
-    #     res = super(purchase_order_line, self).write(
-    #         cr, uid, ids, vals, context=context)
-    #
-    #     if 'integrated_trade_do_not_propagate' not in context.keys():
-    #         ctx = context.copy()
-    #         ctx['integrated_trade_do_not_propagate'] = True
-    #         for pol in self.browse(cr, uid, ids, context=context):
-    #             if pol.integrated_trade_sale_order_line_id:
-    #                 rit = self._get_res_integrated_trade(
-    #                     cr, uid, pol.order_id.partner_id.id,
-    #                     pol.order_id.company_id.id, context=context)
-    #                 sol_vals = {}
-    #
-    #                 if 'product_id' in vals.keys():
-    #                     raise except_osv(
-    #                         _("Error!"),
-    #                         _("""You can not change the product. %s"""
-    #                             """Please remove this line and choose a"""
-    #                             """ a new one.""" % (pol.product_id.name)))
-    #                 if 'product_uom' in vals.keys():
-    #                     raise except_osv(
-    #                         _("Error!"),
-    #                         _("""You can not change the UoM of the Product"""
-    #                             """ %s.""" % (pol.product_id.name)))
-    #                 if 'price_unit' in vals.keys():
-    #                     raise except_osv(
-    #                         _("Error!"),
-    #                         _("""You can not change the Product Price"""
-    #                             """ '%s'. Please ask to your supplier.""" % (
-    #                                 pol.product_id.name)))
-    #                 if 'product_qty' in vals:
-    #                     sol_vals['product_uos_qty'] = pol.product_qty
-    #                     sol_vals['product_uom_qty'] = pol.product_qty
-    #                 # TODO Manage discount / delay / tax
-    #                 sol_obj.write(
-    #                     cr, rit.supplier_user_id.id,
-    #                     pol.integrated_trade_sale_order_line_id.id,
-    #                     sol_vals, context=ctx)
-    #     return res
-    #
-    # def unlink(self, cr, uid, ids, context=None):
-    #     """"- Unlink the according Sale Order Line."""
-    #     if not context:
-    #         context = {}
-    #     sol_obj = self.pool['sale.order.line']
-    #     if 'integrated_trade_do_not_propagate' not in context.keys():
-    #         ctx = context.copy()
-    #         ctx['integrated_trade_do_not_propagate'] = True
-    #         for pol in self.browse(cr, uid, ids, context=context):
-    #             rit = self._get_res_integrated_trade(
-    #                 cr, uid, pol.order_id.partner_id.id,
-    #                 pol.order_id.company_id.id, context=context)
-    #             sol_obj.unlink(
-    #                 cr, rit.supplier_user_id.id,
-    #                 [pol.integrated_trade_sale_order_line_id.id],
-    #                 context=ctx)
-    #     res = super(purchase_order_line, self).unlink(
-    #         cr, uid, ids, context=context)
-    #     return res
+
+    def write(self, cr, uid, ids, vals, context=None):
+        """"- Update the according Invoice Line with new data.
+            - Block any changes of product.
+            - the function will propagate only to according invoice line
+              price or quantity changes. All others are ignored. Most of
+              the important fields ignored will generated an error.
+              (product / discount / UoM changes)    """
+        context = context and context or {}
+        ai_obj = self.pool['account.invoice']
+
+        res = super(AccountInvoiceLine, self).write(
+            cr, uid, ids, vals, context=context)
+   
+        if 'integrated_trade_do_not_propagate' not in context.keys():
+            ctx = context.copy()
+            ctx['integrated_trade_do_not_propagate'] = True
+            for ail in self.browse(cr, uid, ids, context=context):
+                if ail.integrated_trade_account_invoice_line_id:
+                    rit = ai_obj._get_res_integrated_trade(
+                        cr, uid, ail.invoice_id.partner_id.id,
+                        ail.invoice_id.company_id.id,
+                        ail.invoice_id.type, context=context)
+
+                    if ail.invoice_id.type in ('in_invoice', 'in_refund'):
+                        other_user_id = rit.supplier_user_id.id
+                    else:
+                        other_user_id = rit.customer_user_id.id
+   
+                    if 'product_id' in vals.keys():
+                        raise except_osv(
+                            _("Error!"),
+                            _("""You can not change the product. %s"""
+                                """Please remove this line and choose a"""
+                                """ a new one.""" % (ail.product_id.name)))
+                    if 'discount' in vals.keys():
+                        raise except_osv(
+                            _("Error!"),
+                            _("""You can not set a discount for integrated"""
+                                """ Trade. Please change the Unit Price"""
+                                """ of %s.""" % (ail.product_id.name)))
+                    if 'uos_id' in vals.keys():
+                        raise except_osv(
+                            _("Error!"),
+                            _("""You can not change the UoM of the Product"""
+                                """ %s.""" % (ail.product_id.name)))
+                    if 'price_unit' in vals.keys() and ail.invoice_id.type\
+                            in ('in_invoice', 'in_refund'):
+                        raise except_osv(
+                            _("Error!"),
+                            _("""You can not change the Unit Price of"""
+                                """ '%s'. Please ask to your supplier.""" % (
+                                   ail.product_id.name)))
+                    other_vals = {}
+                    if vals.get('quantity', False):
+                        other_vals['quantity'] = vals['quantity']
+                    if vals.get('price_unit', False):
+                        other_vals['price_unit'] = vals['price_unit']
+
+                    self.write(
+                        cr, other_user_id,
+                        ail.integrated_trade_account_invoice_line_id.id,
+                        other_vals, context=ctx)
+        return res
+
+    def unlink(self, cr, uid, ids, context=None):
+        """"- Unlink the according Invoice Line."""
+        ai_obj = self.pool['account.invoice']
+        context = context and context or {}
+
+        if 'integrated_trade_do_not_propagate' not in context.keys():
+            ctx = context.copy()
+            ctx['integrated_trade_do_not_propagate'] = True
+            for ail in self.browse(
+                    cr, uid, ids, context=context):
+                ai = ail.invoice_id
+                rit = ai_obj._get_res_integrated_trade(
+                    cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
+                    context=context)
+                if ail.invoice_id.type in ('in_invoice', 'in_refund'):
+                  other_uid = rit.supplier_user_id.id
+                else:
+                    other_uid = rit.customer_user_id.id
+                self.unlink(
+                    cr, other_uid,
+                    [ail.integrated_trade_account_invoice_line_id.id],
+                    context=ctx)
+        res = super(AccountInvoiceLine, self).unlink(
+            cr, uid, ids, context=context)
+        return res

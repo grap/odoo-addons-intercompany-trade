@@ -57,7 +57,7 @@ class AccountInvoice(Model):
             self, cr, uid, partner_id, company_id, type,
             context=None):
         rit_obj = self.pool['res.integrated.trade']
-        if type == 'in_invoice':
+        if type in ('in_invoice', 'in_refund'):
             rit_id = rit_obj.search(cr, uid, [
                 ('supplier_partner_id', '=', partner_id),
                 ('customer_company_id', '=', company_id),
@@ -141,12 +141,10 @@ class AccountInvoice(Model):
 
             ai_other_id = self.create(
                 cr, other_user_id, ai_other_vals, context=ctx)
-            ai_other = self.browse(
-                cr, other_user_id, ai_other_id, context=context)
 
             # Update Proper Account Invoice
             self.write(cr, uid, [ai.id], {
-                'integrated_trade_account_invoice_id': ai_other.id,
+                'integrated_trade_account_invoice_id': ai_other_id,
                 'invoice_line': line_ids,
             }, context=context)
         return res

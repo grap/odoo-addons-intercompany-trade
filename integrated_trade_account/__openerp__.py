@@ -62,6 +62,7 @@ Copyright, Authors and Licence:
     ],
     'data': [
         'view/view.xml',
+        'data/init.xml',
     ],
     'auto_install': True,
 }

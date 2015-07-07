@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Product module for OpenERP
-#    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
+#    Integrated Trade - Account module for Odoo
+#    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@ class Test(TransactionCase):
         # Get Registries
         self.imd_obj = self.registry('ir.model.data')
         self.ai_obj = self.registry('account.invoice')
+        self.pp_obj = self.registry('product.product')
         self.ail_obj = self.registry('account.invoice.line')
         self.pitc_obj = self.registry('product.integrated.trade.catalog')
         self.rit_obj = self.registry('res.integrated.trade')
@@ -89,7 +90,6 @@ class Test(TransactionCase):
             self.cr, self.uid,
             'product', 'product_uom_unit')[1]
 
-        
 
 #    def test_01_vat_association_bad(self):
 #        """[Functional Test] Associate products with incompatible VAT"""
@@ -109,7 +109,7 @@ class Test(TransactionCase):
 #            self.itwlp_obj.link_product(cr, uid, [itwlp_id])
 
 #        # Associate with bad VAT 
-#        # (Customer Product with no VAT - Supplier Service VAT 25%)
+#        # (Customer Product with no VAT -> Supplier Service VAT 25%)
 #        active_id = self.pitc_obj.search(cr, uid, [(
 #            'supplier_product_id', '=',
 #            self.product_supplier_service_25_incl)])[0]
@@ -125,7 +125,8 @@ class Test(TransactionCase):
 #        """ must succeed (Incl / excl)"""
 #        cr, uid = self.cr, self.customer_user_id
 #        # Associate with good VAT 
-#        # (Customer Service VAT 10% EXCLUDED - Supplier Service VAT 10% INCLUDE)
+#        # (Customer Service VAT 10% EXCLUDED
+#        # -> Supplier Service VAT 10% INCLUDE)
 #        active_id = self.pitc_obj.search(cr, uid, [(
 #            'supplier_product_id', '=',
 #            self.product_supplier_service_10_incl)])[0]
@@ -143,7 +144,8 @@ class Test(TransactionCase):
     def test_03_create_invoice_in(self):
         """Create an In Invoice (Supplier Invoice) by the customer"""
         """ must create an Out Invoice"""
-        cr, cus_uid = self.cr, self.customer_user_id #, self.supplier_user_id
+        cr, cus_uid, sup_uid =\
+            self.cr, self.customer_user_id, self.supplier_user_id
 
         # Associate a product
         active_id = self.pitc_obj.search(cr, cus_uid, [(
@@ -154,6 +156,9 @@ class Test(TransactionCase):
             'customer_product_id': self.product_customer_service_10_excl,
         }, context={'active_id': active_id})
         res = self.itwlp_obj.link_product(cr, cus_uid, [itwlp_id])
+
+        sup_pp = self.pp_obj.browse(
+            cr, sup_uid, self.product_supplier_service_10_excl)
 
         # Create a Invoice
         context = {'type': 'in_invoice'}
@@ -183,6 +188,7 @@ class Test(TransactionCase):
             cr, cus_uid, ['account_id', 'quantity'],
             context=context)
         vals.update({
+            'invoice_id': cus_ai_id,
             'name': 'TEST',
             'product_id': self.product_customer_service_10_excl,
             'uos_id': self.product_uom_unit_id,
@@ -193,6 +199,12 @@ class Test(TransactionCase):
         # CHECKS
         SUPER_ail = self.ail_obj.browse(cr, self.uid, cus_ail_id)
         SUPER_ail_other = SUPER_ail.integrated_trade_account_invoice_line_id
+
         self.assertNotEqual(
-            SUPER_ail_other.id, False,
+            SUPER_ail_other, False,
             """Create a Invoice Line must create another invoice Line.""")
+
+        self.assertNotEqual(
+            SUPER_ail_other.price_unit, sup_pp.list_price,
+            """Create a In Invoice Line must automatically reset the"""
+            """ price_unit, using the sale price of the supplier.""")
