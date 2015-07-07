@@ -37,9 +37,11 @@ Features :
       customer / supplier invoice;
     * create, update or delete a customer / supplier line update the according
       customer / supplier line;
-    * Customers doesn't have the possibility to change price_unit;
     * Add Tax management to avoid Tax Bug:
         * All invoices are Tax excluded allways;
+
+    * Customers doesn't have the possibility to change price_unit;
+    * Users doesn't the right to copy an 'integrated_trade' invoice;
 
 Copyright, Authors and Licence:
 -------------------------------

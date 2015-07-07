@@ -149,6 +149,17 @@ class AccountInvoice(Model):
             }, context=context)
         return res
 
+    def copy(self, cr, uid, id, default=None, context=None):
+        ai = self.browse(cr, uid, id, context=context)
+        if ai.integrated_trade:
+            raise except_osv(
+                _("Integrated Trade - Unimplemented Feature!"),
+                _(
+                    """You can not duplicate a Invoice that come from"""
+                    """ Integrated Trade."""))
+        return super(AccountInvoice, self).copy(
+            cr, uid, id, default=default, context=context)
+
     def unlink(self, cr, uid, ids, context=None):
         """"- Unlink the according Invoice."""
         context = context and context or {}
