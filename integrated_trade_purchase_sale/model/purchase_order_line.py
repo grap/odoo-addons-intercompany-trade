@@ -25,6 +25,9 @@ from openerp.osv.orm import Model
 from openerp.osv.osv import except_osv
 from openerp.tools.translate import _
 
+from openerp.addons.integrated_trade_product.model.custom_tools\
+    import _get_other_product_info
+
 
 class purchase_order_line(Model):
     _inherit = 'purchase.order.line'
@@ -43,6 +46,10 @@ class purchase_order_line(Model):
     # Overload Section
     def create(self, cr, uid, vals, context=None):
         """Create the according Sale Order Line."""
+        print "**** vals"
+        print vals
+        context = context and context or {}
+
         rit_obj = self.pool['res.integrated.trade']
         po_obj = self.pool['purchase.order']
         sol_obj = self.pool['sale.order.line']
@@ -66,44 +73,51 @@ class purchase_order_line(Model):
 
             pol = self.browse(cr, uid, res, context=context)
 
-            info = rit_obj._get_supplier_info(
-                cr, uid, rit, pol.product_id, pol.price_unit,
-                pol.taxes_id, context=context)
-
             # Create associated Sale Order Line
+            other_product_info = _get_other_product_info(
+                self.pool, cr, uid, rit, vals['product_id'], 'in',
+                context=context)
+
+            sol_vals = sol_obj.product_id_change(
+                cr, rit.supplier_user_id.id, False, rit.pricelist_id.id,
+                other_product_info['product_id'], qty=vals['product_qty'],
+            uom=vals['product_uom'], partner_id=rit.customer_partner_id.id,
+            context=context)['value']
+
+            sol_vals.update({
+                'order_id': pol.order_id.integrated_trade_sale_order_id.id,
+                'product_id': other_product_info['product_id'],
+                'delay': 0,
+                'discount': 0,
+                'tax_id': [[
+                    6, False, sol_vals['tax_id']]],
+                    'product_uom_qty': sol_vals['product_uos_qty'],
+                    'product_uom': sol_vals['product_uos'],
+            })
             sol_id = sol_obj.create(
-                cr, rit.supplier_user_id.id, {
-                    'order_id': pol.order_id.integrated_trade_sale_order_id.id,
-                    'price_unit': 0,
-                    'name': info['supplier_complete_product_name'],
-                    'product_id': info['supplier_product_id'],
-                    'product_uos_qty': pol.product_qty,
-                    'product_uos': pol.product_uom.id,
-                    'product_uom_qty': pol.product_qty,
-                    'product_uom': pol.product_uom.id,
-                    'integrated_trade_purchase_order_line_id': pol.id,
-                    'tax_id': [[6, False, info['supplier_tax_ids']]],
-                    'discount': 0,
-                    'delay': 0,
-                }, context=ctx)
+                cr, rit.supplier_user_id.id, sol_vals, context=ctx)
+
             # Update associated Sale Order Line to Force the call of the
             # the function '_amount_all'
             sol_obj.write(
                 cr, rit.supplier_user_id.id, sol_id, {
-                    'price_unit': info['supplier_price'],
+                    'integrated_trade_purchase_order_line_id': pol.id,
+                    'price_unit': other_product_info['price_unit'],
                 }, context=ctx)
 
             # Update Purchase Order line with Sale Order Line id created
             self.write(cr, uid, res, {
                 'integrated_trade_sale_order_line_id': sol_id,
+                'price_unit': other_product_info['price_unit'],
             }, context=ctx)
         return res
 
     def write(self, cr, uid, ids, vals, context=None):
         """"- Update the according Sale Order Line with new data.
             - Block any changes of product."""
-        if not context:
-            context = {}
+        print "write ******"
+        print vals
+        context = context and context or {}
         sol_obj = self.pool['sale.order.line']
         rit_obj = self.pool['res.integrated.trade']
 
@@ -131,18 +145,17 @@ class purchase_order_line(Model):
                             _("Error!"),
                             _("""You can not change the UoM of the Product"""
                                 """ %s.""" % (pol.product_id.name)))
-                    if 'price_unit' in vals.keys()\
-                            or 'taxes_id' in vals.keys():
+                    if 'price_unit' in vals.keys():
                         raise except_osv(
                             _("Error!"),
-                            _("""You can not change the Price or Taxes for"""
+                            _("""You can not change the Price for"""
                                 """ the product '%s'."""
                                 """ Please ask to your supplier.""" % (
                                     pol.product_id.name)))
                     if 'product_qty' in vals:
                         sol_vals['product_uos_qty'] = pol.product_qty
                         sol_vals['product_uom_qty'] = pol.product_qty
-                    # TODO Manage discount / delay
+                    # TODO Manage discount / delay / tax
                     sol_obj.write(
                         cr, rit.supplier_user_id.id,
                         pol.integrated_trade_sale_order_line_id.id,

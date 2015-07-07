@@ -49,7 +49,6 @@ class AccountInvoiceLine(Model):
         """Create the according Account Invoice Line."""
         ai_obj = self.pool['account.invoice']
         pp_obj = self.pool['product.product']
-        ppl_obj = self.pool['product.pricelist']
 
         if vals.get('invoice_id', False):
             ai = ai_obj.browse(cr, uid, vals['invoice_id'], context=context)
@@ -111,13 +110,7 @@ class AccountInvoiceLine(Model):
             # doesn't have the right to change the unit price, so we will
             # erase the unit price, and recover the good one.
             if ai.type in ('in_invoice', 'in_refund'):
-                supplier_pp = pp_obj.browse(
-                    cr, rit.supplier_user_id.id,
-                    other_product_info['product_id'], context=context)
-                price_unit = ppl_obj._compute_integrated_prices(
-                    cr, rit.supplier_user_id.id, supplier_pp,
-                    ai.partner_id, rit.pricelist_id,
-                    context=None)['supplier_sale_price']
+                price_unit = other_product_info['price_unit']
             else:
                 price_unit = vals['price_unit']
 

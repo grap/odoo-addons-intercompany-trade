@@ -53,6 +53,9 @@ class AccountInvoice(Model):
     }
 
     # Private Function
+    # TODO FIXME delete this function and 
+    # rit_obj._get_integrated_trade_by_partner_company
+    # instead
     def _get_res_integrated_trade(
             self, cr, uid, partner_id, company_id, type,
             context=None):

@@ -28,8 +28,8 @@ from openerp.osv.orm import Model
 from openerp.osv.osv import except_osv
 from openerp.tools.translate import _
 
-from openerp.addons.integrated_trade_product.model.custom_tools \
-    import _compute_integrated_customer_price
+#from openerp.addons.integrated_trade_product.model.custom_tools \
+#    import _compute_integrated_customer_price
 
 
 class sale_order_line(Model):
@@ -139,60 +139,60 @@ class sale_order_line(Model):
 #            }, context=ctx)
 #        return res
 
-    def write(self, cr, uid, ids, vals, context=None):
-        """"- Update the according Purchase Order Line with new data;
-            - Block any changes of product."""
-        rit_obj = self.pool['res.integrated.trade']
-        pol_obj = self.pool['purchase.order.line']
-        pp_obj = self.pool['product.product']
+#    def write(self, cr, uid, ids, vals, context=None):
+#        """"- Update the according Purchase Order Line with new data;
+#            - Block any changes of product."""
+#        rit_obj = self.pool['res.integrated.trade']
+#        pol_obj = self.pool['purchase.order.line']
+#        pp_obj = self.pool['product.product']
 
-        context = context and context or {}
+#        context = context and context or {}
 
-        res = super(sale_order_line, self).write(
-            cr, uid, ids, vals, context=context)
+#        res = super(sale_order_line, self).write(
+#            cr, uid, ids, vals, context=context)
 
-        if 'integrated_trade_do_not_propagate' not in context.keys():
-            ctx = context.copy()
-            ctx['integrated_trade_do_not_propagate'] = True
-            for sol in self.browse(cr, SUPERUSER_ID, ids, context=context):
-                pol = sol.integrated_trade_purchase_order_line_id
-                if pol:
-                    rit = rit_obj._get_integrated_trade_by_partner_company(
-                        cr, uid, sol.order_id.partner_id.id,
-                        sol.order_id.company_id.id, 'out', context=context)
-                    customer_pp = pp_obj.browse(
-                        cr, SUPERUSER_ID, pol.product_id.id, context=context)
-                    pol_vals = {}
+#        if 'integrated_trade_do_not_propagate' not in context.keys():
+#            ctx = context.copy()
+#            ctx['integrated_trade_do_not_propagate'] = True
+#            for sol in self.browse(cr, SUPERUSER_ID, ids, context=context):
+#                pol = sol.integrated_trade_purchase_order_line_id
+#                if pol:
+#                    rit = rit_obj._get_integrated_trade_by_partner_company(
+#                        cr, uid, sol.order_id.partner_id.id,
+#                        sol.order_id.company_id.id, 'out', context=context)
+#                    customer_pp = pp_obj.browse(
+#                        cr, SUPERUSER_ID, pol.product_id.id, context=context)
+#                    pol_vals = {}
 
-                    if 'product_id' in vals.keys():
-                        raise except_osv(
-                            _("Error!"),
-                            _("""You can not change the product '%s'.\n"""
-                                """ Please remove this line and choose a"""
-                                """ a new one.""" % (sol.product_id.name)))
-                    if 'tax_id' in vals.keys():
-                        raise except_osv(
-                            _("Integrated Trade Error!"),
-                            _("""You can not change Taxes in a Sale"""))
-                    if 'product_uom_qty' in vals:
-                        pol_vals['product_qty'] = sol.product_uom_qty
-                    if 'product_uom' in vals:
-                        pol_vals['product_uom'] = sol.product_uom.id
-                    if 'discount' in vals or 'price_unit' in vals:
-                        pol_vals['discount'] = sol.discount
-                        price_info = _compute_integrated_customer_price(
-                            self.pool, cr, SUPERUSER_ID, sol.product_id,
-                            customer_pp,
-                            (100 - sol.discount) / 100 * sol.price_unit,
-                            context=context)
-                        pol_vals['price_unit'] =\
-                            price_info['customer_purchase_price']
+#                    if 'product_id' in vals.keys():
+#                        raise except_osv(
+#                            _("Error!"),
+#                            _("""You can not change the product '%s'.\n"""
+#                                """ Please remove this line and choose a"""
+#                                """ a new one.""" % (sol.product_id.name)))
+#                    if 'tax_id' in vals.keys():
+#                        raise except_osv(
+#                            _("Integrated Trade Error!"),
+#                            _("""You can not change Taxes in a Sale"""))
+#                    if 'product_uom_qty' in vals:
+#                        pol_vals['product_qty'] = sol.product_uom_qty
+#                    if 'product_uom' in vals:
+#                        pol_vals['product_uom'] = sol.product_uom.id
+#                    if 'discount' in vals or 'price_unit' in vals:
+#                        pol_vals['discount'] = sol.discount
+#                        price_info = _compute_integrated_customer_price(
+#                            self.pool, cr, SUPERUSER_ID, sol.product_id,
+#                            customer_pp,
+#                            (100 - sol.discount) / 100 * sol.price_unit,
+#                            context=context)
+#                        pol_vals['price_unit'] =\
+#                            price_info['customer_purchase_price']
 
-                    pol_obj.write(
-                        cr, rit.customer_user_id.id,
-                        pol.id,
-                        pol_vals, context=ctx)
-        return res
+#                    pol_obj.write(
+#                        cr, rit.customer_user_id.id,
+#                        pol.id,
+#                        pol_vals, context=ctx)
+#        return res
 
     def unlink(self, cr, uid, ids, context=None):
         """"- Unlink the according Purchase Order Line."""

@@ -75,6 +75,8 @@ class purchase_order(Model):
 
     # Overload Section
     def create(self, cr, uid, vals, context=None):
+        context = context if context else {}
+
         rit_obj = self.pool['res.integrated.trade']
         rp_obj = self.pool['res.partner']
         so_obj = self.pool['sale.order']
@@ -86,8 +88,8 @@ class purchase_order(Model):
             rp.integrated_trade)
 
         if create_sale_order:
-            line_ids = vals['order_line']
-            vals.pop('order_line')
+            line_ids = vals.get('order_line', [])
+            vals.pop('order_line', None)
 
         res = super(purchase_order, self).create(
             cr, uid, vals, context=context)

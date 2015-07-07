@@ -115,11 +115,13 @@ def _get_other_product_info(
 
         :return : {
             'product_id': xxx;
+            'price_unit': xxx; (only if direction is in);
         }
     """
     res = {}
 
     pp_obj = pool['product.product']
+    ppl_obj = pool['product.pricelist']
     psi_obj = pool['product.supplierinfo']
 
     # Get current Product
@@ -143,6 +145,15 @@ def _get_other_product_info(
 
         psi = psi_obj.browse(cr, uid, psi_ids[0], context=context)
         res['product_id'] = psi.supplier_product_id.id
+
+        # Get Supplier Sale Price
+        supplier_pp = pp_obj.browse(
+            cr, rit.supplier_user_id.id, psi.supplier_product_id.id,
+            context=context)
+        res['price_unit'] = ppl_obj._compute_integrated_prices(
+            cr, rit.supplier_user_id.id, supplier_pp,
+            rit.supplier_partner_id, rit.pricelist_id,
+            context=None)['supplier_sale_price']
 
     else:
         psi_ids = psi_obj.search(cr, rit.customer_user_id.id, [

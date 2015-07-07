@@ -62,6 +62,8 @@ Copyright, Authors and Licence:
         'integrated_trade_base',
         'purchase',
         'sale',
+        'simple_tax_purchase',
+        'simple_tax_sale',
     ],
     'demo': [
         'demo/product_pricelist_item.yml',

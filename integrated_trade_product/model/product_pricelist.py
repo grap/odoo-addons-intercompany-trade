@@ -29,6 +29,9 @@ from openerp.osv.orm import Model
 class product_pricelist(Model):
     _inherit = 'product.pricelist'
 
+    #TODO FIXME
+    # Set param -> RIT so, reduce params quantity
+    # check supplier_partner, is it better customer_partner ?
     def _compute_integrated_prices(
             self, cr, uid, supplier_product,
             supplier_partner, pricelist,
@@ -38,9 +41,9 @@ class product_pricelist(Model):
         of a supplier product, and a pricelist defined in the customer
         company
 
-        :param supplier_product (product.product):
+        :param @supplier_product (product.product):
              Product to sell in the SUPPLIER database;
-        :param supplier_partner (res.partner):
+        :param @supplier_partner (res.partner):
             Supplier in the CUSTOMER database;
         : pricelist (product.pricelist):
             Sale Pricelist in the SUPPLIER database;

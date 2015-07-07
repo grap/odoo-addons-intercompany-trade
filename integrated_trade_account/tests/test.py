@@ -177,7 +177,7 @@ class Test(TransactionCase):
 
         cus_ai_id = self.ai_obj.create(cr, cus_uid, vals, context=context)
 
-        # CHECKS
+        # Checks creation of the according Invoice
         SUPER_ai = self.ai_obj.browse(cr, self.uid, cus_ai_id)
         SUPER_ai_other = SUPER_ai.integrated_trade_account_invoice_id
 
