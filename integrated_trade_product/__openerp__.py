@@ -21,8 +21,8 @@
 ##############################################################################
 {
     'name': 'Integrated Trade - Product',
-    'version': '0.1',
-    'category': 'Purchase',
+    'version': '1.0',
+    'category': 'Integrated Trade',
     'description': """
 Module for Integrated Trade for Product Module
 ==============================================

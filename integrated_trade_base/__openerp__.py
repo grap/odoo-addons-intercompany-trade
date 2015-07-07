@@ -21,8 +21,8 @@
 ##############################################################################
 {
     'name': 'Integrated Trade - Base',
-    'version': '0.1',
-    'category': 'Base',
+    'version': '1.0',
+    'category': 'Integrated Trade',
     'description': """
 Module for Integrated Trade for Base Module
 ===========================================

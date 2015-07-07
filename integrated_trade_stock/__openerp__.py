@@ -21,15 +21,17 @@
 ##############################################################################
 {
     'name': 'Integrated Trade - Stock',
-    'version': '0.1',
-    'category': 'Purchase',
+    'version': '1.0',
+    'category': 'Integrated Trade',
     'description': """
 Module for Integrated Trade for Stock Module
 ============================================
 
 Features:
 ---------
-    *
+    * Make a link between stock.picking.in and stock.picking.out model;
+    * Block possibility to copy a stock.picking;
+    * Block possibility to invoice a stock picking out;
 
 Copyright, Authors and Licence:
 -------------------------------
