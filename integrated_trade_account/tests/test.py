@@ -209,7 +209,7 @@ class Test(TransactionCase):
             SUPER_ail_other, False,
             """Create a Invoice Line must create another invoice Line.""")
 
-        self.assertNotEqual(
+        self.assertEqual(
             SUPER_ail_other.price_unit, sup_pp.list_price,
             """Create a In Invoice Line must automatically reset the"""
             """ price_unit, using the sale price of the supplier.""")
