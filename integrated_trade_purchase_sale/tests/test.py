@@ -110,13 +110,13 @@ class Test(TransactionCase):
             """Create a Purchase Order must create a Sale Order.""")
 
         # Create a Purchase Order Line
-        pol_vals ={
+        pol_vals = {
             'order_id': cus_po_id,
             'product_id': self.product_customer_apple,
         }
-        pol_vals.update(self.pol_obj.onchange_product_id(cr, cus_uid,
-            False, False, self.product_customer_apple, False, False,
-            False)['value'])
+        pol_vals.update(self.pol_obj.onchange_product_id(
+            cr, cus_uid, False, False, self.product_customer_apple, False,
+            False, False)['value'])
         print pol_vals
         cus_pol_id = self.pol_obj.create(cr, cus_uid, pol_vals)
 

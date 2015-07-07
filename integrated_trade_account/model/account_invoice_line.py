@@ -48,7 +48,6 @@ class AccountInvoiceLine(Model):
     def create(self, cr, uid, vals, context=None):
         """Create the according Account Invoice Line."""
         ai_obj = self.pool['account.invoice']
-        pp_obj = self.pool['product.product']
 
         if vals.get('invoice_id', False):
             ai = ai_obj.browse(cr, uid, vals['invoice_id'], context=context)

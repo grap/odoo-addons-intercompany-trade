@@ -22,14 +22,14 @@
 
 # from datetime import datetime
 
-from openerp import SUPERUSER_ID
+# from openerp import SUPERUSER_ID
 from openerp.osv import fields
 from openerp.osv.orm import Model
-from openerp.osv.osv import except_osv
-from openerp.tools.translate import _
+# from openerp.osv.osv import except_osv
+# from openerp.tools.translate import _
 
-#from openerp.addons.integrated_trade_product.model.custom_tools \
-#    import _compute_integrated_customer_price
+# from openerp.addons.integrated_trade_product.model.custom_tools \
+# import _compute_integrated_customer_price
 
 
 class sale_order_line(Model):

@@ -81,8 +81,8 @@ class purchase_order_line(Model):
             sol_vals = sol_obj.product_id_change(
                 cr, rit.supplier_user_id.id, False, rit.pricelist_id.id,
                 other_product_info['product_id'], qty=vals['product_qty'],
-            uom=vals['product_uom'], partner_id=rit.customer_partner_id.id,
-            context=context)['value']
+                uom=vals['product_uom'], partner_id=rit.customer_partner_id.id,
+                context=context)['value']
 
             sol_vals.update({
                 'order_id': pol.order_id.integrated_trade_sale_order_id.id,
@@ -91,8 +91,8 @@ class purchase_order_line(Model):
                 'discount': 0,
                 'tax_id': [[
                     6, False, sol_vals['tax_id']]],
-                    'product_uom_qty': sol_vals['product_uos_qty'],
-                    'product_uom': sol_vals['product_uos'],
+                'product_uom_qty': sol_vals['product_uos_qty'],
+                'product_uom': sol_vals['product_uos'],
             })
             sol_id = sol_obj.create(
                 cr, rit.supplier_user_id.id, sol_vals, context=ctx)
@@ -115,8 +115,6 @@ class purchase_order_line(Model):
     def write(self, cr, uid, ids, vals, context=None):
         """"- Update the according Sale Order Line with new data.
             - Block any changes of product."""
-        print "write ******"
-        print vals
         context = context and context or {}
         sol_obj = self.pool['sale.order.line']
         rit_obj = self.pool['res.integrated.trade']

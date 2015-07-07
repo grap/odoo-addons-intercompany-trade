@@ -29,7 +29,7 @@ from openerp.osv.orm import Model
 class product_pricelist(Model):
     _inherit = 'product.pricelist'
 
-    #TODO FIXME
+    # TODO FIXME
     # Set param -> RIT so, reduce params quantity
     # check supplier_partner, is it better customer_partner ?
     def _compute_integrated_prices(
