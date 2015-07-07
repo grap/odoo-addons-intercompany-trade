@@ -32,7 +32,7 @@ Features :
     * Add Demo Data;
 
 Terminer test de création de invoice:
--> check que n'importe quel prix à l'achat met toujours le même prix à la vente;
+-> check que n'importe quel prix à l'achat met toujours le même prix à la vente
 -> check que les lignes sont bien liées;
 -> check que la MaJ de l'un met à MaJ l'autre côté;
 

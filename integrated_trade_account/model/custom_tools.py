@@ -20,12 +20,9 @@
 #
 ##############################################################################
 
-
-from datetime import date
-
-from openerp import SUPERUSER_ID
 from openerp.tools.translate import _
 from openerp.osv.osv import except_osv
+
 
 def _check_taxes(
         pool, cr, uid, supplier_product, customer_product, context=None):

@@ -27,6 +27,7 @@ from openerp.addons import decimal_precision as dp
 
 from .custom_tools import _check_taxes
 
+
 class IntegratedTradeWizardLinkProduct(TransientModel):
     _inherit = 'integrated.trade.wizard.link.product'
 
@@ -43,7 +44,6 @@ class IntegratedTradeWizardLinkProduct(TransientModel):
     # Button Section
     def link_product(self, cr, uid, ids, context=None):
         pp_obj = self.pool['product.product']
-        pitc_obj = self.pool['product.integrated.trade.catalog']
 
         for itwlp in self.browse(cr, uid, ids, context=context):
             sup_pp = pp_obj.browse(

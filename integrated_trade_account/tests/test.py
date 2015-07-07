@@ -96,7 +96,7 @@ class Test(TransactionCase):
 #        """ must fail"""
 #        cr, uid = self.cr, self.customer_user_id
 
-#        # Associate with bad VAT 
+#        # Associate with bad VAT
 #        # (Customer Service VAT 10% EXCLUDED - Supplier Service VAT 25%)
 #        active_id = self.pitc_obj.search(cr, uid, [(
 #            'supplier_product_id', '=',
@@ -108,7 +108,7 @@ class Test(TransactionCase):
 #        with self.assertRaises(except_osv):
 #            self.itwlp_obj.link_product(cr, uid, [itwlp_id])
 
-#        # Associate with bad VAT 
+#        # Associate with bad VAT
 #        # (Customer Product with no VAT -> Supplier Service VAT 25%)
 #        active_id = self.pitc_obj.search(cr, uid, [(
 #            'supplier_product_id', '=',
@@ -124,7 +124,7 @@ class Test(TransactionCase):
 #        """[Functional Test] Associate products with compatible VAT"""
 #        """ must succeed (Incl / excl)"""
 #        cr, uid = self.cr, self.customer_user_id
-#        # Associate with good VAT 
+#        # Associate with good VAT
 #        # (Customer Service VAT 10% EXCLUDED
 #        # -> Supplier Service VAT 10% INCLUDE)
 #        active_id = self.pitc_obj.search(cr, uid, [(
@@ -155,7 +155,7 @@ class Test(TransactionCase):
         itwlp_id = self.itwlp_obj.create(cr, cus_uid, {
             'customer_product_id': self.product_customer_service_10_excl,
         }, context={'active_id': active_id})
-        res = self.itwlp_obj.link_product(cr, cus_uid, [itwlp_id])
+        self.itwlp_obj.link_product(cr, cus_uid, [itwlp_id])
 
         sup_pp = self.pp_obj.browse(
             cr, sup_uid, self.product_supplier_service_10_excl)
@@ -166,9 +166,9 @@ class Test(TransactionCase):
             cr, cus_uid, ['currency_id', 'journal_id'],
             context=context)
         vals.update({
-                'partner_id': self.rit.supplier_partner_id.id,
-                'account_id': self.customer_account_payable_id,
-            })
+            'partner_id': self.rit.supplier_partner_id.id,
+            'account_id': self.customer_account_payable_id,
+        })
 
         cus_ai_id = self.ai_obj.create(cr, cus_uid, vals, context=context)
 

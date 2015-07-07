@@ -49,7 +49,6 @@ class AccountInvoiceLine(Model):
         """Create the according Account Invoice Line."""
         ai_obj = self.pool['account.invoice']
         pp_obj = self.pool['product.product']
-        psi_obj = self.pool['product.supplierinfo']
         ppl_obj = self.pool['product.pricelist']
 
         if vals.get('invoice_id', False):
@@ -91,9 +90,9 @@ class AccountInvoiceLine(Model):
                 context=context)
 
             ail_other_vals = self.product_id_change(
-                    cr, other_user_id, False, other_product_info['product_id'],
-                    False, type=other_type, company_id=other_company_id,
-                    partner_id=other_partner_id)['value']
+                cr, other_user_id, False, other_product_info['product_id'],
+                False, type=other_type, company_id=other_company_id,
+                partner_id=other_partner_id)['value']
             ail_other_vals.update({
                 'invoice_id': ai.integrated_trade_account_invoice_id.id,
                 'product_id': other_product_info['product_id'],
@@ -133,7 +132,7 @@ class AccountInvoiceLine(Model):
                 cr, other_user_id, ail_other_id, {
                     'integrated_trade_account_invoice_line_id': res,
                     'price_unit': price_unit,
-            }, context=ctx)
+                }, context=ctx)
 
             # Recompute All Invoice
             ai_obj.button_reset_taxes(
@@ -156,7 +155,7 @@ class AccountInvoiceLine(Model):
 
         res = super(AccountInvoiceLine, self).write(
             cr, uid, ids, vals, context=context)
-   
+
         if 'integrated_trade_do_not_propagate' not in context.keys():
             ctx = context.copy()
             ctx['integrated_trade_do_not_propagate'] = True
@@ -171,7 +170,7 @@ class AccountInvoiceLine(Model):
                         other_user_id = rit.supplier_user_id.id
                     else:
                         other_user_id = rit.customer_user_id.id
-   
+
                     if 'product_id' in vals.keys():
                         raise except_osv(
                             _("Error!"),
@@ -195,7 +194,7 @@ class AccountInvoiceLine(Model):
                             _("Error!"),
                             _("""You can not change the Unit Price of"""
                                 """ '%s'. Please ask to your supplier.""" % (
-                                   ail.product_id.name)))
+                                    ail.product_id.name)))
                     other_vals = {}
                     if vals.get('quantity', False):
                         other_vals['quantity'] = vals['quantity']
@@ -223,7 +222,7 @@ class AccountInvoiceLine(Model):
                     cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
                     context=context)
                 if ail.invoice_id.type in ('in_invoice', 'in_refund'):
-                  other_uid = rit.supplier_user_id.id
+                    other_uid = rit.supplier_user_id.id
                 else:
                     other_uid = rit.customer_user_id.id
                 self.unlink(

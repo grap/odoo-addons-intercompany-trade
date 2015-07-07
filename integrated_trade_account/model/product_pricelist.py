@@ -20,15 +20,8 @@
 #
 ##############################################################################
 
-#from openerp import SUPERUSER_ID
-
-#from openerp.osv import fields
-from datetime import date
-
 from openerp.osv.orm import Model
-#from openerp.addons import decimal_precision as dp
 
-#    
 
 class ProductPricelist(Model):
     _inherit = 'product.pricelist'
