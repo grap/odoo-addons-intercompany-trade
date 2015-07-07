@@ -180,6 +180,9 @@ class Test(TransactionCase):
         # CHECKS
         SUPER_ai = self.ai_obj.browse(cr, self.uid, cus_ai_id)
         SUPER_ai_other = SUPER_ai.integrated_trade_account_invoice_id
+
+        sup_ai_id = SUPER_ai.integrated_trade_account_invoice_id.id
+
         self.assertNotEqual(
             SUPER_ai_other.id, False,
             """Create a Invoice must create another invoice.""")
@@ -204,6 +207,8 @@ class Test(TransactionCase):
         # Checks creation of the according Invoice Line
         SUPER_ail = self.ail_obj.browse(cr, self.uid, cus_ail_id)
         SUPER_ail_other = SUPER_ail.integrated_trade_account_invoice_line_id
+
+        sup_ail_id = SUPER_ail.integrated_trade_account_invoice_line_id.id
 
         self.assertNotEqual(
             SUPER_ail_other, False,
@@ -230,8 +235,6 @@ class Test(TransactionCase):
             """Double Quantity asked by the customer must double price"""
             """ subtotal of the according Sale Invoice of the supplier.""")
 
-        sup_ail_id = SUPER_ail.integrated_trade_account_invoice_line_id.id
-
         # Unlink customer Invoice line (must unlink according supplier line)
         self.ail_obj.unlink(cr, cus_uid, [cus_ail_id], context=context)
         count_ail = self.ail_obj.search(cr, sup_uid, [('id', '=', sup_ail_id)])
@@ -240,4 +243,13 @@ class Test(TransactionCase):
             len(count_ail), 0,
             """Delete customer Invoice Line must delete according"""
             """ Supplier Invoice Line.""")
+
+        # Unlink customer Invoice (must unlink according supplier Invoice)
+        self.ai_obj.unlink(cr, cus_uid, [cus_ai_id], context=context)
+        count_ai = self.ai_obj.search(cr, sup_uid, [('id', '=', sup_ai_id)])
+
+        self.assertEqual(
+            len(count_ail), 0,
+            """Delete customer Invoice must delete according"""
+            """ Supplier Invoice.""")
 

@@ -21,8 +21,8 @@
 ##############################################################################
 {
     'name': 'Integrated Trade - Account',
-    'version': '0.1',
-    'category': 'Base',
+    'version': '1.0',
+    'category': 'Integrated Trade',
     'description': """
 Module for Integrated Trade for Account Module
 ==============================================
@@ -30,12 +30,16 @@ Module for Integrated Trade for Account Module
 Features :
 ----------
     * Add Demo Data;
-
-Terminer test de création de invoice:
--> check que n'importe quel prix à l'achat met toujours le même prix à la vente
--> check que les lignes sont bien liées;
--> check que la MaJ de l'un met à MaJ l'autre côté;
-
+    * Create link between:
+        * customer 'account.invoice' and supplier 'account.invoice';
+        * customer 'account.invoice.line' and supplier 'account.invoice.line';
+    * create or delete a customer / supplier invoice update the according
+      customer / supplier invoice;
+    * create, update or delete a customer / supplier line update the according
+      customer / supplier line;
+    * Customers doesn't have the possibility to change price_unit;
+    * Add Tax management to avoid Tax Bug:
+        * All invoices are Tax excluded allways;
 
 Copyright, Authors and Licence:
 -------------------------------

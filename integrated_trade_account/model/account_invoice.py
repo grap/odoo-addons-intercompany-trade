@@ -148,3 +148,27 @@ class AccountInvoice(Model):
                 'invoice_line': line_ids,
             }, context=context)
         return res
+
+    def unlink(self, cr, uid, ids, context=None):
+        """"- Unlink the according Invoice."""
+        context = context and context or {}
+
+        if 'integrated_trade_do_not_propagate' not in context.keys():
+            ctx = context.copy()
+            ctx['integrated_trade_do_not_propagate'] = True
+            for ai in self.browse(
+                    cr, uid, ids, context=context):
+                rit = self._get_res_integrated_trade(
+                    cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
+                    context=context)
+                if ai.type in ('in_invoice', 'in_refund'):
+                    other_uid = rit.supplier_user_id.id
+                else:
+                    other_uid = rit.customer_user_id.id
+                self.unlink(
+                    cr, other_uid,
+                    [ai.integrated_trade_account_invoice_id.id],
+                    context=ctx)
+        res = super(AccountInvoice, self).unlink(
+            cr, uid, ids, context=context)
+        return res
