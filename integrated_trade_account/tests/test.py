@@ -91,8 +91,10 @@ class Test(TransactionCase):
             'product', 'product_uom_unit')[1]
 
     def test_01_vat_association_bad(self):
-        """[Functional Test] Associate products with incompatible VAT"""
-        """ must fail"""
+        """
+            [Functional Test] Associate products with incompatible VAT
+            must fail
+        """
         cr, uid = self.cr, self.customer_user_id
 
         # Associate with bad VAT
@@ -120,8 +122,10 @@ class Test(TransactionCase):
             self.itwlp_obj.link_product(cr, uid, [itwlp_id])
 
     def test_02_vat_association_good(self):
-        """[Functional Test] Associate products with compatible VAT"""
-        """ must succeed (Incl / excl)"""
+        """
+            [Functional Test] Associate products with compatible VAT
+            must succeed (Incl / excl)
+        """
         cr, uid = self.cr, self.customer_user_id
         # Associate with good VAT
         # (Customer Service VAT 10% EXCLUDED
@@ -141,8 +145,10 @@ class Test(TransactionCase):
             """ must succeed.""")
 
     def test_03_create_invoice_in(self):
-        """Create an In Invoice (Supplier Invoice) by the customer"""
-        """ must create an Out Invoice"""
+        """
+            Create an In Invoice (Supplier Invoice) by the customer
+            must create an Out Invoice
+        """
         cr, cus_uid, sup_uid =\
             self.cr, self.customer_user_id, self.supplier_user_id
 
