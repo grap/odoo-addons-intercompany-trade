@@ -46,8 +46,6 @@ class purchase_order_line(Model):
     # Overload Section
     def create(self, cr, uid, vals, context=None):
         """Create the according Sale Order Line."""
-        print "**** vals"
-        print vals
         context = context and context or {}
 
         rit_obj = self.pool['res.integrated.trade']

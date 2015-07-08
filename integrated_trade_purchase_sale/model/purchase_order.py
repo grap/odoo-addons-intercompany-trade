@@ -192,11 +192,15 @@ class purchase_order(Model):
         return res
 
     def unlink(self, cr, uid, ids, context=None):
-        """Delete according Purchase order"""
+        """
+            Delete according Sale order
+        """
+        # FIXME: Unlink purchase Order call workflow trigger and fails
+        context = context if context else {}
+
         rit_obj = self.pool['res.integrated.trade']
         so_obj = self.pool['sale.order']
 
-        context = context if context else {}
         if 'integrated_trade_do_not_propagate' not in context.keys():
             ctx = context.copy()
             ctx['integrated_trade_do_not_propagate'] = True
@@ -208,6 +212,5 @@ class purchase_order(Model):
                     so_obj.unlink(
                         cr, rit.supplier_user_id.id,
                         [po.integrated_trade_sale_order_id.id], context=ctx)
-        res = super(purchase_order, self).unlink(
+        return super(purchase_order, self).unlink(
             cr, uid, ids, context=context)
-        return res

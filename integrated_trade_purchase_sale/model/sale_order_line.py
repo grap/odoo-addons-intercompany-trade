@@ -20,16 +20,15 @@
 #
 ##############################################################################
 
-# from datetime import datetime
+from datetime import datetime
 
-# from openerp import SUPERUSER_ID
 from openerp.osv import fields
 from openerp.osv.orm import Model
-# from openerp.osv.osv import except_osv
-# from openerp.tools.translate import _
+from openerp.osv.osv import except_osv
+from openerp.tools.translate import _
 
-# from openerp.addons.integrated_trade_product.model.custom_tools \
-# import _compute_integrated_customer_price
+from openerp.addons.integrated_trade_product.model.custom_tools\
+    import _get_other_product_info
 
 
 class sale_order_line(Model):
@@ -43,159 +42,132 @@ class sale_order_line(Model):
         ),
     }
 
-#    # Overload Section
-#    def create(self, cr, uid, vals, context=None):
-#        """Create the according Purchase Order Line."""
-#        rit_obj = self.pool['res.integrated.trade']
-# #        pp_obj = self.pool['product.product']
-#        so_obj = self.pool['sale.order']
-#        pol_obj = self.pool['purchase.order.line']
-# #        psi_obj = self.pool['product.supplierinfo']
+    # Overload Section
+    def create(self, cr, uid, vals, context=None):
+        """Create the according Purchase Order Line."""
+        context = context and context or {}
 
-#        context = context and context or {}
+        rit_obj = self.pool['res.integrated.trade']
+        so_obj = self.pool['sale.order']
+        pol_obj = self.pool['purchase.order.line']
 
-#        so = so_obj.browse(cr, uid, vals['order_id'], context=context)
-#        create_purchase_order_line = (
-#            not context.get('integrated_trade_do_not_propagate', False) and
-#            so.integrated_trade)
+        so = so_obj.browse(cr, uid, vals['order_id'], context=context)
+        create_purchase_order_line = (
+            not context.get('integrated_trade_do_not_propagate', False) and
+            so.integrated_trade)
 
-#        # Call Super: Create
-#        res = super(sale_order_line, self).create(
-#            cr, uid, vals, context=context)
+        # Call Super: Create
+        res = super(sale_order_line, self).create(
+            cr, uid, vals, context=context)
 
-#        if create_purchase_order_line:
-#            ctx = context.copy()
-#            ctx['integrated_trade_do_not_propagate'] = True
+        if create_purchase_order_line:
+            # Extra Check: block discount feature
+            if 'discount' in vals.keys():
+                raise except_osv(
+                    _("Error!"),
+                    _(
+                        """You can not set a discount for the """
+                        """product '%s'.\n"""
+                        """ Please change the unit price.""" % (
+                            vals['name'])))
 
-#            rit = rit_obj._get_integrated_trade_by_partner_company(
-#                cr, uid, so.partner_id.id, so.company_id.id, 'out',
-#                context=context)
+            ctx = context.copy()
+            ctx['integrated_trade_do_not_propagate'] = True
 
-#            # Create associated Purchase Order Line
-#            # TODO Check if taxes are changed (with products value)
-#            sol = self.browse(cr, uid, res, context=context)
-#            # TODO call custom_tools....
-#            psi_ids = psi_obj.search(cr, SUPERUSER_ID, [
-#                ('supplier_product_id', '=', sol.product_id.id),
-#                ('name', '=', rit.supplier_partner_id.id),
-#                ('company_id', '=', rit.customer_company_id.id),
-#            ], context=context)
-#            if len(psi_ids) == 0:
-#                raise except_osv(
-#                    _("Product Selection Error!"),
-#                    _("""You can not add the product '%s' to the current"""
-#                        """ Sale Order because the customer didn't"""
-#                        """ referenced your product. Please contact him and"""
-#                        """ say him to do it.""" % (
-#                            sol.product_id.name)))
-#            psi = psi_obj.browse(
-#               cr, SUPERUSER_ID, psi_ids[0], context=context)
-#            customer_pp_ids = pp_obj.search(cr, SUPERUSER_ID, [
-#                ('company_id', '=', rit.customer_company_id.id),
-#                ('product_tmpl_id', '=', psi.product_id.id),
-#            ], context=context)
-#            if len(customer_pp_ids) != 1:
-#                raise except_osv(
-#                    _("Product Selection Error!"),
-#                    _("""You can not add the product '%s' to the current"""
-#                        """ Sale Order because the customer referenced many"""
-#                        """ variants of this product. Please contact him """
-#                        """ and say him to add the product to him purchase"""
-#                        """ order.""" % (
-#                            sol.product_id.name)))
-#            else:
-#                customer_pp = pp_obj.browse(
-#                    cr, SUPERUSER_ID, customer_pp_ids[0], context=context)
+            rit = rit_obj._get_integrated_trade_by_partner_company(
+                cr, uid, so.partner_id.id, so.company_id.id, 'out',
+                context=context)
 
-#            price_info = _compute_integrated_customer_price(
-#                self.pool, cr, SUPERUSER_ID, sol.product_id, customer_pp,
-#                (100 - sol.discount) / 100 * sol.price_unit, context=context)
+            sol = self.browse(cr, uid, res, context=context)
 
-#            pol_vals = {
-#                'order_id':
-#                   sol.order_id.integrated_trade_purchase_order_id.id,
-#                'price_unit': 0,
-#                'name': '[%s] %s' % (
-#                    sol.product_id.default_code, sol.product_id.name),
-#                'product_id': customer_pp.id,
-#                'product_qty': sol.product_uom_qty,
-#                'product_uom': sol.product_uom.id,
-#                'integrated_trade_sale_order_line_id': sol.id,
-#                'date_planned': datetime.now().strftime('%d-%m-%Y'),
-#                'taxes_id': [[6, False, price_info['customer_taxes_id']]],
-#            }
+            # Create associated Purchase Order Line
+            other_product_info = _get_other_product_info(
+                self.pool, cr, uid, rit, vals['product_id'], 'out',
+                context=context)
 
-#            pol_id = pol_obj.create(
-#                cr, rit.customer_user_id.id, pol_vals, context=ctx)
-#            # Force the call of the _amount_all
-#            pol_obj.write(
-#                cr, rit.customer_user_id.id, pol_id, {
-#                    'price_unit': price_info['customer_purchase_price'],
-#                }, context=ctx)
+            pol_vals = pol_obj.onchange_product_id(
+                cr, rit.customer_user_id.id, False, rit.pricelist_id.id,
+                other_product_info['product_id'], sol.product_uom_qty,
+                sol.product_uom.id, rit.supplier_partner_id.id,
+                context=context)['value']
 
-#            # Update Sale Order line
-#            self.write(cr, uid, res, {
-#                'integrated_trade_purchase_order_line_id': pol_id,
-#            }, context=ctx)
-#        return res
+            pol_vals.update({
+                'order_id':
+                    sol.order_id.integrated_trade_purchase_order_id.id,
+                'price_unit': 0,
+                'name': '[%s] %s' % (
+                    sol.product_id.default_code, sol.product_id.name),
+                'product_id': other_product_info['product_id'],
+                'product_qty': sol.product_uom_qty,
+                'product_uom': sol.product_uom.id,
+                'integrated_trade_sale_order_line_id': sol.id,
+                'date_planned': datetime.now().strftime('%d-%m-%Y'),
+                'taxes_id': [[6, False, pol_vals['taxes_id']]],
+            })
 
-#    def write(self, cr, uid, ids, vals, context=None):
-#        """"- Update the according Purchase Order Line with new data;
-#            - Block any changes of product."""
-#        rit_obj = self.pool['res.integrated.trade']
-#        pol_obj = self.pool['purchase.order.line']
-#        pp_obj = self.pool['product.product']
+            pol_id = pol_obj.create(
+                cr, rit.customer_user_id.id, pol_vals, context=ctx)
+            # Force the call of the _amount_all
+            pol_obj.write(
+                cr, rit.customer_user_id.id, pol_id, {
+                    'price_unit': vals['price_unit'],
+                }, context=ctx)
 
-#        context = context and context or {}
+            # Update Sale Order line
+            self.write(cr, uid, res, {
+                'integrated_trade_purchase_order_line_id': pol_id,
+            }, context=ctx)
+        return res
 
-#        res = super(sale_order_line, self).write(
-#            cr, uid, ids, vals, context=context)
+    def write(self, cr, uid, ids, vals, context=None):
+        """"- Update the according Purchase Order Line with new data;
+            - Block any changes of product."""
+        context = context and context or {}
+        rit_obj = self.pool['res.integrated.trade']
+        pol_obj = self.pool['purchase.order.line']
 
-#        if 'integrated_trade_do_not_propagate' not in context.keys():
-#            ctx = context.copy()
-#            ctx['integrated_trade_do_not_propagate'] = True
-#            for sol in self.browse(cr, SUPERUSER_ID, ids, context=context):
-#                pol = sol.integrated_trade_purchase_order_line_id
-#                if pol:
-#                    rit = rit_obj._get_integrated_trade_by_partner_company(
-#                        cr, uid, sol.order_id.partner_id.id,
-#                        sol.order_id.company_id.id, 'out', context=context)
-#                    customer_pp = pp_obj.browse(
-#                        cr, SUPERUSER_ID, pol.product_id.id, context=context)
-#                    pol_vals = {}
+        res = super(sale_order_line, self).write(
+            cr, uid, ids, vals, context=context)
 
-#                    if 'product_id' in vals.keys():
-#                        raise except_osv(
-#                            _("Error!"),
-#                            _("""You can not change the product '%s'.\n"""
-#                                """ Please remove this line and choose a"""
-#                                """ a new one.""" % (sol.product_id.name)))
-#                    if 'tax_id' in vals.keys():
-#                        raise except_osv(
-#                            _("Integrated Trade Error!"),
-#                            _("""You can not change Taxes in a Sale"""))
-#                    if 'product_uom_qty' in vals:
-#                        pol_vals['product_qty'] = sol.product_uom_qty
-#                    if 'product_uom' in vals:
-#                        pol_vals['product_uom'] = sol.product_uom.id
-#                    if 'discount' in vals or 'price_unit' in vals:
-#                        pol_vals['discount'] = sol.discount
-#                        price_info = _compute_integrated_customer_price(
-#                            self.pool, cr, SUPERUSER_ID, sol.product_id,
-#                            customer_pp,
-#                            (100 - sol.discount) / 100 * sol.price_unit,
-#                            context=context)
-#                        pol_vals['price_unit'] =\
-#                            price_info['customer_purchase_price']
+        if 'integrated_trade_do_not_propagate' not in context.keys():
+            ctx = context.copy()
+            ctx['integrated_trade_do_not_propagate'] = True
+            for sol in self.browse(cr, uid, ids, context=context):
+                if sol.integrated_trade_purchase_order_line_id:
+                    rit = rit_obj._get_integrated_trade_by_partner_company(
+                        cr, uid, sol.order_id.partner_id.id,
+                        sol.order_id.company_id.id, 'out', context=context)
+                    pol_vals = {}
 
-#                    pol_obj.write(
-#                        cr, rit.customer_user_id.id,
-#                        pol.id,
-#                        pol_vals, context=ctx)
-#        return res
+                    if 'product_id' in vals.keys():
+                        raise except_osv(
+                            _("Error!"),
+                            _("""You can not change the product '%s'.\n"""
+                                """ Please remove this line and choose a"""
+                                """ a new one.""" % (sol.product_id.name)))
+                    if 'discount' in vals.keys():
+                        raise except_osv(
+                            _("Error!"),
+                            _(
+                                """You can not set a discount for the """
+                                """product '%s'.\n"""
+                                """ Please change the unit price.""" % (
+                                    sol.product_id.name)))
+                    if 'product_uom_qty' in vals:
+                        pol_vals['product_qty'] = sol.product_uom_qty
+                    if 'product_uom' in vals:
+                        pol_vals['product_uom'] = sol.product_uom.id
+                    if 'price_unit' in vals:
+                        pol_vals['price_unit'] = sol.price_unit
+                    pol_obj.write(
+                        cr, rit.customer_user_id.id,
+                        [sol.integrated_trade_purchase_order_line_id.id],
+                        pol_vals, context=ctx)
+        return res
 
     def unlink(self, cr, uid, ids, context=None):
         """"- Unlink the according Purchase Order Line."""
+        context = context and context or {}
         rit_obj = self.pool['res.integrated.trade']
         pol_obj = self.pool['purchase.order.line']
 

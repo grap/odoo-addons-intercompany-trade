@@ -84,8 +84,8 @@ class sale_order(Model):
             rp.integrated_trade)
 
         if create_purchase_order:
-            line_ids = vals['order_line']
-            vals.pop('order_line')
+            line_ids = vals.get('order_line', False)
+            vals.pop('order_line', None)
 
         res = super(sale_order, self).create(
             cr, uid, vals, context=context)
@@ -159,6 +159,28 @@ class sale_order(Model):
                                 """  cancel the Purchase Order and create a"""
                                 """  new one, duplicating it."""))
         return res
+
+    def unlink(self, cr, uid, ids, context=None):
+        """Delete according Purchase order"""
+        context = context if context else {}
+
+        rit_obj = self.pool['res.integrated.trade']
+        po_obj = self.pool['purchase.order']
+
+        ctx = context.copy()
+        if 'integrated_trade_do_not_propagate' not in context.keys():
+            ctx['integrated_trade_do_not_propagate'] = True
+            for so in self.browse(cr, uid, ids, context=context):
+                rit = rit_obj._get_integrated_trade_by_partner_company(
+                    cr, uid, so.partner_id.id, so.company_id.id, 'out',
+                    context=context)
+                if so.integrated_trade:
+                    po_obj.unlink(
+                        cr, rit.customer_user_id.id,
+                        [so.integrated_trade_purchase_order_id.id],
+                        context=ctx)
+        return super(sale_order, self).unlink(
+            cr, uid, ids, context=ctx)
 
     def action_button_confirm(self, cr, uid, ids, context=None):
         sp_obj = self.pool['stock.picking']
