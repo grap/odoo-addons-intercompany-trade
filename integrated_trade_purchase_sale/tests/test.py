@@ -96,10 +96,6 @@ class Test(TransactionCase):
         po_vals.update(self.po_obj.onchange_dest_address_id(
             cr, cus_uid, False, self.rit.supplier_partner_id.id)['value'])
 
-        print ">>>>>>>"
-        print po_vals
-        print ">>>>>>>"
-
         cus_po_id = self.po_obj.create(cr, cus_uid, po_vals)
 
         # Checks creation of the according Sale Order
@@ -194,6 +190,7 @@ class Test(TransactionCase):
 
         so_vals.update({
             'partner_id': self.rit.customer_partner_id.id,
+            'order_policy': 'picking',
         })
         so_vals.update(self.so_obj.onchange_partner_id(
             cr, sup_uid, False, self.rit.customer_partner_id.id)['value'])
