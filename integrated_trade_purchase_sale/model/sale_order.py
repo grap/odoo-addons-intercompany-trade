@@ -120,6 +120,7 @@ class sale_order(Model):
                 'integrated_trade_sale_order_id': res,
                 'pricelist_id': rp2.property_product_pricelist_purchase.id,
                 'partner_ref': so.name,
+                'invoice_method': 'picking',
             }
             po_id = po_obj.create(
                 cr, rit.customer_user_id.id, po_vals, context=ctx)

@@ -120,6 +120,7 @@ class purchase_order(Model):
                 'shop_id': shop_id,
                 'pricelist_id': rit.pricelist_id.id,
                 'client_order_ref': po.name,
+                'order_policy': 'picking',
             }
             so_id = so_obj.create(
                 cr, rit.supplier_user_id.id, so_vals, context=ctx)
