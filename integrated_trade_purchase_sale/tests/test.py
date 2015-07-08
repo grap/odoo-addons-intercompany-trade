@@ -96,6 +96,10 @@ class Test(TransactionCase):
         po_vals.update(self.po_obj.onchange_dest_address_id(
             cr, cus_uid, False, self.rit.supplier_partner_id.id)['value'])
 
+        print ">>>>>>>"
+        print po_vals
+        print ">>>>>>>"
+
         cus_po_id = self.po_obj.create(cr, cus_uid, po_vals)
 
         # Checks creation of the according Sale Order
