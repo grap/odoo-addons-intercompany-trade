@@ -222,8 +222,8 @@ class sale_order(Model):
             # FIXME : set this part of code in a module
             # integrated_trade_stock
             # Confirm Supplier Picking Out
-            sp_obj.check_assign_all(
-                cr, uid, [spo_id], context=context)
+            sp_obj.action_assign(
+                cr, uid, [spo_id], context)
             sp_obj.force_assign(cr, uid, [spo_id])
             ctx = context.copy()
             ctx['active_ids'] = [spo_id]

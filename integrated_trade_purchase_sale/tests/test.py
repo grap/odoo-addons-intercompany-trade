@@ -87,11 +87,10 @@ class Test(TransactionCase):
         self.itwlp_obj.link_product(cr, cus_uid, [itwlp_id])
 
         # Create a Purchase Order
-        po_vals = self.po_obj.default_get(
-            cr, cus_uid, ['invoice_method', 'location_id'])
-        po_vals.update({
+        po_vals = {
             'partner_id': self.rit.supplier_partner_id.id,
-        })
+            'invoice_method': 'picking',
+        }
         po_vals.update(self.po_obj.onchange_partner_id(
             cr, cus_uid, False, self.rit.supplier_partner_id.id)['value'])
         po_vals.update(self.po_obj.onchange_dest_address_id(
@@ -115,7 +114,6 @@ class Test(TransactionCase):
         pol_vals.update(self.pol_obj.onchange_product_id(
             cr, cus_uid, False, False, self.product_customer_apple, False,
             False, False)['value'])
-        print pol_vals
         cus_pol_id = self.pol_obj.create(cr, cus_uid, pol_vals)
 
         # Checks creation of the according SO Line
