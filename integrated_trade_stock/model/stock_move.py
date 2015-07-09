@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Stock module for OpenERP
-#    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
+#    Integrated Trade - Stock module for Odoo
+#    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,17 @@
 #
 ##############################################################################
 
-from . import stock_move
-from . import stock_picking
-from . import stock_picking_in
-from . import stock_picking_out
-from . import stock_return_picking
-from . import stock_invoice_onshipping
+from openerp.osv import fields
+from openerp.osv.orm import Model
+
+
+class stock_move(Model):
+    _inherit = 'stock.move'
+
+    # Columns Section
+    _columns = {
+        'integrated_trade_stock_move_id': fields.many2one(
+            'stock.move', string='Integrated Trade Stock Move',
+            readonly=True,
+        ),
+    }

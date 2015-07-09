@@ -185,6 +185,7 @@ class sale_order(Model):
 
     def action_button_confirm(self, cr, uid, ids, context=None):
         sp_obj = self.pool['stock.picking']
+        sm_obj = self.pool['stock.move']
         spp_wizard_obj = self.pool['stock.partial.picking']
         rit_obj = self.pool['res.integrated.trade']
         wf_service = netsvc.LocalService('workflow')
@@ -242,5 +243,24 @@ class sale_order(Model):
                 cr, rit.customer_user_id.id, {}, context=ctx)
             spp_wizard_obj.do_partial(
                 cr, rit.customer_user_id.id, [spp_wizard_id], context=context)
+
+            # Link Stock moves
+            for sol in so.order_line:
+                sol_id = sol.id
+                pol_id = sol.integrated_trade_purchase_order_line_id.id
+
+                sm_sol_id = sm_obj.search(cr, uid, [
+                    ('sale_line_id', '=', sol_id)], context=context)[0]
+
+                sm_pol_id = sm_obj.search(cr, rit.customer_user_id.id, [
+                    ('purchase_line_id', '=', pol_id)], context=context)[0]
+
+                sm_obj.write(cr, uid, [sm_sol_id], {
+                    'integrated_trade_stock_move_id': sm_pol_id,
+                }, context=context)
+
+                sm_obj.write(cr, rit.customer_user_id.id, [sm_pol_id], {
+                    'integrated_trade_stock_move_id': sm_sol_id,
+                }, context=context)
 
         return res
