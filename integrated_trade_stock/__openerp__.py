@@ -33,7 +33,7 @@ Features:
     * Block possibility to copy a stock.picking;
     * Block possibility to invoice a stock picking out;
 
-TODO: 
+TODO:
     * block possibility to invoices multiple picking;
 
 Copyright, Authors and Licence:
