@@ -62,7 +62,7 @@ class sale_order_line(Model):
 
         if create_purchase_order_line:
             # Extra Check: block discount feature
-            if 'discount' in vals.keys():
+            if vals.get('discount', 0) != 0:
                 raise except_osv(
                     _("Error!"),
                     _(

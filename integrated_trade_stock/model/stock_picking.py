@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Purchase module for OpenERP
+#    Integrated Trade - Stock module for Odoo
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -20,7 +20,6 @@
 #
 ##############################################################################
 
-from openerp import SUPERUSER_ID
 from openerp.osv import fields
 from openerp.osv.orm import Model
 from openerp.osv.osv import except_osv
@@ -34,7 +33,7 @@ class stock_picking(Model):
     def _get_integrated_trade(
             self, cr, uid, ids, field_name, arg, context=None):
         res = {}
-        for sp in self.browse(cr, SUPERUSER_ID, ids, context=context):
+        for sp in self.browse(cr, uid, ids, context=context):
             res[sp.id] = sp.partner_id.integrated_trade
         return res
 

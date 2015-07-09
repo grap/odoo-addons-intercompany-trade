@@ -46,9 +46,9 @@ class stock_invoice_onshipping(TransientModel):
                     raise except_osv(
                         _("Integrated Trade - Unimplemented Feature!"),
                         _(
-                            """You can not Invoice a Picking Out that come"""
+                            """You can not Invoice a Picking In that come"""
                             """ from Integrated Trade."""
-                            """ Only Picking In can be invoiced. Please ask"""
+                            """ Only Picking Out can be invoiced. Please ask"""
                             """ to your supplier to invoice the Trade."""))
         res = super(stock_invoice_onshipping, self).create_invoice(
             cr, uid, ids, context=context)

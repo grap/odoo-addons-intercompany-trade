@@ -26,14 +26,12 @@
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <field name="arch" type="xml">
                 <field name="name" position="after">
-                    <span class="integrated_trade_form_view"
-                      attrs="{'invisible': [('integrated_trade','=', False)]}">
-                      Integrated Trade
-                    </span>
+                    <span class="integrated_trade_nothing_to_do"
+                        attrs="{'invisible': ['|', ('state', 'in', ['draft', 'sent']), ('integrated_trade','=', False)]}">Integrated Trade</span>
                     <span class="integrated_trade_todo"
-                        attrs="{'invisible': ['|', ('state', 'not in', ['draft']), ('integrated_trade','=', False)]}">Request To Confirm</span>
+                        attrs="{'invisible': ['|', ('state', 'not in', ['draft']), ('integrated_trade','=', False)]}">Integrated Trade To Confirm</span>
                     <span class="integrated_trade_waiting"
-                        attrs="{'invisible': ['|', ('state', 'not in', ['sent']), ('integrated_trade','=', False)]}">On Hold</span>
+                        attrs="{'invisible': ['|', ('state', 'not in', ['sent']), ('integrated_trade','=', False)]}">Integrated Trade On Hold</span>
                 </field>
                 <field name="partner_ref" position="after">
                     <field name="integrated_trade" groups="integrated_trade_base.integrated_trade_user"
@@ -83,14 +81,12 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
                 <field name="name" position="after">
-                    <span class="integrated_trade_form_view"
-                      attrs="{'invisible': [('integrated_trade','=', False)]}">
-                      Integrated Trade
-                    </span>
+                    <span class="integrated_trade_nothing_to_do"
+                        attrs="{'invisible': ['|', ('state', 'in', ['draft', 'sent']), ('integrated_trade','=', False)]}">Integrated Trade</span>
                     <span class="integrated_trade_waiting"
-                        attrs="{'invisible': ['|', ('state', 'not in', ['draft']), ('integrated_trade','=', False)]}">On Hold</span>
+                        attrs="{'invisible': ['|', ('state', 'not in', ['draft']), ('integrated_trade','=', False)]}">Integrated Trade On Hold</span>
                     <span class="integrated_trade_todo"
-                        attrs="{'invisible': ['|', ('state', 'not in', ['sent']), ('integrated_trade','=', False)]}">Sale To Confirm</span>
+                        attrs="{'invisible': ['|', ('state', 'not in', ['sent']), ('integrated_trade','=', False)]}">Integrated Trade To Confirm</span>
                 </field>
                 <field name="partner_id" position="after">
                     <field name="integrated_trade" groups="integrated_trade_base.integrated_trade_user"
