@@ -44,6 +44,7 @@ Demo Data:
         * A supplier user: login: integrated_supplier // demo
         * A customer user: login: integrated_customer // demo
 
+
 Copyright, Authors and Licence:
 -------------------------------
     * Copyright: 2014, GRAP: Groupement Régional Alimentaire de Proximité;
