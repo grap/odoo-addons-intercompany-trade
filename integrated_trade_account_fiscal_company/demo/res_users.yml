@@ -22,12 +22,12 @@
 
 - !record {model: res.users, id: base.user_root}:
     company_ids:
+        - base.main_company
         - integrated_trade_base.customer_company
         - integrated_trade_base.supplier_company
-        - company_fiscal_child_1
-        - company_fiscal_child_2
-        - company_fiscal_mother
-        - base.main_company
+        - base_fiscal_company.company_fiscal_child_1
+        - base_fiscal_company.company_fiscal_child_2
+        - base_fiscal_company.company_fiscal_mother
 
 - !record {model: res.users, id: fiscal_customer_user}:
     name: Fiscal Integrated Customer User
