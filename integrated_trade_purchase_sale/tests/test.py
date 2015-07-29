@@ -246,7 +246,8 @@ class Test(TransactionCase):
 
 #        # Unlink customer SO line (must unlink according PO line)
 #        self.sol_obj.unlink(cr, sup_uid, [sup_sol_id])
-#        count_pol = self.pol_obj.search(cr, cus_uid, [('id', '=', cus_pol_id)])
+#        count_pol = self.pol_obj.search(
+#            cr, cus_uid, [('id', '=', cus_pol_id)])
 
 #        self.assertEqual(
 #            len(count_pol), 0,
