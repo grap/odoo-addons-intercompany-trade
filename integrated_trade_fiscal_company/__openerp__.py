@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - ALL module for OpenERP
+#    Fiscal Company for Integrated Trade Module for Odoo
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -19,29 +19,45 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'Integrated Trade - ALL',
-    'version': '1.0',
-    'category': 'Integrated Trade',
-    'description': """
-Module for Integrated Trade
-===========================
 
-Copyright, Authors and Licence:
+{
+    'name': 'CIS - Integrated Trade Fiscal Company',
+    'version': '1.0',
+    'category': 'CIS',
+    'description': """
+Manage specific integrated trade for Cooperative
+================================================
+
+Features :
+----------
+    * TOWRITE;
+
+TODO :
+------
+    * Update the description of this module;
+
+Copyright, Author and Licence :
 -------------------------------
-    * Copyright: 2015, GRAP: Groupement Régional Alimentaire de Proximité;
-    * Author:
+    * Copyright : 2015-Today, Groupement Régional Alimentaire de Proximité;
+    * Author :
         * Sylvain LE GAL (https://twitter.com/legalsylvain);
-    * Licence: AGPL-3 (http://www.gnu.org/licenses/);""",
+    * Licence : AGPL-3 (http://www.gnu.org/licenses/)
+    """,
     'author': 'GRAP',
     'website': 'http://www.grap.coop',
     'license': 'AGPL-3',
     'depends': [
-        'integrated_trade_base',
-        'integrated_trade_product',
-        'integrated_trade_stock',
-        'integrated_trade_purchase_sale',
-        'integrated_trade_account',
-        'integrated_trade_fiscal_company',
+        'base_fiscal_company',
+        # 'integrated_trade_base',
+        'stock',
+        'account',
     ],
+    'data': [
+        # 'security/ir_rule.xml',
+        # 'security/ir_model_access.yml',
+        # 'view/view.xml',
+        # 'view/action.xml',
+        # 'view/menu.xml',
+    ],
+    'auto_install': True,
 }

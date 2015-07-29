@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - ALL module for OpenERP
-#    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
+#    Sale - eShop for Odoo
+#    Copyright (C) 2014 GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,29 +19,21 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'Integrated Trade - ALL',
-    'version': '1.0',
-    'category': 'Integrated Trade',
-    'description': """
-Module for Integrated Trade
-===========================
 
-Copyright, Authors and Licence:
--------------------------------
-    * Copyright: 2015, GRAP: Groupement Régional Alimentaire de Proximité;
-    * Author:
-        * Sylvain LE GAL (https://twitter.com/legalsylvain);
-    * Licence: AGPL-3 (http://www.gnu.org/licenses/);""",
-    'author': 'GRAP',
-    'website': 'http://www.grap.coop',
-    'license': 'AGPL-3',
-    'depends': [
-        'integrated_trade_base',
-        'integrated_trade_product',
-        'integrated_trade_stock',
-        'integrated_trade_purchase_sale',
-        'integrated_trade_account',
-        'integrated_trade_fiscal_company',
-    ],
-}
+- !record {model: ir.model.access, id: ir_model_access_fiscal_company_transcoding_account_reader}:
+    model_id: integrated_trade_fiscal_company.model_fiscal_company_transcoding_account
+    name: Transcoding Account for Fiscal Company Reader
+    perm_read: true
+    perm_create: false
+    perm_write: false
+    perm_unlink: false
+
+- !record {model: ir.model.access, id: ir_model_access_fiscal_company_transcoding_account_manager}:
+    group_id: integrated_trade_base.integrated_trade_manager
+    model_id: integrated_trade_fiscal_company.model_fiscal_company_transcoding_account
+    name: Transcoding Account for Fiscal Company Manager
+    perm_read: true
+    perm_create: true
+    perm_write: true
+    perm_unlink: true
+

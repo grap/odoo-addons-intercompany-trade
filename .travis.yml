@@ -29,6 +29,7 @@ before_install:
 install:
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - git clone https://github.com/grap/odoo-addons-misc.git -b 7.0 ${HOME}/odoo-addons-misc
+  - git clone https://github.com/grap/odoo-addons-cis.git -b 7.0 ${HOME}/odoo-addons-cis
     # <dependencies> with odoo-addons-misc
   - git clone https://github.com/OCA/web.git $HOME/web -b 7.0
   - git clone https://github.com/OCA/pos.git $HOME/pos -b 7.0
