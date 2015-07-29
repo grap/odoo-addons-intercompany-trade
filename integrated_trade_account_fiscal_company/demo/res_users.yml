@@ -1,0 +1,46 @@
+# -*- encoding: utf-8 -*-
+##############################################################################
+#
+#    Integrated Trade - Account Fiscal Company module for OpenERP
+#    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
+#    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
+- !record {model: res.users, id: base.user_root}:
+    company_ids:
+        - integrated_trade_base.customer_company
+        - integrated_trade_base.supplier_company
+        - company_fiscal_child_1
+        - company_fiscal_child_2
+        - company_fiscal_mother
+        - base.main_company
+
+- !record {model: res.users, id: fiscal_customer_user}:
+    name: Fiscal Integrated Customer User
+    login: fiscal_integrated_customer
+    password: demo
+    company_id: base_fiscal_company.company_fiscal_child_2
+    company_ids:
+        - base_fiscal_company.company_fiscal_child_2
+
+- !record {model: res.users, id: fiscal_supplier_user}:
+    name: Fiscal Integrated Supplier User
+    login: fiscal_integrated_supplier
+    password: demo
+    company_id: base_fiscal_company.company_fiscal_child_1
+    company_ids:
+        - base_fiscal_company.company_fiscal_child_1

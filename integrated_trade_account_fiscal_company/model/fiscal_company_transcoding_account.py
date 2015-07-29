@@ -30,15 +30,14 @@ class FiscalCompanyTranscodingAccount(Model):
     # Columns Section
     _columns = {
         'company_id': fields.many2one(
-            'res.company', string='Fiscal Mother Company', required=True,
-            readonly=True),
-        'initial_account_id': fields.many2one(
-            'account.account', string='Initial Account', required=True,
-            domain="[('type', '=', 'other')]",
+            'res.company', string='Fiscal Mother Company', required=True),
+        'from_account_id': fields.many2one(
+            'account.account', string='From Account', required=True,
+            domain="[('type', '=', 'other'), ('company_id', '=', company_id)]",
             ),
-        'transcoded_account_id': fields.many2one(
-            'account.account', string='Transcoded Account', required=True,
-            domain="[('type', '=', 'other')]",
+        'to_account_id': fields.many2one(
+            'account.account', string='To Account', required=True,
+            domain="[('type', '=', 'other'), ('company_id', '=', company_id)]",
             ),
     }
 
@@ -61,9 +60,9 @@ class FiscalCompanyTranscodingAccount(Model):
 
     def _check_account_company_id(self, cr, uid, ids, context=None):
         for fcta in self.browse(cr, uid, ids, context=context):
-            if fcta.initial_account_id.company_id.id !=\
+            if fcta.from_account_id.company_id.id !=\
                     fcta.company_id.id or\
-                    fcta.transcoded_account_id.company_id.id !=\
+                    fcta.to_account_id.company_id.id !=\
                     fcta.company_id.id:
                 return False
         return True
@@ -71,18 +70,18 @@ class FiscalCompanyTranscodingAccount(Model):
     _constraints = [
         (
             _check_fiscal_mother_company_id,
-            """Error: Transcoding Account is only possible for """
+            """Error: Transcoding Account is only possible for"""
             """ fiscal mother company.""",
             ['company_id']),
         (
             _check_account_company_id,
             """Error: You have to select account that belong to the"""
             """ selected Company.""",
-            ['company_id', 'initial_account_id', 'transcoded_account_id']),
+            ['company_id', 'from_account_id', 'to_account_id']),
     ]
 
     # SQL Constraint Section
     _sql_constraints = [(
-        'company_id_initial_account_id_uniq',
-        'unique(company_id, initial_account_id)',
-        'An Account must only be transcoded once time for a same company!')]
+        'company_id_from_account_id_uniq',
+        'unique(company_id, from_account_id)',
+        'An Account must only be to once time for a same company!')]

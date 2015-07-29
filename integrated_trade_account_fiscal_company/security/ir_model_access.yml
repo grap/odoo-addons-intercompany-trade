@@ -21,7 +21,7 @@
 ##############################################################################
 
 - !record {model: ir.model.access, id: ir_model_access_fiscal_company_transcoding_account_reader}:
-    model_id: integrated_trade_fiscal_company.model_fiscal_company_transcoding_account
+    model_id: integrated_trade_account_fiscal_company.model_fiscal_company_transcoding_account
     name: Transcoding Account for Fiscal Company Reader
     perm_read: true
     perm_create: false
@@ -30,7 +30,7 @@
 
 - !record {model: ir.model.access, id: ir_model_access_fiscal_company_transcoding_account_manager}:
     group_id: integrated_trade_base.integrated_trade_manager
-    model_id: integrated_trade_fiscal_company.model_fiscal_company_transcoding_account
+    model_id: integrated_trade_account_fiscal_company.model_fiscal_company_transcoding_account
     name: Transcoding Account for Fiscal Company Manager
     perm_read: true
     perm_create: true

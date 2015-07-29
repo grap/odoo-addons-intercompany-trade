@@ -24,7 +24,7 @@
 
         <record id="fiscal_company_transcoding_account_rule" model="ir.rule">
             <field name="name">Transcoding Account for Fiscal Company Rule</field>
-            <field name="model_id" ref="integrated_trade_fiscal_company.model_fiscal_company_transcoding_account" />
+            <field name="model_id" ref="integrated_trade_account_fiscal_company.model_fiscal_company_transcoding_account" />
             <field name="global" eval="True" />
             <field name="domain_force">[('company_id','=',user.company_id.fiscal_company.id)]</field>
         </record>

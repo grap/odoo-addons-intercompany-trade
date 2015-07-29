@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Fiscal Company for Integrated Trade Module for Odoo
+#    Integrated Trade - Account Fiscal Company module for OpenERP
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -20,6 +20,12 @@
 #
 ##############################################################################
 
-# from . import fiscal_company_transcoding_account
-# from . import res_integrated_trade
-# from . import stock_picking
+- !record {model: fiscal.company.transcoding.account, id: transcoding_sale}:
+    from_account_id: account_fiscal_company.a_sale
+    to_account_id: a_sale_cis
+    company_id: base_fiscal_company.company_fiscal_mother
+
+- !record {model: fiscal.company.transcoding.account, id: transcoding_expense}:
+    from_account_id: account_fiscal_company.a_expense
+    to_account_id: a_expense_cis
+    company_id: base_fiscal_company.company_fiscal_mother

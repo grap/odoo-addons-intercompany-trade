@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - ALL module for OpenERP
-#    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
+#    Integrated Trade - Account Fiscal Company module for OpenERP
+#    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,29 +19,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'Integrated Trade - ALL',
-    'version': '1.0',
-    'category': 'Integrated Trade',
-    'description': """
-Module for Integrated Trade
-===========================
 
-Copyright, Authors and Licence:
--------------------------------
-    * Copyright: 2015, GRAP: Groupement Régional Alimentaire de Proximité;
-    * Author:
-        * Sylvain LE GAL (https://twitter.com/legalsylvain);
-    * Licence: AGPL-3 (http://www.gnu.org/licenses/);""",
-    'author': 'GRAP',
-    'website': 'http://www.grap.coop',
-    'license': 'AGPL-3',
-    'depends': [
-        'integrated_trade_base',
-        'integrated_trade_product',
-        'integrated_trade_stock',
-        'integrated_trade_purchase_sale',
-        'integrated_trade_account',
-        'integrated_trade_account_fiscal_company',
-    ],
-}
+- !record {model: res.integrated.trade, id: integrated_trade}:
+    name: Integrated Trade between Fiscal company (Service) -> Fiscal company (Production)
+    customer_company_id: base_fiscal_company.company_fiscal_child_2
+    customer_user_id: fiscal_customer_user
+    supplier_company_id: base_fiscal_company.company_fiscal_child_1
+    supplier_user_id: fiscal_supplier_user
