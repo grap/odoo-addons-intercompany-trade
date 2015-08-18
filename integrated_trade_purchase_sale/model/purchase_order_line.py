@@ -90,7 +90,8 @@ class purchase_order_line(Model):
                 'tax_id': [[
                     6, False, sol_vals['tax_id']]],
                 'product_uom_qty': sol_vals['product_uos_qty'],
-                'product_uom': sol_vals['product_uos'],
+                'product_uom': sol_vals['product_uos'] and
+                    sol_vals['product_uos'] or vals['product_uom'],
             })
             sol_id = sol_obj.create(
                 cr, rit.supplier_user_id.id, sol_vals, context=ctx)
@@ -104,7 +105,7 @@ class purchase_order_line(Model):
                 }, context=ctx)
 
             # Update Purchase Order line with Sale Order Line id created
-            self.write(cr, uid, res, {
+            self.write(cr, uid, [res], {
                 'integrated_trade_sale_order_line_id': sol_id,
                 'price_unit': other_product_info['price_unit'],
             }, context=ctx)
