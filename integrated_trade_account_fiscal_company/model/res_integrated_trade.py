@@ -22,10 +22,36 @@
 
 from openerp.osv import fields
 from openerp.osv.orm import Model
-
+from openerp.osv.osv import except_osv
+from openerp.tools.translate import _
 
 class ResIntegratedTrade(Model):
     _inherit = 'res.integrated.trade'
+
+    def transcode_account_id(
+            self, cr, uid, rit, from_account_id, context=None):
+        fcta_obj = self.pool['fiscal.company.transcoding.account']
+        aa_obj = self.pool['account.account']
+        if not from_account_id:
+            return False
+        if not rit.same_fiscal_mother_company:
+            return from_account_id
+        fcta_ids = fcta_obj.search(cr, uid, [
+            ('company_id', '=', rit.customer_company_id.fiscal_company.id),
+            ('from_account_id', '=', from_account_id)], context=context)
+        if fcta_ids:
+            return fcta_obj.browse(
+                cr, uid, fcta_ids[0], context=context).to_account_id.id
+        else:
+            aa = aa_obj.browse(cr, uid, from_account_id, context=context)
+            raise except_osv(
+                _("Missing Setting!"),
+                _("""Unable to sell or purchase a product because the"""
+                    """ following account is not transcoded for the"""
+                    """ company %s. \n\n %s - %s\n\n.Please ask to your"""
+                    """  accountant to add a setting for this account.""" % (
+                        rit.customer_company_id.fiscal_company.name,
+                        aa.code, aa.name)))
 
     # Fields Function Section
     def _same_fiscal_mother_company(

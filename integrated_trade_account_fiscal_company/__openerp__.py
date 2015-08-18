@@ -49,6 +49,9 @@ Copyright, Author and Licence :
     'depends': [
         'account_fiscal_company',
         'integrated_trade_base',
+        'purchase',
+        'sale',
+        'stock',
     ],
     'data': [
         'security/ir_rule.xml',
@@ -58,11 +61,18 @@ Copyright, Author and Licence :
         'view/menu.xml',
     ],
     'demo': [
+        'demo/account_tax.yml',
         'demo/account_account.xml',
         'demo/fiscal_company_transcoding_account.yml',
         'demo/res_users.yml',
         'demo/res_groups.yml',
         'demo/res_integrated_trade.yml',
+        'demo/product_product.yml',
+        'demo/stock_location.yml',
+        'demo/stock_warehouse.yml',
+        'demo/sale_shop.yml',
+        'demo/ir_values.xml',
+        'demo/ir_values.yml',
     ],
     'auto_install': True,
 }

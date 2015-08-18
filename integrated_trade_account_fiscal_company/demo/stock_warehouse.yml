@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Account Fiscal Company module for Odoo
+#    Integrated Trade - Stock module for Odoo
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -20,21 +20,16 @@
 #
 ##############################################################################
 
+- !record {model: stock.warehouse, id: supplier_stock_warehouse}:
+    name: Integrated Trade - Supplier Warehouse
+    lot_input_id: supplier_stock_location_stock
+    lot_stock_id: supplier_stock_location_stock
+    lot_output_id: supplier_stock_location_output
+    company_id: base_fiscal_company.company_fiscal_child_1
 
-- !record {model: res.groups, id: integrated_trade_base.integrated_trade_user}:
-    users:
-        - fiscal_customer_user
-        - fiscal_supplier_user
-
-- !record {model: res.groups, id: base.group_sale_manager}:
-    users:
-        - fiscal_supplier_user
-
-- !record {model: res.groups, id: account.group_account_user}:
-    users:
-        - fiscal_supplier_user
-        - fiscal_customer_user
-
-- !record {model: res.groups, id: integrated_trade_base.integrated_trade_manager}:
-    users:
-        - base_fiscal_company.user_accountant
+- !record {model: stock.warehouse, id: customer_stock_warehouse}:
+    name: Integrated Trade - Customer Warehouse
+    lot_input_id: customer_stock_location_stock
+    lot_stock_id: customer_stock_location_stock
+    lot_output_id: customer_stock_location_output
+    company_id: base_fiscal_company.company_fiscal_child_2

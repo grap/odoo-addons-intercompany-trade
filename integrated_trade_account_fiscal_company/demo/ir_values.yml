@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Account Fiscal Company module for Odoo
-#    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
+#    Integrated Trade - Purchase - Sale module for Odoo
+#    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,21 +20,20 @@
 #
 ##############################################################################
 
+- !record {model: ir.values, id: ir_values_supplier_sale_order_order_policy}:
+    key: default
+    key2:
+    model: sale.order
+    model_id: sale.model_sale_order
+    name: order_policy
+    value: "S'picking'\np0\n."
+    company_id: base_fiscal_company.company_fiscal_child_1
 
-- !record {model: res.groups, id: integrated_trade_base.integrated_trade_user}:
-    users:
-        - fiscal_customer_user
-        - fiscal_supplier_user
-
-- !record {model: res.groups, id: base.group_sale_manager}:
-    users:
-        - fiscal_supplier_user
-
-- !record {model: res.groups, id: account.group_account_user}:
-    users:
-        - fiscal_supplier_user
-        - fiscal_customer_user
-
-- !record {model: res.groups, id: integrated_trade_base.integrated_trade_manager}:
-    users:
-        - base_fiscal_company.user_accountant
+- !record {model: ir.values, id: ir_values_customer_purchase_order_invoice_method}:
+    key: default
+    key2:
+    model: purchase.order
+    model_id: purchase.model_purchase_order
+    name: invoice_method
+    value: "S'picking'\np0\n."
+    company_id: base_fiscal_company.company_fiscal_child_2
