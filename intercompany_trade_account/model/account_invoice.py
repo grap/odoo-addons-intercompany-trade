@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Account module for Odoo
+#    Intercompany Trade - Account module for Odoo
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -40,14 +40,14 @@ class AccountInvoice(Model):
     # Columns Section
     _columns = {
         'intercompany_trade': fields.function(
-            _get_intercompany_trade, type='boolean', string='Integrated Trade',
+            _get_intercompany_trade, type='boolean', string='Intercompany Trade',
             store={'account.invoice': (
                 lambda self, cr, uid, ids, context=None: ids,
                 [
                     'partner_id',
                 ], 10)}),
         'intercompany_trade_account_invoice_id': fields.many2one(
-            'account.invoice', string='Integrated Trade Account Invoice',
+            'account.invoice', string='Intercompany Trade Account Invoice',
             readonly=True,
         ),
     }
@@ -105,7 +105,7 @@ class AccountInvoice(Model):
                 raise except_osv(
                     _("Unimplemented Feature!"),
                     _("""You can not change create an invoice %s with a"""
-                        """ partner flagged as 'Integratedd Trade'. """ % (
+                        """ partner flagged as Intercompany Trade. """ % (
                             ai.type)))
             rit = self._get_intercompany_trade_config(
                 cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
@@ -156,10 +156,10 @@ class AccountInvoice(Model):
         ai = self.browse(cr, uid, id, context=context)
         if ai.intercompany_trade:
             raise except_osv(
-                _("Integrated Trade - Unimplemented Feature!"),
+                _("Intercompany Trade - Unimplemented Feature!"),
                 _(
                     """You can not duplicate a Invoice that come from"""
-                    """ Integrated Trade."""))
+                    """ Intercompany Trade."""))
         return super(AccountInvoice, self).copy(
             cr, uid, id, default=default, context=context)
 

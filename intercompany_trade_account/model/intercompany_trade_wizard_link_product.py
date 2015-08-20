@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Product module for Odoo
+#    Intercompany Trade - Product module for Odoo
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -28,17 +28,17 @@ from openerp.addons import decimal_precision as dp
 from .custom_tools import _check_taxes
 
 
-class IntegratedTradeWizardLinkProduct(TransientModel):
+class IntercompanyTradeWizardLinkProduct(TransientModel):
     _inherit = 'intercompany.trade.wizard.link.product'
 
     # Column Section
     _columns = {
         'supplier_sale_price_vat_excl': fields.float(
             'Supplier Sale Price VAT Excluded', readonly=True,
-            digits_compute=dp.get_precision('Integrated Product Price')),
+            digits_compute=dp.get_precision('Intercompany Trade Product Price')),
         'supplier_sale_price_vat_incl': fields.float(
             'Supplier Sale Price VAT Included', readonly=True,
-            digits_compute=dp.get_precision('Integrated Product Price')),
+            digits_compute=dp.get_precision('Intercompany Trade Product Price')),
     }
 
     # Button Section
@@ -56,5 +56,5 @@ class IntegratedTradeWizardLinkProduct(TransientModel):
                 self.pool, cr, uid, sup_pp, cus_pp,
                 context=context)
 
-        return super(IntegratedTradeWizardLinkProduct, self).link_product(
+        return super(IntercompanyTradeWizardLinkProduct, self).link_product(
             cr, uid, ids, context=context)

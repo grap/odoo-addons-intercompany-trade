@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Product module for OpenERP
+#    Intercompany Trade - Product module for OpenERP
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -25,12 +25,12 @@ from openerp.osv.orm import Model
 from openerp.addons import decimal_precision as dp
 
 
-class ProductIntegratedTradeCatalog(Model):
+class ProductIntercompanyTradeCatalog(Model):
     _inherit = 'product.intercompany.trade.catalog'
 
     # Fields Function Section
     def _get_supplier_price(self, cr, uid, ids, name, arg, context=None):
-        return super(ProductIntegratedTradeCatalog, self)._get_supplier_price(
+        return super(ProductIntercompanyTradeCatalog, self)._get_supplier_price(
             cr, uid, ids, name, arg, context=context)
 
     # Column Section
@@ -39,10 +39,10 @@ class ProductIntegratedTradeCatalog(Model):
             _get_supplier_price,
             string='Supplier Sale Price VAT Excluded',
             multi='supplier_price', type='float',
-            digits_compute=dp.get_precision('Integrated Product Price')),
+            digits_compute=dp.get_precision('Intercompany Trade Product Price')),
         'supplier_sale_price_vat_incl': fields.function(
             _get_supplier_price,
             string='Supplier Sale Price VAT Included',
             multi='supplier_price', type='float',
-            digits_compute=dp.get_precision('Integrated Product Price')),
+            digits_compute=dp.get_precision('Intercompany Trade Product Price')),
     }
