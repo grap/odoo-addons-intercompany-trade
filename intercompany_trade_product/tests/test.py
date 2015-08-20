@@ -91,7 +91,7 @@ class Test(TransactionCase):
             """ create a Product Supplierinfo.""")
 
         self.assertEqual(
-            pp_customer_apple.seller_ids[0].intercompany_tradeprice,
+            pp_customer_apple.seller_ids[0].intercompany_trade_price,
             pp_supplier_banana.list_price,
             """Associate a Customer Product to a Supplier Product must"""
             """ set as intercompany trade price in customer database the sale"""
@@ -153,7 +153,7 @@ class Test(TransactionCase):
             cr, self.supplier_user_id, self.supplier_apple_id)
 
         self.assertEqual(
-            pp_customer_apple.seller_ids[0].intercompany_tradeprice,
+            pp_customer_apple.seller_ids[0].intercompany_trade_price,
             pp_supplier_apple.list_price - 0.1,
             """Change pricelist in supplier database must change prices"""
             """ in customer database.""")
@@ -182,7 +182,7 @@ class Test(TransactionCase):
             cr, uid, self.customer_apple_id)
 
         self.assertEqual(
-            pp_customer_apple.seller_ids[0].intercompany_tradeprice,
+            pp_customer_apple.seller_ids[0].intercompany_trade_price,
             10,
             """Change price in supplier database must change prices"""
             """ in customer database.""")

@@ -150,7 +150,7 @@ def _get_other_product_info(
         supplier_pp = pp_obj.browse(
             cr, rit.supplier_user_id.id, psi.supplier_product_id.id,
             context=context)
-        res['price_unit'] = ppl_obj._compute_intercompany_tradeprices(
+        res['price_unit'] = ppl_obj._compute_intercompany_trade_prices(
             cr, rit.supplier_user_id.id, supplier_pp,
             rit.supplier_partner_id, rit.sale_pricelist_id,
             context=None)['supplier_sale_price']
@@ -187,112 +187,6 @@ def _get_other_product_info(
         res['product_id'] = customer_pp_ids[0]
     return res
 
-# def _check_taxes(
-#        pool, cr, uid, supplier_product, customer_product, context=None):
-#    """
-#    :error raised:
-#        * If customer and supplier product taxes quantities doesn't match;
-#        * if supplier product has more than one tax;
-#        * if tax amount are different;
-#        * if tax type is not 'percent';
-#    """
-#    # Check if taxes are correct
-#    if (len(supplier_product.taxes_id)
-#            != len(customer_product.supplier_taxes_id)):
-#        raise except_osv(
-#            _("Taxes Mismatch!"),
-#            _(
-#                """You can not link Supplier Product that has %d Sale"""
-#                """ Tax(es) with this Customer Product that has %d"""
-#                """ Supplier Taxes.""") % (
-#                    len(supplier_product.taxes_id),
-#                    len(customer_product.supplier_taxes_id)))
-#    if (len(supplier_product.taxes_id) > 1):
-#        raise except_osv(
-#            _("Too Complex Taxes Setting!"),
-#            _(
-#                """You can not link this Supplier Product. It has more"""
-#                """ than 1 Sale Taxes (%d)"""
-#                """""") % (len(supplier_product.taxes_id)))
-#    if supplier_product.taxes_id:
-#        supplier_tax = supplier_product.taxes_id[0]
-#        customer_tax = customer_product.supplier_taxes_id[0]
-#        # Check percent type
-#        if supplier_tax.type != 'percent':
-#            raise except_osv(
-#                _("Too Complex Taxes Setting!"),
-#                _(
-#                    """You can not link this Supplier Product. The tax """
-#                    """ setting of %s is %s. (Only 'percent' is accepted)"""
-#                    """""") % (supplier_tax.name, supplier_tax.type))
-#        if customer_tax.type != 'percent':
-#            raise except_osv(
-#                _("Too Complex Taxes Setting!"),
-#                _(
-#                    """You can not link this Customer Product. The tax """
-#                    """ setting of %s is %s. (Only 'percent' is accepted)"""
-#                    """""") % (customer_tax.name, customer_tax.type))
-#        # Check amount
-#        if supplier_tax.amount != customer_tax.amount:
-#            raise except_osv(
-#                _("Taxes Mismatch!"),
-#                _(
-#                    """You can not link this Customer Product to this"""
-#                    """ Supplier Product because taxes values doesn't"""
-#                    """ match:\n"""
-#                    """  Customer Tax value: %s %%;\n """
-#                    """  Supplier Tax value: %s %%;\n """
-#                    """""") % (
-#                        customer_tax.amount * 100, supplier_tax.amount * 100))
-
-
-# def _compute_intercompany_tradecustomer_price(
-#        pool, cr, uid, supplier_product, customer_product,
-#        supplier_price, context=None):
-#    # FIXME
-#    pass
-
-#    customer_price = supplier_price
-#    _check_taxes(
-#        pool, cr, uid, supplier_product, customer_product, context=context)
-
-#    if supplier_product.taxes_id:
-#        supplier_tax = supplier_product.taxes_id[0]
-#        customer_tax = customer_product.supplier_taxes_id[0]
-#        if (customer_tax.amount != 0 and
-#                customer_tax.price_include != supplier_tax.price_include):
-#            if supplier_tax.price_include:
-#                customer_price = supplier_price / (1 + supplier_tax.amount)
-#            else:
-#                customer_price = supplier_price * (1 + supplier_tax.amount)
-#    return {
-#        'customer_purchase_price': customer_price,
-#        'customer_taxes_id': customer_tax and [customer_tax.id] or [],
-#    }
-
-
-# def _compute_intercompany_tradesupplier_price(
-#        pool, cr, uid, supplier_product, customer_product,
-#        customer_price, context=None):
-
-#    supplier_price = customer_price
-#    _check_taxes(
-#        pool, cr, uid, supplier_product, customer_product, context=context)
-
-#    if supplier_product.taxes_id:
-#        supplier_tax = supplier_product.taxes_id[0]
-#        customer_tax = customer_product.supplier_taxes_id[0]
-#        if (customer_tax.amount != 0 and
-#                customer_tax.price_include != supplier_tax.price_include):
-#            if customer_tax.price_include:
-#                supplier_price = customer_price / (1 + customer_tax.amount)
-#            else:
-#                supplier_price = customer_price * (1 + customer_tax.amount)
-#    return {
-#        'supplier_sale_price': supplier_price,
-#        'supplier_taxes_id': supplier_tax and [supplier_tax.id] or [],
-#    }
-
 
 # Overloadable Section
 def _intercompany_trade_prepare(
@@ -309,7 +203,7 @@ def _intercompany_trade_prepare(
         cr, uid, intercompany_trade_id, context=context)
     supplier_pp = pp_obj.browse(
         cr, rit.supplier_user_id.id, supplier_product_id, context=context)
-    price_info = ppl_obj._compute_intercompany_tradeprices(
+    price_info = ppl_obj._compute_intercompany_trade_prices(
         cr, rit.supplier_user_id.id, supplier_pp,
         rit.supplier_partner_id, rit.sale_pricelist_id, context=context)
     return {

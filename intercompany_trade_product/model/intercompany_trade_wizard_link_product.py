@@ -49,7 +49,7 @@ class intercompany_trade_wizard_link_product(TransientModel):
             cr, uid, intercompany_trade_id, context=context)
         supplier_pp = pp_obj.browse(
             cr, rit.supplier_user_id.id, supplier_product_id, context=context)
-        price_info = ppl_obj._compute_intercompany_tradeprices(
+        price_info = ppl_obj._compute_intercompany_trade_prices(
             cr, rit.supplier_user_id.id, supplier_pp,
             rit.supplier_partner_id, rit.sale_pricelist_id,
             context=context)
