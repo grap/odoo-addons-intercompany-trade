@@ -87,6 +87,10 @@ class sale_order(Model):
             line_ids = vals.get('order_line', False)
             vals.pop('order_line', None)
 
+        
+        print "uid : %s " % uid
+        print "name : %s " % self.pool['res.users'].browse(cr, uid, uid).name
+        print vals
         res = super(sale_order, self).create(
             cr, uid, vals, context=context)
 
@@ -107,10 +111,10 @@ class sale_order(Model):
             # Get default stock location
             sl_id = po_obj.onchange_warehouse_id(
                 cr, rit.customer_user_id.id, [], sw_id)['value']['location_id']
-            # Get default purchase Pricelist
-            rp2 = rp_obj.browse(
-                cr, rit.customer_user_id.id, rit.supplier_partner_id.id,
-                context=context)
+#            # Get default purchase Pricelist
+#            rp2 = rp_obj.browse(
+#                cr, rit.customer_user_id.id, rit.supplier_partner_id.id,
+#                context=context)
 
             po_vals = {
                 'company_id': rit.customer_company_id.id,
@@ -118,7 +122,7 @@ class sale_order(Model):
                 'warehouse_id': sw_id,
                 'location_id': sl_id,
                 'integrated_trade_sale_order_id': res,
-                'pricelist_id': rp2.property_product_pricelist_purchase.id,
+                'pricelist_id': rit.purchase_pricelist_id.id,
                 'partner_ref': so.name,
                 'invoice_method': 'picking',
             }

@@ -67,7 +67,8 @@ class ProductIntegratedTradeCatalog(Model):
         for pitc in self.browse(cr, SUPERUSER_ID, ids, context=context):
             res[pitc.id] = ppl_obj._compute_integrated_prices(
                 cr, SUPERUSER_ID, pitc.supplier_product_id,
-                pitc.supplier_partner_id, pitc.pricelist_id, context=context)
+                pitc.supplier_partner_id, pitc.sale_pricelist_id,
+                context=context)
         return res
 
     # Column Section
@@ -82,8 +83,8 @@ class ProductIntegratedTradeCatalog(Model):
             digits_compute=dp.get_precision('Integrated Product Price')),
         'customer_purchase_price': fields.float(
             'Customer Purchase Price', readonly=True),
-        'pricelist_id': fields.many2one(
-            'product.pricelist', 'Price List', readonly=True),
+        'sale_pricelist_id': fields.many2one(
+            'product.pricelist', 'Sale Pricelist', readonly=True),
         'customer_company_id': fields.many2one(
             'res.company', 'Customer Company', readonly=True),
         'supplier_product_name': fields.char(
@@ -111,7 +112,7 @@ CREATE OR REPLACE VIEW %s AS (
             rit.id as integrated_trade_id,
             c_psi.product_id as customer_product_tmpl_id,
             rit.customer_company_id,
-            rit.pricelist_id as pricelist_id,
+            rit.sale_pricelist_id as sale_pricelist_id,
             rit.customer_partner_id,
             s_pp.id as supplier_product_id,
             s_pt.uom_id as supplier_product_uom,

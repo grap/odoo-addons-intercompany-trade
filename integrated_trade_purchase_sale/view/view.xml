@@ -20,6 +20,17 @@
 <openerp>
     <data>
 
+<!-- Model: res.integrated.trade -->
+        <record id="view_res_integrated_trade_form" model="ir.ui.view">
+            <field name="model">res.integrated.trade</field>
+            <field name="inherit_id" ref="integrated_trade_base.view_res_integrated_trade_form" />
+            <field name="arch" type="xml">
+                <field name="supplier_partner_id" position="after">
+                    <field name="purchase_pricelist_id"/>
+                </field>
+            </field>
+        </record>
+
 <!-- Overload: purchase.order -->
         <record id="view_purchase_order_form" model="ir.ui.view">
             <field name="model">purchase.order</field>

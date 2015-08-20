@@ -51,7 +51,7 @@ class integrated_trade_wizard_link_product(TransientModel):
             cr, rit.supplier_user_id.id, supplier_product_id, context=context)
         price_info = ppl_obj._compute_integrated_prices(
             cr, rit.supplier_user_id.id, supplier_pp,
-            rit.supplier_partner_id, rit.pricelist_id,
+            rit.supplier_partner_id, rit.sale_pricelist_id,
             context=context)
         res.update({
             'supplier_product_id': supplier_product_id,

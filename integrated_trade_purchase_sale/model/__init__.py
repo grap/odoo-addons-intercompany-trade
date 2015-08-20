@@ -20,6 +20,7 @@
 #
 ##############################################################################
 
+from . import res_integrated_trade
 from . import purchase_order
 from . import purchase_order_line
 from . import sale_order

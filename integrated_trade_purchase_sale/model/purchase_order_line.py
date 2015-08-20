@@ -77,7 +77,7 @@ class purchase_order_line(Model):
                 context=context)
 
             sol_vals = sol_obj.product_id_change(
-                cr, rit.supplier_user_id.id, False, rit.pricelist_id.id,
+                cr, rit.supplier_user_id.id, False, rit.sale_pricelist_id.id,
                 other_product_info['product_id'], qty=vals['product_qty'],
                 uom=vals['product_uom'], partner_id=rit.customer_partner_id.id,
                 context=context)['value']
@@ -99,7 +99,7 @@ class purchase_order_line(Model):
             # Update associated Sale Order Line to Force the call of the
             # the function '_amount_all'
             sol_obj.write(
-                cr, rit.supplier_user_id.id, sol_id, {
+                cr, rit.supplier_user_id.id, [sol_id], {
                     'integrated_trade_purchase_order_line_id': pol.id,
                     'price_unit': other_product_info['price_unit'],
                 }, context=ctx)
@@ -155,7 +155,7 @@ class purchase_order_line(Model):
                     # TODO Manage discount / delay / tax
                     sol_obj.write(
                         cr, rit.supplier_user_id.id,
-                        pol.integrated_trade_sale_order_line_id.id,
+                        [pol.integrated_trade_sale_order_line_id.id],
                         sol_vals, context=ctx)
         return res
 

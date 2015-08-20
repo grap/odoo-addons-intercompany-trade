@@ -28,43 +28,43 @@ from openerp.osv.orm import Model
 class res_integrated_trade(Model):
     _inherit = 'res.integrated.trade'
 
-
-    def _get_integrated_trade_from_sale_pricelist(
+    def _get_integrated_trade_from_purchase_pricelist(
             self, cr, uid, ids, context=None):
-        """Return Integrated Trade ids depending on changes of Sale
-        Pricelist"""
+        """Return Integrated Trade ids depending on changes of purchase
+        pricelist"""
         res = []
         rp_obj = self.pool['res.partner']
         rit_obj = self.pool['res.integrated.trade']
         for rp in rp_obj.browse(cr, uid, ids, context=context):
-            if rp.integrated_trade and rp.customer:
+            if rp.integrated_trade and rp.supplier:
                 res.extend(rit_obj.search(cr, uid, [
-                    ('customer_partner_id', '=', rp.id),
+                    ('supplier_partner_id', '=', rp.id),
                 ], context=context))
         return list(set(res))
 
-    def _get_sale_pricelist_id(self, cr, uid, ids, field_name, arg, context):
+    def _get_purchase_pricelist_id(
+            self, cr, uid, ids, field_name, arg, context):
         res = {}
         rp_obj = self.pool['res.partner']
         for rit in self.browse(cr, uid, ids, context=context):
             ctx = context.copy()
-            ctx['force_company'] = rit.supplier_company_id.id
+            ctx['force_company'] = rit.customer_company_id.id
             rp = rp_obj.browse(
-                cr, uid, rit.customer_partner_id.id, context=ctx)
-            res[rit.id] = rp.property_product_pricelist.id
+                cr, uid, rit.supplier_partner_id.id, context=ctx)
+            res[rit.id] = rp.property_product_pricelist_purchase.id
         return res
 
     # Columns section
     _columns = {
-        'sale_pricelist_id': fields.function(
-            _get_sale_pricelist_id,
-            string='Sale Pricelist in the Supplier Company',
+        'purchase_pricelist_id': fields.function(
+            _get_purchase_pricelist_id,
+            string='Purchase Pricelist in the Customer Company',
             type='many2one', relation='product.pricelist', store={
                 'res.partner': (
-                    _get_integrated_trade_from_sale_pricelist,
-                    ['property_product_pricelist'], 10),
+                    _get_integrated_trade_from_purchase_pricelist,
+                    ['property_product_pricelist_purchase'], 10),
                 'res.integrated.trade': (
                     lambda self, cr, uid, ids, c={}: ids,
-                    ['customer_partner_id', 'supplier_company_id'], 10),
+                    ['supplier_partner_id', 'customer_company_id'], 10),
             }),
     }

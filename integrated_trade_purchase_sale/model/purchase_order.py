@@ -118,7 +118,7 @@ class purchase_order(Model):
                 'partner_shipping_id': rit.customer_partner_id.id,
                 'integrated_trade_purchase_order_id': res,
                 'shop_id': shop_id,
-                'pricelist_id': rit.pricelist_id.id,
+                'pricelist_id': rit.sale_pricelist_id.id,
                 'client_order_ref': po.name,
                 'order_policy': 'picking',
             }

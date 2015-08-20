@@ -152,7 +152,7 @@ def _get_other_product_info(
             context=context)
         res['price_unit'] = ppl_obj._compute_integrated_prices(
             cr, rit.supplier_user_id.id, supplier_pp,
-            rit.supplier_partner_id, rit.pricelist_id,
+            rit.supplier_partner_id, rit.sale_pricelist_id,
             context=None)['supplier_sale_price']
 
     else:
@@ -311,7 +311,7 @@ def _integrated_trade_prepare(
         cr, rit.supplier_user_id.id, supplier_product_id, context=context)
     price_info = ppl_obj._compute_integrated_prices(
         cr, rit.supplier_user_id.id, supplier_pp,
-        rit.supplier_partner_id, rit.pricelist_id, context=context)
+        rit.supplier_partner_id, rit.sale_pricelist_id, context=context)
     return {
         'min_qty': 0.0,
         'name': rit.supplier_partner_id.id,

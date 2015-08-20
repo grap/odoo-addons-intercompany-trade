@@ -85,8 +85,10 @@ class sale_order_line(Model):
                 self.pool, cr, uid, rit, vals['product_id'], 'out',
                 context=context)
 
+#            import pdb; pdb.set_trace()
             pol_vals = pol_obj.onchange_product_id(
-                cr, rit.customer_user_id.id, False, rit.pricelist_id.id,
+                cr, rit.customer_user_id.id, False,
+                rit.purchase_pricelist_id.id,
                 other_product_info['product_id'], sol.product_uom_qty,
                 sol.product_uom.id, rit.supplier_partner_id.id,
                 context=context)['value']
@@ -109,12 +111,12 @@ class sale_order_line(Model):
                 cr, rit.customer_user_id.id, pol_vals, context=ctx)
             # Force the call of the _amount_all
             pol_obj.write(
-                cr, rit.customer_user_id.id, pol_id, {
+                cr, rit.customer_user_id.id, [pol_id], {
                     'price_unit': vals['price_unit'],
                 }, context=ctx)
 
             # Update Sale Order line
-            self.write(cr, uid, res, {
+            self.write(cr, uid, [res], {
                 'integrated_trade_purchase_order_line_id': pol_id,
             }, context=ctx)
         return res
