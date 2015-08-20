@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Product module for OpenERP
+#    Intercompany Trade - Product module for OpenERP
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -66,7 +66,7 @@ class intercompany_trade_wizard_link_product(TransientModel):
     # Column Section
     _columns = {
         'intercompany_trade_id': fields.many2one(
-            'intercompany.trade.config', 'Integrated Trade',
+            'intercompany.trade.config', 'Intercompany Trade',
             required=True, readonly=True),
         'customer_product_id': fields.many2one(
             'product.product', 'Customer Product', required=True),
@@ -85,7 +85,7 @@ class intercompany_trade_wizard_link_product(TransientModel):
             'Supplier Product Name', readonly=True),
         'supplier_sale_price': fields.float(
             string='Supplier Sale Price', readonly=True,
-            digits_compute=dp.get_precision('Integrated Product Price')),
+            digits_compute=dp.get_precision('Intercompany Trade Product Price')),
     }
 
     # Button Section

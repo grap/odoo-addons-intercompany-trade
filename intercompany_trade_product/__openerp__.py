@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Product module for OpenERP
+#    Intercompany Trade - Product module for OpenERP
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -20,11 +20,11 @@
 #
 ##############################################################################
 {
-    'name': 'Integrated Trade - Product',
+    'name': 'Intercompany Trade - Product',
     'version': '1.0',
-    'category': 'Integrated Trade',
+    'category': 'Intercompany Trade',
     'description': """
-Module for Integrated Trade for Product Module
+Module for Intercompany Trade for Product Module
 ==============================================
 
 Features:

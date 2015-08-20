@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Product module for OpenERP
+#    Intercompany Trade - Product module for OpenERP
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -23,7 +23,7 @@
 - !record {model: ir.model.access, id: product_intercompany_trade_catalog_user_access}:
     group_id: intercompany_trade_base.intercompany_trade_user
     model_id: model_product_intercompany_trade_catalog
-    name: Integrated Trade Products Catalog - User
+    name: Intercompany Trade Products Catalog - User
     perm_read: true
     perm_create: false
     perm_write: false
@@ -33,7 +33,7 @@
 - !record {model: ir.model.access, id: product_supplierinfo_user_access}:
     group_id: intercompany_trade_base.intercompany_trade_user
     model_id: product.model_product_supplierinfo
-    name: Product Supplier Info - Integrated Trade User
+    name: Product Supplier Info - Intercompany Trade User
     perm_read: true
     perm_create: true
     perm_write: true
@@ -43,7 +43,7 @@
 - !record {model: ir.model.access, id: pricelist_partnerinfo_user_access}:
     group_id: intercompany_trade_base.intercompany_trade_user
     model_id: product.model_pricelist_partnerinfo
-    name: Pricelist Partner Info - Integrated Trade User
+    name: Pricelist Partner Info - Intercompany Trade User
     perm_read: true
     perm_create: true
     perm_write: true
