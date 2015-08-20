@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Stock module for OpenERP
+#    Intercompany Trade - Stock module for OpenERP
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -20,11 +20,11 @@
 #
 ##############################################################################
 {
-    'name': 'Integrated Trade - Stock',
+    'name': 'Intercompany Trade - Stock',
     'version': '1.0',
-    'category': 'Integrated Trade',
+    'category': 'Intercompany Trade',
     'description': """
-Module for Integrated Trade for Stock Module
+Module for Intercompany Trade for Stock Module
 ============================================
 
 Features:

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Purchase module for OpenERP
+#    Intercompany Trade - Purchase module for OpenERP
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -35,10 +35,10 @@ class stock_picking_in(Model):
             rp = rp_obj.browse(cr, uid, vals['partner_id'], context=context)
             if rp.intercompany_trade:
                 raise except_osv(
-                    _("Integrated Trade - Unimplemented Feature!"),
+                    _("Intercompany Trade - Unimplemented Feature!"),
                     _(
                         """You can not create a picking with a partner"""
-                        """ flagged as 'Integrated Trade'."""))
+                        """ flagged as 'Intercompany Trade'."""))
         return super(stock_picking_in, self).create(
             cr, uid, vals, context=context)
 
@@ -48,9 +48,9 @@ class stock_picking_in(Model):
             rp = rp_obj.browse(cr, uid, vals['partner_id'], context=context)
             if rp.intercompany_trade:
                 raise except_osv(
-                    _("Integrated Trade - Unimplemented Feature!"),
+                    _("Intercompany Trade - Unimplemented Feature!"),
                     _(
                         """You can not set a partner"""
-                        """ flagged as 'Integrated Trade'."""))
+                        """ flagged as 'Intercompany Trade'."""))
         return super(stock_picking_in, self).write(
             cr, uid, ids, vals, context=context)

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Purchase module for OpenERP
+#    Intercompany Trade - Purchase module for OpenERP
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -35,10 +35,10 @@ class stock_return_picking(TransientModel):
         sp = sp_obj.browse(cr, uid, sp_id, context=context)
         if sp.intercompany_trade:
             raise except_osv(
-                _("Integrated Trade - Unimplemented Feature!"),
+                _("Intercompany Trade - Unimplemented Feature!"),
                 _(
                     """You can not return a Picking that come from"""
-                    """ Integrated Trade. Please make another Sale Order"""
+                    """ Intercompany Trade. Please make another Sale Order"""
                     """ or Purchase Order."""))
         return super(stock_return_picking, self).create_returns(
             cr, uid, ids, context=context)
