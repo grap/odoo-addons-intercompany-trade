@@ -21,37 +21,37 @@
     <data>
 
 <!-- New Root Menu -->
-        <menuitem id="menu_integrated_trade_root"
+        <menuitem id="menu_intercompany_trade_root"
             name="Integrated Trade"
-            groups="integrated_trade_base.integrated_trade_user"
+            groups="intercompany_trade_base.intercompany_trade_user"
             sequence="21"/>
 
 <!-- Integrated Trade: SubMenu Partners -->
-        <menuitem id="menu_integrated_trade_partner"
-            parent="menu_integrated_trade_root"
+        <menuitem id="menu_intercompany_trade_partner"
+            parent="menu_intercompany_trade_root"
             name="Integrated Partners"
             sequence="1"/>
 
 <!-- Model: res.partner -->
-        <menuitem id="menu_integrated_trade_partner_customer"
-            parent="menu_integrated_trade_partner"
-            action="action_res_partner_integrated_customer"
+        <menuitem id="menu_intercompany_trade_partner_customer"
+            parent="menu_intercompany_trade_partner"
+            action="action_res_partner_intercompany_tradecustomer"
             sequence="1"/>
 
-        <menuitem id="menu_integrated_trade_partner_supplier"
-            parent="menu_integrated_trade_partner"
-            action="action_res_partner_integrated_supplier"
+        <menuitem id="menu_intercompany_trade_partner_supplier"
+            parent="menu_intercompany_trade_partner"
+            action="action_res_partner_intercompany_tradesupplier"
             sequence="2"/>
 
-<!-- Model: res.integrated.trade -->
-        <menuitem id="menu_integrated_trade"
+<!-- Model: intercompany.trade.config -->
+        <menuitem id="menu_intercompany_trade"
             parent="base.menu_res_company_global"
             name="Integrated Trade"
             sequence="25"/>
 
-        <menuitem id="menu_res_integrated_trade"
-            parent="menu_integrated_trade"
-            action="action_res_integrated_trade"
+        <menuitem id="menu_intercompany_trade_config"
+            parent="menu_intercompany_trade"
+            action="action_intercompany_trade_config"
             sequence="1"/>
 
 

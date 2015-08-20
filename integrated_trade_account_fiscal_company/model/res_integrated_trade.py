@@ -26,7 +26,7 @@ from openerp.osv.osv import except_osv
 from openerp.tools.translate import _
 
 class ResIntegratedTrade(Model):
-    _inherit = 'res.integrated.trade'
+    _inherit = 'intercompany.trade.config'
 
     def transcode_account_id(
             self, cr, uid, rit, from_account_id, context=None):
@@ -70,13 +70,13 @@ class ResIntegratedTrade(Model):
         'same_fiscal_mother_company': fields.function(
             _same_fiscal_mother_company, type='boolean',
             string='Same Fiscal Mother Company',
-            store={'res.integrated.trade': (
+            store={'intercompany.trade.config': (
                 lambda self, cr, uid, ids, context=None: ids,
                 [
                     'customer_company_id',
                     'supplier_company_id',
                 ], 10)},
-            help="""If this field is checked, the integrated"""
+            help="""If this field is checked, the intercompany"""
             """ trade is realized between two fiscal child companies"""
             """ that have the same mother company. Special rules"""
             """ willbe applied.\n"""

@@ -23,15 +23,15 @@
 - !record {model: res.users, id: base.user_root}:
     company_ids:
         - base.main_company
-        - integrated_trade_base.customer_company
-        - integrated_trade_base.supplier_company
+        - intercompany_trade_base.customer_company
+        - intercompany_trade_base.supplier_company
         - base_fiscal_company.company_fiscal_child_1
         - base_fiscal_company.company_fiscal_child_2
         - base_fiscal_company.company_fiscal_mother
 
 - !record {model: res.users, id: fiscal_customer_user}:
     name: Fiscal Integrated Customer User
-    login: fiscal_integrated_customer
+    login: fiscal_intercompany_tradecustomer
     password: demo
     company_id: base_fiscal_company.company_fiscal_child_2
     company_ids:
@@ -39,7 +39,7 @@
 
 - !record {model: res.users, id: fiscal_supplier_user}:
     name: Fiscal Integrated Supplier User
-    login: fiscal_integrated_supplier
+    login: fiscal_intercompany_tradesupplier
     password: demo
     company_id: base_fiscal_company.company_fiscal_child_1
     company_ids:

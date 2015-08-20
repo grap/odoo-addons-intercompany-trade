@@ -30,28 +30,28 @@ class stock_picking(Model):
     _inherit = 'stock.picking'
 
     # Fields Function Section
-    def _get_integrated_trade(
+    def _get_intercompany_trade(
             self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         for sp in self.browse(cr, uid, ids, context=context):
-            res[sp.id] = sp.partner_id.integrated_trade
+            res[sp.id] = sp.partner_id.intercompany_trade
         return res
 
     # Columns Section
     _columns = {
-        'integrated_trade': fields.function(
-            _get_integrated_trade, type='boolean',
+        'intercompany_trade': fields.function(
+            _get_intercompany_trade, type='boolean',
             string='Integrated Trade',
             store={'stock.picking': (
                 lambda self, cr, uid, ids, context=None: ids,
                 [
                     'partner_id',
                 ], 10)}),
-        'integrated_trade_picking_out_id': fields.many2one(
+        'intercompany_trade_picking_out_id': fields.many2one(
             'stock.picking.out', string='Integrated Trade Picking Out',
             readonly=True,
         ),
-        'integrated_trade_picking_in_id': fields.many2one(
+        'intercompany_trade_picking_in_id': fields.many2one(
             'stock.picking.in', string='Integrated Trade Picking In',
             readonly=True,
         ),
@@ -60,7 +60,7 @@ class stock_picking(Model):
     # Overload Section
     def copy(self, cr, uid, id, default=None, context=None):
         sp = self.browse(cr, uid, id, context=context)
-        if sp.integrated_trade:
+        if sp.intercompany_trade:
             raise except_osv(
                 _("Integrated Trade - Unimplemented Feature!"),
                 _(

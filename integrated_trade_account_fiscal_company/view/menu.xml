@@ -22,7 +22,7 @@
 
 <!-- Model: fiscal.company.transcoding.account -->
         <menuitem id="menu_fiscal_company_transcoding_account"
-            parent="integrated_trade_base.menu_integrated_trade"
+            parent="intercompany_trade_base.menu_intercompany_trade"
             action="action_fiscal_company_transcoding_account"
             sequence="2"/>
     </data>

@@ -7,9 +7,9 @@
             <field name="key">default</field>
             <field name="key2" />
             <field name="model">purchase.order</field>
-            <field name="company_id" ref="integrated_trade_base.customer_company" />
+            <field name="company_id" ref="intercompany_trade_base.customer_company" />
             <field name="name">warehouse_id</field>
-            <field name="value" eval="'I' + str(ref('integrated_trade_stock.customer_stock_warehouse')) + '\n.'" />
+            <field name="value" eval="'I' + str(ref('intercompany_trade_stock.customer_stock_warehouse')) + '\n.'" />
         </record>
 
         <record model="ir.values" id="supplier_shop">
@@ -17,7 +17,7 @@
             <field name="key">default</field>
             <field name="key2" />
             <field name="model">sale.order</field>
-            <field name="company_id" ref="integrated_trade_base.supplier_company" />
+            <field name="company_id" ref="intercompany_trade_base.supplier_company" />
             <field name="name">shop_id</field>
             <field name="value" eval="'I' + str(ref('supplier_sale_shop')) + '\n.'" />
         </record>

@@ -1,4 +1,4 @@
-.integrated_trade_nothing_to_do {
+.intercompany_trade_nothing_to_do {
   height: 20px;
   display: inline-block;
   background: #90EE90 none repeat scroll 0% 0%;
@@ -10,7 +10,7 @@
   text-align: center;
 }
 
-.integrated_trade_waiting{
+.intercompany_trade_waiting{
   height: 20px;
   display: inline-block;
   background: #FFD700 none repeat scroll 0% 0%;
@@ -22,7 +22,7 @@
   text-align: center;
 }
 
-.integrated_trade_todo{
+.intercompany_trade_todo{
   height: 20px;
   display: inline-block;
   background: #FFA500 none repeat scroll 0% 0%;

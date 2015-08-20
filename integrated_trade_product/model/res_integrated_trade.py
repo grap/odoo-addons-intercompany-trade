@@ -25,19 +25,19 @@ from openerp.osv import fields
 from openerp.osv.orm import Model
 
 
-class res_integrated_trade(Model):
-    _inherit = 'res.integrated.trade'
+class intercompany_trade_config(Model):
+    _inherit = 'intercompany.trade.config'
 
 
-    def _get_integrated_trade_from_sale_pricelist(
+    def _get_intercompany_trade_from_sale_pricelist(
             self, cr, uid, ids, context=None):
         """Return Integrated Trade ids depending on changes of Sale
         Pricelist"""
         res = []
         rp_obj = self.pool['res.partner']
-        rit_obj = self.pool['res.integrated.trade']
+        rit_obj = self.pool['intercompany.trade.config']
         for rp in rp_obj.browse(cr, uid, ids, context=context):
-            if rp.integrated_trade and rp.customer:
+            if rp.intercompany_trade and rp.customer:
                 res.extend(rit_obj.search(cr, uid, [
                     ('customer_partner_id', '=', rp.id),
                 ], context=context))
@@ -61,9 +61,9 @@ class res_integrated_trade(Model):
             string='Sale Pricelist in the Supplier Company',
             type='many2one', relation='product.pricelist', store={
                 'res.partner': (
-                    _get_integrated_trade_from_sale_pricelist,
+                    _get_intercompany_trade_from_sale_pricelist,
                     ['property_product_pricelist'], 10),
-                'res.integrated.trade': (
+                'intercompany.trade.config': (
                     lambda self, cr, uid, ids, c={}: ids,
                     ['customer_partner_id', 'supplier_company_id'], 10),
             }),

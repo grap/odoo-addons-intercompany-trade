@@ -30,23 +30,23 @@ class AccountInvoice(Model):
     _inherit = 'account.invoice'
 
     # Fields Function Section
-    def _get_integrated_trade(
+    def _get_intercompany_trade(
             self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         for ai in self.browse(cr, uid, ids, context=context):
-            res[ai.id] = ai.partner_id.integrated_trade
+            res[ai.id] = ai.partner_id.intercompany_trade
         return res
 
     # Columns Section
     _columns = {
-        'integrated_trade': fields.function(
-            _get_integrated_trade, type='boolean', string='Integrated Trade',
+        'intercompany_trade': fields.function(
+            _get_intercompany_trade, type='boolean', string='Integrated Trade',
             store={'account.invoice': (
                 lambda self, cr, uid, ids, context=None: ids,
                 [
                     'partner_id',
                 ], 10)}),
-        'integrated_trade_account_invoice_id': fields.many2one(
+        'intercompany_trade_account_invoice_id': fields.many2one(
             'account.invoice', string='Integrated Trade Account Invoice',
             readonly=True,
         ),
@@ -54,12 +54,12 @@ class AccountInvoice(Model):
 
     # Private Function
     # TODO FIXME delete this function and
-    # rit_obj._get_integrated_trade_by_partner_company
+    # rit_obj._get_intercompany_trade_by_partner_company
     # instead
-    def _get_res_integrated_trade(
+    def _get_intercompany_trade_config(
             self, cr, uid, partner_id, company_id, type,
             context=None):
-        rit_obj = self.pool['res.integrated.trade']
+        rit_obj = self.pool['intercompany.trade.config']
         if type in ('in_invoice', 'in_refund'):
             rit_id = rit_obj.search(cr, uid, [
                 ('supplier_partner_id', '=', partner_id),
@@ -78,8 +78,8 @@ class AccountInvoice(Model):
 
         rp = rp_obj.browse(cr, uid, vals['partner_id'], context=context)
         create_account_invoice = (
-            not context.get('integrated_trade_do_not_propagate', False) and
-            rp.integrated_trade)
+            not context.get('intercompany_trade_do_not_propagate', False) and
+            rp.intercompany_trade)
 
         if create_account_invoice:
             line_ids = vals.get('invoice_line', False)
@@ -90,7 +90,7 @@ class AccountInvoice(Model):
 
         if create_account_invoice:
             ctx = context.copy()
-            ctx['integrated_trade_do_not_propagate'] = True
+            ctx['intercompany_trade_do_not_propagate'] = True
             ctx.pop('type', None)
             ctx.pop('journal_type', None)
             ctx.pop('default_type', None)
@@ -107,7 +107,7 @@ class AccountInvoice(Model):
                     _("""You can not change create an invoice %s with a"""
                         """ partner flagged as 'Integratedd Trade'. """ % (
                             ai.type)))
-            rit = self._get_res_integrated_trade(
+            rit = self._get_intercompany_trade_config(
                 cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
                 context=context)
 
@@ -134,7 +134,7 @@ class AccountInvoice(Model):
                 'type': ctx['type'], 'company_id': other_company_id})
 
             ai_other_vals = {
-                'integrated_trade_account_invoice_id': ai.id,
+                'intercompany_trade_account_invoice_id': ai.id,
                 'type': ctx['type'],
                 'company_id': other_company_id,
                 'partner_id': other_partner_id,
@@ -147,14 +147,14 @@ class AccountInvoice(Model):
 
             # Update Proper Account Invoice
             self.write(cr, uid, [ai.id], {
-                'integrated_trade_account_invoice_id': ai_other_id,
+                'intercompany_trade_account_invoice_id': ai_other_id,
                 'invoice_line': line_ids,
             }, context=context)
         return res
 
     def copy(self, cr, uid, id, default=None, context=None):
         ai = self.browse(cr, uid, id, context=context)
-        if ai.integrated_trade:
+        if ai.intercompany_trade:
             raise except_osv(
                 _("Integrated Trade - Unimplemented Feature!"),
                 _(
@@ -167,12 +167,12 @@ class AccountInvoice(Model):
         """"- Unlink the according Invoice."""
         context = context and context or {}
 
-        if 'integrated_trade_do_not_propagate' not in context.keys():
+        if 'intercompany_trade_do_not_propagate' not in context.keys():
             ctx = context.copy()
-            ctx['integrated_trade_do_not_propagate'] = True
+            ctx['intercompany_trade_do_not_propagate'] = True
             for ai in self.browse(
                     cr, uid, ids, context=context):
-                rit = self._get_res_integrated_trade(
+                rit = self._get_intercompany_trade_config(
                     cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
                     context=context)
                 if ai.type in ('in_invoice', 'in_refund'):
@@ -181,7 +181,7 @@ class AccountInvoice(Model):
                     other_uid = rit.customer_user_id.id
                 self.unlink(
                     cr, other_uid,
-                    [ai.integrated_trade_account_invoice_id.id],
+                    [ai.intercompany_trade_account_invoice_id.id],
                     context=ctx)
         res = super(AccountInvoice, self).unlink(
             cr, uid, ids, context=context)

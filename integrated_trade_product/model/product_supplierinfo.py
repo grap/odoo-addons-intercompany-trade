@@ -29,7 +29,7 @@ class product_supplierinfo(Model):
     _inherit = 'product.supplierinfo'
 
     # Fields Function Section
-    def _get_integrated_price(
+    def _get_intercompany_tradeprice(
             self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         for psi in self.browse(cr, uid, ids, context=context):
@@ -40,8 +40,8 @@ class product_supplierinfo(Model):
         return res
 
     _columns = {
-        'integrated_price': fields.function(
-            _get_integrated_price, string='Unit Price', type='float',
+        'intercompany_tradeprice': fields.function(
+            _get_intercompany_tradeprice, string='Unit Price', type='float',
             digits_compute=dp.get_precision('Integrated Product Price'),
             store={'product.supplierinfo': (
                 lambda self, cr, uid, ids, context=None: ids,

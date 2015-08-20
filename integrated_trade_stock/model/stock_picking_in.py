@@ -33,7 +33,7 @@ class stock_picking_in(Model):
         rp_obj = self.pool['res.partner']
         if vals.get('partner_id', False):
             rp = rp_obj.browse(cr, uid, vals['partner_id'], context=context)
-            if rp.integrated_trade:
+            if rp.intercompany_trade:
                 raise except_osv(
                     _("Integrated Trade - Unimplemented Feature!"),
                     _(
@@ -46,7 +46,7 @@ class stock_picking_in(Model):
         rp_obj = self.pool['res.partner']
         if vals.get('partner_id', False):
             rp = rp_obj.browse(cr, uid, vals['partner_id'], context=context)
-            if rp.integrated_trade:
+            if rp.intercompany_trade:
                 raise except_osv(
                     _("Integrated Trade - Unimplemented Feature!"),
                     _(

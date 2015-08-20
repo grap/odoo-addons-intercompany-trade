@@ -22,7 +22,7 @@
 
 - !record {model: sale.shop, id: supplier_sale_shop}:
     name: Integrated Trade - Supplier shop
-    warehouse_id: integrated_trade_stock.supplier_stock_warehouse
+    warehouse_id: intercompany_trade_stock.supplier_stock_warehouse
     payment_default_id: account.account_payment_term_immediate
-    company_id: integrated_trade_base.supplier_company
+    company_id: intercompany_trade_base.supplier_company
     pricelist_id: product.list0

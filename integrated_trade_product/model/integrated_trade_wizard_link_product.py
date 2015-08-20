@@ -27,35 +27,35 @@ from openerp.osv.osv import except_osv
 from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp
 
-from .custom_tools import _integrated_trade_prepare
+from .custom_tools import _intercompany_trade_prepare
 
 
-class integrated_trade_wizard_link_product(TransientModel):
-    _name = 'integrated.trade.wizard.link.product'
+class intercompany_trade_wizard_link_product(TransientModel):
+    _name = 'intercompany.trade.wizard.link.product'
 
     # Default Get Section
     def default_get(self, cr, uid, fields, context=None):
         pp_obj = self.pool['product.product']
-        pitc_obj = self.pool['product.integrated.trade.catalog']
-        rit_obj = self.pool['res.integrated.trade']
+        pitc_obj = self.pool['product.intercompany.trade.catalog']
+        rit_obj = self.pool['intercompany.trade.config']
         ppl_obj = self.pool['product.pricelist']
-        res = super(integrated_trade_wizard_link_product, self).default_get(
+        res = super(intercompany_trade_wizard_link_product, self).default_get(
             cr, uid, fields, context=context)
         supplier_product_id = pitc_obj._get_supplier_product_id_from_id(
             context.get('active_id'))
-        integrated_trade_id = pitc_obj._get_integrated_trade_id_from_id(
+        intercompany_trade_id = pitc_obj._get_intercompany_trade_id_from_id(
             context.get('active_id'))
         rit = rit_obj.browse(
-            cr, uid, integrated_trade_id, context=context)
+            cr, uid, intercompany_trade_id, context=context)
         supplier_pp = pp_obj.browse(
             cr, rit.supplier_user_id.id, supplier_product_id, context=context)
-        price_info = ppl_obj._compute_integrated_prices(
+        price_info = ppl_obj._compute_intercompany_tradeprices(
             cr, rit.supplier_user_id.id, supplier_pp,
             rit.supplier_partner_id, rit.sale_pricelist_id,
             context=context)
         res.update({
             'supplier_product_id': supplier_product_id,
-            'integrated_trade_id': integrated_trade_id,
+            'intercompany_trade_id': intercompany_trade_id,
             'supplier_product_name': supplier_pp.name,
             'supplier_product_code': supplier_pp.default_code,
         })
@@ -65,8 +65,8 @@ class integrated_trade_wizard_link_product(TransientModel):
 
     # Column Section
     _columns = {
-        'integrated_trade_id': fields.many2one(
-            'res.integrated.trade', 'Integrated Trade',
+        'intercompany_trade_id': fields.many2one(
+            'intercompany.trade.config', 'Integrated Trade',
             required=True, readonly=True),
         'customer_product_id': fields.many2one(
             'product.product', 'Customer Product', required=True),
@@ -93,11 +93,11 @@ class integrated_trade_wizard_link_product(TransientModel):
         psi_obj = self.pool['product.supplierinfo']
         pt_obj = self.pool['product.template']
         pp_obj = self.pool['product.product']
-        pitc_obj = self.pool['product.integrated.trade.catalog']
+        pitc_obj = self.pool['product.intercompany.trade.catalog']
         for itwlp in self.browse(cr, uid, ids, context=context):
             # Prepare Product Supplierinfo
-            psi_vals = _integrated_trade_prepare(
-                self.pool, cr, uid, itwlp.integrated_trade_id.id,
+            psi_vals = _intercompany_trade_prepare(
+                self.pool, cr, uid, itwlp.intercompany_trade_id.id,
                 itwlp.supplier_product_id.id,
                 itwlp.customer_product_id.id, context=context)
             psi_vals['product_id'] = itwlp.customer_product_tmpl_id.id

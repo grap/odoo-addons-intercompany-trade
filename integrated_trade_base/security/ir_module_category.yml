@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-- !record {model: ir.module.category, id: integrated_trade_category}:
+- !record {model: ir.module.category, id: intercompany_trade_category}:
     name: Integrated Trade
     sequence: 120
     description: Select the level of access of Integrated Trade

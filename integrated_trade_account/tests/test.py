@@ -35,56 +35,56 @@ class Test(TransactionCase):
         self.ai_obj = self.registry('account.invoice')
         self.pp_obj = self.registry('product.product')
         self.ail_obj = self.registry('account.invoice.line')
-        self.pitc_obj = self.registry('product.integrated.trade.catalog')
-        self.rit_obj = self.registry('res.integrated.trade')
-        self.itwlp_obj = self.registry('integrated.trade.wizard.link.product')
+        self.pitc_obj = self.registry('product.intercompany.trade.catalog')
+        self.rit_obj = self.registry('intercompany.trade.config')
+        self.itwlp_obj = self.registry('intercompany.trade.wizard.link.product')
 
         # Get ids from xml_ids
         self.rit_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
-            'integrated_trade_base', 'integrated_trade')[1]
+            'intercompany_trade_base', 'intercompany_trade')[1]
         self.rit = self.rit_obj.browse(self.cr, self.uid, self.rit_id)
 
         self.product_supplier_service_25_incl =\
             self.imd_obj.get_object_reference(
-                self.cr, self.uid, 'integrated_trade_account',
+                self.cr, self.uid, 'intercompany_trade_account',
                 'product_supplier_service_25_incl')[1]
 
         self.product_supplier_service_10_incl =\
             self.imd_obj.get_object_reference(
-                self.cr, self.uid, 'integrated_trade_account',
+                self.cr, self.uid, 'intercompany_trade_account',
                 'product_supplier_service_10_incl')[1]
 
         self.product_supplier_service_10_excl =\
             self.imd_obj.get_object_reference(
-                self.cr, self.uid, 'integrated_trade_account',
+                self.cr, self.uid, 'intercompany_trade_account',
                 'product_supplier_service_10_excl')[1]
 
         self.product_customer_service_10_excl =\
             self.imd_obj.get_object_reference(
-                self.cr, self.uid, 'integrated_trade_account',
+                self.cr, self.uid, 'intercompany_trade_account',
                 'product_customer_service_10_excl')[1]
 
         self.product_customer_apple =\
             self.imd_obj.get_object_reference(
-                self.cr, self.uid, 'integrated_trade_product',
+                self.cr, self.uid, 'intercompany_trade_product',
                 'product_customer_apple')[1]
 
         self.customer_user_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
-            'integrated_trade_base', 'customer_user')[1]
+            'intercompany_trade_base', 'customer_user')[1]
 
         self.supplier_user_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
-            'integrated_trade_base', 'supplier_user')[1]
+            'intercompany_trade_base', 'supplier_user')[1]
 
         self.purchase_journal_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
-            'integrated_trade_account', 'customer_journal_purchase')[1]
+            'intercompany_trade_account', 'customer_journal_purchase')[1]
 
         self.customer_account_payable_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
-            'integrated_trade_account', 'customer_account_payable')[1]
+            'intercompany_trade_account', 'customer_account_payable')[1]
 
         self.product_uom_unit_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
@@ -179,9 +179,9 @@ class Test(TransactionCase):
 
         # Checks creation of the according Invoice
         SUPER_ai = self.ai_obj.browse(cr, self.uid, cus_ai_id)
-        SUPER_ai_other = SUPER_ai.integrated_trade_account_invoice_id
+        SUPER_ai_other = SUPER_ai.intercompany_trade_account_invoice_id
 
-        sup_ai_id = SUPER_ai.integrated_trade_account_invoice_id.id
+        sup_ai_id = SUPER_ai.intercompany_trade_account_invoice_id.id
 
         self.assertNotEqual(
             SUPER_ai_other.id, False,
@@ -206,9 +206,9 @@ class Test(TransactionCase):
 
         # Checks creation of the according Invoice Line
         SUPER_ail = self.ail_obj.browse(cr, self.uid, cus_ail_id)
-        SUPER_ail_other = SUPER_ail.integrated_trade_account_invoice_line_id
+        SUPER_ail_other = SUPER_ail.intercompany_trade_account_invoice_line_id
 
-        sup_ail_id = SUPER_ail.integrated_trade_account_invoice_line_id.id
+        sup_ail_id = SUPER_ail.intercompany_trade_account_invoice_line_id.id
 
         self.assertNotEqual(
             SUPER_ail_other, False,
@@ -228,7 +228,7 @@ class Test(TransactionCase):
         self.ail_obj.write(
             cr, cus_uid, [cus_ail_id], {'quantity': 2}, context=context)
         SUPER_ail = self.ail_obj.browse(cr, self.uid, cus_ail_id)
-        SUPER_ail_other = SUPER_ail.integrated_trade_account_invoice_line_id
+        SUPER_ail_other = SUPER_ail.intercompany_trade_account_invoice_line_id
 
         self.assertEqual(
             SUPER_ail_other.price_subtotal, 2 * sup_pp.list_price,

@@ -33,8 +33,8 @@ class stock_invoice_onshipping(TransientModel):
         sp_obj = self.pool['stock.picking']
         sp_ids = context.get('active_ids', False)
         sp_lst = sp_obj.browse(cr, uid, sp_ids, context=context)
-        integrated_trade = any([x.integrated_trade for x in sp_lst])
-        if integrated_trade:
+        intercompany_trade = any([x.intercompany_trade for x in sp_lst])
+        if intercompany_trade:
             if len(sp_lst) > 1:
                 raise except_osv(
                     _("Integrated Trade - Unimplemented Feature!"),

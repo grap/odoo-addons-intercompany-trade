@@ -21,7 +21,7 @@
 ##############################################################################
 
 
-- !record {model: res.groups, id: integrated_trade_base.integrated_trade_user}:
+- !record {model: res.groups, id: intercompany_trade_base.intercompany_trade_user}:
     users:
         - fiscal_customer_user
         - fiscal_supplier_user
@@ -35,6 +35,6 @@
         - fiscal_supplier_user
         - fiscal_customer_user
 
-- !record {model: res.groups, id: integrated_trade_base.integrated_trade_manager}:
+- !record {model: res.groups, id: intercompany_trade_base.intercompany_trade_manager}:
     users:
         - base_fiscal_company.user_accountant

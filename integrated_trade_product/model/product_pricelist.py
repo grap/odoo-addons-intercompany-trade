@@ -32,7 +32,7 @@ class product_pricelist(Model):
     # TODO FIXME
     # Set param -> RIT so, reduce params quantity
     # check supplier_partner, is it better customer_partner ?
-    def _compute_integrated_prices(
+    def _compute_intercompany_tradeprices(
             self, cr, uid, supplier_product,
             supplier_partner, pricelist,
             context=None):

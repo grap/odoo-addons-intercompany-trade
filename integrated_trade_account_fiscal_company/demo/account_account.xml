@@ -2,7 +2,7 @@
 <openerp>
     <data>
 
-        <record model="account.account" id="a_integrated_trade">
+        <record model="account.account" id="a_intercompany_trade">
             <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
             <field name="code">CIS_18</field>
             <field name="name">CIS - Integrated Trade - (test) </field>
@@ -16,7 +16,7 @@
             <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
             <field name="code">CIS_185</field>
             <field name="name">CIS - Receivable / Payable (Integrated Trade) - (test)</field>
-            <field name="parent_id" ref="a_integrated_trade"/>
+            <field name="parent_id" ref="a_intercompany_trade"/>
             <field name="type">other</field>
             <field name="user_type" ref="account.data_account_type_asset"/>
         </record>
@@ -26,7 +26,7 @@
             <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
             <field name="code">CIS_1871</field>
             <field name="name">CIS - Product Sales (Integrated Trade) - (test)</field>
-            <field name="parent_id" ref="a_integrated_trade"/>
+            <field name="parent_id" ref="a_intercompany_trade"/>
             <field name="type">other</field>
             <field name="user_type" ref="account.data_account_type_income"/>
         </record>
@@ -36,7 +36,7 @@
             <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
             <field name="code">CIS_1861</field>
             <field name="name">CIS - Expenses (Integrated Trade) - (test)</field>
-            <field name="parent_id" ref="a_integrated_trade"/>
+            <field name="parent_id" ref="a_intercompany_trade"/>
             <field name="type">other</field>
             <field name="user_type" ref="account.data_account_type_expense"/>
         </record>

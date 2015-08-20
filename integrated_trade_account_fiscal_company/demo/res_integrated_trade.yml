@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-- !record {model: res.integrated.trade, id: integrated_trade}:
+- !record {model: intercompany.trade.config, id: intercompany_trade}:
     name: Integrated Trade between Fiscal company (Service) -> Fiscal company (Production)
     customer_company_id: base_fiscal_company.company_fiscal_child_2
     customer_user_id: fiscal_customer_user

@@ -20,17 +20,17 @@
 #
 ##############################################################################
 
-- !record {model: ir.model.access, id: res_integrated_trade_user_access}:
-    model_id: model_res_integrated_trade
+- !record {model: ir.model.access, id: intercompany_trade_config_user_access}:
+    model_id: model_intercompany_trade_config
     name: Integrated Trade - User
     perm_read: true
     perm_create: false
     perm_write: false
     perm_unlink: false
 
-- !record {model: ir.model.access, id: res_integrated_trade_manager_access}:
-    group_id: integrated_trade_manager
-    model_id: model_res_integrated_trade
+- !record {model: ir.model.access, id: intercompany_trade_config_manager_access}:
+    group_id: intercompany_trade_manager
+    model_id: model_intercompany_trade_config
     name: Integrated Trade - Manager
     perm_read: true
     perm_create: false

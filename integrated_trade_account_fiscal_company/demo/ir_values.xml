@@ -9,7 +9,7 @@
 <!--            <field name="model">purchase.order</field>-->
 <!--            <field name="company_id" ref="base_fiscal_company.company_fiscal_child_2" />-->
 <!--            <field name="name">warehouse_id</field>-->
-<!--            <field name="value" eval="'I' + str(ref('integrated_trade_account_fiscal_company.customer_stock_warehouse')) + '\n.'" />-->
+<!--            <field name="value" eval="'I' + str(ref('intercompany_trade_account_fiscal_company.customer_stock_warehouse')) + '\n.'" />-->
 <!--        </record>-->
 
 <!--        <record model="ir.values" id="supplier_shop">-->

@@ -37,33 +37,33 @@ class Test(TransactionCase):
         self.pol_obj = self.registry('purchase.order.line')
         self.so_obj = self.registry('sale.order')
         self.sol_obj = self.registry('sale.order.line')
-        self.rit_obj = self.registry('res.integrated.trade')
-        self.pitc_obj = self.registry('product.integrated.trade.catalog')
-        self.itwlp_obj = self.registry('integrated.trade.wizard.link.product')
+        self.rit_obj = self.registry('intercompany.trade.config')
+        self.pitc_obj = self.registry('product.intercompany.trade.catalog')
+        self.itwlp_obj = self.registry('intercompany.trade.wizard.link.product')
 
         # Get ids from xml_ids
         self.rit_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
-            'integrated_trade_base', 'integrated_trade')[1]
+            'intercompany_trade_base', 'intercompany_trade')[1]
         self.rit = self.rit_obj.browse(self.cr, self.uid, self.rit_id)
 
         self.product_customer_apple =\
             self.imd_obj.get_object_reference(
-                self.cr, self.uid, 'integrated_trade_product',
+                self.cr, self.uid, 'intercompany_trade_product',
                 'product_customer_apple')[1]
 
         self.product_supplier_apple =\
             self.imd_obj.get_object_reference(
-                self.cr, self.uid, 'integrated_trade_product',
+                self.cr, self.uid, 'intercompany_trade_product',
                 'product_supplier_apple')[1]
 
         self.customer_user_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
-            'integrated_trade_base', 'customer_user')[1]
+            'intercompany_trade_base', 'customer_user')[1]
 
         self.supplier_user_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
-            'integrated_trade_base', 'supplier_user')[1]
+            'intercompany_trade_base', 'supplier_user')[1]
 
     def test_01_create_purchase_order(self):
         """
@@ -100,7 +100,7 @@ class Test(TransactionCase):
 
         # Checks creation of the according Sale Order
         SUPER_po = self.po_obj.browse(cr, self.uid, cus_po_id)
-        SUPER_so_other = SUPER_po.integrated_trade_sale_order_id
+        SUPER_so_other = SUPER_po.intercompany_trade_sale_order_id
 
         self.assertNotEqual(
             SUPER_so_other.id, False,
@@ -118,7 +118,7 @@ class Test(TransactionCase):
 
         # Checks creation of the according SO Line
         SUPER_pol = self.pol_obj.browse(cr, self.uid, cus_pol_id)
-        SUPER_sol_other = SUPER_pol.integrated_trade_sale_order_line_id
+        SUPER_sol_other = SUPER_pol.intercompany_trade_sale_order_line_id
 
         sup_sol_id = SUPER_sol_other.id
 
@@ -140,7 +140,7 @@ class Test(TransactionCase):
         self.pol_obj.write(
             cr, cus_uid, [cus_pol_id], {'product_qty': 2})
         SUPER_pol = self.pol_obj.browse(cr, self.uid, cus_pol_id)
-        SUPER_sol_other = SUPER_pol.integrated_trade_sale_order_line_id
+        SUPER_sol_other = SUPER_pol.intercompany_trade_sale_order_line_id
 
         self.assertEqual(
             SUPER_sol_other.price_subtotal, 2 * sup_pp.list_price,
@@ -198,7 +198,7 @@ class Test(TransactionCase):
 
         # Checks creation of the according Sale Order
         SUPER_so = self.so_obj.browse(cr, self.uid, sup_so_id)
-        SUPER_po_other = SUPER_so.integrated_trade_purchase_order_id
+        SUPER_po_other = SUPER_so.intercompany_trade_purchase_order_id
 
         cus_po_id = SUPER_po_other.id
 
@@ -222,7 +222,7 @@ class Test(TransactionCase):
 
 #        # Checks creation of the according PO Line
 #        SUPER_sol = self.sol_obj.browse(cr, self.uid, sup_sol_id)
-#        SUPER_pol_other = SUPER_sol.integrated_trade_purchase_order_line_id
+#        SUPER_pol_other = SUPER_sol.intercompany_trade_purchase_order_line_id
 
 #        cus_pol_id = SUPER_pol_other.id
 
@@ -237,7 +237,7 @@ class Test(TransactionCase):
 #                'product_uos_qty': 2,
 #            })
 #        SUPER_sol = self.sol_obj.browse(cr, self.uid, sup_sol_id)
-#        SUPER_pol_other = SUPER_sol.integrated_trade_purchase_order_line_id
+#        SUPER_pol_other = SUPER_sol.intercompany_trade_purchase_order_line_id
 
 #        self.assertEqual(
 #            SUPER_pol_other.price_subtotal, 2 * 15,

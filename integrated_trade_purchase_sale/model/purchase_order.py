@@ -31,61 +31,61 @@ class purchase_order(Model):
     _inherit = 'purchase.order'
 
     # Fields Function Section
-    def _get_integrated_trade(
+    def _get_intercompany_trade(
             self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         for po in self.browse(cr, uid, ids, context=context):
-            res[po.id] = po.partner_id.integrated_trade
+            res[po.id] = po.partner_id.intercompany_trade
         return res
 
     # Columns Section
     _columns = {
-        'integrated_trade': fields.function(
-            _get_integrated_trade, type='boolean', string='Integrated Trade',
+        'intercompany_trade': fields.function(
+            _get_intercompany_trade, type='boolean', string='Integrated Trade',
             store={'purchase.order': (
                 lambda self, cr, uid, ids, context=None: ids,
                 [
                     'partner_id',
                 ], 10)}),
-        'integrated_trade_sale_order_id': fields.many2one(
+        'intercompany_trade_sale_order_id': fields.many2one(
             'sale.order', string='Integrated Trade Sale Order',
             readonly=True,
         ),
     }
 
     # Constraint Section
-    def _check_integrated_trade_invoice_method(
+    def _check_intercompany_trade_invoice_method(
             self, cr, uid, ids, context=None):
         for po in self.browse(cr, uid, ids, context=context):
-            if po.integrated_trade and po.invoice_method != 'picking':
+            if po.intercompany_trade and po.invoice_method != 'picking':
                 return False
         return True
 
     _constraints = [
         (
-            _check_integrated_trade_invoice_method,
+            _check_intercompany_trade_invoice_method,
             """Error: The module 'Integrated Trade' Only works with"""
             """ 'Invoice Method' set to 'Picking'.""",
-            ['integrated_trade', 'invoice_method']),
+            ['intercompany_trade', 'invoice_method']),
     ]
 
     # View Section
-    def integrated_trade_request(self, cr, uid, ids, context=None):
+    def intercompany_trade_request(self, cr, uid, ids, context=None):
         return self.print_quotation(cr, uid, ids, context=context)
 
     # Overload Section
     def create(self, cr, uid, vals, context=None):
         context = context if context else {}
 
-        rit_obj = self.pool['res.integrated.trade']
+        rit_obj = self.pool['intercompany.trade.config']
         rp_obj = self.pool['res.partner']
         so_obj = self.pool['sale.order']
         iv_obj = self.pool['ir.values']
 
         rp = rp_obj.browse(cr, uid, vals['partner_id'], context=context)
         create_sale_order = (
-            not context.get('integrated_trade_do_not_propagate', False) and
-            rp.integrated_trade)
+            not context.get('intercompany_trade_do_not_propagate', False) and
+            rp.intercompany_trade)
 
         if create_sale_order:
             line_ids = vals.get('order_line', [])
@@ -96,11 +96,11 @@ class purchase_order(Model):
 
         if create_sale_order:
             ctx = context.copy()
-            ctx['integrated_trade_do_not_propagate'] = True
+            ctx['intercompany_trade_do_not_propagate'] = True
 
             # Create associated Sale Order
             po = self.browse(cr, uid, res, context=context)
-            rit = rit_obj._get_integrated_trade_by_partner_company(
+            rit = rit_obj._get_intercompany_trade_by_partner_company(
                 cr, uid, po.partner_id.id, po.company_id.id, 'in',
                 context=context)
 
@@ -116,7 +116,7 @@ class purchase_order(Model):
                 'partner_id': rit.customer_partner_id.id,
                 'partner_invoice_id': rit.customer_partner_id.id,
                 'partner_shipping_id': rit.customer_partner_id.id,
-                'integrated_trade_purchase_order_id': res,
+                'intercompany_trade_purchase_order_id': res,
                 'shop_id': shop_id,
                 'pricelist_id': rit.sale_pricelist_id.id,
                 'client_order_ref': po.name,
@@ -129,22 +129,22 @@ class purchase_order(Model):
 
             # Update Purchase Order
             self.write(cr, uid, [res], {
-                'integrated_trade_sale_order_id': so.id,
+                'intercompany_trade_sale_order_id': so.id,
                 'partner_ref': so.name,
                 'order_line': line_ids,
             }, context=context)
         return res
 
     def write(self, cr, uid, ids, vals, context=None):
-        rit_obj = self.pool['res.integrated.trade']
+        rit_obj = self.pool['intercompany.trade.config']
 
         context = context if context else {}
         res = super(purchase_order, self).write(
             cr, uid, ids, vals, context=context)
 
-        if 'integrated_trade_do_not_propagate' not in context.keys():
+        if 'intercompany_trade_do_not_propagate' not in context.keys():
             for po in self.browse(cr, uid, ids, context=context):
-                if po.integrated_trade:
+                if po.intercompany_trade:
                     if 'partner_id' in vals:
                         raise except_osv(
                             _("Error!"),
@@ -161,7 +161,7 @@ class purchase_order(Model):
                                 """ Order because of 'Integrated 'Trade'"""
                                 """ Rules. Please cancel this Purchase Order"""
                                 """  and create a new one, duplicating it."""))
-                    rit = rit_obj._get_integrated_trade_by_partner_company(
+                    rit = rit_obj._get_intercompany_trade_by_partner_company(
                         cr, uid, po.partner_id.id, po.company_id.id,
                         'in', context=context)
                     if vals.get('state', False) == 'sent':
@@ -172,7 +172,7 @@ class purchase_order(Model):
                         wf_service = netsvc.LocalService("workflow")
                         wf_service.trg_validate(
                             rit.supplier_user_id.id, 'sale.order',
-                            po.integrated_trade_sale_order_id.id,
+                            po.intercompany_trade_sale_order_id.id,
                             'quotation_sent', cr)
                     if vals.get('state', False) == 'cancel':
                         # Change state of purchase order to 'cancel' must
@@ -180,7 +180,7 @@ class purchase_order(Model):
                         wf_service = netsvc.LocalService("workflow")
                         wf_service.trg_validate(
                             rit.supplier_user_id.id, 'sale.order',
-                            po.integrated_trade_sale_order_id.id,
+                            po.intercompany_trade_sale_order_id.id,
                             'cancel', cr)
                     if vals.get('state', False) == 'draft':
                         raise except_osv(
@@ -199,19 +199,19 @@ class purchase_order(Model):
         # FIXME: Unlink purchase Order call workflow trigger and fails
         context = context if context else {}
 
-        rit_obj = self.pool['res.integrated.trade']
+        rit_obj = self.pool['intercompany.trade.config']
         so_obj = self.pool['sale.order']
 
-        if 'integrated_trade_do_not_propagate' not in context.keys():
+        if 'intercompany_trade_do_not_propagate' not in context.keys():
             ctx = context.copy()
-            ctx['integrated_trade_do_not_propagate'] = True
+            ctx['intercompany_trade_do_not_propagate'] = True
             for po in self.browse(cr, uid, ids, context=context):
-                rit = rit_obj._get_integrated_trade_by_partner_company(
+                rit = rit_obj._get_intercompany_trade_by_partner_company(
                     cr, uid, po.partner_id.id, po.company_id.id,
                     'in', context=context)
-                if po.integrated_trade:
+                if po.intercompany_trade:
                     so_obj.unlink(
                         cr, rit.supplier_user_id.id,
-                        [po.integrated_trade_sale_order_id.id], context=ctx)
+                        [po.intercompany_trade_sale_order_id.id], context=ctx)
         return super(purchase_order, self).unlink(
             cr, uid, ids, context=context)

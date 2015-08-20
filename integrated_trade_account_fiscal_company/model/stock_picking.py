@@ -32,23 +32,23 @@ class StockPicking(Model):
 #    def _prepare_invoice_line(
 #            self, cr, uid, group, picking, move_line, invoice_id,
 #            invoice_vals, context=None):
-#        rit_obj = self.pool['res.integrated.trade']
+#        rit_obj = self.pool['intercompany.trade.config']
 #        aa_obj = self.pool['account.account']
 #        fcta_obj = self.pool['fiscal.company.transcoding.account']
 #        res = super(StockPicking, self)._prepare_invoice_line(
 #            cr, uid, group, picking, move_line, invoice_id,
 #            invoice_vals, context=None)
-#        if picking.integrated_trade:
+#        if picking.intercompany_trade:
 #            SUPERUSER_picking = self.browse(
 #                cr, SUPERUSER_ID, picking.id, context=context)
 #            if SUPERUSER_picking.type == 'out':
 #                customer_company_id =\
-#                    SUPERUSER_picking.integrated_trade_picking_in_id\
+#                    SUPERUSER_picking.intercompany_trade_picking_in_id\
 #                    .company_id.id
 #                supplier_company_id = SUPERUSER_picking.company_id.id
 #            elif SUPERUSER_picking.type == 'in':
 #                supplier_company_id =\
-#                    SUPERUSER_picking.integrated_trade_picking_out_id\
+#                    SUPERUSER_picking.intercompany_trade_picking_out_id\
 #                    .company_id.id
 #                customer_company_id = SUPERUSER_picking.company_id.id
 #            else:

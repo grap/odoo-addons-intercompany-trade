@@ -26,7 +26,7 @@
     type: percent
     amount: 0.1
     price_include: False
-    company_id: integrated_trade_base.supplier_company
+    company_id: intercompany_trade_base.supplier_company
 
 - !record {model: account.tax, id: sale_vat_10_included}:
     name: SALE VAT 10% Included
@@ -34,7 +34,7 @@
     type: percent
     amount: 0.1
     price_include: True
-    company_id: integrated_trade_base.supplier_company
+    company_id: intercompany_trade_base.supplier_company
 
 - !record {model: account.tax, id: sale_vat_10_excluded}:
     simple_tax_id: sale_vat_10_included
@@ -48,7 +48,7 @@
     type: percent
     amount: 0.25
     price_include: False
-    company_id: integrated_trade_base.supplier_company
+    company_id: intercompany_trade_base.supplier_company
 
 - !record {model: account.tax, id: sale_vat_25_included}:
     name: SALE VAT 25% Included
@@ -56,7 +56,7 @@
     type: percent
     amount: 0.25
     price_include: True
-    company_id: integrated_trade_base.supplier_company
+    company_id: intercompany_trade_base.supplier_company
 
 - !record {model: account.tax, id: sale_vat_25_excluded}:
     simple_tax_id: sale_vat_25_included
@@ -70,7 +70,7 @@
     type: percent
     amount: 0.1
     price_include: False
-    company_id: integrated_trade_base.customer_company
+    company_id: intercompany_trade_base.customer_company
 
 - !record {model: account.tax, id: purchase_vat_10_included}:
     name: PURCHASE VAT 10% Included
@@ -78,7 +78,7 @@
     type: percent
     amount: 0.1
     price_include: True
-    company_id: integrated_trade_base.customer_company
+    company_id: intercompany_trade_base.customer_company
 
 - !record {model: account.tax, id: purchase_vat_10_excluded}:
     simple_tax_id: purchase_vat_10_included

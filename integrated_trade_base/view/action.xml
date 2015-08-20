@@ -21,29 +21,29 @@
     <data>
 
 <!-- Model: res.partner -->
-        <record id="action_res_partner_integrated_customer" model="ir.actions.act_window">
+        <record id="action_res_partner_intercompany_tradecustomer" model="ir.actions.act_window">
             <field name="name">Integrated Customers</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
-            <field name="domain" eval="[('customer', '=', True), ('integrated_trade', '=', True)]"/>
+            <field name="domain" eval="[('customer', '=', True), ('intercompany_trade', '=', True)]"/>
         </record>
 
-        <record id="action_res_partner_integrated_supplier" model="ir.actions.act_window">
+        <record id="action_res_partner_intercompany_tradesupplier" model="ir.actions.act_window">
             <field name="name">Integrated Suppliers</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
-            <field name="domain" eval="[('supplier', '=', True), ('integrated_trade', '=', True)]"/>
+            <field name="domain" eval="[('supplier', '=', True), ('intercompany_trade', '=', True)]"/>
         </record>
 
-<!-- Model: res.integrated.trade -->
-        <record id="action_res_integrated_trade" model="ir.actions.act_window">
+<!-- Model: intercompany.trade.config -->
+        <record id="action_intercompany_trade_config" model="ir.actions.act_window">
             <field name="name">Integrated Trade</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">res.integrated.trade</field>
+            <field name="res_model">intercompany.trade.config</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>

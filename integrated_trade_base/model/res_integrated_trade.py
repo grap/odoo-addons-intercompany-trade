@@ -27,8 +27,8 @@ from openerp.osv.osv import except_osv
 from openerp.tools.translate import _
 
 
-class res_integrated_trade(Model):
-    _name = 'res.integrated.trade'
+class intercompany_trade_config(Model):
+    _name = 'intercompany.trade.config'
     _description = 'Integrated Trade'
     _order = 'customer_company_id, supplier_company_id'
 
@@ -81,11 +81,11 @@ class res_integrated_trade(Model):
     ]
 
     # Custom Section
-    def _get_integrated_trade_by_partner_company(
+    def _get_intercompany_trade_by_partner_company(
             self, cr, uid, partner_id, company_id, type,
             context=None):
         """
-        Return a res.integrated.trade.
+        Return a intercompany.trade.config.
         * If type='in', partner_id is a supplier in the customer company;
           (purchase workflow)
         * If type='out', partner_id is a customer in the supplier company;
@@ -132,7 +132,7 @@ class res_integrated_trade(Model):
     def create(self, cr, uid, vals, context=None):
         """Create or update associated partner in each company"""
         rp_obj = self.pool['res.partner']
-        res = super(res_integrated_trade, self).create(
+        res = super(intercompany_trade_config, self).create(
             cr, uid, vals, context=context)
         rit_id = self.search(cr, uid, [
             ('customer_company_id', '=', vals['supplier_company_id']),
@@ -144,7 +144,7 @@ class res_integrated_trade(Model):
                 cr, uid, vals['supplier_company_id'], context=context)
             partner_vals['customer'] = False
             partner_vals['supplier'] = True
-            partner_vals['integrated_trade'] = True
+            partner_vals['intercompany_trade'] = True
             partner_vals['company_id'] = vals['customer_company_id']
             supplier_partner_id = rp_obj.create(
                 cr, uid, partner_vals, context=context)
@@ -154,7 +154,7 @@ class res_integrated_trade(Model):
                 cr, uid, vals['customer_company_id'], context=context)
             partner_vals['customer'] = True
             partner_vals['supplier'] = False
-            partner_vals['integrated_trade'] = True
+            partner_vals['intercompany_trade'] = True
             partner_vals['company_id'] = vals['supplier_company_id']
             customer_partner_id = rp_obj.create(
                 cr, uid, partner_vals, context=context)
@@ -189,6 +189,6 @@ class res_integrated_trade(Model):
                     _("Error!"),
                     _("""You can not change customer or supplier company."""
                         """If you want to do so, please disable this"""
-                        """ integrated trade and create a new one."""))
-        return super(res_integrated_trade, self).write(
+                        """ intercompany trade and create a new one."""))
+        return super(intercompany_trade_config, self).write(
             cr, uid, ids, vals, context=context)

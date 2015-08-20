@@ -20,16 +20,16 @@
 #
 ##############################################################################
 
-- !record {model: res.groups, id: integrated_trade_user}:
-    category_id: integrated_trade_category
+- !record {model: res.groups, id: intercompany_trade_user}:
+    category_id: intercompany_trade_category
     name: User
     comment: The user can use the module Integrated Trade
 
-- !record {model: res.groups, id: integrated_trade_manager}:
-    category_id: integrated_trade_category
+- !record {model: res.groups, id: intercompany_trade_manager}:
+    category_id: intercompany_trade_category
     name: Manager
     implied_ids:
-        - integrated_trade_user
+        - intercompany_trade_user
     users:
         - base.user_root
     comment: The user can manage and set new Integrated Trades

@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-- !record {model: ir.rule, id: ir_rule_product_integrated_trade_catalog}:
+- !record {model: ir.rule, id: ir_rule_product_intercompany_trade_catalog}:
     name: Integrated Trade - Product Integrated Trade Catalog
-    model_id: integrated_trade_product.model_product_integrated_trade_catalog
+    model_id: intercompany_trade_product.model_product_intercompany_trade_catalog
     domain_force: '[(''customer_company_id'', ''='', user.company_id.id)]'

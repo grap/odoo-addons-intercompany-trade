@@ -20,10 +20,10 @@
 <openerp>
     <data>
 
-<!-- Model: res.integrated.trade -->
-        <record id="view_res_integrated_trade_form" model="ir.ui.view">
-            <field name="model">res.integrated.trade</field>
-            <field name="inherit_id" ref="integrated_trade_base.view_res_integrated_trade_form" />
+<!-- Model: intercompany.trade.config -->
+        <record id="view_intercompany_trade_config_form" model="ir.ui.view">
+            <field name="model">intercompany.trade.config</field>
+            <field name="inherit_id" ref="intercompany_trade_base.view_res_intercompany_trade_form" />
             <field name="arch" type="xml">
                 <field name="customer_partner_id" position="after">
                     <field name="sale_pricelist_id"/>
@@ -31,9 +31,9 @@
             </field>
         </record>
 
-<!-- Define: product.integrated.trade.catalog -->
-        <record id="view_product_integrated_trade_catalog_tree" model="ir.ui.view">
-            <field name="model">product.integrated.trade.catalog</field>
+<!-- Define: product.intercompany.trade.catalog -->
+        <record id="view_product_intercompany_trade_catalog_tree" model="ir.ui.view">
+            <field name="model">product.intercompany.trade.catalog</field>
             <field name="arch" type="xml">
                 <tree string="Integrated Trade - Products Catalog">
                     <field name="customer_product_tmpl_id"/>
@@ -51,8 +51,8 @@
             </field>
         </record>
 
-        <record id="view_product_integrated_trade_catalog_search" model="ir.ui.view">
-            <field name="model">product.integrated.trade.catalog</field>
+        <record id="view_product_intercompany_trade_catalog_search" model="ir.ui.view">
+            <field name="model">product.intercompany.trade.catalog</field>
             <field name="arch" type="xml">
                 <search string="Integrated Trade - Products Catalog">
                    <field name="supplier_product_name" string="Supplier Product" filter_domain="['|',('supplier_product_name','ilike',self),('supplier_product_default_code','ilike',self)]"/>
@@ -63,9 +63,9 @@
             </field>
         </record>
 
-<!-- Define: integrated.trade.wizard.link.product -->
-        <record id="view_integrated_trade_wizard_link_product_form" model="ir.ui.view">
-            <field name="model">integrated.trade.wizard.link.product</field>
+<!-- Define: intercompany.trade.wizard.link.product -->
+        <record id="view_intercompany_trade_wizard_link_product_form" model="ir.ui.view">
+            <field name="model">intercompany.trade.wizard.link.product</field>
             <field name="arch" type="xml">
                 <form string="Integrated Trade - Link Product">
                     <group>

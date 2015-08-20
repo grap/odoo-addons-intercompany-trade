@@ -27,24 +27,24 @@ class ResPartner(Model):
     _inherit = 'res.partner'
 
     def _set_existing_simple_tax_type(self, cr, uid, context=None):
-        """Initialize all integrated partners with correct VAT configuration"""
+        """Initialize all intercompany trade partners with correct VAT configuration"""
         rp_ids = self.search(cr, uid, [
-            ('integrated_trade', '=', True),
+            ('intercompany_trade', '=', True),
             ('simple_tax_type', '!=', 'excluded'),
         ], context=context)
         self.write(cr, uid, rp_ids, {
             'simple_tax_type': 'excluded'}, context=context)
 
     def create(self, cr, uid, vals, context=None):
-        if vals.get('integrated_trade', False):
+        if vals.get('intercompany_trade', False):
             vals['simple_tax_type'] = 'excluded'
         return super(ResPartner, self).create(
             cr, uid, vals, context=context)
 
     def write(self, cr, uid, ids, vals, context=None):
-        if vals.get('integrated_trade', False):
+        if vals.get('intercompany_trade', False):
             vals['simple_tax_type'] = 'excluded'
-        self._check_integrated_trade_access(
+        self._check_intercompany_trade_access(
             cr, uid, ids, vals.keys(), context=context)
         return super(ResPartner, self).write(
             cr, uid, ids, vals, context=context)

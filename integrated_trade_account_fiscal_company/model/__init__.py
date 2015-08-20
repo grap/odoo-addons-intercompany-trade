@@ -22,5 +22,5 @@
 
 from . import fiscal_company_transcoding_account
 from . import account_invoice_line
-from . import res_integrated_trade
+from . import intercompany_trade_config
 # from . import stock_picking

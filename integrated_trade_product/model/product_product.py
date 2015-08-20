@@ -21,7 +21,7 @@
 ##############################################################################
 
 from openerp.osv.orm import Model
-from .custom_tools import _integrated_trade_update_multicompany
+from .custom_tools import _intercompany_trade_update_multicompany
 
 
 class product_product(Model):
@@ -37,7 +37,7 @@ class product_product(Model):
         default = default and default or {}
         # TODO: improve me.
         # It's not necessary to remove all seller_ids, only ones that
-        # come from integrated_trade
+        # come from intercompany_trade
         default['seller_ids'] = False
         return super(product_product, self).copy_data(
             cr, uid, id, default, context=context)
@@ -48,6 +48,6 @@ class product_product(Model):
             cr, uid, ids, vals, context=context)
         # Update product in customer database if required
         if list(set(vals.keys()) & set(self._INTEGRATED_FIELDS)):
-            _integrated_trade_update_multicompany(
+            _intercompany_trade_update_multicompany(
                 self.pool, cr, uid, ids, context=context)
         return res

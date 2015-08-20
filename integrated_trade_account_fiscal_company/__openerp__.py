@@ -25,7 +25,7 @@
     'version': '1.0',
     'category': 'CIS',
     'description': """
-Manage specific integrated trade for Cooperative
+Manage specific intercompany trade for Cooperative
 ================================================
 
 Features :
@@ -48,7 +48,7 @@ Copyright, Author and Licence :
     'license': 'AGPL-3',
     'depends': [
         'account_fiscal_company',
-        'integrated_trade_base',
+        'intercompany_trade_base',
         'purchase',
         'sale',
         'stock',
@@ -66,7 +66,7 @@ Copyright, Author and Licence :
         'demo/fiscal_company_transcoding_account.yml',
         'demo/res_users.yml',
         'demo/res_groups.yml',
-        'demo/res_integrated_trade.yml',
+        'demo/intercompany_trade_config.yml',
         'demo/product_product.yml',
         'demo/stock_location.yml',
         'demo/stock_warehouse.yml',

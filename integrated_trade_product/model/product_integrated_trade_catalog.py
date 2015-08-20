@@ -28,15 +28,15 @@ from openerp.addons import decimal_precision as dp
 
 
 class ProductIntegratedTradeCatalog(Model):
-    _name = 'product.integrated.trade.catalog'
+    _name = 'product.intercompany.trade.catalog'
     _auto = False
-    _table = 'product_integrated_trade_catalog'
+    _table = 'product_intercompany_trade_catalog'
 
     # Custom Section
     def _get_supplier_product_id_from_id(self, str_id):
         return int(str_id[:-4])
 
-    def _get_integrated_trade_id_from_id(self, str_id):
+    def _get_intercompany_trade_id_from_id(self, str_id):
         return int(str_id[-4:])
 
     # Button Section
@@ -44,7 +44,7 @@ class ProductIntegratedTradeCatalog(Model):
         return {
             'view_type': 'form',
             'view_mode': 'form',
-            'res_model': 'integrated.trade.wizard.link.product',
+            'res_model': 'intercompany.trade.wizard.link.product',
             'type': 'ir.actions.act_window',
             'target': 'new',
             'context': context,
@@ -65,7 +65,7 @@ class ProductIntegratedTradeCatalog(Model):
         ppl_obj = self.pool['product.pricelist']
         res = {}
         for pitc in self.browse(cr, SUPERUSER_ID, ids, context=context):
-            res[pitc.id] = ppl_obj._compute_integrated_prices(
+            res[pitc.id] = ppl_obj._compute_intercompany_tradeprices(
                 cr, SUPERUSER_ID, pitc.supplier_product_id,
                 pitc.supplier_partner_id, pitc.sale_pricelist_id,
                 context=context)
@@ -73,8 +73,8 @@ class ProductIntegratedTradeCatalog(Model):
 
     # Column Section
     _columns = {
-        'integrated_trade_id': fields.many2one(
-            'res.integrated.trade', 'Integrated Trade', readonly=True),
+        'intercompany_trade_id': fields.many2one(
+            'intercompany.trade.config', 'Integrated Trade', readonly=True),
         'customer_product_tmpl_id': fields.many2one(
             'product.template', 'Customer Product', readonly=True),
         'supplier_sale_price': fields.function(
@@ -109,7 +109,7 @@ class ProductIntegratedTradeCatalog(Model):
 CREATE OR REPLACE VIEW %s AS (
         SELECT
             to_char(s_pp.id, 'FM099999') || to_char(rit.id, 'FM0000') as id,
-            rit.id as integrated_trade_id,
+            rit.id as intercompany_trade_id,
             c_psi.product_id as customer_product_tmpl_id,
             rit.customer_company_id,
             rit.sale_pricelist_id as sale_pricelist_id,
@@ -118,14 +118,14 @@ CREATE OR REPLACE VIEW %s AS (
             s_pt.uom_id as supplier_product_uom,
             s_pt.name as supplier_product_name,
             s_pp.default_code as supplier_product_default_code,
-            c_psi.integrated_price as customer_purchase_price,
+            c_psi.intercompany_tradeprice as customer_purchase_price,
             rit.supplier_company_id,
             rit.supplier_partner_id,
             c_rp.name as supplier_partner_name
         FROM product_product s_pp
         INNER JOIN product_template s_pt
             ON s_pp.product_tmpl_id = s_pt.id
-        RIGHT JOIN res_integrated_trade rit
+        RIGHT JOIN intercompany_trade_config rit
             ON s_pt.company_id = rit.supplier_company_id
         INNER JOIN res_partner c_rp
             ON rit.supplier_partner_id = c_rp.id

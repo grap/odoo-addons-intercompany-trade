@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-- !record {model: res.integrated.trade, id: integrated_trade}:
+- !record {model: intercompany.trade.config, id: intercompany_trade}:
     name: Integrated Trade between Customer and Supplier Company
     customer_company_id: customer_company
     customer_user_id: customer_user

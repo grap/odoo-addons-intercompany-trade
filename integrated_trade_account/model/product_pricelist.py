@@ -27,7 +27,7 @@ class ProductPricelist(Model):
     _inherit = 'product.pricelist'
 
     # Overlad Section
-    def _compute_integrated_prices(
+    def _compute_intercompany_tradeprices(
             self, cr, uid, supplier_product,
             supplier_partner, pricelist,
             context=None):
@@ -38,7 +38,7 @@ class ProductPricelist(Model):
         """
         at_obj = self.pool['account.tax']
 
-        res = super(ProductPricelist, self)._compute_integrated_prices(
+        res = super(ProductPricelist, self)._compute_intercompany_tradeprices(
             cr, uid, supplier_product, supplier_partner, pricelist,
             context=context)
 

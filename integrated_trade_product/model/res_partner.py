@@ -21,22 +21,22 @@
 ##############################################################################
 
 from openerp.osv.orm import Model
-from .custom_tools import _integrated_trade_update
+from .custom_tools import _intercompany_trade_update
 
 
 class ResPartner(Model):
     _inherit = 'res.partner'
 
-    def _integrated_fields_allowed(self):
+    def _intercompany_tradefields_allowed(self):
         """allow basic user to change pricelist"""
-        res = super(ResPartner, self)._integrated_fields_allowed()
+        res = super(ResPartner, self)._intercompany_tradefields_allowed()
         res.append('property_product_pricelist')
         return res
 
     def write(self, cr, uid, ids, vals, context=None):
         """If customer partner pricelist has changed (in supplier database),
         recompute Pricelist info in customer database"""
-        rit_obj = self.pool['res.integrated.trade']
+        rit_obj = self.pool['intercompany.trade.config']
         res = super(ResPartner, self).write(
             cr, uid, ids, vals, context=context)
         rit_ids = rit_obj.search(cr, uid, [
@@ -44,6 +44,6 @@ class ResPartner(Model):
         ], context=context)
         for rit in rit_obj.browse(cr, uid, rit_ids, context=context):
             # Recompute Pricelist
-            _integrated_trade_update(
+            _intercompany_trade_update(
                 self.pool, cr, uid, rit.id, None, context=context)
         return res

@@ -29,7 +29,7 @@ from .custom_tools import _check_taxes
 
 
 class IntegratedTradeWizardLinkProduct(TransientModel):
-    _inherit = 'integrated.trade.wizard.link.product'
+    _inherit = 'intercompany.trade.wizard.link.product'
 
     # Column Section
     _columns = {

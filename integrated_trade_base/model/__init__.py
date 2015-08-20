@@ -20,6 +20,6 @@
 #
 ##############################################################################
 
-from . import res_integrated_trade
+from . import intercompany_trade_config
 from . import res_company
 from . import res_partner

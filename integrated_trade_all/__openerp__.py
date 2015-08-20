@@ -37,11 +37,11 @@ Copyright, Authors and Licence:
     'website': 'http://www.grap.coop',
     'license': 'AGPL-3',
     'depends': [
-        'integrated_trade_base',
-        'integrated_trade_product',
-        'integrated_trade_stock',
-        'integrated_trade_purchase_sale',
-        'integrated_trade_account',
-        'integrated_trade_account_fiscal_company',
+        'intercompany_trade_base',
+        'intercompany_trade_product',
+        'intercompany_trade_stock',
+        'intercompany_trade_purchase_sale',
+        'intercompany_trade_account',
+        'intercompany_trade_account_fiscal_company',
     ],
 }

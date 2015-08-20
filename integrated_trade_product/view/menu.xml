@@ -21,16 +21,16 @@
     <data>
 
 <!-- Integrated Trade: SubMenu Catalog -->
-        <menuitem id="menu_integrated_trade_catalog"
-            parent="integrated_trade_base.menu_integrated_trade_root"
+        <menuitem id="menu_intercompany_trade_catalog"
+            parent="intercompany_trade_base.menu_intercompany_trade_root"
             name="Catalogs"
             sequence="2"/>
 
-<!-- Model: product.integrated.trade.catalog -->
-        <menuitem id="menu_integrated_trade_product_catalog"
-            parent="menu_integrated_trade_catalog"
+<!-- Model: product.intercompany.trade.catalog -->
+        <menuitem id="menu_intercompany_trade_product_catalog"
+            parent="menu_intercompany_trade_catalog"
             name="Products"
-            action="action_product_integrated_trade_catalog"
+            action="action_product_intercompany_trade_catalog"
             sequence="1"/>
 
     </data>

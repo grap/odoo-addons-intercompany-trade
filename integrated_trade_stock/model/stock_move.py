@@ -29,7 +29,7 @@ class stock_move(Model):
 
     # Columns Section
     _columns = {
-        'integrated_trade_stock_move_id': fields.many2one(
+        'intercompany_trade_stock_move_id': fields.many2one(
             'stock.move', string='Integrated Trade Stock Move',
             readonly=True,
         ),

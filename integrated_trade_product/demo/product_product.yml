@@ -29,7 +29,7 @@
     uom_po_id: product.product_uom_kgm
     uos_id: product.product_uom_kgm
     sale_ok: True
-    company_id: integrated_trade_base.supplier_company
+    company_id: intercompany_trade_base.supplier_company
 
 - !record {model: product.product, id: product_supplier_strawberry}:
     name: Supplier Strawberry (250 gr)
@@ -40,7 +40,7 @@
     uom_po_id: product.product_uom_unit
     uos_id: product.product_uom_unit
     sale_ok: True
-    company_id: integrated_trade_base.supplier_company
+    company_id: intercompany_trade_base.supplier_company
 
 - !record {model: product.product, id: product_supplier_apple}:
     name: Supplier Apple
@@ -50,7 +50,7 @@
     uom_po_id: product.product_uom_kgm
     uos_id: product.product_uom_kgm
     sale_ok: True
-    company_id: integrated_trade_base.supplier_company
+    company_id: intercompany_trade_base.supplier_company
 
 - !record {model: product.product, id: product_customer_apple}:
     name: Customer Apple
@@ -60,4 +60,4 @@
     uom_po_id: product.product_uom_kgm
     uos_id: product.product_uom_kgm
     sale_ok: True
-    company_id: integrated_trade_base.customer_company
+    company_id: intercompany_trade_base.customer_company

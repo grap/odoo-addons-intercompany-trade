@@ -29,7 +29,7 @@
     uom_po_id: product.product_uom_unit
     uos_id: product.product_uom_unit
     sale_ok: True
-    company_id: integrated_trade_base.supplier_company
+    company_id: intercompany_trade_base.supplier_company
     taxes_id:
         - sale_vat_25_included
 
@@ -42,7 +42,7 @@
     uom_po_id: product.product_uom_unit
     uos_id: product.product_uom_unit
     sale_ok: True
-    company_id: integrated_trade_base.supplier_company
+    company_id: intercompany_trade_base.supplier_company
     taxes_id:
         - sale_vat_10_included
 
@@ -55,7 +55,7 @@
     uom_po_id: product.product_uom_unit
     uos_id: product.product_uom_unit
     sale_ok: True
-    company_id: integrated_trade_base.supplier_company
+    company_id: intercompany_trade_base.supplier_company
     taxes_id:
         - sale_vat_10_excluded
 
@@ -67,6 +67,6 @@
     uom_id: product.product_uom_unit
     uom_po_id: product.product_uom_unit
     uos_id: product.product_uom_unit
-    company_id: integrated_trade_base.customer_company
+    company_id: intercompany_trade_base.customer_company
     supplier_taxes_id:
         - purchase_vat_10_excluded

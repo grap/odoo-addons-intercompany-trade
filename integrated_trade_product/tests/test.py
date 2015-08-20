@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp.addons.integrated_trade_product.model.custom_tools\
+from openerp.addons.intercompany_trade_product.model.custom_tools\
     import _get_other_product_info
 from openerp.osv.osv import except_osv
 from openerp.tests.common import TransactionCase
@@ -34,35 +34,35 @@ class Test(TransactionCase):
 
         # Get Registries
         self.imd_obj = self.registry('ir.model.data')
-        self.rit_obj = self.registry('res.integrated.trade')
+        self.rit_obj = self.registry('intercompany.trade.config')
         self.rp_obj = self.registry('res.partner')
-        self.pitc_obj = self.registry('product.integrated.trade.catalog')
+        self.pitc_obj = self.registry('product.intercompany.trade.catalog')
         self.pp_obj = self.registry('product.product')
-        self.itwlp_obj = self.registry('integrated.trade.wizard.link.product')
+        self.itwlp_obj = self.registry('intercompany.trade.wizard.link.product')
 
         # Get ids from xml_ids
         self.rit_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
-            'integrated_trade_base', 'integrated_trade')[1]
+            'intercompany_trade_base', 'intercompany_trade')[1]
         self.supplier_banana_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
-            'integrated_trade_product', 'product_supplier_banana')[1]
+            'intercompany_trade_product', 'product_supplier_banana')[1]
         self.supplier_apple_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
-            'integrated_trade_product', 'product_supplier_apple')[1]
+            'intercompany_trade_product', 'product_supplier_apple')[1]
         self.customer_apple_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
-            'integrated_trade_product', 'product_customer_apple')[1]
+            'intercompany_trade_product', 'product_customer_apple')[1]
         self.pricelist_discount_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
-            'integrated_trade_product', 'pricelist_discount')[1]
+            'intercompany_trade_product', 'pricelist_discount')[1]
 
         self.customer_user_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
-            'integrated_trade_base', 'customer_user')[1]
+            'intercompany_trade_base', 'customer_user')[1]
         self.supplier_user_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
-            'integrated_trade_base', 'supplier_user')[1]
+            'intercompany_trade_base', 'supplier_user')[1]
 
     # Test Section
     def test_01_product_association(self):
@@ -91,17 +91,17 @@ class Test(TransactionCase):
             """ create a Product Supplierinfo.""")
 
         self.assertEqual(
-            pp_customer_apple.seller_ids[0].integrated_price,
+            pp_customer_apple.seller_ids[0].intercompany_tradeprice,
             pp_supplier_banana.list_price,
             """Associate a Customer Product to a Supplier Product must"""
-            """ set as integrated price in customer database the sale"""
+            """ set as intercompany trade price in customer database the sale"""
             """ price of the supplier product.""")
 
         self.assertEqual(
             pp_customer_apple.seller_ids[0].pricelist_ids[0].price,
             pp_supplier_banana.list_price,
             """Associate a Customer Product to a Supplier Product must"""
-            """ set as integrated price in customer database the sale"""
+            """ set as intercompany trade price in customer database the sale"""
             """ price of the supplier product in items list.""")
 
         # Reassociate with correct product (customer apple - supplier apple)
@@ -153,7 +153,7 @@ class Test(TransactionCase):
             cr, self.supplier_user_id, self.supplier_apple_id)
 
         self.assertEqual(
-            pp_customer_apple.seller_ids[0].integrated_price,
+            pp_customer_apple.seller_ids[0].intercompany_tradeprice,
             pp_supplier_apple.list_price - 0.1,
             """Change pricelist in supplier database must change prices"""
             """ in customer database.""")
@@ -182,7 +182,7 @@ class Test(TransactionCase):
             cr, uid, self.customer_apple_id)
 
         self.assertEqual(
-            pp_customer_apple.seller_ids[0].integrated_price,
+            pp_customer_apple.seller_ids[0].intercompany_tradeprice,
             10,
             """Change price in supplier database must change prices"""
             """ in customer database.""")

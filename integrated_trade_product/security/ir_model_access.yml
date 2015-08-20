@@ -20,18 +20,18 @@
 #
 ##############################################################################
 
-- !record {model: ir.model.access, id: product_integrated_trade_catalog_user_access}:
-    group_id: integrated_trade_base.integrated_trade_user
-    model_id: model_product_integrated_trade_catalog
+- !record {model: ir.model.access, id: product_intercompany_trade_catalog_user_access}:
+    group_id: intercompany_trade_base.intercompany_trade_user
+    model_id: model_product_intercompany_trade_catalog
     name: Integrated Trade Products Catalog - User
     perm_read: true
     perm_create: false
     perm_write: false
     perm_unlink: false
 
-# Give write access to integrated trade user for product.supplier_info
+# Give write access to intercompany trade user for product.supplier_info
 - !record {model: ir.model.access, id: product_supplierinfo_user_access}:
-    group_id: integrated_trade_base.integrated_trade_user
+    group_id: intercompany_trade_base.intercompany_trade_user
     model_id: product.model_product_supplierinfo
     name: Product Supplier Info - Integrated Trade User
     perm_read: true
@@ -39,9 +39,9 @@
     perm_write: true
     perm_unlink: true
 
-# Give write access to integrated trade user for pricelist.partnerinfo
+# Give write access to intercompany trade user for pricelist.partnerinfo
 - !record {model: ir.model.access, id: pricelist_partnerinfo_user_access}:
-    group_id: integrated_trade_base.integrated_trade_user
+    group_id: intercompany_trade_base.intercompany_trade_user
     model_id: product.model_pricelist_partnerinfo
     name: Pricelist Partner Info - Integrated Trade User
     perm_read: true

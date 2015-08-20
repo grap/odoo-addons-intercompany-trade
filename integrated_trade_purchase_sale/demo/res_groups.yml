@@ -22,4 +22,4 @@
 
 - !record {model: res.groups, id: purchase.group_purchase_manager}:
     users:
-        - integrated_trade_base.customer_user
+        - intercompany_trade_base.customer_user

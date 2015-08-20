@@ -26,7 +26,7 @@ from openerp.addons import decimal_precision as dp
 
 
 class ProductIntegratedTradeCatalog(Model):
-    _inherit = 'product.integrated.trade.catalog'
+    _inherit = 'product.intercompany.trade.catalog'
 
     # Fields Function Section
     def _get_supplier_price(self, cr, uid, ids, name, arg, context=None):

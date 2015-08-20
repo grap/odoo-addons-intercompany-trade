@@ -31,7 +31,7 @@ Features:
 ---------
     * Give the possibility to customer to link a product to a supplier product;
     * Change the pricelist on customer change the pricelist on
-      res.integrated.trade object;
+      intercompany.trade.config object;
 
 Features TO TEST:
 -----------------
@@ -43,7 +43,7 @@ TODO:
 -----
     * Check uom coherence;
     * Change pricelist information must change supplierinfo;
-    * Supplierinfo is readonly in integrated trade;
+    * Supplierinfo is readonly in intercompany trade;
 
 Copyright, Authors and Licence:
 -------------------------------
@@ -55,7 +55,7 @@ Copyright, Authors and Licence:
     'website': 'http://www.grap.coop',
     'license': 'AGPL-3',
     'depends': [
-        'integrated_trade_base',
+        'intercompany_trade_base',
         'product',
     ],
     'demo': [

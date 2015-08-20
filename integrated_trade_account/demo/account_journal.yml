@@ -24,10 +24,10 @@
     code: CUS_PURCHASE
     name: Integrated Trade - Customer Purchase Journal
     type: purchase
-    company_id: integrated_trade_base.customer_company
+    company_id: intercompany_trade_base.customer_company
 
 - !record {model: account.journal, id: supplier_journal_sale}:
     code: SUP_SALE
     name: Integrated Trade - Supplier Sale Journal
     type: sale
-    company_id: integrated_trade_base.supplier_company
+    company_id: intercompany_trade_base.supplier_company

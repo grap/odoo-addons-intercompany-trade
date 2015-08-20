@@ -30,7 +30,7 @@ Module for Integrated Trade for Purchase and Sale Module
 With this module, create a Purchase Order (or a Sale Order) will create a Sale
 Order (respectivly, a Purchase Order) in the according company of the supplier
 (respectivly, the customer), based on the settings done in the module
-'integrated_trade_base'.
+'intercompany_trade_base'.
 
 Features:
 ---------
@@ -59,7 +59,7 @@ Copyright, Authors and Licence:
     'website': 'http://www.grap.coop',
     'license': 'AGPL-3',
     'depends': [
-        'integrated_trade_base',
+        'intercompany_trade_base',
         'purchase',
         'sale',
         'simple_tax_purchase',

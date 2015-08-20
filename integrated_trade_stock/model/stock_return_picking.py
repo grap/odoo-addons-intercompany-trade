@@ -33,7 +33,7 @@ class stock_return_picking(TransientModel):
         sp_obj = self.pool['stock.picking']
         sp_id = context.get('active_id', False)
         sp = sp_obj.browse(cr, uid, sp_id, context=context)
-        if sp.integrated_trade:
+        if sp.intercompany_trade:
             raise except_osv(
                 _("Integrated Trade - Unimplemented Feature!"),
                 _(

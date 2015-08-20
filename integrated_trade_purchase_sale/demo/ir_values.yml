@@ -27,7 +27,7 @@
     model_id: sale.model_sale_order
     name: order_policy
     value: "S'picking'\np0\n."
-    company_id: integrated_trade_base.supplier_company
+    company_id: intercompany_trade_base.supplier_company
 
 - !record {model: ir.values, id: ir_values_customer_purchase_order_invoice_method}:
     key: default
@@ -36,4 +36,4 @@
     model_id: purchase.model_purchase_order
     name: invoice_method
     value: "S'picking'\np0\n."
-    company_id: integrated_trade_base.customer_company
+    company_id: intercompany_trade_base.customer_company

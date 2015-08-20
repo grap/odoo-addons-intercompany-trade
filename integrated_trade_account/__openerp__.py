@@ -41,7 +41,7 @@ Features :
         * All invoices are Tax excluded allways;
 
     * Customers doesn't have the possibility to change price_unit;
-    * Users doesn't the right to copy an 'integrated_trade' invoice;
+    * Users doesn't the right to copy an 'intercompany_trade' invoice;
 
 Copyright, Authors and Licence:
 -------------------------------
@@ -54,7 +54,7 @@ Copyright, Authors and Licence:
     'license': 'AGPL-3',
     'depends': [
         'account',
-        'integrated_trade_base',
+        'intercompany_trade_base',
         'simple_tax_account',
         'account_invoice_pricelist',
     ],

@@ -26,18 +26,18 @@
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
               <xpath expr="//sheet[@string='Invoice']/h1" position="inside">
-                    <span class="integrated_trade_form_view"
-                      attrs="{'invisible': [('integrated_trade','=', False)]}"
-                      groups="integrated_trade_base.integrated_trade_user">
+                    <span class="intercompany_trade_form_view"
+                      attrs="{'invisible': [('intercompany_trade','=', False)]}"
+                      groups="intercompany_trade_base.intercompany_trade_user">
                       Integrated Trade
                     </span>
                 </xpath>
                 <field name="account_id" position="after">
-                    <field name="integrated_trade"
-                        groups="integrated_trade_base.integrated_trade_user"
+                    <field name="intercompany_trade"
+                        groups="intercompany_trade_base.intercompany_trade_user"
                         />
-                    <field name="integrated_trade_account_invoice_id"
-                        groups="integrated_trade_base.integrated_trade_manager"/>
+                    <field name="intercompany_trade_account_invoice_id"
+                        groups="intercompany_trade_base.intercompany_trade_manager"/>
                 </field>
             </field>
         </record>
@@ -47,26 +47,26 @@
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
               <xpath expr="//sheet[@string='Supplier Invoice']/div/h1" position="inside">
-                    <span class="integrated_trade_form_view"
-                      attrs="{'invisible': [('integrated_trade','=', False)]}"
-                      groups="integrated_trade_base.integrated_trade_user">
+                    <span class="intercompany_trade_form_view"
+                      attrs="{'invisible': [('intercompany_trade','=', False)]}"
+                      groups="intercompany_trade_base.intercompany_trade_user">
                       Integrated Trade
                     </span>
                 </xpath>
                 <field name="account_id" position="after">
-                    <field name="integrated_trade"
-                        groups="integrated_trade_base.integrated_trade_user"
+                    <field name="intercompany_trade"
+                        groups="intercompany_trade_base.intercompany_trade_user"
                         />
-                    <field name="integrated_trade_account_invoice_id"
-                        groups="integrated_trade_base.integrated_trade_manager"/>
+                    <field name="intercompany_trade_account_invoice_id"
+                        groups="intercompany_trade_base.intercompany_trade_manager"/>
                 </field>
             </field>
         </record>
 
-<!-- Overload: product.integrated.trade.catalog -->
-        <record id="view_product_integrated_trade_catalog_tree" model="ir.ui.view">
-            <field name="model">product.integrated.trade.catalog</field>
-            <field name="inherit_id" ref="integrated_trade_product.view_product_integrated_trade_catalog_tree"/>
+<!-- Overload: product.intercompany.trade.catalog -->
+        <record id="view_product_intercompany_trade_catalog_tree" model="ir.ui.view">
+            <field name="model">product.intercompany.trade.catalog</field>
+            <field name="inherit_id" ref="intercompany_trade_product.view_product_intercompany_trade_catalog_tree"/>
             <field name="arch" type="xml">
                 <field name="supplier_sale_price" position="replace">
                     <field name="supplier_sale_price_vat_excl"/>
@@ -75,9 +75,9 @@
             </field>
         </record>
 
-        <record id="view_integrated_trade_wizard_link_product_form" model="ir.ui.view">
-            <field name="model">integrated.trade.wizard.link.product</field>
-            <field name="inherit_id" ref="integrated_trade_product.view_integrated_trade_wizard_link_product_form"/>
+        <record id="view_intercompany_trade_wizard_link_product_form" model="ir.ui.view">
+            <field name="model">intercompany.trade.wizard.link.product</field>
+            <field name="inherit_id" ref="intercompany_trade_product.view_intercompany_trade_wizard_link_product_form"/>
             <field name="arch" type="xml">
                 <field name="supplier_sale_price" position="replace">
                     <field name="supplier_sale_price_vat_excl"/>

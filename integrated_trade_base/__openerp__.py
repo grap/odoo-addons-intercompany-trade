@@ -33,16 +33,16 @@ Features :
       purchases and sales between them with:
         * a supplier company;
         * a customer company;
-    * Add a new field 'integrated_trade' in 'res.partner' model;
-    * Add new groups to manage integrated trade;
-    * When we set a new integrated trade, OpenERP create a supplier in the
+    * Add a new field 'intercompany_trade' in 'res.partner' model;
+    * Add new groups to manage intercompany trade;
+    * When we set a new intercompany trade, OpenERP create a supplier in the
       customer company and a customer in the supplier company;
 
 Demo Data:
 ----------
     * In demo mode, the module creates two new companies, and two users:
-        * A supplier user: login: integrated_supplier // demo
-        * A customer user: login: integrated_customer // demo
+        * A supplier user: login: intercompany_tradesupplier // demo
+        * A customer user: login: intercompany_tradecustomer // demo
 
 
 Copyright, Authors and Licence:
@@ -61,7 +61,7 @@ Copyright, Authors and Licence:
         'demo/res_company.yml',
         'demo/res_users.yml',
         'demo/res_groups.yml',
-        'demo/res_integrated_trade.yml',
+        'demo/intercompany_trade_config.yml',
     ],
     'data': [
         'security/ir_module_category.yml',

@@ -31,28 +31,28 @@ class ResPartner(Model):
 
     # Columns section
     _columns = {
-        'integrated_trade': fields.boolean(
+        'intercompany_trade': fields.boolean(
             'Integrated Trade', readonly=True,
             help="Indicate that this partner is a company in Odoo."),
     }
 
-    def _integrated_fields_allowed(self):
+    def _intercompany_tradefields_allowed(self):
         """Overload this function to allow basic to change
-        some fields for integrated partner"""
+        some fields for intercompany trade partner"""
         return []
 
-    def _check_integrated_trade_access(
+    def _check_intercompany_trade_access(
             self, cr, uid, ids, fields, context=None):
-        """Restrict access of partner set as integrated_trade for only
-        'integrated_trade_manager' users."""
+        """Restrict access of partner set as intercompany_trade for only
+        'intercompany_trade_manager' users."""
         unallowed_fields =\
-            set(fields) - set(self._integrated_fields_allowed())
+            set(fields) - set(self._intercompany_tradefields_allowed())
         ru_obj = self.pool['res.users']
         if not ru_obj.has_group(
                 cr, uid,
-                'integrated_trade_base.integrated_trade_manager'):
+                'intercompany_trade_base.intercompany_trade_manager'):
             for rp in self.browse(cr, uid, ids, context=context):
-                if rp.integrated_trade and unallowed_fields:
+                if rp.intercompany_trade and unallowed_fields:
                     raise except_osv(
                         _("Access Denied!"),
                         _(
@@ -61,19 +61,19 @@ class ResPartner(Model):
                             """ 'Integrated Trade'"""))
 
     def create(self, cr, uid, vals, context=None):
-        self._check_integrated_trade_access(
+        self._check_intercompany_trade_access(
             cr, uid, [0], vals.keys(), context=context)
         return super(ResPartner, self).create(
             cr, uid, vals, context=context)
 
     def write(self, cr, uid, ids, vals, context=None):
-        self._check_integrated_trade_access(
+        self._check_intercompany_trade_access(
             cr, uid, ids, vals.keys(), context=context)
         return super(ResPartner, self).write(
             cr, uid, ids, vals, context=context)
 
     def unlink(self, cr, uid, ids, context=None):
-        self._check_integrated_trade_access(
+        self._check_intercompany_trade_access(
             cr, uid, ids, [0], context=context)
         return super(ResPartner, self).unlink(
             cr, uid, ids, context=context)

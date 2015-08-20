@@ -25,7 +25,7 @@ from openerp.tools.translate import _
 from openerp.osv import fields
 from openerp.osv.orm import Model
 
-from openerp.addons.integrated_trade_product.model.custom_tools\
+from openerp.addons.intercompany_trade_product.model.custom_tools\
     import _get_other_product_info
 
 
@@ -34,10 +34,10 @@ class AccountInvoiceLine(Model):
 
     # Columns Section
     _columns = {
-        'integrated_trade': fields.related(
-            'invoice_id', 'integrated_trade', type='boolean',
+        'intercompany_trade': fields.related(
+            'invoice_id', 'intercompany_trade', type='boolean',
             string='Integrated Trade'),
-        'integrated_trade_account_invoice_line_id': fields.many2one(
+        'intercompany_trade_account_invoice_line_id': fields.many2one(
             'account.invoice.line',
             string='Integrated Trade Account Invoice Line',
             readonly=True,
@@ -52,8 +52,8 @@ class AccountInvoiceLine(Model):
         if vals.get('invoice_id', False):
             ai = ai_obj.browse(cr, uid, vals['invoice_id'], context=context)
             create_account_invoice_line = (
-                not context.get('integrated_trade_do_not_propagate', False) and
-                ai.integrated_trade)
+                not context.get('intercompany_trade_do_not_propagate', False) and
+                ai.intercompany_trade)
         else:
             create_account_invoice_line = False
 
@@ -63,9 +63,9 @@ class AccountInvoiceLine(Model):
 
         if create_account_invoice_line:
             ctx = context.copy()
-            ctx['integrated_trade_do_not_propagate'] = True
+            ctx['intercompany_trade_do_not_propagate'] = True
 
-            rit = ai_obj._get_res_integrated_trade(
+            rit = ai_obj._get_intercompany_trade_config(
                 cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
                 context=context)
 
@@ -92,7 +92,7 @@ class AccountInvoiceLine(Model):
                 False, type=other_type, company_id=other_company_id,
                 partner_id=other_partner_id)['value']
             ail_other_vals.update({
-                'invoice_id': ai.integrated_trade_account_invoice_id.id,
+                'invoice_id': ai.intercompany_trade_account_invoice_id.id,
                 'product_id': other_product_info['product_id'],
                 'company_id': other_company_id,
                 'partner_id': other_partner_id,
@@ -105,7 +105,7 @@ class AccountInvoiceLine(Model):
             ail_other_id = self.create(
                 cr, other_user_id, ail_other_vals, context=ctx)
 
-            # if this is a supplier invoice and an integrated trade, the user
+            # if this is a supplier invoice and an intercompany trade, the user
             # doesn't have the right to change the unit price, so we will
             # erase the unit price, and recover the good one.
             if ai.type in ('in_invoice', 'in_refund'):
@@ -115,14 +115,14 @@ class AccountInvoiceLine(Model):
 
             # Update Original Account Invoice Line
             self.write(cr, uid, res, {
-                'integrated_trade_account_invoice_line_id': ail_other_id,
+                'intercompany_trade_account_invoice_line_id': ail_other_id,
                 'price_unit': price_unit,
             }, context=ctx)
 
             # Update Other Account Invoice Line
             self.write(
                 cr, other_user_id, ail_other_id, {
-                    'integrated_trade_account_invoice_line_id': res,
+                    'intercompany_trade_account_invoice_line_id': res,
                     'price_unit': price_unit,
                 }, context=ctx)
 
@@ -130,7 +130,7 @@ class AccountInvoiceLine(Model):
             ai_obj.button_reset_taxes(
                 cr, uid, [ai.id], context=context)
             ai_obj.button_reset_taxes(
-                cr, other_user_id, [ai.integrated_trade_account_invoice_id.id],
+                cr, other_user_id, [ai.intercompany_trade_account_invoice_id.id],
                 context=context)
 
         return res
@@ -148,12 +148,12 @@ class AccountInvoiceLine(Model):
         res = super(AccountInvoiceLine, self).write(
             cr, uid, ids, vals, context=context)
 
-        if 'integrated_trade_do_not_propagate' not in context.keys():
+        if 'intercompany_trade_do_not_propagate' not in context.keys():
             ctx = context.copy()
-            ctx['integrated_trade_do_not_propagate'] = True
+            ctx['intercompany_trade_do_not_propagate'] = True
             for ail in self.browse(cr, uid, ids, context=context):
-                if ail.integrated_trade_account_invoice_line_id:
-                    rit = ai_obj._get_res_integrated_trade(
+                if ail.intercompany_trade_account_invoice_line_id:
+                    rit = ai_obj._get_intercompany_trade_config(
                         cr, uid, ail.invoice_id.partner_id.id,
                         ail.invoice_id.company_id.id,
                         ail.invoice_id.type, context=context)
@@ -172,7 +172,7 @@ class AccountInvoiceLine(Model):
                     if 'discount' in vals.keys():
                         raise except_osv(
                             _("Error!"),
-                            _("""You can not set a discount for integrated"""
+                            _("""You can not set a discount for intercompany trade"""
                                 """ Trade. Please change the Unit Price"""
                                 """ of %s.""" % (ail.product_id.name)))
                     if 'uos_id' in vals.keys():
@@ -195,7 +195,7 @@ class AccountInvoiceLine(Model):
 
                     self.write(
                         cr, other_user_id,
-                        ail.integrated_trade_account_invoice_line_id.id,
+                        ail.intercompany_trade_account_invoice_line_id.id,
                         other_vals, context=ctx)
         return res
 
@@ -204,13 +204,13 @@ class AccountInvoiceLine(Model):
         ai_obj = self.pool['account.invoice']
         context = context and context or {}
 
-        if 'integrated_trade_do_not_propagate' not in context.keys():
+        if 'intercompany_trade_do_not_propagate' not in context.keys():
             ctx = context.copy()
-            ctx['integrated_trade_do_not_propagate'] = True
+            ctx['intercompany_trade_do_not_propagate'] = True
             for ail in self.browse(
                     cr, uid, ids, context=context):
                 ai = ail.invoice_id
-                rit = ai_obj._get_res_integrated_trade(
+                rit = ai_obj._get_intercompany_trade_config(
                     cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
                     context=context)
                 if ail.invoice_id.type in ('in_invoice', 'in_refund'):
@@ -219,7 +219,7 @@ class AccountInvoiceLine(Model):
                     other_uid = rit.customer_user_id.id
                 self.unlink(
                     cr, other_uid,
-                    [ail.integrated_trade_account_invoice_line_id.id],
+                    [ail.intercompany_trade_account_invoice_line_id.id],
                     context=ctx)
         res = super(AccountInvoiceLine, self).unlink(
             cr, uid, ids, context=context)

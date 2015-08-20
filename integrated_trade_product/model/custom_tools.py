@@ -28,18 +28,18 @@ from openerp.tools.translate import _
 from openerp.osv.osv import except_osv
 
 
-def _integrated_trade_update_multicompany(
+def _intercompany_trade_update_multicompany(
         pool, cr, uid, supplier_product_ids, context=None):
     """
     This function update supplierinfo in customer database,
-    depending of changes in supplier database, for all integrated trade
+    depending of changes in supplier database, for all intercompany trade
     define.
     Call this function when there is a change of product price,
     product taxes, partner pricelist, etc...
     :supplier_product_ids (list of ids of product.product):
         products that has been changed in the supplier database;
     """
-    rit_obj = pool['res.integrated.trade']
+    rit_obj = pool['intercompany.trade.config']
     psi_obj = pool['product.supplierinfo']
     for supplier_product_id in supplier_product_ids:
         psi_ids = psi_obj.search(cr, SUPERUSER_ID, [
@@ -51,30 +51,30 @@ def _integrated_trade_update_multicompany(
                 ('customer_company_id', '=', psi.company_id.id),
                 ('supplier_partner_id', '=', psi.name.id),
             ], context=context)[0]
-            _integrated_trade_update(
+            _intercompany_trade_update(
                 pool, cr, uid, rit_id, [supplier_product_id],
                 context=context)
 
 
 # TODO Remove SUPERUSER_ID
-def _integrated_trade_update(
-        pool, cr, uid, integrated_trade_id, supplier_product_ids,
+def _intercompany_trade_update(
+        pool, cr, uid, intercompany_trade_id, supplier_product_ids,
         context=None):
     """
     This function update supplierinfo in customer database,
     depending of changes in supplier database, depending of
-    a specific integrated trade.
+    a specific intercompany trade.
     Call this function when there is a change of product price,
     product taxes, partner pricelist, etc...
-    :param integrated_trade_id (id of res.integrated.trade):
-        integrated trade impacted;
+    :param intercompany_trade_id (id of intercompany.trade.config):
+        intercompany trade impacted;
     :supplier_product_ids (list of ids of product.product):
         products that has been changed in the supplier database;
     """
-    rit_obj = pool['res.integrated.trade']
+    rit_obj = pool['intercompany.trade.config']
     psi_obj = pool['product.supplierinfo']
     pp_obj = pool['product.product']
-    rit = rit_obj.browse(cr, uid, integrated_trade_id, context=context)
+    rit = rit_obj.browse(cr, uid, intercompany_trade_id, context=context)
     if not supplier_product_ids:
         # Global Update
         psi_ids = psi_obj.search(cr, SUPERUSER_ID, [
@@ -88,8 +88,8 @@ def _integrated_trade_update(
     for psi in psi_obj.browse(cr, SUPERUSER_ID, psi_ids, context=context):
         pp_ids = pp_obj.search(cr, SUPERUSER_ID, [
             ('product_tmpl_id', '=', psi.product_id.id)], context=context)
-        psi_vals = _integrated_trade_prepare(
-            pool, cr, SUPERUSER_ID, integrated_trade_id,
+        psi_vals = _intercompany_trade_prepare(
+            pool, cr, SUPERUSER_ID, intercompany_trade_id,
             psi.supplier_product_id.id, pp_ids[0], context=context)
         psi_obj.write(
             cr, SUPERUSER_ID, [psi.id], psi_vals, context=context)
@@ -105,7 +105,7 @@ def _get_other_product_info(
 
         Realize correct check if the product is not referenced.
 
-        :param @rit : model of res.integrated.trade
+        :param @rit : model of intercompany.trade.config
             current trade;
         :param @product_id: id of a product.product
             Current product, added by the customer / the supplier.
@@ -150,7 +150,7 @@ def _get_other_product_info(
         supplier_pp = pp_obj.browse(
             cr, rit.supplier_user_id.id, psi.supplier_product_id.id,
             context=context)
-        res['price_unit'] = ppl_obj._compute_integrated_prices(
+        res['price_unit'] = ppl_obj._compute_intercompany_tradeprices(
             cr, rit.supplier_user_id.id, supplier_pp,
             rit.supplier_partner_id, rit.sale_pricelist_id,
             context=None)['supplier_sale_price']
@@ -246,7 +246,7 @@ def _get_other_product_info(
 #                        customer_tax.amount * 100, supplier_tax.amount * 100))
 
 
-# def _compute_integrated_customer_price(
+# def _compute_intercompany_tradecustomer_price(
 #        pool, cr, uid, supplier_product, customer_product,
 #        supplier_price, context=None):
 #    # FIXME
@@ -271,7 +271,7 @@ def _get_other_product_info(
 #    }
 
 
-# def _compute_integrated_supplier_price(
+# def _compute_intercompany_tradesupplier_price(
 #        pool, cr, uid, supplier_product, customer_product,
 #        customer_price, context=None):
 
@@ -295,21 +295,21 @@ def _get_other_product_info(
 
 
 # Overloadable Section
-def _integrated_trade_prepare(
-        pool, cr, uid, integrated_trade_id, supplier_product_id,
+def _intercompany_trade_prepare(
+        pool, cr, uid, intercompany_trade_id, supplier_product_id,
         customer_product_id, context=None):
     """
     This function prepares supplier_info values.
     Please overload this function to change the datas of the supplierinfo
     created when a link between two products is done."""
     pp_obj = pool['product.product']
-    rit_obj = pool['res.integrated.trade']
+    rit_obj = pool['intercompany.trade.config']
     ppl_obj = pool['product.pricelist']
     rit = rit_obj.browse(
-        cr, uid, integrated_trade_id, context=context)
+        cr, uid, intercompany_trade_id, context=context)
     supplier_pp = pp_obj.browse(
         cr, rit.supplier_user_id.id, supplier_product_id, context=context)
-    price_info = ppl_obj._compute_integrated_prices(
+    price_info = ppl_obj._compute_intercompany_tradeprices(
         cr, rit.supplier_user_id.id, supplier_pp,
         rit.supplier_partner_id, rit.sale_pricelist_id, context=context)
     return {

@@ -27,7 +27,7 @@ from openerp.osv.orm import Model
 from openerp.osv.osv import except_osv
 from openerp.tools.translate import _
 
-from openerp.addons.integrated_trade_product.model.custom_tools\
+from openerp.addons.intercompany_trade_product.model.custom_tools\
     import _get_other_product_info
 
 
@@ -36,7 +36,7 @@ class sale_order_line(Model):
 
     # Columns Section
     _columns = {
-        'integrated_trade_purchase_order_line_id': fields.many2one(
+        'intercompany_trade_purchase_order_line_id': fields.many2one(
             'purchase.order.line',
             string='Integrated Trade Purchase Order Line', readonly=True,
         ),
@@ -47,14 +47,14 @@ class sale_order_line(Model):
         """Create the according Purchase Order Line."""
         context = context and context or {}
 
-        rit_obj = self.pool['res.integrated.trade']
+        rit_obj = self.pool['intercompany.trade.config']
         so_obj = self.pool['sale.order']
         pol_obj = self.pool['purchase.order.line']
 
         so = so_obj.browse(cr, uid, vals['order_id'], context=context)
         create_purchase_order_line = (
-            not context.get('integrated_trade_do_not_propagate', False) and
-            so.integrated_trade)
+            not context.get('intercompany_trade_do_not_propagate', False) and
+            so.intercompany_trade)
 
         # Call Super: Create
         res = super(sale_order_line, self).create(
@@ -72,9 +72,9 @@ class sale_order_line(Model):
                             vals['name'])))
 
             ctx = context.copy()
-            ctx['integrated_trade_do_not_propagate'] = True
+            ctx['intercompany_trade_do_not_propagate'] = True
 
-            rit = rit_obj._get_integrated_trade_by_partner_company(
+            rit = rit_obj._get_intercompany_trade_by_partner_company(
                 cr, uid, so.partner_id.id, so.company_id.id, 'out',
                 context=context)
 
@@ -95,14 +95,14 @@ class sale_order_line(Model):
 
             pol_vals.update({
                 'order_id':
-                    sol.order_id.integrated_trade_purchase_order_id.id,
+                    sol.order_id.intercompany_trade_purchase_order_id.id,
                 'price_unit': 0,
                 'name': '[%s] %s' % (
                     sol.product_id.default_code, sol.product_id.name),
                 'product_id': other_product_info['product_id'],
                 'product_qty': sol.product_uom_qty,
                 'product_uom': sol.product_uom.id,
-                'integrated_trade_sale_order_line_id': sol.id,
+                'intercompany_trade_sale_order_line_id': sol.id,
                 'date_planned': datetime.now().strftime('%d-%m-%Y'),
                 'taxes_id': [[6, False, pol_vals['taxes_id']]],
             })
@@ -117,7 +117,7 @@ class sale_order_line(Model):
 
             # Update Sale Order line
             self.write(cr, uid, [res], {
-                'integrated_trade_purchase_order_line_id': pol_id,
+                'intercompany_trade_purchase_order_line_id': pol_id,
             }, context=ctx)
         return res
 
@@ -125,18 +125,18 @@ class sale_order_line(Model):
         """"- Update the according Purchase Order Line with new data;
             - Block any changes of product."""
         context = context and context or {}
-        rit_obj = self.pool['res.integrated.trade']
+        rit_obj = self.pool['intercompany.trade.config']
         pol_obj = self.pool['purchase.order.line']
 
         res = super(sale_order_line, self).write(
             cr, uid, ids, vals, context=context)
 
-        if 'integrated_trade_do_not_propagate' not in context.keys():
+        if 'intercompany_trade_do_not_propagate' not in context.keys():
             ctx = context.copy()
-            ctx['integrated_trade_do_not_propagate'] = True
+            ctx['intercompany_trade_do_not_propagate'] = True
             for sol in self.browse(cr, uid, ids, context=context):
-                if sol.integrated_trade_purchase_order_line_id:
-                    rit = rit_obj._get_integrated_trade_by_partner_company(
+                if sol.intercompany_trade_purchase_order_line_id:
+                    rit = rit_obj._get_intercompany_trade_by_partner_company(
                         cr, uid, sol.order_id.partner_id.id,
                         sol.order_id.company_id.id, 'out', context=context)
                     pol_vals = {}
@@ -163,26 +163,26 @@ class sale_order_line(Model):
                         pol_vals['price_unit'] = sol.price_unit
                     pol_obj.write(
                         cr, rit.customer_user_id.id,
-                        [sol.integrated_trade_purchase_order_line_id.id],
+                        [sol.intercompany_trade_purchase_order_line_id.id],
                         pol_vals, context=ctx)
         return res
 
     def unlink(self, cr, uid, ids, context=None):
         """"- Unlink the according Purchase Order Line."""
         context = context and context or {}
-        rit_obj = self.pool['res.integrated.trade']
+        rit_obj = self.pool['intercompany.trade.config']
         pol_obj = self.pool['purchase.order.line']
 
-        if 'integrated_trade_do_not_propagate' not in context.keys():
+        if 'intercompany_trade_do_not_propagate' not in context.keys():
             ctx = context.copy()
-            ctx['integrated_trade_do_not_propagate'] = True
+            ctx['intercompany_trade_do_not_propagate'] = True
             for sol in self.browse(cr, uid, ids, context=context):
-                rit = rit_obj._get_integrated_trade_by_partner_company(
+                rit = rit_obj._get_intercompany_trade_by_partner_company(
                     cr, uid, sol.order_id.partner_id.id,
                     sol.order_id.company_id.id, 'out', context=context)
                 pol_obj.unlink(
                     cr, rit.customer_user_id.id,
-                    [sol.integrated_trade_purchase_order_line_id.id],
+                    [sol.intercompany_trade_purchase_order_line_id.id],
                     context=ctx)
         res = super(sale_order_line, self).unlink(
             cr, uid, ids, context=context)

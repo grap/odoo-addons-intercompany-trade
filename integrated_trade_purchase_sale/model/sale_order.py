@@ -31,47 +31,47 @@ class sale_order(Model):
     _inherit = 'sale.order'
 
     # Fields Function Section
-    def _get_integrated_trade(
+    def _get_intercompany_trade(
             self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         for so in self.browse(cr, uid, ids, context=context):
-            res[so.id] = so.partner_id.integrated_trade
+            res[so.id] = so.partner_id.intercompany_trade
         return res
 
     # Columns Section
     _columns = {
-        'integrated_trade': fields.function(
-            _get_integrated_trade, type='boolean', string='Integrated Trade',
+        'intercompany_trade': fields.function(
+            _get_intercompany_trade, type='boolean', string='Integrated Trade',
             store={'sale.order': (
                 lambda self, cr, uid, ids, context=None: ids,
                 [
                     'partner_id',
                 ], 10)}),
-        'integrated_trade_purchase_order_id': fields.many2one(
+        'intercompany_trade_purchase_order_id': fields.many2one(
             'purchase.order', string='Integrated Trade Purchase Order',
             readonly=True,
         ),
     }
 
     # Constraint Section
-    def _check_integrated_trade_order_policy(
+    def _check_intercompany_trade_order_policy(
             self, cr, uid, ids, context=None):
         for so in self.browse(cr, uid, ids, context=context):
-            if so.integrated_trade and so.order_policy != 'picking':
+            if so.intercompany_trade and so.order_policy != 'picking':
                 return False
         return True
 
     _constraints = [
         (
-            _check_integrated_trade_order_policy,
+            _check_intercompany_trade_order_policy,
             """Error: The module 'Integrated Trade' Only works with"""
             """ 'Order Policy' set to 'Picking'.""",
-            ['integrated_trade', 'order_policy']),
+            ['intercompany_trade', 'order_policy']),
     ]
 
     # Overload Section
     def create(self, cr, uid, vals, context=None):
-        rit_obj = self.pool['res.integrated.trade']
+        rit_obj = self.pool['intercompany.trade.config']
         rp_obj = self.pool['res.partner']
         po_obj = self.pool['purchase.order']
         iv_obj = self.pool['ir.values']
@@ -80,8 +80,8 @@ class sale_order(Model):
 
         rp = rp_obj.browse(cr, uid, vals['partner_id'], context=context)
         create_purchase_order = (
-            not context.get('integrated_trade_do_not_propagate', False) and
-            rp.integrated_trade)
+            not context.get('intercompany_trade_do_not_propagate', False) and
+            rp.intercompany_trade)
 
         if create_purchase_order:
             line_ids = vals.get('order_line', False)
@@ -96,11 +96,11 @@ class sale_order(Model):
 
         if create_purchase_order:
             ctx = context.copy()
-            ctx['integrated_trade_do_not_propagate'] = True
+            ctx['intercompany_trade_do_not_propagate'] = True
 
             # Create associated Purchase Order
             so = self.browse(cr, uid, res, context=context)
-            rit = rit_obj._get_integrated_trade_by_partner_company(
+            rit = rit_obj._get_intercompany_trade_by_partner_company(
                 cr, uid, so.partner_id.id, so.company_id.id, 'out',
                 context=context)
 
@@ -121,7 +121,7 @@ class sale_order(Model):
                 'partner_id': rit.supplier_partner_id.id,
                 'warehouse_id': sw_id,
                 'location_id': sl_id,
-                'integrated_trade_sale_order_id': res,
+                'intercompany_trade_sale_order_id': res,
                 'pricelist_id': rit.purchase_pricelist_id.id,
                 'partner_ref': so.name,
                 'invoice_method': 'picking',
@@ -133,7 +133,7 @@ class sale_order(Model):
 
             # Update Sale Order
             self.write(cr, uid, [res], {
-                'integrated_trade_purchase_order_id': po.id,
+                'intercompany_trade_purchase_order_id': po.id,
                 'client_order_ref': po.name,
                 'order_line': line_ids,
             }, context=context)
@@ -143,9 +143,9 @@ class sale_order(Model):
         context = context if context else {}
         res = super(sale_order, self).write(
             cr, uid, ids, vals, context=context)
-        if 'integrated_trade_do_not_propagate' not in context.keys():
+        if 'intercompany_trade_do_not_propagate' not in context.keys():
             for so in self.browse(cr, uid, ids, context=context):
-                if so.integrated_trade:
+                if so.intercompany_trade:
                     if 'partner_id' in vals:
                         raise except_osv(
                             _("Error!"),
@@ -169,20 +169,20 @@ class sale_order(Model):
         """Delete according Purchase order"""
         context = context if context else {}
 
-        rit_obj = self.pool['res.integrated.trade']
+        rit_obj = self.pool['intercompany.trade.config']
         po_obj = self.pool['purchase.order']
 
         ctx = context.copy()
-        if 'integrated_trade_do_not_propagate' not in context.keys():
-            ctx['integrated_trade_do_not_propagate'] = True
+        if 'intercompany_trade_do_not_propagate' not in context.keys():
+            ctx['intercompany_trade_do_not_propagate'] = True
             for so in self.browse(cr, uid, ids, context=context):
-                rit = rit_obj._get_integrated_trade_by_partner_company(
+                rit = rit_obj._get_intercompany_trade_by_partner_company(
                     cr, uid, so.partner_id.id, so.company_id.id, 'out',
                     context=context)
-                if so.integrated_trade:
+                if so.intercompany_trade:
                     po_obj.unlink(
                         cr, rit.customer_user_id.id,
-                        [so.integrated_trade_purchase_order_id.id],
+                        [so.intercompany_trade_purchase_order_id.id],
                         context=ctx)
         return super(sale_order, self).unlink(
             cr, uid, ids, context=ctx)
@@ -191,27 +191,27 @@ class sale_order(Model):
         sp_obj = self.pool['stock.picking']
         sm_obj = self.pool['stock.move']
         spp_wizard_obj = self.pool['stock.partial.picking']
-        rit_obj = self.pool['res.integrated.trade']
+        rit_obj = self.pool['intercompany.trade.config']
         wf_service = netsvc.LocalService('workflow')
 
         res = super(sale_order, self).action_button_confirm(
             cr, uid, ids, context=context)
         so = self.browse(cr, uid, ids[0], context=context)
-        if so.integrated_trade:
-            rit = rit_obj._get_integrated_trade_by_partner_company(
+        if so.intercompany_trade:
+            rit = rit_obj._get_intercompany_trade_by_partner_company(
                 cr, uid, so.partner_id.id, so.company_id.id, 'out',
                 context=context)
 
             # Validate The according Purchase Order
             wf_service.trg_validate(
                 rit.customer_user_id.id, 'purchase.order',
-                so.integrated_trade_purchase_order_id.id,
+                so.intercompany_trade_purchase_order_id.id,
                 'purchase_confirm', cr)
 
             # Get Picking In generated (from purchase)
             spi_id = sp_obj.search(cr, rit.customer_user_id.id, [
                 ('purchase_id', '=',
-                    so.integrated_trade_purchase_order_id.id)],
+                    so.intercompany_trade_purchase_order_id.id)],
                 context=context)[0]
 
             # Get Picking Out generated (from sale)
@@ -221,12 +221,12 @@ class sale_order(Model):
 
             # Associate Picking Out and Picking In
             sp_obj.write(cr, uid, [spo_id], {
-                'integrated_trade_picking_in_id': spi_id}, context=context)
+                'intercompany_trade_picking_in_id': spi_id}, context=context)
             sp_obj.write(cr, rit.customer_user_id.id, [spi_id], {
-                'integrated_trade_picking_out_id': spo_id}, context=context)
+                'intercompany_trade_picking_out_id': spo_id}, context=context)
 
             # FIXME : set this part of code in a module
-            # integrated_trade_stock
+            # intercompany_trade_stock
             # Confirm Supplier Picking Out
             sp_obj.action_assign(
                 cr, uid, [spo_id], context)
@@ -251,7 +251,7 @@ class sale_order(Model):
             # Link Stock moves
             for sol in so.order_line:
                 sol_id = sol.id
-                pol_id = sol.integrated_trade_purchase_order_line_id.id
+                pol_id = sol.intercompany_trade_purchase_order_line_id.id
 
                 sm_sol_id = sm_obj.search(cr, uid, [
                     ('sale_line_id', '=', sol_id)], context=context)[0]
@@ -260,11 +260,11 @@ class sale_order(Model):
                     ('purchase_line_id', '=', pol_id)], context=context)[0]
 
                 sm_obj.write(cr, uid, [sm_sol_id], {
-                    'integrated_trade_stock_move_id': sm_pol_id,
+                    'intercompany_trade_stock_move_id': sm_pol_id,
                 }, context=context)
 
                 sm_obj.write(cr, rit.customer_user_id.id, [sm_pol_id], {
-                    'integrated_trade_stock_move_id': sm_sol_id,
+                    'intercompany_trade_stock_move_id': sm_sol_id,
                 }, context=context)
 
         return res
