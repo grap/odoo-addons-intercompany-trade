@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ********************************************************************** -->
-<!--    Integrated Trade - Base module for Odoo                             -->
+<!--    Intercompany Trade - Base module for Odoo                             -->
 <!--    Copyright (C) 2014 -Today GRAP (http://www.grap.coop)               -->
 <!--    @author Sylvain LE GAL (https://twitter.com/legalsylvain)           -->
 
@@ -22,7 +22,7 @@
 
 <!-- Model: res.partner -->
         <record id="action_res_partner_intercompany_tradecustomer" model="ir.actions.act_window">
-            <field name="name">Integrated Customers</field>
+            <field name="name">Intercompany Trade Customers</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
@@ -31,7 +31,7 @@
         </record>
 
         <record id="action_res_partner_intercompany_tradesupplier" model="ir.actions.act_window">
-            <field name="name">Integrated Suppliers</field>
+            <field name="name">Intercompany Trade Suppliers</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
@@ -41,7 +41,7 @@
 
 <!-- Model: intercompany.trade.config -->
         <record id="action_intercompany_trade_config" model="ir.actions.act_window">
-            <field name="name">Integrated Trade</field>
+            <field name="name">Intercompany Trade</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">intercompany.trade.config</field>
             <field name="view_type">form</field>

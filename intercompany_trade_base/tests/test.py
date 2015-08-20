@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Base module for OpenERP
+#    Intercompany Trade - Base module for OpenERP
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -50,7 +50,7 @@ class Test(TransactionCase):
         inverse of an existing intercompany trade affect correctly partners"""
         cr, uid = self.cr, self.uid
         rit_id = self.rit_obj.create(cr, uid, {
-            'name': 'Reverse Integrated Trade',
+            'name': 'Reverse Intercompany Trade',
             'customer_company_id': self.supplier_company_id,
             'supplier_company_id': self.customer_company_id,
         })
@@ -59,11 +59,11 @@ class Test(TransactionCase):
 
         self.assertEqual(
             old_rit.customer_partner_id.id, new_rit.supplier_partner_id.id,
-            "Create a Reverse Integrated Trade must reuse existing customer.")
+            "Create a Reverse Intercompany Trade must reuse existing customer.")
 
         self.assertEqual(
             old_rit.supplier_partner_id.id, new_rit.customer_partner_id.id,
-            "Create a Reverse Integrated Trade must reuse existing supplier.")
+            "Create a Reverse Intercompany Trade must reuse existing supplier.")
 
     # Test Section
     def test_02_update_company_update_partner(self):

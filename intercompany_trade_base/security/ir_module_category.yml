@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Base module for OpenERP
+#    Intercompany Trade - Base module for OpenERP
 #    Copyright (C) 2013-2014 GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -21,7 +21,7 @@
 ##############################################################################
 
 - !record {model: ir.module.category, id: intercompany_trade_category}:
-    name: Integrated Trade
+    name: Intercompany Trade
     sequence: 120
-    description: Select the level of access of Integrated Trade
+    description: Select the level of access of Intercompany Trade
     

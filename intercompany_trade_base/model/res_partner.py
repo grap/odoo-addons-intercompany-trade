@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Base module for OpenERP
+#    Intercompany Trade - Base module for OpenERP
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -32,7 +32,7 @@ class ResPartner(Model):
     # Columns section
     _columns = {
         'intercompany_trade': fields.boolean(
-            'Integrated Trade', readonly=True,
+            'Intercompany Trade', readonly=True,
             help="Indicate that this partner is a company in Odoo."),
     }
 
@@ -58,7 +58,7 @@ class ResPartner(Model):
                         _(
                             """Error: You have no right to create or"""
                             """ update a partner that is set as"""
-                            """ 'Integrated Trade'"""))
+                            """ 'Intercompany Trade'"""))
 
     def create(self, cr, uid, vals, context=None):
         self._check_intercompany_trade_access(

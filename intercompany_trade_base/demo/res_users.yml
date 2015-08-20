@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Base module for OpenERP
+#    Intercompany Trade - Base module for OpenERP
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -28,7 +28,7 @@
         - base.main_company
 
 - !record {model: res.users, id: customer_user}:
-    name: Integrated Customer User
+    name: Intercompany Trade Customer User
     login: intercompany_tradecustomer
     password: demo
     company_id: customer_company
@@ -36,7 +36,7 @@
         - customer_company
 
 - !record {model: res.users, id: supplier_user}:
-    name: Integrated Supplier User
+    name: Intercompany Trade Supplier User
     login: intercompany_tradesupplier
     password: demo
     company_id: supplier_company
