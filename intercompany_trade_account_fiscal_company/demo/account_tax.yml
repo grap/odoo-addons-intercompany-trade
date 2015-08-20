@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-- !record {model: account.tax, id: intercompany_tradesale_vat_10_excluded}:
+- !record {model: account.tax, id: intercompany_trade_sale_vat_10_excluded}:
     name: SALE VAT 10% Excluded (Intercompany Trade)
     type_tax_use: sale
     type: percent
@@ -28,7 +28,7 @@
     price_include: False
     company_id: base_fiscal_company.company_fiscal_mother
 
-- !record {model: account.tax, id: intercompany_tradesale_vat_10_included}:
+- !record {model: account.tax, id: intercompany_trade_sale_vat_10_included}:
     name: SALE VAT 10% Included (Intercompany Trade)
     type_tax_use: sale
     type: percent
@@ -36,14 +36,14 @@
     price_include: True
     company_id: base_fiscal_company.company_fiscal_mother
 
-- !record {model: account.tax, id: intercompany_tradesale_vat_10_excluded}:
-    simple_tax_id: intercompany_tradesale_vat_10_included
+- !record {model: account.tax, id: intercompany_trade_sale_vat_10_excluded}:
+    simple_tax_id: intercompany_trade_sale_vat_10_included
 
 - !record {model: account.tax, id: intercompany_tradesale_vat_10_included}:
     simple_tax_id: intercompany_tradesale_vat_10_excluded
 
 
-- !record {model: account.tax, id: intercompany_tradepurchase_vat_10_excluded}:
+- !record {model: account.tax, id: intercompany_trade_purchase_vat_10_excluded}:
     name: PURCHASE VAT 10% Excluded (Intercompany Trade)
     type_tax_use: purchase
     type: percent

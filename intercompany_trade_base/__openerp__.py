@@ -25,24 +25,24 @@
     'category': 'Intercompany Trade',
     'description': """
 Module for Intercompany Trade for Base Module
-===========================================
+=============================================
 
-Features :
-----------
-    * Add a New Model Intercompany Trade that define that two company can realize
-      purchases and sales between them with:
-        * a supplier company;
-        * a customer company;
-    * Add a new field 'intercompany_trade' in 'res.partner' model;
-    * Add new groups to manage intercompany trade;
-    * When we set a new intercompany trade, OpenERP create a supplier in the
-      customer company and a customer in the supplier company;
+Features
+--------
+* Add a New Model Intercompany Trade that define that two company can
+  realize purchases and sales between them with:
+    * a supplier company;
+    * a customer company;
+* Add a new field 'intercompany_trade' in 'res.partner' model;
+* Add new groups to manage intercompany trade;
+* When we set a new intercompany trade, OpenERP create a supplier in the
+  customer company and a customer in the supplier company;
 
-Demo Data:
-----------
-    * In demo mode, the module creates two new companies, and two users:
-        * A supplier user: login: intercompany_tradesupplier // demo
-        * A customer user: login: intercompany_tradecustomer // demo
+Demo Data
+---------
+* In demo mode, the module creates two new companies, and two users:
+    * A supplier user: login: intercompany_trade_supplier // demo
+    * A customer user: login: intercompany_trade_customer // demo
 
 
 Copyright, Authors and Licence:

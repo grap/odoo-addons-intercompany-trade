@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-- !record {model: product.product, id: product_intercompany_tradesupplier_service}:
+- !record {model: product.product, id: product_intercompany_trade_supplier_service}:
     name: Supplier Service (Intercompany Trade)
     default_code: SUPPLIER-INT-SERVICE
     categ_id: product.product_category_all
@@ -31,9 +31,9 @@
     sale_ok: True
     company_id: base_fiscal_company.company_fiscal_child_1
     taxes_id:
-        - intercompany_tradesale_vat_10_included
+        - intercompany_trade_sale_vat_10_included
 
-- !record {model: product.product, id: product_intercompany_tradecustomer_service}:
+- !record {model: product.product, id: product_intercompany_trade_customer_service}:
     name: Customer Service (Intercompany Trade)
     default_code: CUSTOMER-INT-SERVICE
     categ_id: product.product_category_all
@@ -43,4 +43,4 @@
     uos_id: product.product_uom_kgm
     company_id: base_fiscal_company.company_fiscal_child_2
     supplier_taxes_id:
-        - intercompany_tradepurchase_vat_10_excluded
+        - intercompany_trade_purchase_vat_10_excluded

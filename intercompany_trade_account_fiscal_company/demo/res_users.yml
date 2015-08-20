@@ -31,7 +31,7 @@
 
 - !record {model: res.users, id: fiscal_customer_user}:
     name: Fiscal Intercompany Trade Customer User
-    login: fiscal_intercompany_tradecustomer
+    login: fiscal_intercompany_trade_customer
     password: demo
     company_id: base_fiscal_company.company_fiscal_child_2
     company_ids:
@@ -39,7 +39,7 @@
 
 - !record {model: res.users, id: fiscal_supplier_user}:
     name: Fiscal Intercompany Trade Supplier User
-    login: fiscal_intercompany_tradesupplier
+    login: fiscal_intercompany_trade_supplier
     password: demo
     company_id: base_fiscal_company.company_fiscal_child_1
     company_ids:

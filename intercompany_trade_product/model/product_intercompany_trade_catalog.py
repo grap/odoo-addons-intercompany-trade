@@ -65,7 +65,7 @@ class ProductIntercompanyTradeCatalog(Model):
         ppl_obj = self.pool['product.pricelist']
         res = {}
         for pitc in self.browse(cr, SUPERUSER_ID, ids, context=context):
-            res[pitc.id] = ppl_obj._compute_intercompany_tradeprices(
+            res[pitc.id] = ppl_obj._compute_intercompany_trade_prices(
                 cr, SUPERUSER_ID, pitc.supplier_product_id,
                 pitc.supplier_partner_id, pitc.sale_pricelist_id,
                 context=context)
@@ -118,7 +118,7 @@ CREATE OR REPLACE VIEW %s AS (
             s_pt.uom_id as supplier_product_uom,
             s_pt.name as supplier_product_name,
             s_pp.default_code as supplier_product_default_code,
-            c_psi.intercompany_tradeprice as customer_purchase_price,
+            c_psi.intercompany_trade_price as customer_purchase_price,
             rit.supplier_company_id,
             rit.supplier_partner_id,
             c_rp.name as supplier_partner_name
