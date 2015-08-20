@@ -29,18 +29,18 @@
 <!-- Intercompany Trade: SubMenu Partners -->
         <menuitem id="menu_intercompany_trade_partner"
             parent="menu_intercompany_trade_root"
-            name="Intercompany Trade Partners"
+            name="Partners"
             sequence="1"/>
 
 <!-- Model: res.partner -->
         <menuitem id="menu_intercompany_trade_partner_customer"
             parent="menu_intercompany_trade_partner"
-            action="action_res_partner_intercompany_tradecustomer"
+            action="action_res_partner_intercompany_trade_customer"
             sequence="1"/>
 
         <menuitem id="menu_intercompany_trade_partner_supplier"
             parent="menu_intercompany_trade_partner"
-            action="action_res_partner_intercompany_tradesupplier"
+            action="action_res_partner_intercompany_trade_supplier"
             sequence="2"/>
 
 <!-- Model: intercompany.trade.config -->
