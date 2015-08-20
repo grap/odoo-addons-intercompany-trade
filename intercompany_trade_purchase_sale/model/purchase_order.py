@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Purchase module for OpenERP
+#    Intercompany Trade - Purchase module for OpenERP
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -41,14 +41,14 @@ class purchase_order(Model):
     # Columns Section
     _columns = {
         'intercompany_trade': fields.function(
-            _get_intercompany_trade, type='boolean', string='Integrated Trade',
+            _get_intercompany_trade, type='boolean', string='Intercompany Trade',
             store={'purchase.order': (
                 lambda self, cr, uid, ids, context=None: ids,
                 [
                     'partner_id',
                 ], 10)}),
         'intercompany_trade_sale_order_id': fields.many2one(
-            'sale.order', string='Integrated Trade Sale Order',
+            'sale.order', string='Intercompany Trade Sale Order',
             readonly=True,
         ),
     }
@@ -64,7 +64,7 @@ class purchase_order(Model):
     _constraints = [
         (
             _check_intercompany_trade_invoice_method,
-            """Error: The module 'Integrated Trade' Only works with"""
+            """Error: The module 'Intercompany Trade' Only works with"""
             """ 'Invoice Method' set to 'Picking'.""",
             ['intercompany_trade', 'invoice_method']),
     ]
@@ -149,7 +149,7 @@ class purchase_order(Model):
                         raise except_osv(
                             _("Error!"),
                             _("""You can not change the customer because"""
-                                """ of 'Integrated Trade' Rules'. Please"""
+                                """ of Intercompany Trade Rules. Please"""
                                 """ create a new one Purchase Order."""))
                     # Disable possibility to change lines if the Purchase
                     # Order is not a 'draft' state
@@ -158,7 +158,7 @@ class purchase_order(Model):
                         raise except_osv(
                             _("Error!"),
                             _("""You can not change Lines of a Sent Purchase"""
-                                """ Order because of 'Integrated 'Trade'"""
+                                """ Order because of Intercompany Trade"""
                                 """ Rules. Please cancel this Purchase Order"""
                                 """  and create a new one, duplicating it."""))
                     rit = rit_obj._get_intercompany_trade_by_partner_company(
@@ -186,8 +186,8 @@ class purchase_order(Model):
                         raise except_osv(
                             _("Error!"),
                             _("""You can not change set to 'draft' again"""
-                                """ this Quotation because of 'Integrated"""
-                                """ 'Trade' Rules. Please cancel this"""
+                                """ this Quotation because of Intercompany"""
+                                """ Trade Rules. Please cancel this"""
                                 """ one and create a new one, duplicating"""
                                 """ it."""))
         return res

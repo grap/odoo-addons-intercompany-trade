@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Purchase module for OpenERP
+#    Intercompany Trade - Purchase module for OpenERP
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -38,7 +38,7 @@ class sale_order_line(Model):
     _columns = {
         'intercompany_trade_purchase_order_line_id': fields.many2one(
             'purchase.order.line',
-            string='Integrated Trade Purchase Order Line', readonly=True,
+            string='Intercompany Trade Purchase Order Line', readonly=True,
         ),
     }
 

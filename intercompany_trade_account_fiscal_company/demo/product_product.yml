@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Product module for OpenERP
+#    Intercompany Trade - Product module for OpenERP
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -21,7 +21,7 @@
 ##############################################################################
 
 - !record {model: product.product, id: product_intercompany_tradesupplier_service}:
-    name: Supplier Service (Integrated Trade)
+    name: Supplier Service (Intercompany Trade)
     default_code: SUPPLIER-INT-SERVICE
     categ_id: product.product_category_all
     list_price: 100
@@ -34,7 +34,7 @@
         - intercompany_tradesale_vat_10_included
 
 - !record {model: product.product, id: product_intercompany_tradecustomer_service}:
-    name: Customer Service (Integrated Trade)
+    name: Customer Service (Intercompany Trade)
     default_code: CUSTOMER-INT-SERVICE
     categ_id: product.product_category_all
     list_price: 200

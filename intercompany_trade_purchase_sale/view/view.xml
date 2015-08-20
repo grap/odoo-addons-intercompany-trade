@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ********************************************************************** -->
-<!--    Integrated Trade - Purchase Sale module for Odoo                    -->
+<!--    Intercompany Trade - Purchase Sale module for Odoo                    -->
 <!--    Copyright (C) 2015-Today GRAP (http://www.grap.coop)                -->
 <!--    @author Sylvain LE GAL (https://twitter.com/legalsylvain)           -->
 
@@ -38,11 +38,11 @@
             <field name="arch" type="xml">
                 <field name="name" position="after">
                     <span class="intercompany_trade_nothing_to_do"
-                        attrs="{'invisible': ['|', ('state', 'in', ['draft', 'sent']), ('intercompany_trade','=', False)]}">Integrated Trade</span>
+                        attrs="{'invisible': ['|', ('state', 'in', ['draft', 'sent']), ('intercompany_trade','=', False)]}">Intercompany Trade</span>
                     <span class="intercompany_trade_todo"
-                        attrs="{'invisible': ['|', ('state', 'not in', ['draft']), ('intercompany_trade','=', False)]}">Integrated Trade To Confirm</span>
+                        attrs="{'invisible': ['|', ('state', 'not in', ['draft']), ('intercompany_trade','=', False)]}">Intercompany Trade To Confirm</span>
                     <span class="intercompany_trade_waiting"
-                        attrs="{'invisible': ['|', ('state', 'not in', ['sent']), ('intercompany_trade','=', False)]}">Integrated Trade On Hold</span>
+                        attrs="{'invisible': ['|', ('state', 'not in', ['sent']), ('intercompany_trade','=', False)]}">Intercompany Trade On Hold</span>
                 </field>
                 <field name="partner_ref" position="after">
                     <field name="intercompany_trade" groups="intercompany_trade_base.intercompany_tradetrade_user"
@@ -93,11 +93,11 @@
             <field name="arch" type="xml">
                 <field name="name" position="after">
                     <span class="intercompany_trade_nothing_to_do"
-                        attrs="{'invisible': ['|', ('state', 'in', ['draft', 'sent']), ('intercompany_trade','=', False)]}">Integrated Trade</span>
+                        attrs="{'invisible': ['|', ('state', 'in', ['draft', 'sent']), ('intercompany_trade','=', False)]}">Intercompany Trade</span>
                     <span class="intercompany_trade_waiting"
-                        attrs="{'invisible': ['|', ('state', 'not in', ['draft']), ('intercompany_trade','=', False)]}">Integrated Trade On Hold</span>
+                        attrs="{'invisible': ['|', ('state', 'not in', ['draft']), ('intercompany_trade','=', False)]}">Intercompany Trade On Hold</span>
                     <span class="intercompany_trade_todo"
-                        attrs="{'invisible': ['|', ('state', 'not in', ['sent']), ('intercompany_trade','=', False)]}">Integrated Trade To Confirm</span>
+                        attrs="{'invisible': ['|', ('state', 'not in', ['sent']), ('intercompany_trade','=', False)]}">Intercompany Trade To Confirm</span>
                 </field>
                 <field name="partner_id" position="after">
                     <field name="intercompany_trade" groups="intercompany_trade_base.intercompany_tradetrade_user"

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Base module for OpenERP
+#    Intercompany Trade - Base module for OpenERP
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -30,7 +30,7 @@ class intercompany_trade_config(Model):
 
     def _get_intercompany_trade_from_purchase_pricelist(
             self, cr, uid, ids, context=None):
-        """Return Integrated Trade ids depending on changes of purchase
+        """Return Intercompany Trade ids depending on changes of purchase
         pricelist"""
         res = []
         rp_obj = self.pool['res.partner']

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Purchase & Sale module for OpenERP
+#    Intercompany Trade - Purchase & Sale module for OpenERP
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -20,11 +20,11 @@
 #
 ##############################################################################
 {
-    'name': 'Integrated Trade - Purchase & Sale',
+    'name': 'Intercompany Trade - Purchase & Sale',
     'version': '0.1',
     'category': 'Purchase',
     'description': """
-Module for Integrated Trade for Purchase and Sale Module
+Module for Intercompany Trade for Purchase and Sale Module
 ========================================================
 
 With this module, create a Purchase Order (or a Sale Order) will create a Sale

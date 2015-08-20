@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Account module for Odoo
+#    Intercompany Trade - Account module for Odoo
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -22,12 +22,12 @@
 
 - !record {model: account.journal, id: customer_journal_purchase}:
     code: CUS_PURCHASE
-    name: Integrated Trade - Customer Purchase Journal
+    name: Intercompany Trade - Customer Purchase Journal
     type: purchase
     company_id: intercompany_trade_base.customer_company
 
 - !record {model: account.journal, id: supplier_journal_sale}:
     code: SUP_SALE
-    name: Integrated Trade - Supplier Sale Journal
+    name: Intercompany Trade - Supplier Sale Journal
     type: sale
     company_id: intercompany_trade_base.supplier_company

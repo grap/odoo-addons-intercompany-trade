@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Product module for Odoo
+#    Intercompany Trade - Product module for Odoo
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -140,7 +140,7 @@ def _get_other_product_info(
                 _("""You can not add the product '%s' to the current"""
                     """ Order or Invoice because you didn't linked the"""
                     """ product to any Supplier Product. Please do it"""
-                    """ in the 'Integrated Trade' menu.""" % (
+                    """ in the 'Intercompany Trade' menu.""" % (
                         pp.name)))
 
         psi = psi_obj.browse(cr, uid, psi_ids[0], context=context)

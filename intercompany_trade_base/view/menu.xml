@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ********************************************************************** -->
-<!--    Integrated Trade - Base module for Odoo                             -->
+<!--    Intercompany Trade - Base module for Odoo                             -->
 <!--    Copyright (C) 2014 -Today GRAP (http://www.grap.coop)               -->
 <!--    @author Sylvain LE GAL (https://twitter.com/legalsylvain)           -->
 
@@ -22,14 +22,14 @@
 
 <!-- New Root Menu -->
         <menuitem id="menu_intercompany_trade_root"
-            name="Integrated Trade"
+            name="Intercompany Trade"
             groups="intercompany_trade_base.intercompany_trade_user"
             sequence="21"/>
 
-<!-- Integrated Trade: SubMenu Partners -->
+<!-- Intercompany Trade: SubMenu Partners -->
         <menuitem id="menu_intercompany_trade_partner"
             parent="menu_intercompany_trade_root"
-            name="Integrated Partners"
+            name="Intercompany Trade Partners"
             sequence="1"/>
 
 <!-- Model: res.partner -->
@@ -46,7 +46,7 @@
 <!-- Model: intercompany.trade.config -->
         <menuitem id="menu_intercompany_trade"
             parent="base.menu_res_company_global"
-            name="Integrated Trade"
+            name="Intercompany Trade"
             sequence="25"/>
 
         <menuitem id="menu_intercompany_trade_config"

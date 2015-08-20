@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Stock module for Odoo
+#    Intercompany Trade - Stock module for Odoo
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -21,14 +21,14 @@
 ##############################################################################
 
 - !record {model: stock.warehouse, id: supplier_stock_warehouse}:
-    name: Integrated Trade - Supplier Warehouse
+    name: Intercompany Trade - Supplier Warehouse
     lot_input_id: supplier_stock_location_stock
     lot_stock_id: supplier_stock_location_stock
     lot_output_id: supplier_stock_location_output
     company_id: base_fiscal_company.company_fiscal_child_1
 
 - !record {model: stock.warehouse, id: customer_stock_warehouse}:
-    name: Integrated Trade - Customer Warehouse
+    name: Intercompany Trade - Customer Warehouse
     lot_input_id: customer_stock_location_stock
     lot_stock_id: customer_stock_location_stock
     lot_output_id: customer_stock_location_output

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Account module for Odoo
+#    Intercompany Trade - Account module for Odoo
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -36,10 +36,10 @@ class AccountInvoiceLine(Model):
     _columns = {
         'intercompany_trade': fields.related(
             'invoice_id', 'intercompany_trade', type='boolean',
-            string='Integrated Trade'),
+            string='Intercompany Trade'),
         'intercompany_trade_account_invoice_line_id': fields.many2one(
             'account.invoice.line',
-            string='Integrated Trade Account Invoice Line',
+            string='Intercompany Trade Account Invoice Line',
             readonly=True,
         ),
     }

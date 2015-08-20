@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Purchase module for OpenERP
+#    Intercompany Trade - Purchase module for OpenERP
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -37,17 +37,17 @@ class stock_invoice_onshipping(TransientModel):
         if intercompany_trade:
             if len(sp_lst) > 1:
                 raise except_osv(
-                    _("Integrated Trade - Unimplemented Feature!"),
+                    _("Intercompany Trade - Unimplemented Feature!"),
                     _(
                         """You can not Invoice many Pickings Out that come"""
-                        """  from Integrated Trade."""))
+                        """  from Intercompany Trade."""))
             for sp in sp_lst:
                 if sp.type != 'out':
                     raise except_osv(
-                        _("Integrated Trade - Unimplemented Feature!"),
+                        _("Intercompany Trade - Unimplemented Feature!"),
                         _(
                             """You can not Invoice a Picking In that come"""
-                            """ from Integrated Trade."""
+                            """ from Intercompany Trade."""
                             """ Only Picking Out can be invoiced. Please ask"""
                             """ to your supplier to invoice the Trade."""))
         res = super(stock_invoice_onshipping, self).create_invoice(

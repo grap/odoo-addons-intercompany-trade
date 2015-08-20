@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Purchase & Sale Order Dates module for OpenERP
+#    Intercompany Trade - Purchase & Sale Order Dates module for OpenERP
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -20,11 +20,11 @@
 #
 ##############################################################################
 {
-    'name': 'Integrated Trade - Purchase & Sale Order Dates',
+    'name': 'Intercompany Trade - Purchase & Sale Order Dates',
     'version': '0.1',
     'category': 'Purchase',
     'description': """
-Module for Integrated Trade for Purchase and Sale Order Dates Module
+Module for Intercompany Trade for Purchase and Sale Order Dates Module
 ====================================================================
 
 With this module, create a Purchase Order (or a Sale Order) will create a Sale

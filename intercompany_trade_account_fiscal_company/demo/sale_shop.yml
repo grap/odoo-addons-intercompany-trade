@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Purchase - Sale module for Odoo
+#    Intercompany Trade - Purchase - Sale module for Odoo
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -21,7 +21,7 @@
 ##############################################################################
 
 - !record {model: sale.shop, id: supplier_sale_shop}:
-    name: Integrated Trade - Supplier shop (FISCAL)
+    name: Intercompany Trade - Supplier shop (FISCAL)
     warehouse_id: supplier_stock_warehouse
     payment_default_id: account.account_payment_term_immediate
     company_id: base_fiscal_company.company_fiscal_child_1

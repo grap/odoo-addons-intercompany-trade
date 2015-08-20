@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Account Fiscal Company module for OpenERP
+#    Intercompany Trade - Account Fiscal Company module for OpenERP
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -30,7 +30,7 @@
         - base_fiscal_company.company_fiscal_mother
 
 - !record {model: res.users, id: fiscal_customer_user}:
-    name: Fiscal Integrated Customer User
+    name: Fiscal Intercompany Trade Customer User
     login: fiscal_intercompany_tradecustomer
     password: demo
     company_id: base_fiscal_company.company_fiscal_child_2
@@ -38,7 +38,7 @@
         - base_fiscal_company.company_fiscal_child_2
 
 - !record {model: res.users, id: fiscal_supplier_user}:
-    name: Fiscal Integrated Supplier User
+    name: Fiscal Intercompany Trade Supplier User
     login: fiscal_intercompany_tradesupplier
     password: demo
     company_id: base_fiscal_company.company_fiscal_child_1

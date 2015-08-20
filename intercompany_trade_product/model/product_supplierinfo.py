@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Product module for OpenERP
+#    Intercompany Trade - Product module for OpenERP
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -42,7 +42,7 @@ class product_supplierinfo(Model):
     _columns = {
         'intercompany_tradeprice': fields.function(
             _get_intercompany_tradeprice, string='Unit Price', type='float',
-            digits_compute=dp.get_precision('Integrated Product Price'),
+            digits_compute=dp.get_precision('Intercompany Trade Product Price'),
             store={'product.supplierinfo': (
                 lambda self, cr, uid, ids, context=None: ids,
                 [

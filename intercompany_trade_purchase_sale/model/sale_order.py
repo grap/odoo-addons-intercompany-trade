@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Purchase - Sale module for OpenERP
+#    Intercompany Trade - Purchase - Sale module for OpenERP
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -41,14 +41,14 @@ class sale_order(Model):
     # Columns Section
     _columns = {
         'intercompany_trade': fields.function(
-            _get_intercompany_trade, type='boolean', string='Integrated Trade',
+            _get_intercompany_trade, type='boolean', string='Intercompany Trade',
             store={'sale.order': (
                 lambda self, cr, uid, ids, context=None: ids,
                 [
                     'partner_id',
                 ], 10)}),
         'intercompany_trade_purchase_order_id': fields.many2one(
-            'purchase.order', string='Integrated Trade Purchase Order',
+            'purchase.order', string='Intercompany Trade Purchase Order',
             readonly=True,
         ),
     }
@@ -64,7 +64,7 @@ class sale_order(Model):
     _constraints = [
         (
             _check_intercompany_trade_order_policy,
-            """Error: The module 'Integrated Trade' Only works with"""
+            """Error: The module 'Intercompany Trade' Only works with"""
             """ 'Order Policy' set to 'Picking'.""",
             ['intercompany_trade', 'order_policy']),
     ]
@@ -150,7 +150,7 @@ class sale_order(Model):
                         raise except_osv(
                             _("Error!"),
                             _("""You can not change the customer because"""
-                                """ of 'Integrated Trade' Rules'. Please"""
+                                """ of Intercompany Trade Rules. Please"""
                                 """ create a new one Sale Order."""))
                     # Disable possibility to change lines if the Sale
                     # Order is not a 'draft' state
@@ -159,7 +159,7 @@ class sale_order(Model):
                         raise except_osv(
                             _("Error!"),
                             _("""You can not change Lines of a Sent Sale"""
-                                """ Order because of 'Integrated 'Trade'"""
+                                """ Order because of Intercompany Trade"""
                                 """ Rules. Please ask to your Customer to"""
                                 """  cancel the Purchase Order and create a"""
                                 """  new one, duplicating it."""))

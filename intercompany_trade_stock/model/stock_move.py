@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Stock module for Odoo
+#    Intercompany Trade - Stock module for Odoo
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -30,7 +30,7 @@ class stock_move(Model):
     # Columns Section
     _columns = {
         'intercompany_trade_stock_move_id': fields.many2one(
-            'stock.move', string='Integrated Trade Stock Move',
+            'stock.move', string='Intercompany Trade Stock Move',
             readonly=True,
         ),
     }

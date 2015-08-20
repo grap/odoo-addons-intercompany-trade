@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Product module for Odoo
+#    Intercompany Trade - Product module for Odoo
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -21,16 +21,16 @@
 ##############################################################################
 
 - !record {model: product.pricelist, id: pricelist_discount}:
-    name: Integrated Trade - Sale Pricelist (Discount)
+    name: Intercompany Trade - Sale Pricelist (Discount)
     company_id: intercompany_trade_base.supplier_company
     type: sale
 
 - !record {model: product.pricelist.version, id: pricelist_version_discount}:
-    name: Integrated Trade - Sale Pricelist Version (Discount)
+    name: Intercompany Trade - Sale Pricelist Version (Discount)
     pricelist_id: pricelist_discount
 
 - !record {model: product.pricelist.item, id: pricelist_item_discount}:
-    name: Integrated Trade - Sale Pricelist Item (Discount)
+    name: Intercompany Trade - Sale Pricelist Item (Discount)
     price_version_id: pricelist_version_discount
     base: 1
     price_surcharge: -0.10

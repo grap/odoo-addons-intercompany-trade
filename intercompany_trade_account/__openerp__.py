@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Account module for OpenERP
+#    Intercompany Trade - Account module for OpenERP
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -20,11 +20,11 @@
 #
 ##############################################################################
 {
-    'name': 'Integrated Trade - Account',
+    'name': 'Intercompany Trade - Account',
     'version': '1.0',
-    'category': 'Integrated Trade',
+    'category': 'Intercompany Trade',
     'description': """
-Module for Integrated Trade for Account Module
+Module for Intercompany Trade for Account Module
 ==============================================
 
 Features :

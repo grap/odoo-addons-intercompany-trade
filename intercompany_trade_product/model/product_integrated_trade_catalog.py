@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Product module for OpenERP
+#    Intercompany Trade - Product module for OpenERP
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -27,7 +27,7 @@ from openerp.osv.orm import Model
 from openerp.addons import decimal_precision as dp
 
 
-class ProductIntegratedTradeCatalog(Model):
+class ProductIntercompanyTradeCatalog(Model):
     _name = 'product.intercompany.trade.catalog'
     _auto = False
     _table = 'product_intercompany_trade_catalog'
@@ -74,13 +74,13 @@ class ProductIntegratedTradeCatalog(Model):
     # Column Section
     _columns = {
         'intercompany_trade_id': fields.many2one(
-            'intercompany.trade.config', 'Integrated Trade', readonly=True),
+            'intercompany.trade.config', 'Intercompany Trade', readonly=True),
         'customer_product_tmpl_id': fields.many2one(
             'product.template', 'Customer Product', readonly=True),
         'supplier_sale_price': fields.function(
             _get_supplier_price, string='Supplier Sale Price',
             multi='supplier_price', type='float',
-            digits_compute=dp.get_precision('Integrated Product Price')),
+            digits_compute=dp.get_precision('Intercompany Trade Product Price')),
         'customer_purchase_price': fields.float(
             'Customer Purchase Price', readonly=True),
         'sale_pricelist_id': fields.many2one(

@@ -25,7 +25,7 @@ from openerp.osv.orm import Model
 from openerp.osv.osv import except_osv
 from openerp.tools.translate import _
 
-class ResIntegratedTrade(Model):
+class ResIntercompanyTrade(Model):
     _inherit = 'intercompany.trade.config'
 
     def transcode_account_id(

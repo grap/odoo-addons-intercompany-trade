@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Base module for OpenERP
+#    Intercompany Trade - Base module for OpenERP
 #    Copyright (C) 2013-2014 GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -22,7 +22,7 @@
 
 - !record {model: ir.model.access, id: intercompany_trade_config_user_access}:
     model_id: model_intercompany_trade_config
-    name: Integrated Trade - User
+    name: Intercompany Trade - User
     perm_read: true
     perm_create: false
     perm_write: false
@@ -31,7 +31,7 @@
 - !record {model: ir.model.access, id: intercompany_trade_config_manager_access}:
     group_id: intercompany_trade_manager
     model_id: model_intercompany_trade_config
-    name: Integrated Trade - Manager
+    name: Intercompany Trade - Manager
     perm_read: true
     perm_create: false
     perm_write: false

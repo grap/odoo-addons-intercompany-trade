@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Base module for OpenERP
+#    Intercompany Trade - Base module for OpenERP
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -20,16 +20,16 @@
 #
 ##############################################################################
 {
-    'name': 'Integrated Trade - Base',
+    'name': 'Intercompany Trade - Base',
     'version': '1.0',
-    'category': 'Integrated Trade',
+    'category': 'Intercompany Trade',
     'description': """
-Module for Integrated Trade for Base Module
+Module for Intercompany Trade for Base Module
 ===========================================
 
 Features :
 ----------
-    * Add a New Model Integrated trade that define that two company can realize
+    * Add a New Model Intercompany Trade that define that two company can realize
       purchases and sales between them with:
         * a supplier company;
         * a customer company;

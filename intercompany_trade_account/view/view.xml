@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ********************************************************************** -->
-<!--    Integrated Trade - Account module for Odoo                          -->
+<!--    Intercompany Trade - Account module for Odoo                          -->
 <!--    Copyright (C) 2015-Today GRAP (http://www.grap.coop)                -->
 <!--    @author Sylvain LE GAL (https://twitter.com/legalsylvain)           -->
 
@@ -29,7 +29,7 @@
                     <span class="intercompany_trade_form_view"
                       attrs="{'invisible': [('intercompany_trade','=', False)]}"
                       groups="intercompany_trade_base.intercompany_trade_user">
-                      Integrated Trade
+                      Intercompany Trade
                     </span>
                 </xpath>
                 <field name="account_id" position="after">
@@ -50,7 +50,7 @@
                     <span class="intercompany_trade_form_view"
                       attrs="{'invisible': [('intercompany_trade','=', False)]}"
                       groups="intercompany_trade_base.intercompany_trade_user">
-                      Integrated Trade
+                      Intercompany Trade
                     </span>
                 </xpath>
                 <field name="account_id" position="after">

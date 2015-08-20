@@ -4,4 +4,4 @@
 odoo-addons-it
 ==============
 
-This project contains extra-addons modules for the project Odoo, to manage Integrated Trade into Odoo.
+This project contains extra-addons modules for the project Odoo, to manage Intercompany Trade into Odoo.

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ********************************************************************** -->
-<!--    Integrated Trade - Product module for Odoo                          -->
+<!--    Intercompany Trade - Product module for Odoo                          -->
 <!--    Copyright (C) 2014 -Today GRAP (http://www.grap.coop)               -->
 <!--    @author Sylvain LE GAL (https://twitter.com/legalsylvain)           -->
 
@@ -35,7 +35,7 @@
         <record id="view_product_intercompany_trade_catalog_tree" model="ir.ui.view">
             <field name="model">product.intercompany.trade.catalog</field>
             <field name="arch" type="xml">
-                <tree string="Integrated Trade - Products Catalog">
+                <tree string="Intercompany Trade - Products Catalog">
                     <field name="customer_product_tmpl_id"/>
                     <field name="supplier_sale_price"/>
                     <field name="supplier_product_uom"/>
@@ -54,7 +54,7 @@
         <record id="view_product_intercompany_trade_catalog_search" model="ir.ui.view">
             <field name="model">product.intercompany.trade.catalog</field>
             <field name="arch" type="xml">
-                <search string="Integrated Trade - Products Catalog">
+                <search string="Intercompany Trade - Products Catalog">
                    <field name="supplier_product_name" string="Supplier Product" filter_domain="['|',('supplier_product_name','ilike',self),('supplier_product_default_code','ilike',self)]"/>
                     <group expand="0" string="Group by...">
                         <filter string="Partner" domain="[]" context="{'group_by' : 'supplier_partner_id'}"/>
@@ -67,7 +67,7 @@
         <record id="view_intercompany_trade_wizard_link_product_form" model="ir.ui.view">
             <field name="model">intercompany.trade.wizard.link.product</field>
             <field name="arch" type="xml">
-                <form string="Integrated Trade - Link Product">
+                <form string="Intercompany Trade - Link Product">
                     <group>
                         <group string="Your Product">
                             <field name="customer_product_id" />

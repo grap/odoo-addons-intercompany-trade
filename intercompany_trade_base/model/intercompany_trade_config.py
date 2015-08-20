@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Base module for OpenERP
+#    Intercompany Trade - Base module for OpenERP
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -29,7 +29,7 @@ from openerp.tools.translate import _
 
 class intercompany_trade_config(Model):
     _name = 'intercompany.trade.config'
-    _description = 'Integrated Trade'
+    _description = 'Intercompany Trade'
     _order = 'customer_company_id, supplier_company_id'
 
     # Columns section
@@ -112,7 +112,7 @@ class intercompany_trade_config(Model):
         rc_obj = self.pool['res.company']
         rc = rc_obj.browse(cr, uid, company_id, context=context)
         return {
-            'name': rc.name + ' ' + _('(Integrated Trade)'),
+            'name': rc.name + ' ' + _('(Intercompany Trade)'),
             'street': rc.street,
             'street2': rc.street2,
             'city': rc.city,

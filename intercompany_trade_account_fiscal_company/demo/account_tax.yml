@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Integrated Trade - Account Fiscal Company module for Odoo
+#    Intercompany Trade - Account Fiscal Company module for Odoo
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -21,7 +21,7 @@
 ##############################################################################
 
 - !record {model: account.tax, id: intercompany_tradesale_vat_10_excluded}:
-    name: SALE VAT 10% Excluded (Integrated Trade)
+    name: SALE VAT 10% Excluded (Intercompany Trade)
     type_tax_use: sale
     type: percent
     amount: 0.1
@@ -29,7 +29,7 @@
     company_id: base_fiscal_company.company_fiscal_mother
 
 - !record {model: account.tax, id: intercompany_tradesale_vat_10_included}:
-    name: SALE VAT 10% Included (Integrated Trade)
+    name: SALE VAT 10% Included (Intercompany Trade)
     type_tax_use: sale
     type: percent
     amount: 0.1
@@ -44,7 +44,7 @@
 
 
 - !record {model: account.tax, id: intercompany_tradepurchase_vat_10_excluded}:
-    name: PURCHASE VAT 10% Excluded (Integrated Trade)
+    name: PURCHASE VAT 10% Excluded (Intercompany Trade)
     type_tax_use: purchase
     type: percent
     amount: 0.1
