@@ -1,0 +1,89 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* intercompany_trade_stock
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-21 09:13+0000\n"
+"PO-Revision-Date: 2015-08-21 09:13+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+
+#. module: intercompany_trade_stock
+#: field:stock.picking,intercompany_trade:0
+msgid "Intercompany Trade"
+msgstr "Transaction Inter Société"
+
+#. module: intercompany_trade_stock
+#: code:addons/intercompany_trade_stock/model/stock_invoice_onshipping.py:40
+#: code:addons/intercompany_trade_stock/model/stock_invoice_onshipping.py:47
+#: code:addons/intercompany_trade_stock/model/stock_picking.py:65
+#: code:addons/intercompany_trade_stock/model/stock_picking_in.py:38
+#: code:addons/intercompany_trade_stock/model/stock_picking_in.py:51
+#: code:addons/intercompany_trade_stock/model/stock_picking_out.py:38
+#: code:addons/intercompany_trade_stock/model/stock_picking_out.py:51
+#: code:addons/intercompany_trade_stock/model/stock_return_picking.py:38
+#, python-format
+msgid "Intercompany Trade - Unimplemented Feature!"
+msgstr "Transaction Inter Société - Fonctionnalité non implémentée !"
+
+#. module: intercompany_trade_stock
+#: field:stock.picking,intercompany_trade_picking_in_id:0
+msgid "Intercompany Trade Picking In"
+msgstr "Bon de Réception Inter Société"
+
+#. module: intercompany_trade_stock
+#: field:stock.picking,intercompany_trade_picking_out_id:0
+msgid "Intercompany Trade Picking Out"
+msgstr "Bon de Livraison Inter Société"
+
+#. module: intercompany_trade_stock
+#: field:stock.move,intercompany_trade_stock_move_id:0
+msgid "Intercompany Trade Stock Move"
+msgstr "Mouvement de stock Inter Société"
+
+#. module: intercompany_trade_stock
+#: code:addons/intercompany_trade_stock/model/stock_invoice_onshipping.py:48
+#, python-format
+msgid "You can not Invoice a Picking In that come from Intercompany Trade. Only Picking Out can be invoiced. Please ask to your supplier to invoice the Trade."
+msgstr "Vous ne pouvez pas facturer ce bon de réception qui provient d'une transaction Inter Société. Seulement les bons de livraison peuvent être facturés. Merci de demander à votre fournisseur de facturer la transaction."
+
+#. module: intercompany_trade_stock
+#: code:addons/intercompany_trade_stock/model/stock_invoice_onshipping.py:41
+#, python-format
+msgid "You can not Invoice many Pickings Out that come from Intercompany Trade."
+msgstr "Vous ne pouvez pas facturer plusieurs bon de livraison de transaction Inter Société en même temps."
+
+#. module: intercompany_trade_stock
+#: code:addons/intercompany_trade_stock/model/stock_picking_in.py:39
+#: code:addons/intercompany_trade_stock/model/stock_picking_out.py:39
+#, python-format
+msgid "You can not create a picking with a partner flagged as 'Intercompany Trade'."
+msgstr "Vous ne pouvez pas créer un bon de livraison ou de réception avec un partenaire de type 'Transaction Inter Société'."
+
+#. module: intercompany_trade_stock
+#: code:addons/intercompany_trade_stock/model/stock_picking.py:66
+#, python-format
+msgid "You can not duplicate a Picking that come from Intercompany Trade."
+msgstr "Vous ne pouvez pas dupliquer un bon de livraison ou de réception de type 'Transaction Inter Société'."
+
+#. module: intercompany_trade_stock
+#: code:addons/intercompany_trade_stock/model/stock_return_picking.py:39
+#, python-format
+msgid "You can not return a Picking that come from Intercompany Trade. Please make another Sale Order or Purchase Order."
+msgstr "Vous ne pouvez pas faire de retour sur un bon de livraison (ou de réception) de type 'Transaction Inter Société'. Merci de saisir une nouveau bon de commande."
+
+#. module: intercompany_trade_stock
+#: code:addons/intercompany_trade_stock/model/stock_picking_in.py:52
+#: code:addons/intercompany_trade_stock/model/stock_picking_out.py:52
+#, python-format
+msgid "You can not set a partner flagged as 'Intercompany Trade'."
+msgstr "Vous ne pouvez pas paramétrer un partenaire de type 'Transaction Inter Société'."
+
