@@ -72,7 +72,7 @@ class intercompany_trade_wizard_link_product(TransientModel):
             'product.product', 'Customer Product', required=True),
         'customer_product_tmpl_id': fields.related(
             'customer_product_id', 'product_tmpl_id', type='many2one',
-            relation='product.template', string='Customer Template',
+            relation='product.template', string='Customer Product',
             readonly=True),
         'supplier_product_id': fields.many2one(
             'product.product', 'Supplier Product',
@@ -114,10 +114,10 @@ class intercompany_trade_wizard_link_product(TransientModel):
             ], context=context)
             if len(pp_qty) != 1:
                 raise except_osv(
-                    _("Too Many Products for the Template!"),
+                    _("Too Many Variants for the Product!"),
                     _(
-                        """You can not link this Template %s because there"""
-                        """ are %d Products associated.""") % (
+                        """You can not link this product %s because there"""
+                        """ are %d Variants associated.""") % (
                         cus_pt.name, len(pp_qty)))
 
             # raise error if there is a product linked
@@ -127,11 +127,11 @@ class intercompany_trade_wizard_link_product(TransientModel):
             ], context=context)
             if len(pitc_ids) != 0:
                 raise except_osv(
-                    _("Duplicated Reference!"),
+                    _("Duplicated References!"),
                     _(
-                        """You can not link the Product Template %s because"""
+                        """You can not link the Product %s because"""
                         """ it is yet linked to another supplier product."""
-                        """ Please unlink the Product Template and try"""
+                        """ Please unlink the Product and try"""
                         """ again.""") % (cus_pt.name))
 
             # Raise an error if Unit doesn't match
