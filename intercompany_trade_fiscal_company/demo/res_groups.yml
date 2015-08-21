@@ -37,4 +37,5 @@
 
 - !record {model: res.groups, id: intercompany_trade_base.intercompany_trade_manager}:
     users:
+        - base.user_root
         - base_fiscal_company.user_accountant
