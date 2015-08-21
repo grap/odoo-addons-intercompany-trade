@@ -58,8 +58,6 @@ class AccountInvoiceLine(Model):
             create_account_invoice_line = False
 
         # Call Super: Create
-        print "AccountInvoiceLine::Create"
-        print vals
         res = super(AccountInvoiceLine, self).create(
             cr, uid, vals, context=context)
 

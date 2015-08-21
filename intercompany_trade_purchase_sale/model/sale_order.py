@@ -87,10 +87,6 @@ class sale_order(Model):
             line_ids = vals.get('order_line', False)
             vals.pop('order_line', None)
 
-        
-        print "uid : %s " % uid
-        print "name : %s " % self.pool['res.users'].browse(cr, uid, uid).name
-        print vals
         res = super(sale_order, self).create(
             cr, uid, vals, context=context)
 
