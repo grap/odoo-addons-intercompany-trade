@@ -72,7 +72,6 @@ Copyright, Author and Licence :
         'demo/stock_location.yml',
         'demo/stock_warehouse.yml',
         'demo/sale_shop.yml',
-        'demo/ir_values.xml',
         'demo/ir_values.yml',
     ],
     'auto_install': True,
