@@ -104,7 +104,7 @@ class AccountInvoice(Model):
             else:
                 raise except_osv(
                     _("Unimplemented Feature!"),
-                    _("""You can not change create an invoice %s with a"""
+                    _("""You can not create an invoice %s with a"""
                         """ partner flagged as Intercompany Trade. """ % (
                             ai.type)))
             rit = self._get_intercompany_trade_config(

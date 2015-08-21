@@ -34,11 +34,6 @@ class AccountInvoiceLine(Model):
             type='out_invoice', partner_id=False, fposition_id=False,
             price_unit=False, currency_id=False, context=None,
             company_id=None):
-        print "************* product_id_change"
-        print "cr %s ; uid %s" % (cr, uid)
-        print "product %s" % (product)
-        print "partner_id %s" %(partner_id)
-        print "type %s" %(type)
         rit_obj = self.pool['intercompany.trade.config']
         ai_obj = self.pool['account.invoice']
         rp_obj = self.pool['res.partner']
@@ -57,14 +52,16 @@ class AccountInvoiceLine(Model):
             rit = ai_obj._get_intercompany_trade_config(
                 cr, uid, partner_id, company_id, type,
                 context=context)
-            if res['value'].get('account_id', False):
-                res['value']['account_id'] = rit_obj.transcode_account_id(
-                    cr, uid, rit, res['value']['account_id'], context=context)
-        return res
 
-#                rit = ai_obj._get_intercompany_trade_config(
-#                cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
-#                context=context)
+            if rit.same_fiscal_mother_company:
+                # Manage Transcoded account
+                if res['value'].get('account_id', False):
+                    res['value']['account_id'] = rit_obj.transcode_account_id(
+                        cr, uid, rit, res['value']['account_id'],
+                        context=context)
+                # Remove VAT if it is a Trade between two company that belong
+                res['value']['invoice_line_tax_id'] = False
+        return res
 
 #    def _prepare_invoice_line(
 #            self, cr, uid, group, picking, move_line, invoice_id,

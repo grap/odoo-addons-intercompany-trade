@@ -79,8 +79,8 @@ class ResIntercompanyTrade(Model):
             help="""If this field is checked, the intercompany"""
             """ trade is realized between two fiscal child companies"""
             """ that have the same mother company. Special rules"""
-            """ willbe applied.\n"""
-            """ * VAT are deleted;"""
+            """ will be applied.\n"""
+            """ * VAT are deleted;\n"""
             """ * Sale and Purchase Accounts are updated using a"""
             """ transcoding table; """),
     }

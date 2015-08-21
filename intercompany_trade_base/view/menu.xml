@@ -45,8 +45,8 @@
 
 <!-- Model: intercompany.trade.config -->
         <menuitem id="menu_intercompany_trade"
-            parent="base.menu_res_company_global"
-            name="Intercompany Trade"
+            parent="menu_intercompany_trade_root"
+            name="Setting" groups="intercompany_trade_manager"
             sequence="25"/>
 
         <menuitem id="menu_intercompany_trade_config"

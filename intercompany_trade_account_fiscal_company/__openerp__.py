@@ -26,7 +26,7 @@
     'category': 'CIS',
     'description': """
 Manage specific intercompany trade for Cooperative
-================================================
+==================================================
 
 Features :
 ----------
@@ -52,6 +52,7 @@ Copyright, Author and Licence :
         'purchase',
         'sale',
         'stock',
+        'simple_tax_account',
     ],
     'data': [
         'security/ir_rule.xml',

@@ -24,7 +24,7 @@
         <record id="view_fiscal_company_transcoding_account_tree" model="ir.ui.view">
             <field name="model">fiscal.company.transcoding.account</field>
             <field name="arch" type="xml">
-                <tree string="Transcoding Account For Fiscal Company">
+                <tree string="Transcoding Account for Fiscal Company">
                     <field name="from_account_id"/>
                     <field name="to_account_id"/>
                     <field name="company_id" groups="base.group_multi_company"/>
@@ -35,7 +35,7 @@
         <record id="view_fiscal_company_transcoding_account_form" model="ir.ui.view">
             <field name="model">fiscal.company.transcoding.account</field>
             <field name="arch" type="xml">
-                <form string="Transcoding Account For Fiscal Company" version="7.0">
+                <form string="Transcoding Account for Fiscal Company" version="7.0">
                     <sheet>
                         <group col="4">
                             <field name="from_account_id"/>

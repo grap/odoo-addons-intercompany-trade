@@ -75,7 +75,7 @@ class FiscalCompanyTranscodingAccount(Model):
             ['company_id']),
         (
             _check_account_company_id,
-            """Error: You have to select account that belong to the"""
+            """Error: You have to select an account that belong to the"""
             """ selected Company.""",
             ['company_id', 'from_account_id', 'to_account_id']),
     ]
@@ -84,4 +84,4 @@ class FiscalCompanyTranscodingAccount(Model):
     _sql_constraints = [(
         'company_id_from_account_id_uniq',
         'unique(company_id, from_account_id)',
-        'An Account must only be to once time for a same company!')]
+        'An Account must only be transcoded once time for a same company!')]
