@@ -40,7 +40,7 @@ class stock_invoice_onshipping(TransientModel):
                     _("Intercompany Trade - Unimplemented Feature!"),
                     _(
                         """You can not Invoice many Pickings Out that come"""
-                        """  from Intercompany Trade."""))
+                        """ from Intercompany Trade."""))
             for sp in sp_lst:
                 if sp.type != 'out':
                     raise except_osv(
