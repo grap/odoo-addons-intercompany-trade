@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-20 15:07+0000\n"
-"PO-Revision-Date: 2015-08-20 15:07+0000\n"
+"POT-Creation-Date: 2015-08-20 15:39+0000\n"
+"PO-Revision-Date: 2015-08-20 15:39+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 #: code:addons/intercompany_trade_base/model/intercompany_trade_config.py:115
 #, python-format
 msgid "(Intercompany Trade)"
-msgstr "(Transaction Inter Sociétés)"
+msgstr "(Transaction Inter Société)"
 
 #. module: intercompany_trade_base
 #: code:addons/intercompany_trade_base/model/res_partner.py:57
@@ -65,10 +65,10 @@ msgid "Customer and Supplier company must be uniq !"
 msgstr "Les sociétés cliente et fournisseur doivent être uniques !"
 
 #. module: intercompany_trade_base
-#: model:ir.actions.act_window,name:intercompany_trade_base.action_res_partner_intercompany_tradecustomer
+#: model:ir.actions.act_window,name:intercompany_trade_base.action_res_partner_intercompany_trade_customer
 #: model:ir.ui.menu,name:intercompany_trade_base.menu_intercompany_trade_partner_customer
-msgid "Customers (Intercompany Trade)"
-msgstr "Customers (Intercompany Trade)"
+msgid "Customers"
+msgstr "Clients"
 
 #. module: intercompany_trade_base
 #: code:addons/intercompany_trade_base/model/intercompany_trade_config.py:189
@@ -80,7 +80,7 @@ msgstr "Erreur!"
 #: code:addons/intercompany_trade_base/model/res_partner.py:58
 #, python-format
 msgid "Error: You have no right to create or update a partner that is set as 'Intercompany Trade'"
-msgstr "Error: Vous n'avez pas le droit de créer ou de modifier un partenaire qui est marqué comme 'Transaction Inter Sociétés'"
+msgstr "Error: Vous n'avez pas le droit de créer ou de modifier un partenaire qui est marqué comme 'Transaction Inter Société'"
 
 #. module: intercompany_trade_base
 #: view:intercompany.trade.config:0
@@ -108,13 +108,12 @@ msgstr "Information dans la société fournisseur"
 #: model:ir.actions.act_window,name:intercompany_trade_base.action_intercompany_trade_config
 #: model:ir.model,name:intercompany_trade_base.model_intercompany_trade_config
 #: model:ir.module.category,name:intercompany_trade_base.intercompany_trade_category
-#: model:ir.ui.menu,name:intercompany_trade_base.menu_intercompany_trade
 #: model:ir.ui.menu,name:intercompany_trade_base.menu_intercompany_trade_config
 #: model:ir.ui.menu,name:intercompany_trade_base.menu_intercompany_trade_root
 #: field:res.partner,intercompany_trade:0
 #, python-format
 msgid "Intercompany Trade"
-msgstr "Transaction Inter Sociétés"
+msgstr "Transaction Inter Société"
 
 #. module: intercompany_trade_base
 #: model:res.groups,name:intercompany_trade_base.intercompany_trade_manager
@@ -151,7 +150,12 @@ msgstr "Selectionner la société qui peut vendre à l'autre."
 #. module: intercompany_trade_base
 #: model:ir.module.category,description:intercompany_trade_base.intercompany_trade_category
 msgid "Select the level of access of Intercompany Trade"
-msgstr "Selectionner le niveau d'accès pour les transactions inter sociétés"
+msgstr "Selectionner le niveau d'accès pour les transactions inter société"
+
+#. module: intercompany_trade_base
+#: model:ir.ui.menu,name:intercompany_trade_base.menu_intercompany_trade
+msgid "Setting"
+msgstr "Configuration"
 
 #. module: intercompany_trade_base
 #: field:intercompany.trade.config,supplier_company_id:0
@@ -171,18 +175,18 @@ msgstr "Utilisateur Fournisseur"
 #. module: intercompany_trade_base
 #: model:ir.actions.act_window,name:intercompany_trade_base.action_res_partner_intercompany_trade_supplier
 #: model:ir.ui.menu,name:intercompany_trade_base.menu_intercompany_trade_partner_supplier
-msgid "Suppliers (Intercompany Trade)"
-msgstr "Fournisseurs (Transaction Inter Sociétés)"
+msgid "Suppliers"
+msgstr "Fournisseurs"
 
 #. module: intercompany_trade_base
 #: model:res.groups,comment:intercompany_trade_base.intercompany_trade_manager
 msgid "The user can manage and set new Intercompany Trades"
-msgstr "L'utilisateur peut créer et gérer les transactions inter sociétés"
+msgstr "L'utilisateur peut créer et gérer les transactions inter société"
 
 #. module: intercompany_trade_base
 #: model:res.groups,comment:intercompany_trade_base.intercompany_trade_user
 msgid "The user can use the module Intercompany Trade"
-msgstr "L'utilisateur peut utiliser le module de transactions inter sociétés"
+msgstr "L'utilisateur peut utiliser le module de transactions inter société"
 
 #. module: intercompany_trade_base
 #: help:intercompany.trade.config,customer_user_id:0
@@ -219,5 +223,5 @@ msgstr "Utilisateur"
 #: code:addons/intercompany_trade_base/model/intercompany_trade_config.py:190
 #, python-format
 msgid "You can not change customer or supplier company.If you want to do so, please disable this intercompany trade and create a new one."
-msgstr "Vous ne pouvez pas changer de société cliente ou fournisseur. Si vous voulez faire cela, merci de désactiver la transaction inter sociétés et d'en créer une nouvelle."
+msgstr "Vous ne pouvez pas changer de société cliente ou fournisseur. Si vous voulez faire cela, merci de désactiver la transaction inter société et d'en créer une nouvelle."
 
