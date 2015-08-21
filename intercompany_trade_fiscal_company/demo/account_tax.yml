@@ -39,7 +39,7 @@
 - !record {model: account.tax, id: intercompany_trade_sale_vat_10_excluded}:
     simple_tax_id: intercompany_trade_sale_vat_10_included
 
-- !record {model: account.tax, id: intercompany_tradesale_vat_10_included}:
+- !record {model: account.tax, id: intercompany_trade_sale_vat_10_included}:
     simple_tax_id: intercompany_trade_sale_vat_10_excluded
 
 
