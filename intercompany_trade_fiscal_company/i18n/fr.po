@@ -1,0 +1,85 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* intercompany_trade_account_fiscal_company
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-21 10:57+0000\n"
+"PO-Revision-Date: 2015-08-21 10:57+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: intercompany_trade_account_fiscal_company
+#: sql_constraint:fiscal.company.transcoding.account:0
+msgid "An Account must only be to once time for a same company!"
+msgstr "Un compte comptable peut seulement être transcodé une seule fois pour une même société !"
+
+#. module: intercompany_trade_account_fiscal_company
+#: constraint:fiscal.company.transcoding.account:0
+msgid "Error: Transcoding Account is only possible for fiscal mother company."
+msgstr "Erreur : Le transcodage de compte n'est possible que pour les sociétés CAE."
+
+#. module: intercompany_trade_account_fiscal_company
+#: constraint:fiscal.company.transcoding.account:0
+msgid "Error: You have to select an account that belong to the selected Company."
+msgstr "Erreur : Vous devez sélectionner un compte qui appartient à la société sélectionnée."
+
+#. module: intercompany_trade_account_fiscal_company
+#: field:fiscal.company.transcoding.account,company_id:0
+msgid "Fiscal Mother Company"
+msgstr "Société CAE"
+
+#. module: intercompany_trade_account_fiscal_company
+#: field:fiscal.company.transcoding.account,from_account_id:0
+msgid "From Account"
+msgstr "Compte de départ"
+
+#. module: intercompany_trade_account_fiscal_company
+#: help:intercompany.trade.config,same_fiscal_mother_company:0
+msgid "If this field is checked, the intercompany trade is realized between two fiscal child companies that have the same mother company. Special rules will be applied.\n"
+" * VAT are deleted;\n * Sale and Purchase Accounts are updated using a transcoding table; "
+msgstr "Si ce champ est coché, la transaction Inter Société est réalisée entre deux sociétés d'une même CAE. Des règles spéciales seront appliquée :.\n"
+" * Les TVA sont supprimées; * Les comptes comptables d'achat et de vente sont mis à jour en utilisant une table de transodage ;"
+
+#. module: intercompany_trade_account_fiscal_company
+#: code:addons/intercompany_trade_account_fiscal_company/model/intercompany_trade_config.py:48
+#, python-format
+msgid "Missing Setting!"
+msgstr "Paramétrage manquant !"
+
+#. module: intercompany_trade_account_fiscal_company
+#: field:intercompany.trade.config,same_fiscal_mother_company:0
+msgid "Same Fiscal Mother Company"
+msgstr "Même Société CAE"
+
+#. module: intercompany_trade_account_fiscal_company
+#: field:fiscal.company.transcoding.account,to_account_id:0
+msgid "To Account"
+msgstr "Compte d'arrivé"
+
+#. module: intercompany_trade_account_fiscal_company
+#: view:fiscal.company.transcoding.account:0
+#: model:ir.actions.act_window,name:intercompany_trade_account_fiscal_company.action_fiscal_company_transcoding_account
+#: model:ir.ui.menu,name:intercompany_trade_account_fiscal_company.menu_fiscal_company_transcoding_account
+msgid "Transcoding Account for Fiscal Company"
+msgstr "Compte transcodé pour CAE"
+
+#. module: intercompany_trade_account_fiscal_company
+#: code:addons/intercompany_trade_account_fiscal_company/model/intercompany_trade_config.py:52
+#, python-format
+msgid "Unable to sell or purchase a product because the following account is not transcoded for the company %s. \n"
+"\n"
+" %s - %s\n"
+"\n"
+".Please ask to your accountant to add a setting for this account."
+msgstr "Impossible de vendre ou d'acheter un produit car le compte suivant n'a pas été transcodé pour la société %s. \n"
+"\n"
+" %s - %s\n"
+"\n"
+".Merci de demander à votre comptable d'ajouter un paramétrage pour ce compte."
