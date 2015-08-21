@@ -35,10 +35,12 @@ class IntercompanyTradeWizardLinkProduct(TransientModel):
     _columns = {
         'supplier_sale_price_vat_excl': fields.float(
             'Supplier Sale Price VAT Excluded', readonly=True,
-            digits_compute=dp.get_precision('Intercompany Trade Product Price')),
+            digits_compute=dp.get_precision(
+                'Intercompany Trade Product Price')),
         'supplier_sale_price_vat_incl': fields.float(
             'Supplier Sale Price VAT Included', readonly=True,
-            digits_compute=dp.get_precision('Intercompany Trade Product Price')),
+            digits_compute=dp.get_precision(
+                'Intercompany Trade Product Price')),
     }
 
     # Button Section

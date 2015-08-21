@@ -39,7 +39,8 @@ class Test(TransactionCase):
         self.sol_obj = self.registry('sale.order.line')
         self.rit_obj = self.registry('intercompany.trade.config')
         self.pitc_obj = self.registry('product.intercompany.trade.catalog')
-        self.itwlp_obj = self.registry('intercompany.trade.wizard.link.product')
+        self.itwlp_obj = self.registry(
+            'intercompany.trade.wizard.link.product')
 
         # Get ids from xml_ids
         self.rit_id = self.imd_obj.get_object_reference(

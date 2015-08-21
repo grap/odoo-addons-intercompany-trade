@@ -52,8 +52,8 @@ class AccountInvoiceLine(Model):
         if vals.get('invoice_id', False):
             ai = ai_obj.browse(cr, uid, vals['invoice_id'], context=context)
             create_account_invoice_line = (
-                not context.get('intercompany_trade_do_not_propagate', False) and
-                ai.intercompany_trade)
+                not context.get('intercompany_trade_do_not_propagate', False)
+                and ai.intercompany_trade)
         else:
             create_account_invoice_line = False
 
@@ -98,9 +98,10 @@ class AccountInvoiceLine(Model):
                 'partner_id': other_partner_id,
                 'quantity': vals['quantity'],
                 'uos_id': vals['uos_id'],
-                'invoice_line_tax_id':ail_other_vals['invoice_line_tax_id']\
-                    and [[6, False, ail_other_vals['invoice_line_tax_id']]]\
-                    or False,
+                'invoice_line_tax_id': (
+                    ail_other_vals['invoice_line_tax_id']
+                    and [[6, False, ail_other_vals['invoice_line_tax_id']]]
+                    or False),
                 })
 
             ail_other_id = self.create(
@@ -131,7 +132,8 @@ class AccountInvoiceLine(Model):
             ai_obj.button_reset_taxes(
                 cr, uid, [ai.id], context=context)
             ai_obj.button_reset_taxes(
-                cr, other_user_id, [ai.intercompany_trade_account_invoice_id.id],
+                cr, other_user_id,
+                [ai.intercompany_trade_account_invoice_id.id],
                 context=context)
 
         return res
@@ -173,8 +175,8 @@ class AccountInvoiceLine(Model):
                     if 'discount' in vals.keys():
                         raise except_osv(
                             _("Error!"),
-                            _("""You can not set a discount for intercompany trade"""
-                                """ Trade. Please change the Unit Price"""
+                            _("""You can not set a discount for intercompany"""
+                                """ trade. Please change the Unit Price"""
                                 """ of %s.""" % (ail.product_id.name)))
                     if 'uos_id' in vals.keys():
                         raise except_osv(

@@ -40,7 +40,8 @@ class AccountInvoice(Model):
     # Columns Section
     _columns = {
         'intercompany_trade': fields.function(
-            _get_intercompany_trade, type='boolean', string='Intercompany Trade',
+            _get_intercompany_trade, type='boolean',
+            string='Intercompany Trade',
             store={'account.invoice': (
                 lambda self, cr, uid, ids, context=None: ids,
                 [

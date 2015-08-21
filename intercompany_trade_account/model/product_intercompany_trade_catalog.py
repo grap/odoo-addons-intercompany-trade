@@ -30,8 +30,9 @@ class ProductIntercompanyTradeCatalog(Model):
 
     # Fields Function Section
     def _get_supplier_price(self, cr, uid, ids, name, arg, context=None):
-        return super(ProductIntercompanyTradeCatalog, self)._get_supplier_price(
-            cr, uid, ids, name, arg, context=context)
+        return super(
+            ProductIntercompanyTradeCatalog, self)._get_supplier_price(
+                cr, uid, ids, name, arg, context=context)
 
     # Column Section
     _columns = {
@@ -39,10 +40,12 @@ class ProductIntercompanyTradeCatalog(Model):
             _get_supplier_price,
             string='Supplier Sale Price VAT Excluded',
             multi='supplier_price', type='float',
-            digits_compute=dp.get_precision('Intercompany Trade Product Price')),
+            digits_compute=dp.get_precision(
+                'Intercompany Trade Product Price')),
         'supplier_sale_price_vat_incl': fields.function(
             _get_supplier_price,
             string='Supplier Sale Price VAT Included',
             multi='supplier_price', type='float',
-            digits_compute=dp.get_precision('Intercompany Trade Product Price')),
+            digits_compute=dp.get_precision(
+                'Intercompany Trade Product Price')),
     }

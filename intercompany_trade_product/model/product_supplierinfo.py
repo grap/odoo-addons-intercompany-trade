@@ -42,7 +42,8 @@ class product_supplierinfo(Model):
     _columns = {
         'intercompany_trade_price': fields.function(
             _get_intercompany_trade_price, string='Unit Price', type='float',
-            digits_compute=dp.get_precision('Intercompany Trade Product Price'),
+            digits_compute=dp.get_precision(
+                'Intercompany Trade Product Price'),
             store={'product.supplierinfo': (
                 lambda self, cr, uid, ids, context=None: ids,
                 [

@@ -85,7 +85,8 @@ class intercompany_trade_wizard_link_product(TransientModel):
             'Supplier Product Name', readonly=True),
         'supplier_sale_price': fields.float(
             string='Supplier Sale Price', readonly=True,
-            digits_compute=dp.get_precision('Intercompany Trade Product Price')),
+            digits_compute=dp.get_precision(
+                'Intercompany Trade Product Price')),
     }
 
     # Button Section

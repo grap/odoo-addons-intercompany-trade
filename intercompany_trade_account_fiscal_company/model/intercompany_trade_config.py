@@ -25,6 +25,7 @@ from openerp.osv.orm import Model
 from openerp.osv.osv import except_osv
 from openerp.tools.translate import _
 
+
 class ResIntercompanyTrade(Model):
     _inherit = 'intercompany.trade.config'
 

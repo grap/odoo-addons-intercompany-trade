@@ -38,7 +38,8 @@ class Test(TransactionCase):
         self.rp_obj = self.registry('res.partner')
         self.pitc_obj = self.registry('product.intercompany.trade.catalog')
         self.pp_obj = self.registry('product.product')
-        self.itwlp_obj = self.registry('intercompany.trade.wizard.link.product')
+        self.itwlp_obj = self.registry(
+            'intercompany.trade.wizard.link.product')
 
         # Get ids from xml_ids
         self.rit_id = self.imd_obj.get_object_reference(
@@ -94,15 +95,15 @@ class Test(TransactionCase):
             pp_customer_apple.seller_ids[0].intercompany_trade_price,
             pp_supplier_banana.list_price,
             """Associate a Customer Product to a Supplier Product must"""
-            """ set as intercompany trade price in customer database the sale"""
-            """ price of the supplier product.""")
+            """ set as intercompany trade price in customer database the"""
+            """ sale price of the supplier product.""")
 
         self.assertEqual(
             pp_customer_apple.seller_ids[0].pricelist_ids[0].price,
             pp_supplier_banana.list_price,
             """Associate a Customer Product to a Supplier Product must"""
-            """ set as intercompany trade price in customer database the sale"""
-            """ price of the supplier product in items list.""")
+            """ set as intercompany trade price in customer database the"""
+            """ sale price of the supplier product in items list.""")
 
         # Reassociate with correct product (customer apple - supplier apple)
         # Must Fail

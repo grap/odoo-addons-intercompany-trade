@@ -28,7 +28,6 @@ from openerp.osv.orm import Model
 class intercompany_trade_config(Model):
     _inherit = 'intercompany.trade.config'
 
-
     def _get_intercompany_trade_from_sale_pricelist(
             self, cr, uid, ids, context=None):
         """Return Intercompany Trade ids depending on changes of Sale

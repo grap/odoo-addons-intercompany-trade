@@ -36,7 +36,8 @@ class Test(TransactionCase):
 
         # Get ids from xml_ids
         self.intercompany_trade_id = self.imd_obj.get_object_reference(
-            self.cr, self.uid, 'intercompany_trade_base', 'intercompany_trade')[1]
+            self.cr, self.uid, 'intercompany_trade_base',
+            'intercompany_trade')[1]
         self.customer_company_id = self.imd_obj.get_object_reference(
             self.cr, self.uid,
             'intercompany_trade_base', 'customer_company')[1]
@@ -59,11 +60,11 @@ class Test(TransactionCase):
 
         self.assertEqual(
             old_rit.customer_partner_id.id, new_rit.supplier_partner_id.id,
-            "Create a Reverse Intercompany Trade must reuse existing customer.")
+            "Create a Reverse Intercompany Trade must reuse customer.")
 
         self.assertEqual(
             old_rit.supplier_partner_id.id, new_rit.customer_partner_id.id,
-            "Create a Reverse Intercompany Trade must reuse existing supplier.")
+            "Create a Reverse Intercompany Trade must reuse supplier.")
 
     # Test Section
     def test_02_update_company_update_partner(self):

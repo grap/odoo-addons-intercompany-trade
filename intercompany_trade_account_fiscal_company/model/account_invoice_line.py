@@ -28,7 +28,7 @@ from openerp.osv.orm import Model
 
 class AccountInvoiceLine(Model):
     _inherit = 'account.invoice.line'
-    
+
     def product_id_change(
             self, cr, uid, ids, product, uom_id, qty=0, name='',
             type='out_invoice', partner_id=False, fposition_id=False,
