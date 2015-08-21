@@ -29,7 +29,7 @@
 
 - !record {model: res.users, id: customer_user}:
     name: Intercompany Trade Customer User
-    login: intercompany_tradecustomer
+    login: intercompany_trade_customer
     password: demo
     company_id: customer_company
     company_ids:
@@ -37,7 +37,7 @@
 
 - !record {model: res.users, id: supplier_user}:
     name: Intercompany Trade Supplier User
-    login: intercompany_tradesupplier
+    login: intercompany_trade_supplier
     password: demo
     company_id: supplier_company
     company_ids:

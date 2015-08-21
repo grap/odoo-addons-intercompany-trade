@@ -33,6 +33,10 @@
         - customer_user
         - supplier_user
 
+- !record {model: res.groups, id: intercompany_trade_manager}:
+    users:
+        - base.user_root
+
 - !record {model: res.groups, id: base.group_sale_manager}:
     users:
         - base.user_root

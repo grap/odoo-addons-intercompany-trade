@@ -61,10 +61,11 @@ class ResPartner(Model):
                             """ 'Intercompany Trade'"""))
 
     def create(self, cr, uid, vals, context=None):
-        self._check_intercompany_trade_access(
-            cr, uid, [0], vals.keys(), context=context)
-        return super(ResPartner, self).create(
+        res = super(ResPartner, self).create(
             cr, uid, vals, context=context)
+        self._check_intercompany_trade_access(
+            cr, uid, [res], vals.keys(), context=context)
+        return res
 
     def write(self, cr, uid, ids, vals, context=None):
         self._check_intercompany_trade_access(
