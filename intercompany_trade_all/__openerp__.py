@@ -42,6 +42,6 @@ Copyright, Authors and Licence:
         'intercompany_trade_stock',
         'intercompany_trade_purchase_sale',
         'intercompany_trade_account',
-        'intercompany_trade_account_fiscal_company',
+        'intercompany_trade_fiscal_company',
     ],
 }
