@@ -58,6 +58,8 @@ class AccountInvoiceLine(Model):
             create_account_invoice_line = False
 
         # Call Super: Create
+        print "AccountInvoiceLine::Create"
+        print vals
         res = super(AccountInvoiceLine, self).create(
             cr, uid, vals, context=context)
 
@@ -98,8 +100,9 @@ class AccountInvoiceLine(Model):
                 'partner_id': other_partner_id,
                 'quantity': vals['quantity'],
                 'uos_id': vals['uos_id'],
-                'invoice_line_tax_id': [[
-                    6, False, ail_other_vals['invoice_line_tax_id']]],
+                'invoice_line_tax_id':ail_other_vals['invoice_line_tax_id']\
+                    and [[6, False, ail_other_vals['invoice_line_tax_id']]]\
+                    or False,
                 })
 
             ail_other_id = self.create(

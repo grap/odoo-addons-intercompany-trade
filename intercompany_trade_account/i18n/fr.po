@@ -1,0 +1,196 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* intercompany_trade_account
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-20 16:14+0000\n"
+"PO-Revision-Date: 2015-08-20 16:14+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:168
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:174
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:180
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:186
+#, python-format
+msgid "Error!"
+msgstr "Erreur !"
+
+#. module: intercompany_trade_account
+#: view:account.invoice:0
+#: field:account.invoice,intercompany_trade:0
+#: field:account.invoice.line,intercompany_trade:0
+msgid "Intercompany Trade"
+msgstr "Transaction Inter Société"
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/model/account_invoice.py:159
+#, python-format
+msgid "Intercompany Trade - Unimplemented Feature!"
+msgstr "Transaction Inter Société - Fonction non implémentée !"
+
+#. module: intercompany_trade_account
+#: field:account.invoice,intercompany_trade_account_invoice_id:0
+msgid "Intercompany Trade Account Invoice"
+msgstr "Facture de Transaction Inter Société"
+
+#. module: intercompany_trade_account
+#: field:account.invoice.line,intercompany_trade_account_invoice_line_id:0
+msgid "Intercompany Trade Account Invoice Line"
+msgstr "Ligne de facture de Transaction Inter Société"
+
+#. module: intercompany_trade_account
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_account.model_account_invoice
+#, python-format
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: intercompany_trade_account
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_account.model_account_invoice_line
+#, python-format
+msgid "Invoice Line"
+msgstr "Lignes de facture"
+
+#. module: intercompany_trade_account
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_account.model_res_partner
+#, python-format
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: intercompany_trade_account
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_account.model_product_pricelist
+#, python-format
+msgid "Pricelist"
+msgstr "Liste de prix"
+
+#. module: intercompany_trade_account
+#: field:intercompany.trade.wizard.link.product,supplier_sale_price_vat_excl:0
+#: field:product.intercompany.trade.catalog,supplier_sale_price_vat_excl:0
+msgid "Supplier Sale Price VAT Excluded"
+msgstr "Prix de Vente fournisseur HT"
+
+#. module: intercompany_trade_account
+#: field:intercompany.trade.wizard.link.product,supplier_sale_price_vat_incl:0
+#: field:product.intercompany.trade.catalog,supplier_sale_price_vat_incl:0
+msgid "Supplier Sale Price VAT Included"
+msgstr "Prix de Vente fournisseur TTC"
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/model/custom_tools.py:40
+#: code:addons/intercompany_trade_account/model/custom_tools.py:75
+#, python-format
+msgid "Taxes Mismatch!"
+msgstr "Taxes incompatibles !"
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/model/custom_tools.py:49
+#: code:addons/intercompany_trade_account/model/custom_tools.py:60
+#: code:addons/intercompany_trade_account/model/custom_tools.py:67
+#, python-format
+msgid "Too Complex Taxes Setting!"
+msgstr "Paramètre de taxes trop complexe !"
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/model/account_invoice.py:106
+#, python-format
+msgid "Unimplemented Feature!"
+msgstr "Fonctionnalité non implémentée !"
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/model/account_invoice.py:108
+#, python-format
+msgid "You can not change create an invoice %s with a partner flagged as Intercompany Trade. "
+msgstr "You can not change create an invoice %s with a partner flagged as Intercompany Trade. "
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:188
+#, python-format
+msgid "You can not change the Unit Price of '%s'. Please ask to your supplier."
+msgstr "You can not change the Unit Price of '%s'. Please ask to your supplier."
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:182
+#, python-format
+msgid "You can not change the UoM of the Product %s."
+msgstr "You can not change the UoM of the Product %s."
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:171
+#, python-format
+msgid "You can not change the product. %sPlease remove this line and choose a a new one."
+msgstr "You can not change the product. %sPlease remove this line and choose a a new one."
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/model/account_invoice.py:160
+#, python-format
+msgid "You can not duplicate a Invoice that come from Intercompany Trade."
+msgstr "You can not duplicate a Invoice that come from Intercompany Trade."
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/model/custom_tools.py:41
+#, python-format
+msgid "You can not link Supplier Product that has %d Sale Tax(es) with this Customer Product that has %d Supplier Taxes."
+msgstr "You can not link Supplier Product that has %d Sale Tax(es) with this Customer Product that has %d Supplier Taxes."
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/model/custom_tools.py:76
+#, python-format
+msgid "You can not link this Customer Product to this Supplier Product because taxes values doesn't match:\n"
+"  Customer Tax value: %s %%;\n"
+"   Supplier Tax value: %s %%;\n"
+" "
+msgstr "You can not link this Customer Product to this Supplier Product because taxes values doesn't match:\n"
+"  Customer Tax value: %s %%;\n"
+"   Supplier Tax value: %s %%;\n"
+" "
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/model/custom_tools.py:68
+#, python-format
+msgid "You can not link this Customer Product. The tax  setting of %s is %s. (Only 'percent' is accepted)"
+msgstr "You can not link this Customer Product. The tax  setting of %s is %s. (Only 'percent' is accepted)"
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/model/custom_tools.py:50
+#, python-format
+msgid "You can not link this Supplier Product. It has more than 1 Sale Taxes (%d)"
+msgstr "You can not link this Supplier Product. It has more than 1 Sale Taxes (%d)"
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/model/custom_tools.py:61
+#, python-format
+msgid "You can not link this Supplier Product. The tax  setting of %s is %s. (Only 'percent' is accepted)"
+msgstr "You can not link this Supplier Product. The tax  setting of %s is %s. (Only 'percent' is accepted)"
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:177
+#, python-format
+msgid "You can not set a discount for intercompany trade Trade. Please change the Unit Price of %s."
+msgstr "You can not set a discount for intercompany trade Trade. Please change the Unit Price of %s."
+
+#. module: intercompany_trade_account
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_account.model_intercompany_trade_wizard_link_product
+#, python-format
+msgid "intercompany.trade.wizard.link.product"
+msgstr "intercompany.trade.wizard.link.product"
+
+#. module: intercompany_trade_account
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_account.model_product_intercompany_trade_catalog
+#, python-format
+msgid "product.intercompany.trade.catalog"
+msgstr "product.intercompany.trade.catalog"
+
