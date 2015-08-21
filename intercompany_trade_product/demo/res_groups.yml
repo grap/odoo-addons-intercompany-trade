@@ -20,6 +20,10 @@
 #
 ##############################################################################
 
+- !record {model: res.groups, id: intercompany_trade_base.intercompany_trade_manager}:
+    users:
+        - base.user_root
+
 - !record {model: res.groups, id: product.group_sale_pricelist}:
     users:
         - base.user_root
