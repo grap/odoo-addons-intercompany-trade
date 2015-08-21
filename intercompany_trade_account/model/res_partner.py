@@ -27,7 +27,8 @@ class ResPartner(Model):
     _inherit = 'res.partner'
 
     def _set_existing_simple_tax_type(self, cr, uid, context=None):
-        """Initialize all intercompany trade partners with correct VAT configuration"""
+        """Initialize all intercompany trade partners with correct VAT
+        configuration"""
         rp_ids = self.search(cr, uid, [
             ('intercompany_trade', '=', True),
             ('simple_tax_type', '!=', 'excluded'),
