@@ -80,7 +80,8 @@ class ProductIntercompanyTradeCatalog(Model):
         'supplier_sale_price': fields.function(
             _get_supplier_price, string='Supplier Sale Price',
             multi='supplier_price', type='float',
-            digits_compute=dp.get_precision('Intercompany Trade Product Price')),
+            digits_compute=dp.get_precision(
+                'Intercompany Trade Product Price')),
         'customer_purchase_price': fields.float(
             'Customer Purchase Price', readonly=True),
         'sale_pricelist_id': fields.many2one(
