@@ -161,8 +161,8 @@ class sale_order(Model):
                             _("""You can not change Lines of a Sent Sale"""
                                 """ Order because of Intercompany Trade"""
                                 """ Rules. Please ask to your Customer to"""
-                                """  cancel the Purchase Order and create a"""
-                                """  new one, duplicating it."""))
+                                """ cancel the Purchase Order and create a"""
+                                """ new one, duplicating it."""))
         return res
 
     def unlink(self, cr, uid, ids, context=None):

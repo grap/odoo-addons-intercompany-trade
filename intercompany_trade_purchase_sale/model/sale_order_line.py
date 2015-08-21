@@ -145,7 +145,7 @@ class sale_order_line(Model):
                         raise except_osv(
                             _("Error!"),
                             _("""You can not change the product '%s'.\n"""
-                                """ Please remove this line and choose a"""
+                                """ Please remove this line and create"""
                                 """ a new one.""" % (sol.product_id.name)))
                     if 'discount' in vals.keys():
                         raise except_osv(

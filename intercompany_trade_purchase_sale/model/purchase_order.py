@@ -148,7 +148,7 @@ class purchase_order(Model):
                     if 'partner_id' in vals:
                         raise except_osv(
                             _("Error!"),
-                            _("""You can not change the customer because"""
+                            _("""You can not change the supplier because"""
                                 """ of Intercompany Trade Rules. Please"""
                                 """ create a new one Purchase Order."""))
                     # Disable possibility to change lines if the Purchase
@@ -160,7 +160,7 @@ class purchase_order(Model):
                             _("""You can not change Lines of a Sent Purchase"""
                                 """ Order because of Intercompany Trade"""
                                 """ Rules. Please cancel this Purchase Order"""
-                                """  and create a new one, duplicating it."""))
+                                """ and create a new one, duplicating it."""))
                     rit = rit_obj._get_intercompany_trade_by_partner_company(
                         cr, uid, po.partner_id.id, po.company_id.id,
                         'in', context=context)
