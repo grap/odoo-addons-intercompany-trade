@@ -26,10 +26,10 @@ from openerp.osv.orm import Model
 class PurchaseOrderLine(Model):
     _inherit = 'purchase.order.line'
 
-    def onchange_product_id(self, cr, uid, ids, pricelist_id, product_id, qty,
+    def onchange_product_id(
+            self, cr, uid, ids, pricelist_id, product_id, qty,
             uom_id, partner_id, date_order=False, fiscal_position_id=False,
             date_planned=False, name=False, price_unit=False, context=None):
-        rit_obj = self.pool['intercompany.trade.config']
         ai_obj = self.pool['account.invoice']
         rp_obj = self.pool['res.partner']
         ru_obj = self.pool['res.users']
