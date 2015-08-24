@@ -30,7 +30,8 @@ Manage specific intercompany trade for Cooperative
 
 Features :
 ----------
-    * TOWRITE;
+    * Remove VAT between 2 child companies of a same Fiscal Mother Company;
+    * Manage transcoded account for Fiscal Trade;
 
 TODO :
 ------

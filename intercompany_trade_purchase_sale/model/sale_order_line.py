@@ -85,7 +85,6 @@ class sale_order_line(Model):
                 self.pool, cr, uid, rit, vals['product_id'], 'out',
                 context=context)
 
-#            import pdb; pdb.set_trace()
             pol_vals = pol_obj.onchange_product_id(
                 cr, rit.customer_user_id.id, False,
                 rit.purchase_pricelist_id.id,
