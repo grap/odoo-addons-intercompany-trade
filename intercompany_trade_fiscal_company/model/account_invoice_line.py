@@ -12,7 +12,7 @@
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
@@ -50,8 +50,7 @@ class AccountInvoiceLine(Model):
             company_id = ru_obj.browse(
                 cr, uid, uid, context=context).company_id.id
             rit = ai_obj._get_intercompany_trade_config(
-                cr, uid, partner_id, company_id, type,
-                context=context)
+                cr, uid, partner_id, company_id, type, context=context)
 
             if rit.same_fiscal_mother_company:
                 # Manage Transcoded account
@@ -59,7 +58,9 @@ class AccountInvoiceLine(Model):
                     res['value']['account_id'] = rit_obj.transcode_account_id(
                         cr, uid, rit, res['value']['account_id'],
                         context=context)
+
                 # Remove VAT if it is a Trade between two company that belong
+                # to the same fiscal mother company
                 res['value']['invoice_line_tax_id'] = False
         return res
 
