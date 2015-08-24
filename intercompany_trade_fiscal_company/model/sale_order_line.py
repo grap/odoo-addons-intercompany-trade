@@ -26,11 +26,11 @@ from openerp.osv.orm import Model
 class SaleOrderLine(Model):
     _inherit = 'sale.order.line'
 
-    def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
+    def product_id_change(
+            self, cr, uid, ids, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
             lang=False, update_tax=True, date_order=False, packaging=False,
             fiscal_position=False, flag=False, context=None):
-        rit_obj = self.pool['intercompany.trade.config']
         ai_obj = self.pool['account.invoice']
         rp_obj = self.pool['res.partner']
         ru_obj = self.pool['res.users']
