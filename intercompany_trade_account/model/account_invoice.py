@@ -74,8 +74,8 @@ class AccountInvoice(Model):
         else:
             raise except_osv(
                 _("Incorrect Call!"),
-                _("""'%s' is not a a valid value for get intercompany"""
-                """ function. """ % (type)))
+                _("'%s' is not a a valid value for get intercompany"
+                    " function." % (type)))
         return rit_obj.browse(cr, uid, rit_id, context=context)
 
     # Overload Section
