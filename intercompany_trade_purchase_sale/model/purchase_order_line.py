@@ -87,9 +87,10 @@ class purchase_order_line(Model):
                 'product_id': other_product_info['product_id'],
                 'delay': 0,
                 'discount': 0,
-                'tax_id': [[
-                    6, False, sol_vals['tax_id']]],
-                'product_uom_qty': sol_vals['product_uos_qty'],
+                'tax_id': (
+                    sol_vals['tax_id']
+                    and [[6, False, sol_vals['tax_id']]]
+                    or False),
                 'product_uom': (
                     sol_vals['product_uos'] and
                     sol_vals['product_uos'] or vals['product_uom']),

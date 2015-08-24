@@ -103,7 +103,10 @@ class sale_order_line(Model):
                 'product_uom': sol.product_uom.id,
                 'intercompany_trade_sale_order_line_id': sol.id,
                 'date_planned': datetime.now().strftime('%d-%m-%Y'),
-                'taxes_id': [[6, False, pol_vals['taxes_id']]],
+                'taxes_id': (
+                    pol_vals['taxes_id']
+                    and [[6, False, pol_vals['taxes_id']]]
+                    or False),
             })
 
             pol_id = pol_obj.create(
