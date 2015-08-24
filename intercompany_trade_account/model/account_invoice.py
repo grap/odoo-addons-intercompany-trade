@@ -61,12 +61,12 @@ class AccountInvoice(Model):
             self, cr, uid, partner_id, company_id, type,
             context=None):
         rit_obj = self.pool['intercompany.trade.config']
-        if type in ('in_invoice', 'in_refund'):
+        if type in ('in', 'in_invoice', 'in_refund'):
             rit_id = rit_obj.search(cr, uid, [
                 ('supplier_partner_id', '=', partner_id),
                 ('customer_company_id', '=', company_id),
             ], context=context)[0]
-        elif type in ('out_invoice', 'out_refund'):
+        elif type in ('out', 'out_invoice', 'out_refund'):
             rit_id = rit_obj.search(cr, uid, [
                 ('customer_partner_id', '=', partner_id),
                 ('supplier_company_id', '=', company_id),
