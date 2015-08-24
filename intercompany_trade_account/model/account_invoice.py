@@ -66,11 +66,16 @@ class AccountInvoice(Model):
                 ('supplier_partner_id', '=', partner_id),
                 ('customer_company_id', '=', company_id),
             ], context=context)[0]
-        else:
+        elif type in ('out_invoice', 'out_refund'):
             rit_id = rit_obj.search(cr, uid, [
                 ('customer_partner_id', '=', partner_id),
                 ('supplier_company_id', '=', company_id),
             ], context=context)[0]
+        else:
+            raise except_osv(
+                _("Incorrect Call!"),
+                _("""'%s' is not a a valid value for get intercompany"""
+                """ function. """ % (type)))
         return rit_obj.browse(cr, uid, rit_id, context=context)
 
     # Overload Section
