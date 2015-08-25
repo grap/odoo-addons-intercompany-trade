@@ -30,6 +30,4 @@
     name: Manager
     implied_ids:
         - intercompany_trade_user
-    users:
-        - base.user_root
     comment: The user can manage and set new Intercompany Trades
