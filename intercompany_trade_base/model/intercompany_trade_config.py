@@ -42,6 +42,7 @@ class intercompany_trade_config(Model):
             """the trading between the two company without deleting it."""),
         'customer_user_id': fields.many2one(
             'res.users', 'Customer User', required=True,
+            domain="[('company_id', '=', customer_company_id)]",
             help="""This user will be used to create customer data when
             supplier users update datas.\n
             Please take that this user must have good access right on the
@@ -51,6 +52,7 @@ class intercompany_trade_config(Model):
             help="""Select the company that could purchase to the other."""),
         'supplier_user_id': fields.many2one(
             'res.users', 'Supplier User', required=True,
+            domain="[('company_id', '=', supplier_company_id)]",
             help="""This user will be used to create supplier data when
             customer users update datas.\n
             Please take that this user must have good access right on the
