@@ -33,6 +33,6 @@
     model_id: model_intercompany_trade_config
     name: Intercompany Trade - Manager
     perm_read: true
-    perm_create: false
-    perm_write: false
-    perm_unlink: false
+    perm_create: true
+    perm_write: true
+    perm_unlink: true
