@@ -98,6 +98,10 @@ class ProductIntercompanyTradeCatalog(Model):
             'res.partner', 'Supplier Partner', readonly=True),
         'supplier_partner_name': fields.char(
             'Supplier Partner Name', readonly=True),
+        'supplier_category_id': fields.many2one(
+            'product.category', 'Supplier Product Category', readonly=True),
+        'supplier_category_name': fields.char(
+            'Supplier Product Category', readonly=True),
         'supplier_product_id': fields.many2one(
             'product.product', 'Supplier Product', readonly=True),
 
@@ -116,9 +120,11 @@ CREATE OR REPLACE VIEW %s AS (
             rit.sale_pricelist_id as sale_pricelist_id,
             rit.customer_partner_id,
             s_pp.id as supplier_product_id,
+            s_pp.default_code as supplier_product_default_code,
             s_pt.uom_id as supplier_product_uom,
             s_pt.name as supplier_product_name,
-            s_pp.default_code as supplier_product_default_code,
+            s_pc.id as supplier_category_id,
+            s_pc.name as supplier_category_name,
             c_psi.intercompany_trade_price as customer_purchase_price,
             rit.supplier_company_id,
             rit.supplier_partner_id,
@@ -126,6 +132,8 @@ CREATE OR REPLACE VIEW %s AS (
         FROM product_product s_pp
         INNER JOIN product_template s_pt
             ON s_pp.product_tmpl_id = s_pt.id
+        INNER JOIN product_category s_pc
+            ON s_pt.categ_id = s_pc.id
         RIGHT JOIN intercompany_trade_config rit
             ON s_pt.company_id = rit.supplier_company_id
         INNER JOIN res_partner c_rp

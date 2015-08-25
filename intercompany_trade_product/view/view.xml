@@ -41,6 +41,9 @@
                     <field name="supplier_product_uom"/>
                     <field name="supplier_product_default_code"/>
                     <field name="supplier_product_name"/>
+                    <field name="supplier_category_id" invisible="1"/>
+                    <field name="supplier_category_name"/>
+                    <field name="supplier_partner_id" invisible="1"/>
                     <field name="supplier_partner_name"/>
                     <field name="customer_company_id" groups="base.group_multi_company"/>
                     <button name="link_product_wizard" icon="gtk-add" type="object" string="Link Product Windows"
@@ -55,10 +58,16 @@
             <field name="model">product.intercompany.trade.catalog</field>
             <field name="arch" type="xml">
                 <search string="Intercompany Trade - Products Catalog">
+                    <filter name="to_process" string="Linked Products"
+                        domain="[('customer_product_tmpl_id','!=', False)]"/>
                    <field name="supplier_product_name" string="Supplier Product" filter_domain="['|',('supplier_product_name','ilike',self),('supplier_product_default_code','ilike',self)]"/>
+                   <field name="supplier_partner_id"/>
+                   <field name="supplier_category_id"/>
                     <group expand="0" string="Group by...">
                         <filter string="Partner" domain="[]" context="{'group_by' : 'supplier_partner_id'}"/>
+                        <filter string="Supplier Product Category" domain="[]" context="{'group_by' : 'supplier_category_id'}"/>
                     </group>
+
                 </search>
             </field>
         </record>
