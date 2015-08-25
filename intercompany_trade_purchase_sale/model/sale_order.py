@@ -173,10 +173,10 @@ class sale_order(Model):
         if 'intercompany_trade_do_not_propagate' not in context.keys():
             ctx['intercompany_trade_do_not_propagate'] = True
             for so in self.browse(cr, uid, ids, context=context):
-                rit = rit_obj._get_intercompany_trade_by_partner_company(
-                    cr, uid, so.partner_id.id, so.company_id.id, 'out',
-                    context=context)
                 if so.intercompany_trade:
+                    rit = rit_obj._get_intercompany_trade_by_partner_company(
+                        cr, uid, so.partner_id.id, so.company_id.id, 'out',
+                        context=context)
                     po_obj.unlink(
                         cr, rit.customer_user_id.id,
                         [so.intercompany_trade_purchase_order_id.id],
