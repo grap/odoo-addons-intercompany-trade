@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Intercompany Trade - Product module for Odoo
+#    Intercompany Trade - Product module for OpenERP
 #    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -20,12 +20,21 @@
 #
 ##############################################################################
 
-from . import product_pricelist
-from . import custom_tools
-from . import res_partner
-from . import product_product
-from . import product_supplierinfo
-from . import intercompany_trade_config
-from . import product_intercompany_trade_catalog
-from . import intercompany_trade_wizard_link_product
-from . import pricelist_partnerinfo
+from openerp.osv.orm import Model
+
+
+class pricelist_partnerinfo(Model):
+    _inherit = 'pricelist.partnerinfo'
+
+    def write(self, cr, uid, ids, vals, context=None):
+        # TODO: Check if the user doesn't update manualy this info
+        # (manage context)
+        res = super(pricelist_partnerinfo, self).write(
+            cr, uid, ids, vals, context=context)
+        return res
+
+    def unlink(self, cr, uid, ids, context=None):
+        # TODO: Check if there is no pending transaction
+        res = super(pricelist_partnerinfo, self).unlink(
+            cr, uid, ids, context=context)
+        return res
