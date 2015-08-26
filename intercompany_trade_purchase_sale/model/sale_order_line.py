@@ -36,6 +36,9 @@ class sale_order_line(Model):
 
     # Columns Section
     _columns = {
+        'intercompany_trade': fields.related(
+            'order_id', 'intercompany_trade', type='boolean',
+            string='Intercompany Trade'),
         'intercompany_trade_purchase_order_line_id': fields.many2one(
             'purchase.order.line',
             string='Intercompany Trade Purchase Order Line', readonly=True,
@@ -179,13 +182,14 @@ class sale_order_line(Model):
             ctx = context.copy()
             ctx['intercompany_trade_do_not_propagate'] = True
             for sol in self.browse(cr, uid, ids, context=context):
-                rit = rit_obj._get_intercompany_trade_by_partner_company(
-                    cr, uid, sol.order_id.partner_id.id,
-                    sol.order_id.company_id.id, 'out', context=context)
-                pol_obj.unlink(
-                    cr, rit.customer_user_id.id,
-                    [sol.intercompany_trade_purchase_order_line_id.id],
-                    context=ctx)
+                if sol.intercompany_trade:
+                    rit = rit_obj._get_intercompany_trade_by_partner_company(
+                        cr, uid, sol.order_id.partner_id.id,
+                        sol.order_id.company_id.id, 'out', context=context)
+                    pol_obj.unlink(
+                        cr, rit.customer_user_id.id,
+                        [sol.intercompany_trade_purchase_order_line_id.id],
+                        context=ctx)
         res = super(sale_order_line, self).unlink(
             cr, uid, ids, context=context)
         return res
