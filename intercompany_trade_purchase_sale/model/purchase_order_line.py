@@ -171,13 +171,14 @@ class purchase_order_line(Model):
             ctx = context.copy()
             ctx['intercompany_trade_do_not_propagate'] = True
             for pol in self.browse(cr, uid, ids, context=context):
-                rit = rit_obj._get_intercompany_trade_by_partner_company(
-                    cr, uid, pol.order_id.partner_id.id,
-                    pol.order_id.company_id.id, 'in', context=context)
-                sol_obj.unlink(
-                    cr, rit.supplier_user_id.id,
-                    [pol.intercompany_trade_sale_order_line_id.id],
-                    context=ctx)
+                if pol.intercompany_trade:
+                    rit = rit_obj._get_intercompany_trade_by_partner_company(
+                        cr, uid, pol.order_id.partner_id.id,
+                        pol.order_id.company_id.id, 'in', context=context)
+                    sol_obj.unlink(
+                        cr, rit.supplier_user_id.id,
+                        [pol.intercompany_trade_sale_order_line_id.id],
+                        context=ctx)
         res = super(purchase_order_line, self).unlink(
             cr, uid, ids, context=context)
         return res
