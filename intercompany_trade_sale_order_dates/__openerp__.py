@@ -25,7 +25,7 @@
     'category': 'Purchase',
     'description': """
 Module for Intercompany Trade for Purchase and Sale Order Dates Module
-====================================================================
+======================================================================
 
 With this module, create a Purchase Order (or a Sale Order) will create a Sale
 Order (respectivly, a Purchase Order) with correct planned date.
@@ -40,8 +40,7 @@ Copyright, Authors and Licence:
     'website': 'http://www.grap.coop',
     'license': 'AGPL-3',
     'depends': [
-        'intercompany_trade_base',
-        'purchase',
+        'intercompany_trade_purchase_sale',
         'sale_order_dates',
     ],
     'auto_install': True,
