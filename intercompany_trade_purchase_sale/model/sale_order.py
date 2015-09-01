@@ -205,6 +205,7 @@ class sale_order(Model):
             cr, rit.customer_user_id.id, [], sw_id)['value']['location_id']
 
         return {
+            'date_order': so.date_order,
             'company_id': rit.customer_company_id.id,
             'partner_id': rit.supplier_partner_id.id,
             'warehouse_id': sw_id,
