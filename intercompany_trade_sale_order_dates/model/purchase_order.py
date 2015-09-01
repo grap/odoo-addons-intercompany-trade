@@ -25,3 +25,15 @@ from openerp.osv.orm import Model
 
 class purchase_order(Model):
     _inherit = 'purchase.order'
+
+    # Overload Section
+    def prepare_intercompany_sale_order(
+            self, cr, uid, po, rit, context=None):
+
+        res = super(purchase_order, self).prepare_intercompany_sale_order(
+            cr, uid, po, rit, context=context)
+
+        res.update({
+            'requested_date': po.minimum_planned_date,
+        })
+        return res

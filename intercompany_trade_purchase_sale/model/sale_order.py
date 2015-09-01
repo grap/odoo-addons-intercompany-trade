@@ -105,9 +105,6 @@ class sale_order(Model):
             # Create associated Purchase Order
             po_vals = self.prepare_intercompany_purchase_order(
                 cr, uid, so, rit, context=context)
-            po_vals.update({
-                'intercompany_trade_sale_order_id': res,
-            })
 
             po_id = po_obj.create(
                 cr, rit.customer_user_id.id, po_vals, context=ctx)
@@ -213,6 +210,7 @@ class sale_order(Model):
             'pricelist_id': rit.purchase_pricelist_id.id,
             'partner_ref': so.name,
             'invoice_method': 'picking',
+            'intercompany_trade_sale_order_id': so.id,
         }
 
     # Action Section

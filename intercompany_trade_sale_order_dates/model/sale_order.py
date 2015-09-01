@@ -26,7 +26,7 @@ from openerp.osv.orm import Model
 class sale_order(Model):
     _inherit = 'sale.order'
 
-    # Custom Section
+    # Overload Section
     def prepare_intercompany_purchase_order(
             self, cr, uid, so, rit, context=None):
 
