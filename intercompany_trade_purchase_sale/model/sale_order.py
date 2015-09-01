@@ -75,7 +75,6 @@ class sale_order(Model):
         rit_obj = self.pool['intercompany.trade.config']
         rp_obj = self.pool['res.partner']
         po_obj = self.pool['purchase.order']
-        iv_obj = self.pool['ir.values']
 
         context = context and context or {}
 
@@ -95,40 +94,28 @@ class sale_order(Model):
             ctx = context.copy()
             ctx['intercompany_trade_do_not_propagate'] = True
 
-            # Create associated Purchase Order
+            # Get Current Sale Order
             so = self.browse(cr, uid, res, context=context)
+
+            # Get Intercompany Trade
             rit = rit_obj._get_intercompany_trade_by_partner_company(
                 cr, uid, so.partner_id.id, so.company_id.id, 'out',
                 context=context)
 
-            # Get default warehouse
-            sw_id = iv_obj.get_default(
-                cr, rit.customer_user_id.id, 'purchase.order', 'warehouse_id',
-                company_id=rit.customer_company_id.id)
-            # Get default stock location
-            sl_id = po_obj.onchange_warehouse_id(
-                cr, rit.customer_user_id.id, [], sw_id)['value']['location_id']
-#            # Get default purchase Pricelist
-#            rp2 = rp_obj.browse(
-#                cr, rit.customer_user_id.id, rit.supplier_partner_id.id,
-#                context=context)
-
-            po_vals = {
-                'company_id': rit.customer_company_id.id,
-                'partner_id': rit.supplier_partner_id.id,
-                'warehouse_id': sw_id,
-                'location_id': sl_id,
+            # Create associated Purchase Order
+            po_vals = self.prepare_intercompany_purchase_order(
+                cr, uid, so, rit, context=context)
+            po_vals.update({
                 'intercompany_trade_sale_order_id': res,
-                'pricelist_id': rit.purchase_pricelist_id.id,
-                'partner_ref': so.name,
-                'invoice_method': 'picking',
-            }
+            })
+
             po_id = po_obj.create(
                 cr, rit.customer_user_id.id, po_vals, context=ctx)
+
             po = po_obj.browse(
                 cr, rit.customer_user_id.id, po_id, context=ctx)
 
-            # Update Sale Order
+            # Update Current Sale Order
             self.write(cr, uid, [res], {
                 'intercompany_trade_purchase_order_id': po.id,
                 'client_order_ref': po.name,
@@ -137,12 +124,22 @@ class sale_order(Model):
         return res
 
     def write(self, cr, uid, ids, vals, context=None):
+        rit_obj = self.pool['intercompany.trade.config']
+        po_obj = self.pool['purchase.order']
+
         context = context if context else {}
+
         res = super(sale_order, self).write(
             cr, uid, ids, vals, context=context)
+
         if 'intercompany_trade_do_not_propagate' not in context.keys():
+            ctx = context.copy()
+            ctx['intercompany_trade_do_not_propagate'] = True
             for so in self.browse(cr, uid, ids, context=context):
                 if so.intercompany_trade:
+                    rit = rit_obj._get_intercompany_trade_by_partner_company(
+                        cr, uid, so.partner_id.id, so.company_id.id, 'out',
+                        context=context)
                     if 'partner_id' in vals:
                         raise except_osv(
                             _("Error!"),
@@ -160,6 +157,14 @@ class sale_order(Model):
                                 """ Rules. Please ask to your Customer to"""
                                 """ cancel the Purchase Order and create a"""
                                 """ new one, duplicating it."""))
+                    # Update changes for according purchase order
+                    po_vals = self.prepare_intercompany_purchase_order(
+                        cr, uid, so, rit, context=context)
+                    po_obj.write(
+                        cr, rit.customer_user_id.id,
+                        [so.intercompany_trade_purchase_order_id.id], po_vals,
+                        context=ctx)
+
         return res
 
     def unlink(self, cr, uid, ids, context=None):
@@ -184,6 +189,32 @@ class sale_order(Model):
         return super(sale_order, self).unlink(
             cr, uid, ids, context=ctx)
 
+    # Custom Section
+    def prepare_intercompany_purchase_order(
+            self, cr, uid, so, rit, context=None):
+        iv_obj = self.pool['ir.values']
+        po_obj = self.pool['purchase.order']
+
+        # Get default warehouse
+        sw_id = iv_obj.get_default(
+            cr, rit.customer_user_id.id, 'purchase.order', 'warehouse_id',
+            company_id=rit.customer_company_id.id)
+
+        # Get default stock location
+        sl_id = po_obj.onchange_warehouse_id(
+            cr, rit.customer_user_id.id, [], sw_id)['value']['location_id']
+
+        return {
+            'company_id': rit.customer_company_id.id,
+            'partner_id': rit.supplier_partner_id.id,
+            'warehouse_id': sw_id,
+            'location_id': sl_id,
+            'pricelist_id': rit.purchase_pricelist_id.id,
+            'partner_ref': so.name,
+            'invoice_method': 'picking',
+        }
+
+    # Action Section
     def action_button_confirm(self, cr, uid, ids, context=None):
         sp_obj = self.pool['stock.picking']
         sm_obj = self.pool['stock.move']
