@@ -137,6 +137,7 @@ class sale_order(Model):
                     rit = rit_obj._get_intercompany_trade_by_partner_company(
                         cr, uid, so.partner_id.id, so.company_id.id, 'out',
                         context=context)
+                    # Disable possibility to change the customer
                     if 'partner_id' in vals:
                         raise except_osv(
                             _("Error!"),

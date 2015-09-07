@@ -125,14 +125,22 @@ class purchase_order(Model):
 
     def write(self, cr, uid, ids, vals, context=None):
         rit_obj = self.pool['intercompany.trade.config']
+        so_obj = self.pool['sale.order']
 
         context = context if context else {}
         res = super(purchase_order, self).write(
             cr, uid, ids, vals, context=context)
 
         if 'intercompany_trade_do_not_propagate' not in context.keys():
+            ctx = context.copy()
+            ctx['intercompany_trade_do_not_propagate'] = True
+
             for po in self.browse(cr, uid, ids, context=context):
                 if po.intercompany_trade:
+                    rit = rit_obj._get_intercompany_trade_by_partner_company(
+                        cr, uid, po.partner_id.id, po.company_id.id,
+                        'in', context=context)
+                    # Disable possibility to change the supplier
                     if 'partner_id' in vals:
                         raise except_osv(
                             _("Error!"),
@@ -149,9 +157,28 @@ class purchase_order(Model):
                                 """ Order because of Intercompany Trade"""
                                 """ Rules. Please cancel this Purchase Order"""
                                 """ and create a new one, duplicating it."""))
-                    rit = rit_obj._get_intercompany_trade_by_partner_company(
-                        cr, uid, po.partner_id.id, po.company_id.id,
-                        'in', context=context)
+                    # Disable possibility to set to draft again
+                    if vals.get('state', False) == 'draft':
+                        raise except_osv(
+                            _("Error!"),
+                            _("""You can not change set to 'draft' again"""
+                                """ this Quotation because of Intercompany"""
+                                """ Trade Rules. Please cancel this"""
+                                """ one and create a new one, duplicating"""
+                                """ it."""))
+
+                    # Update changes for according sale order
+                    so_vals = self.prepare_intercompany_sale_order(
+                        cr, uid, po, rit, context=context)
+                    # FIXME : TODO investigate why we have to set the
+                    # following line
+                    so_vals.pop('company_id', False)
+                    so_obj.write(
+                        cr, rit.supplier_user_id.id,
+                        [po.intercompany_trade_sale_order_id.id], so_vals,
+                        context=ctx)
+
+                    # Apply change of status 'draft' --> 'sent'
                     if vals.get('state', False) == 'sent':
                         # Change state of purchase order to 'sent' must change
                         # the status of the Sale Order (more easy to do that
@@ -162,6 +189,8 @@ class purchase_order(Model):
                             rit.supplier_user_id.id, 'sale.order',
                             po.intercompany_trade_sale_order_id.id,
                             'quotation_sent', cr)
+
+                    # Apply change of status any --> 'cancel'
                     if vals.get('state', False) == 'cancel':
                         # Change state of purchase order to 'cancel' must
                         # change the status of the Sale Order
@@ -170,14 +199,7 @@ class purchase_order(Model):
                             rit.supplier_user_id.id, 'sale.order',
                             po.intercompany_trade_sale_order_id.id,
                             'cancel', cr)
-                    if vals.get('state', False) == 'draft':
-                        raise except_osv(
-                            _("Error!"),
-                            _("""You can not change set to 'draft' again"""
-                                """ this Quotation because of Intercompany"""
-                                """ Trade Rules. Please cancel this"""
-                                """ one and create a new one, duplicating"""
-                                """ it."""))
+
         return res
 
     def unlink(self, cr, uid, ids, context=None):
@@ -204,8 +226,9 @@ class purchase_order(Model):
 
     # Custom Section
     def prepare_intercompany_sale_order(
-            self, cr, uid, so, rit, context=None):
+            self, cr, uid, po, rit, context=None):
         iv_obj = self.pool['ir.values']
+        so_obj = self.pool['sale.order']
 
         # WEIRD: sale_order has a bad _get_default_shop base on the
         # company of the current user, so we request ir.values
@@ -215,12 +238,12 @@ class purchase_order(Model):
             company_id=rit.supplier_company_id.id)
 
         return {
+            'shop_id': shop_id,
             'company_id': rit.supplier_company_id.id,
             'partner_id': rit.customer_partner_id.id,
             'partner_invoice_id': rit.customer_partner_id.id,
             'partner_shipping_id': rit.customer_partner_id.id,
-            'intercompany_trade_purchase_order_id': res,
-            'shop_id': shop_id,
+            'intercompany_trade_purchase_order_id': po.id,
             'pricelist_id': rit.sale_pricelist_id.id,
             'client_order_ref': po.name,
             'order_policy': 'picking',
