@@ -110,17 +110,6 @@ class purchase_order(Model):
             so_vals = self.prepare_intercompany_sale_order(
                 cr, uid, po, rit, context=context)
 
-            so_vals.update({
-                'company_id': rit.supplier_company_id.id,
-                'partner_id': rit.customer_partner_id.id,
-                'partner_invoice_id': rit.customer_partner_id.id,
-                'partner_shipping_id': rit.customer_partner_id.id,
-                'intercompany_trade_purchase_order_id': res,
-
-                'pricelist_id': rit.sale_pricelist_id.id,
-                'client_order_ref': po.name,
-                'order_policy': 'picking',
-            })
             so_id = so_obj.create(
                 cr, rit.supplier_user_id.id, so_vals, context=ctx)
             so = so_obj.browse(
@@ -226,5 +215,13 @@ class purchase_order(Model):
             company_id=rit.supplier_company_id.id)
 
         return {
+            'company_id': rit.supplier_company_id.id,
+            'partner_id': rit.customer_partner_id.id,
+            'partner_invoice_id': rit.customer_partner_id.id,
+            'partner_shipping_id': rit.customer_partner_id.id,
+            'intercompany_trade_purchase_order_id': res,
             'shop_id': shop_id,
+            'pricelist_id': rit.sale_pricelist_id.id,
+            'client_order_ref': po.name,
+            'order_policy': 'picking',
         }
