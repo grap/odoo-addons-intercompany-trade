@@ -81,7 +81,6 @@ class purchase_order(Model):
         rit_obj = self.pool['intercompany.trade.config']
         rp_obj = self.pool['res.partner']
         so_obj = self.pool['sale.order']
-        iv_obj = self.pool['ir.values']
 
         rp = rp_obj.browse(cr, uid, vals['partner_id'], context=context)
         create_sale_order = (
@@ -101,28 +100,27 @@ class purchase_order(Model):
 
             # Create associated Sale Order
             po = self.browse(cr, uid, res, context=context)
+
+            # Get Intercompany Trade
             rit = rit_obj._get_intercompany_trade_by_partner_company(
                 cr, uid, po.partner_id.id, po.company_id.id, 'in',
                 context=context)
 
-            # WEIRD: sale_order has a bad _get_default_shop base on the
-            # company of the current user, so we request ir.values
-            # to have the correct one
+            # Create associated Sale Order
+            so_vals = self.prepare_intercompany_sale_order(
+                cr, uid, po, rit, context=context)
 
-            shop_id = iv_obj.get_default(
-                cr, rit.supplier_user_id.id, 'sale.order', 'shop_id',
-                company_id=rit.supplier_company_id.id)
-            so_vals = {
+            so_vals.update({
                 'company_id': rit.supplier_company_id.id,
                 'partner_id': rit.customer_partner_id.id,
                 'partner_invoice_id': rit.customer_partner_id.id,
                 'partner_shipping_id': rit.customer_partner_id.id,
                 'intercompany_trade_purchase_order_id': res,
-                'shop_id': shop_id,
+
                 'pricelist_id': rit.sale_pricelist_id.id,
                 'client_order_ref': po.name,
                 'order_policy': 'picking',
-            }
+            })
             so_id = so_obj.create(
                 cr, rit.supplier_user_id.id, so_vals, context=ctx)
             so = so_obj.browse(
@@ -194,9 +192,7 @@ class purchase_order(Model):
         return res
 
     def unlink(self, cr, uid, ids, context=None):
-        """
-            Delete according Sale order
-        """
+        """Delete according Sale order"""
         # FIXME: Unlink purchase Order call workflow trigger and fails
         context = context if context else {}
 
@@ -216,3 +212,19 @@ class purchase_order(Model):
                         [po.intercompany_trade_sale_order_id.id], context=ctx)
         return super(purchase_order, self).unlink(
             cr, uid, ids, context=context)
+
+    # Custom Section
+    def prepare_intercompany_sale_order(
+            self, cr, uid, so, rit, context=None):
+        iv_obj = self.pool['ir.values']
+
+        # WEIRD: sale_order has a bad _get_default_shop base on the
+        # company of the current user, so we request ir.values
+        # to have the correct one
+        shop_id = iv_obj.get_default(
+            cr, rit.supplier_user_id.id, 'sale.order', 'shop_id',
+            company_id=rit.supplier_company_id.id)
+
+        return {
+            'shop_id': shop_id,
+        }
