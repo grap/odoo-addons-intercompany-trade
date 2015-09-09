@@ -30,7 +30,7 @@ class ResIntercompanyTrade(Model):
     _inherit = 'intercompany.trade.config'
 
     def transcode_account_id(
-            self, cr, uid, rit, from_account_id, context=None):
+            self, cr, uid, rit, from_account_id, product_name, context=None):
         fcta_obj = self.pool['fiscal.company.transcoding.account']
         aa_obj = self.pool['account.account']
         if not from_account_id:
@@ -47,12 +47,14 @@ class ResIntercompanyTrade(Model):
             aa = aa_obj.browse(cr, uid, from_account_id, context=context)
             raise except_osv(
                 _("Missing Setting!"),
-                _("""Unable to sell or purchase a product because the"""
-                    """ following account is not transcoded for the"""
-                    """ company %s. \n\n %s - %s\n\n.Please ask to your"""
-                    """  accountant to add a setting for this account.""" % (
+                _(
+                    "Unable to sell or purchase a product because the"
+                    " following account is not transcoded for the"
+                    " company %s. \n\n %s - %s\n\n.Please ask to your"
+                    "  accountant to add a setting for this account."
+                    " \n\n Product Name : %s" % (
                         rit.customer_company_id.fiscal_company.name,
-                        aa.code, aa.name)))
+                        aa.code, aa.name, product_name)))
 
     # Fields Function Section
     def _same_fiscal_mother_company(

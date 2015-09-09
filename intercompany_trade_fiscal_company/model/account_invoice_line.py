@@ -38,6 +38,7 @@ class AccountInvoiceLine(Model):
         ai_obj = self.pool['account.invoice']
         rp_obj = self.pool['res.partner']
         ru_obj = self.pool['res.users']
+        pp_obj = self.pool['product.product']
         res = super(AccountInvoiceLine, self).product_id_change(
             cr, uid, ids, product, uom_id, qty=qty, name=name,
             type=type, partner_id=partner_id, fposition_id=fposition_id,
@@ -54,9 +55,11 @@ class AccountInvoiceLine(Model):
 
             if rit.same_fiscal_mother_company:
                 # Manage Transcoded account
+                pp = pp_obj.browse(cr, uid, product, context=context)
                 if res['value'].get('account_id', False):
                     res['value']['account_id'] = rit_obj.transcode_account_id(
                         cr, uid, rit, res['value']['account_id'],
+                        pp.name,
                         context=context)
 
                 # Remove VAT if it is a Trade between two company that belong
