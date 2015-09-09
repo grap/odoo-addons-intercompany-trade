@@ -80,7 +80,6 @@ class purchase_order(Model):
 
         rit_obj = self.pool['intercompany.trade.config']
         rp_obj = self.pool['res.partner']
-        so_obj = self.pool['sale.order']
 
         rp = rp_obj.browse(cr, uid, vals['partner_id'], context=context)
         create_sale_order = (
