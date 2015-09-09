@@ -80,6 +80,7 @@ class purchase_order(Model):
 
         rit_obj = self.pool['intercompany.trade.config']
         rp_obj = self.pool['res.partner']
+        so_obj = self.pool['sale.order']
 
         rp = rp_obj.browse(cr, uid, vals['partner_id'], context=context)
         create_sale_order = (
@@ -227,7 +228,6 @@ class purchase_order(Model):
     def prepare_intercompany_sale_order(
             self, cr, uid, po, rit, context=None):
         iv_obj = self.pool['ir.values']
-        so_obj = self.pool['sale.order']
 
         # WEIRD: sale_order has a bad _get_default_shop base on the
         # company of the current user, so we request ir.values
