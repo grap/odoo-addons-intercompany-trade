@@ -58,8 +58,7 @@ class AccountInvoiceLine(Model):
                 pp = pp_obj.browse(cr, uid, product, context=context)
                 if res['value'].get('account_id', False):
                     res['value']['account_id'] = rit_obj.transcode_account_id(
-                        cr, uid, rit, res['value']['account_id'],
-                        pp.name,
+                        cr, uid, rit, res['value']['account_id'], pp,
                         context=context)
 
                 # Remove VAT if it is a Trade between two company that belong

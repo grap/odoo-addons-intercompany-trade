@@ -30,7 +30,7 @@ class ResIntercompanyTrade(Model):
     _inherit = 'intercompany.trade.config'
 
     def transcode_account_id(
-            self, cr, uid, rit, from_account_id, product_name, context=None):
+            self, cr, uid, rit, from_account_id, product, context=None):
         fcta_obj = self.pool['fiscal.company.transcoding.account']
         aa_obj = self.pool['account.account']
         if not from_account_id:
@@ -52,9 +52,9 @@ class ResIntercompanyTrade(Model):
                     " following account is not transcoded for the"
                     " company %s. \n\n %s - %s\n\n.Please ask to your"
                     "  accountant to add a setting for this account."
-                    " \n\n Product Name : %s" % (
+                    " \n\n Product Name : %s - %s" % (
                         rit.customer_company_id.fiscal_company.name,
-                        aa.code, aa.name, product_name)))
+                        aa.code, aa.name, product.code, product.name)))
 
     # Fields Function Section
     def _same_fiscal_mother_company(
