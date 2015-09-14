@@ -178,17 +178,18 @@ class AccountInvoice(Model):
             ctx['intercompany_trade_do_not_propagate'] = True
             for ai in self.browse(
                     cr, uid, ids, context=context):
-                rit = self._get_intercompany_trade_config(
-                    cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
-                    context=context)
-                if ai.type in ('in_invoice', 'in_refund'):
-                    other_uid = rit.supplier_user_id.id
-                else:
-                    other_uid = rit.customer_user_id.id
-                self.unlink(
-                    cr, other_uid,
-                    [ai.intercompany_trade_account_invoice_id.id],
-                    context=ctx)
+                if ai.intercompany_trade:
+                    rit = self._get_intercompany_trade_config(
+                        cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
+                        context=context)
+                    if ai.type in ('in_invoice', 'in_refund'):
+                        other_uid = rit.supplier_user_id.id
+                    else:
+                        other_uid = rit.customer_user_id.id
+                    self.unlink(
+                        cr, other_uid,
+                        [ai.intercompany_trade_account_invoice_id.id],
+                        context=ctx)
         res = super(AccountInvoice, self).unlink(
             cr, uid, ids, context=context)
         return res
