@@ -72,6 +72,34 @@ class purchase_order(Model):
 
     # View Section
     def intercompany_trade_request(self, cr, uid, ids, context=None):
+        rit_obj = self.pool['intercompany.trade.config']
+        so_obj = self.pool['sale.order']
+
+        # Check if Total of the PO and SO are identical
+        for po in self.browse(cr, uid, ids, context=context):
+            if po.intercompany_trade:
+                # Get Intercompany Trade
+                rit = rit_obj._get_intercompany_trade_by_partner_company(
+                    cr, uid, po.partner_id.id, po.company_id.id, 'in',
+                    context=context)
+                so = so_obj.browse(
+                    cr, rit.supplier_user_id.id,
+                    po.intercompany_trade_sale_order_id.id, context=context)
+                if po.amount_untaxed != so.amount_untaxed or\
+                        po.amount_tax != so.amount_tax:
+                    raise except_osv(
+                        _("Error!"),
+                        _("It seems that your Purchase Order has not the"
+                            " same amount that the according Sale Order."
+                            " Please call the IT Support\n\n"
+                            " * Purchase : %s \n"
+                            " * Amount Untaxed : %d\n"
+                            " * Taxes : %d\n\n"
+                            " * Sale Order : %s \n"
+                            " * Amount Untaxed : %d\n"
+                            " * Taxes : %d\n\n" % (
+                                po.name, po.amount_untaxed, po.amount_tax,
+                                so.name, so.amount_untaxed, so.amount_tax)))
         return self.print_quotation(cr, uid, ids, context=context)
 
     # Overload Section
