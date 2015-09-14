@@ -58,6 +58,7 @@ class intercompany_trade_wizard_link_product(TransientModel):
             'intercompany_trade_id': intercompany_trade_id,
             'supplier_product_name': supplier_pp.name,
             'supplier_product_code': supplier_pp.default_code,
+            'supplier_product_uom_name': supplier_pp.uom_id.name,
         })
         for k, v in price_info.items():
             res[k] = v
@@ -87,6 +88,8 @@ class intercompany_trade_wizard_link_product(TransientModel):
             string='Supplier Sale Price', readonly=True,
             digits_compute=dp.get_precision(
                 'Intercompany Trade Product Price')),
+        'supplier_product_uom_name': fields.char(
+            'Supplier Product UoM Name', readonly=True),
     }
 
     # Button Section
