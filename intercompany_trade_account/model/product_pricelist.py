@@ -50,5 +50,7 @@ class ProductPricelist(Model):
             'supplier_sale_price': tax_info['total'],
             'supplier_sale_price_vat_excl': tax_info['total'],
             'supplier_sale_price_vat_incl': tax_info['total_included'],
+            'supplier_vat_name': ', '.join(
+                [x.name for x in supplier_product.taxes_id])
         })
         return res
