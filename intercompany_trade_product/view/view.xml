@@ -86,6 +86,7 @@
                             <field name="supplier_product_code" />
                             <field name="supplier_product_name" />
                             <field name="supplier_sale_price" />
+                            <field name="supplier_product_uom_name" />
                         </group>
                         <group colspan="4">
                             <button name="link_product" type="object" string="Link Product"/>
