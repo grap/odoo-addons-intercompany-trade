@@ -73,30 +73,10 @@ class purchase_order_line(Model):
                 cr, uid, po.partner_id.id, po.company_id.id, 'in',
                 context=context)
 
-            # Create associated Sale Order Line
-            other_product_info = _get_other_product_info(
-                self.pool, cr, uid, rit, vals['product_id'], 'in',
-                context=context)
+            # Prepare and create associated Sale Order
+            sol_vals = self.prepare_intercompany_sale_order_line(
+                cr, uid, pol, rit, context=context)
 
-            sol_vals = sol_obj.product_id_change(
-                cr, rit.supplier_user_id.id, False, rit.sale_pricelist_id.id,
-                other_product_info['product_id'], qty=vals['product_qty'],
-                uom=vals['product_uom'], partner_id=rit.customer_partner_id.id,
-                context=context)['value']
-
-            sol_vals.update({
-                'order_id': pol.order_id.intercompany_trade_sale_order_id.id,
-                'product_id': other_product_info['product_id'],
-                'delay': 0,
-                'discount': 0,
-                'tax_id': (
-                    sol_vals['tax_id']
-                    and [[6, False, sol_vals['tax_id']]]
-                    or False),
-                'product_uom': (
-                    sol_vals['product_uos'] and
-                    sol_vals['product_uos'] or vals['product_uom']),
-            })
             sol_id = sol_obj.create(
                 cr, rit.supplier_user_id.id, sol_vals, context=ctx)
 
@@ -105,13 +85,19 @@ class purchase_order_line(Model):
             sol_obj.write(
                 cr, rit.supplier_user_id.id, [sol_id], {
                     'intercompany_trade_purchase_order_line_id': pol.id,
-                    'price_unit': other_product_info['price_unit'],
+                    'price_unit': sol_vals['price_unit'],
                 }, context=ctx)
 
+            sol = sol_obj.browse(
+                cr, rit.supplier_user_id.id, sol_id, context=ctx)
+
             # Update Purchase Order line with Sale Order Line id created
+            # Special : update price unit, because the purchaser can NOT
+            # set (or change) price unit. And we use the precision of saler
+            # and not the precision of the purchaser.
             self.write(cr, uid, [res], {
                 'intercompany_trade_sale_order_line_id': sol_id,
-                'price_unit': other_product_info['price_unit'],
+                'price_unit': sol.price_unit,
             }, context=ctx)
         return res
 
@@ -183,4 +169,36 @@ class purchase_order_line(Model):
                         context=ctx)
         res = super(purchase_order_line, self).unlink(
             cr, uid, ids, context=context)
+        return res
+
+    # Custom Section
+    def prepare_intercompany_sale_order_line(
+            self, cr, uid, pol, rit, context=None):
+        sol_obj = self.pool['sale.order.line']
+        # Get Product info of the other part
+        other_product_info = _get_other_product_info(
+            self.pool, cr, uid, rit, pol.product_id.id, 'in',
+            context=context)
+
+        res = sol_obj.product_id_change(
+            cr, rit.supplier_user_id.id, False, rit.sale_pricelist_id.id,
+            other_product_info['product_id'], qty=pol.product_qty,
+            uom=pol.product_uom.id, partner_id=rit.customer_partner_id.id,
+            context=context)['value']
+
+        res.update({
+            'order_id': pol.order_id.intercompany_trade_sale_order_id.id,
+            'product_id': other_product_info['product_id'],
+            'delay': 0,
+            'discount': 0,
+            'tax_id': (
+                res['tax_id']
+                and [[6, False, res['tax_id']]]
+                or False),
+            'product_uom': (
+                res['product_uos'] and
+                res['product_uos'] or pol.product_uom.id),
+            'product_uom_qty': pol.product_qty,
+            'product_uos_qty': pol.product_qty,
+        })
         return res
