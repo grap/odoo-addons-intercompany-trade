@@ -121,10 +121,9 @@ class sale_order(Model):
         return res
 
     def write(self, cr, uid, ids, vals, context=None):
+        context = context if context else {}
         rit_obj = self.pool['intercompany.trade.config']
         po_obj = self.pool['purchase.order']
-
-        context = context if context else {}
 
         res = super(sale_order, self).write(
             cr, uid, ids, vals, context=context)

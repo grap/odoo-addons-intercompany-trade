@@ -98,7 +98,7 @@ class purchase_order(Model):
             ctx = context.copy()
             ctx['intercompany_trade_do_not_propagate'] = True
 
-            # Create associated Sale Order
+            # Get Created Purchase Order
             po = self.browse(cr, uid, res, context=context)
 
             # Get Intercompany Trade
@@ -124,10 +124,10 @@ class purchase_order(Model):
         return res
 
     def write(self, cr, uid, ids, vals, context=None):
+        context = context if context else {}
         rit_obj = self.pool['intercompany.trade.config']
         so_obj = self.pool['sale.order']
 
-        context = context if context else {}
         res = super(purchase_order, self).write(
             cr, uid, ids, vals, context=context)
 

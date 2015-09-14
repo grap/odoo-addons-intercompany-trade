@@ -49,7 +49,6 @@ class sale_order_line(Model):
     def create(self, cr, uid, vals, context=None):
         """Create the according Purchase Order Line."""
         context = context and context or {}
-
         rit_obj = self.pool['intercompany.trade.config']
         so_obj = self.pool['sale.order']
         pol_obj = self.pool['purchase.order.line']

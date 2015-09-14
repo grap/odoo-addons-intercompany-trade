@@ -65,11 +65,13 @@ class purchase_order_line(Model):
             ctx = context.copy()
             ctx['intercompany_trade_do_not_propagate'] = True
 
+            # Get Created Purchase Order Line
+            pol = self.browse(cr, uid, res, context=context)
+
+            # Get Intercompany Trade
             rit = rit_obj._get_intercompany_trade_by_partner_company(
                 cr, uid, po.partner_id.id, po.company_id.id, 'in',
                 context=context)
-
-            pol = self.browse(cr, uid, res, context=context)
 
             # Create associated Sale Order Line
             other_product_info = _get_other_product_info(
