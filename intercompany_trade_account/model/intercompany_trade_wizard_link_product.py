@@ -41,6 +41,10 @@ class IntercompanyTradeWizardLinkProduct(TransientModel):
             'Supplier Sale Price VAT Included', readonly=True,
             digits_compute=dp.get_precision(
                 'Intercompany Trade Product Price')),
+        # The Following Field are used to display external information
+        # And avoir ACL problem
+        'supplier_vat_name': fields.char(
+            'Supplier VAT Name', readonly=True),
     }
 
     # Button Section

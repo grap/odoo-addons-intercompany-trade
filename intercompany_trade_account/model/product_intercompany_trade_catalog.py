@@ -48,4 +48,8 @@ class ProductIntercompanyTradeCatalog(Model):
             multi='supplier_price', type='float',
             digits_compute=dp.get_precision(
                 'Intercompany Trade Product Price')),
+        'supplier_vat_name': fields.function(
+            _get_supplier_price,
+            string='Supplier VAT Name',
+            multi='supplier_price', type='char'),
     }
