@@ -116,11 +116,6 @@ class purchase_order_line(Model):
             ctx['intercompany_trade_do_not_propagate'] = True
             for pol in self.browse(cr, uid, ids, context=context):
                 if pol.intercompany_trade_sale_order_line_id:
-                    rit = rit_obj._get_intercompany_trade_by_partner_company(
-                        cr, uid, pol.order_id.partner_id.id,
-                        pol.order_id.company_id.id, 'in', context=context)
-                    sol_vals = {}
-
                     if 'product_id' in vals.keys():
                         raise except_osv(
                             _("Error!"),
@@ -139,10 +134,15 @@ class purchase_order_line(Model):
                                 """ the product '%s'."""
                                 """ Please ask to your supplier.""" % (
                                     pol.product_id.name)))
-                    if 'product_qty' in vals:
-                        sol_vals['product_uos_qty'] = pol.product_qty
-                        sol_vals['product_uom_qty'] = pol.product_qty
-                    # TODO Manage discount / delay / tax
+                    # Get Intercompany Trade
+                    rit = rit_obj._get_intercompany_trade_by_partner_company(
+                        cr, uid, pol.order_id.partner_id.id,
+                        pol.order_id.company_id.id, 'in', context=context)
+
+                    # Prepare and update associated Sale Order
+                    sol_vals = self.prepare_intercompany_sale_order_line(
+                        cr, uid, pol, rit, context=context)
+
                     sol_obj.write(
                         cr, rit.supplier_user_id.id,
                         [pol.intercompany_trade_sale_order_line_id.id],
