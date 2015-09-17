@@ -49,6 +49,13 @@ TODO Features:
     * Fix possibility to change some values when creating a new line in a
       Sale Order or a Purchase Order;
 
+Note
+----
+
+* If users set discount on sale order line, please install 'purchase_discount'
+  module. Otherwise the discount field will not be present on purchase order
+  line, and the price will be bad on Purchase Order.
+
 Copyright, Authors and Licence:
 -------------------------------
     * Copyright: 2014, GRAP: Groupement Régional Alimentaire de Proximité;

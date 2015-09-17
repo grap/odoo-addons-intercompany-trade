@@ -63,16 +63,6 @@ class sale_order_line(Model):
             cr, uid, vals, context=context)
 
         if create_purchase_order_line:
-            # Extra Check: block discount feature
-            if vals.get('discount', 0) != 0:
-                raise except_osv(
-                    _("Error!"),
-                    _(
-                        """You can not set a discount for the """
-                        """product '%s'.\n"""
-                        """ Please change the unit price.""" % (
-                            vals['name'])))
-
             ctx = context.copy()
             ctx['intercompany_trade_do_not_propagate'] = True
 
@@ -151,14 +141,6 @@ class sale_order_line(Model):
                             _("""You can not change the product '%s'.\n"""
                                 """ Please remove this line and create"""
                                 """ a new one.""" % (sol.product_id.name)))
-                    if 'discount' in vals.keys():
-                        raise except_osv(
-                            _("Error!"),
-                            _(
-                                """You can not set a discount for the """
-                                """product '%s'.\n"""
-                                """ Please change the unit price.""" % (
-                                    sol.product_id.name)))
                     if 'product_uom_qty' in vals:
                         pol_vals['product_qty'] = sol.product_uom_qty
                     if 'product_uom' in vals:
