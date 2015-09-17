@@ -40,7 +40,31 @@ class ProductIntercompanyTradeCatalog(Model):
         return int(str_id[-4:])
 
     # Button Section
-    def link_product_wizard(self, cr, uid, ids, context=None):
+    def button_see_customer_product(self, cr, uid, ids, context=None):
+        psi_obj = self.pool['product.supplierinfo']
+        pp_obj = self.pool['product.product']
+        id = ids[0]
+        supplier_product_id = self._get_supplier_product_id_from_id(id)
+        psi_ids = psi_obj.search(cr, uid, [
+            ('supplier_product_id', '=', supplier_product_id)],
+            context=context)
+        psi = psi_obj.browse(cr, uid, psi_ids[0])
+        pp_ids = pp_obj.search(cr, uid, [
+            ('product_tmpl_id', '=', psi.product_id.id)],
+            context=context)
+        res = {
+            'type': 'ir.actions.act_window',
+            'res_model': 'product.product',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'views': [(False, 'form')],
+            'res_id': pp_ids[0],
+            'target': 'new',
+            'context': context,
+        }
+        return res
+    
+    def button_link_product_wizard(self, cr, uid, ids, context=None):
         return {
             'view_type': 'form',
             'view_mode': 'form',
@@ -50,7 +74,7 @@ class ProductIntercompanyTradeCatalog(Model):
             'context': context,
         }
 
-    def unlink_product(self, cr, uid, ids, context=None):
+    def button_unlink_product(self, cr, uid, ids, context=None):
         psi_obj = self.pool['product.supplierinfo']
         for id in ids:
             supplier_product_id = self._get_supplier_product_id_from_id(id)
@@ -104,6 +128,10 @@ class ProductIntercompanyTradeCatalog(Model):
             'Supplier Product Category', readonly=True),
         'supplier_product_id': fields.many2one(
             'product.product', 'Supplier Product', readonly=True),
+        'supplier_product_active': fields.boolean(
+            'Supplier Product Active', readonly=True),
+        'supplier_product_sale_ok': fields.boolean(
+            'Supplier Product Can be sold', readonly=True),
 
     }
 
@@ -123,6 +151,8 @@ CREATE OR REPLACE VIEW %s AS (
             s_pp.default_code as supplier_product_default_code,
             s_pt.uom_id as supplier_product_uom,
             s_pt.name as supplier_product_name,
+            s_pp.active as supplier_product_active,
+            s_pt.sale_ok as supplier_product_sale_ok,
             s_pc.id as supplier_category_id,
             s_pc.name as supplier_category_name,
             c_psi.intercompany_trade_price as customer_purchase_price,
