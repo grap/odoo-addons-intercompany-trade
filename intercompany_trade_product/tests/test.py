@@ -118,7 +118,7 @@ class Test(TransactionCase):
             self.itwlp_obj.link_product(cr, uid, [itwlp_id])
 
         # Remove association
-        self.pitc_obj.unlink_product(cr, uid, [active_id])
+        self.pitc_obj.button_unlink_product(cr, uid, [active_id])
         pp_customer_apple = self.pp_obj.browse(
             cr, uid, self.customer_apple_id)
         self.assertEqual(
