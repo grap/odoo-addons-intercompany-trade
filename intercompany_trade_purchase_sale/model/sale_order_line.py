@@ -152,7 +152,6 @@ class sale_order_line(Model):
             cr, uid, ids, context=context)
         return res
 
-
     # Custom Section
     def prepare_intercompany_purchase_order_line(
             self, cr, uid, sol, rit, context=None):
