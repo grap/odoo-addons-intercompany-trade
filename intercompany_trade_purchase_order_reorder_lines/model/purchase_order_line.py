@@ -31,5 +31,5 @@ class purchase_order_line(Model):
         res = super(
             purchase_order_line, self).prepare_intercompany_sale_order_line(
                 cr, uid, pol, rit, context=context)
-        res['sequence'] = sol.sequence
+        res['sequence'] = pol.sequence
         return res
