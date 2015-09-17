@@ -268,6 +268,7 @@ class purchase_order(Model):
 
         return {
             'shop_id': shop_id,
+            'date_order': po.date_order,
             'company_id': rit.supplier_company_id.id,
             'partner_id': rit.customer_partner_id.id,
             'partner_invoice_id': rit.customer_partner_id.id,

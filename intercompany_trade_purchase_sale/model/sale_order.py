@@ -201,7 +201,7 @@ class sale_order(Model):
         sl_id = po_obj.onchange_warehouse_id(
             cr, rit.customer_user_id.id, [], sw_id)['value']['location_id']
 
-        return {
+        res = {
             'date_order': so.date_order,
             'company_id': rit.customer_company_id.id,
             'partner_id': rit.supplier_partner_id.id,
@@ -212,6 +212,7 @@ class sale_order(Model):
             'invoice_method': 'picking',
             'intercompany_trade_sale_order_id': so.id,
         }
+        return res
 
     # Action Section
     def action_button_confirm(self, cr, uid, ids, context=None):
