@@ -75,6 +75,7 @@
             </field>
         </record>
 
+<!-- Overload: intercompany.trade.wizard.link.product -->
         <record id="view_intercompany_trade_wizard_link_product_form" model="ir.ui.view">
             <field name="model">intercompany.trade.wizard.link.product</field>
             <field name="inherit_id" ref="intercompany_trade_product.view_intercompany_trade_wizard_link_product_form"/>
