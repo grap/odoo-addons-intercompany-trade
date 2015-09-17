@@ -63,7 +63,7 @@ class ProductIntercompanyTradeCatalog(Model):
             'context': context,
         }
         return res
-    
+
     def button_link_product_wizard(self, cr, uid, ids, context=None):
         return {
             'view_type': 'form',
