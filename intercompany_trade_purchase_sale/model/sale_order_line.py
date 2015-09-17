@@ -66,43 +66,21 @@ class sale_order_line(Model):
             ctx = context.copy()
             ctx['intercompany_trade_do_not_propagate'] = True
 
+            # Get Created Sale Order Line
+            sol = self.browse(cr, uid, res, context=context)
+
+            # Get Intercompany Trade
             rit = rit_obj._get_intercompany_trade_by_partner_company(
                 cr, uid, so.partner_id.id, so.company_id.id, 'out',
                 context=context)
 
-            sol = self.browse(cr, uid, res, context=context)
-
-            # Create associated Purchase Order Line
-            other_product_info = _get_other_product_info(
-                self.pool, cr, uid, rit, vals['product_id'], 'out',
-                context=context)
-
-            pol_vals = pol_obj.onchange_product_id(
-                cr, rit.customer_user_id.id, False,
-                rit.purchase_pricelist_id.id,
-                other_product_info['product_id'], sol.product_uom_qty,
-                sol.product_uom.id, rit.supplier_partner_id.id,
-                context=context)['value']
-
-            pol_vals.update({
-                'order_id':
-                    sol.order_id.intercompany_trade_purchase_order_id.id,
-                'price_unit': 0,
-                'name': '[%s] %s' % (
-                    sol.product_id.default_code, sol.product_id.name),
-                'product_id': other_product_info['product_id'],
-                'product_qty': sol.product_uom_qty,
-                'product_uom': sol.product_uom.id,
-                'intercompany_trade_sale_order_line_id': sol.id,
-                'date_planned': datetime.now().strftime('%d-%m-%Y'),
-                'taxes_id': (
-                    pol_vals['taxes_id']
-                    and [[6, False, pol_vals['taxes_id']]]
-                    or False),
-            })
+            # Prepare and create associated Purchase Order Line
+            pol_vals = self.prepare_intercompany_purchase_order_line(
+                cr, uid, sol, rit, context=context)
 
             pol_id = pol_obj.create(
                 cr, rit.customer_user_id.id, pol_vals, context=ctx)
+
             # Force the call of the _amount_all
             pol_obj.write(
                 cr, rit.customer_user_id.id, [pol_id], {
@@ -130,23 +108,22 @@ class sale_order_line(Model):
             ctx['intercompany_trade_do_not_propagate'] = True
             for sol in self.browse(cr, uid, ids, context=context):
                 if sol.intercompany_trade_purchase_order_line_id:
-                    rit = rit_obj._get_intercompany_trade_by_partner_company(
-                        cr, uid, sol.order_id.partner_id.id,
-                        sol.order_id.company_id.id, 'out', context=context)
-                    pol_vals = {}
-
                     if 'product_id' in vals.keys():
                         raise except_osv(
                             _("Error!"),
                             _("""You can not change the product '%s'.\n"""
                                 """ Please remove this line and create"""
                                 """ a new one.""" % (sol.product_id.name)))
-                    if 'product_uom_qty' in vals:
-                        pol_vals['product_qty'] = sol.product_uom_qty
-                    if 'product_uom' in vals:
-                        pol_vals['product_uom'] = sol.product_uom.id
-                    if 'price_unit' in vals:
-                        pol_vals['price_unit'] = sol.price_unit
+
+                    # Get Intercompany Trade
+                    rit = rit_obj._get_intercompany_trade_by_partner_company(
+                        cr, uid, sol.order_id.partner_id.id,
+                        sol.order_id.company_id.id, 'out', context=context)
+
+                    # Prepare and update associated Purchase Order Line
+                    pol_vals = self.prepare_intercompany_purchase_order_line(
+                        cr, uid, sol, rit, context=context)
+
                     pol_obj.write(
                         cr, rit.customer_user_id.id,
                         [sol.intercompany_trade_purchase_order_line_id.id],
@@ -173,4 +150,39 @@ class sale_order_line(Model):
                         context=ctx)
         res = super(sale_order_line, self).unlink(
             cr, uid, ids, context=context)
+        return res
+
+
+    # Custom Section
+    def prepare_intercompany_purchase_order_line(
+            self, cr, uid, sol, rit, context=None):
+        pol_obj = self.pool['purchase.order.line']
+
+        other_product_info = _get_other_product_info(
+            self.pool, cr, uid, rit, sol.product_id.id, 'out',
+            context=context)
+
+        res = pol_obj.onchange_product_id(
+            cr, rit.customer_user_id.id, False,
+            rit.purchase_pricelist_id.id,
+            other_product_info['product_id'], sol.product_uom_qty,
+            sol.product_uom.id, rit.supplier_partner_id.id,
+            context=context)['value']
+
+        res.update({
+            'order_id':
+                sol.order_id.intercompany_trade_purchase_order_id.id,
+            'name': '[%s] %s' % (
+                sol.product_id.default_code, sol.product_id.name),
+            'price_unit': sol.price_unit,
+            'product_id': other_product_info['product_id'],
+            'product_qty': sol.product_uom_qty,
+            'product_uom': sol.product_uom.id,
+            'intercompany_trade_sale_order_line_id': sol.id,
+            'date_planned': datetime.now().strftime('%d-%m-%Y'),
+            'taxes_id': (
+                res['taxes_id']
+                and [[6, False, res['taxes_id']]]
+                or False),
+        })
         return res

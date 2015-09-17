@@ -73,7 +73,7 @@ class purchase_order_line(Model):
                 cr, uid, po.partner_id.id, po.company_id.id, 'in',
                 context=context)
 
-            # Prepare and create associated Sale Order
+            # Prepare and create associated Sale Order Line
             sol_vals = self.prepare_intercompany_sale_order_line(
                 cr, uid, pol, rit, context=context)
 
@@ -139,7 +139,7 @@ class purchase_order_line(Model):
                         cr, uid, pol.order_id.partner_id.id,
                         pol.order_id.company_id.id, 'in', context=context)
 
-                    # Prepare and update associated Sale Order
+                    # Prepare and update associated Sale Order line
                     sol_vals = self.prepare_intercompany_sale_order_line(
                         cr, uid, pol, rit, context=context)
 
