@@ -54,7 +54,7 @@ class ResIntercompanyTrade(Model):
                     "  accountant to add a setting for this account."
                     " \n\n Product Name : %s - %s" % (
                         rit.customer_company_id.fiscal_company.name,
-                        aa.code, aa.name, product.code, product.name)))
+                        aa.code, aa.name, product.default_code, product.name)))
 
     # Fields Function Section
     def _same_fiscal_mother_company(

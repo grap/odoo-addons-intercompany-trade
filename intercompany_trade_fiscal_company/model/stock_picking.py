@@ -46,7 +46,7 @@ class StockPicking(Model):
                 if res.get('account_id', False):
                     res['account_id'] = rit_obj.transcode_account_id(
                         cr, uid, rit, res['account_id'],
-                        picking.product_id.name,
+                        picking.product_id,
                         context=context)
 
                 # Remove VAT if it is a Trade between two company that belong
