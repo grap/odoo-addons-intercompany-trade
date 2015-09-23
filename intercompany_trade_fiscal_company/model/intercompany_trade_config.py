@@ -79,11 +79,21 @@ class ResIntercompanyTrade(Model):
                     'customer_company_id',
                     'supplier_company_id',
                 ], 10)},
-            help="""If this field is checked, the intercompany"""
-            """ trade is realized between two fiscal child companies"""
-            """ that have the same mother company. Special rules"""
-            """ will be applied.\n"""
-            """ * VAT are deleted;\n"""
-            """ * Sale and Purchase Accounts are updated using a"""
-            """ transcoding table; """),
+            help="If this field is checked, the intercompany"
+            " trade is realized between two fiscal child companies"
+            " that have the same mother company. Special rules"
+            " will be applied.\n"
+            " * VAT are deleted;\n"
+            " * Sale and Purchase Accounts are updated using a"
+            " transcoding table; "),
+        'sale_journal_id': fields.many2one(
+            'account.journal', 'Journal in Supplier Company', help="Set"
+            " a journal to use for intercompany trade. This setting is used"
+            " only for trade between child companies of the same fiscal"
+            " company."),
+        'purchase_journal_id': fields.many2one(
+            'account.journal', 'Journal in Customer Company', help="Set"
+            " a journal to use for intercompany trade. This setting is used"
+            " only for trade between child companies of the same fiscal"
+            " company."),
     }
