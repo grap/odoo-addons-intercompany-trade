@@ -170,6 +170,7 @@ CREATE OR REPLACE VIEW %s AS (
             ON rit.supplier_partner_id = c_rp.id
         LEFT JOIN product_supplierinfo c_psi
             ON c_psi.supplier_product_id = s_pp.id
+            AND c_psi.company_id = rit.customer_company_id
         WHERE
             (s_pp.active = True and s_pt.sale_ok = True)
             OR c_psi.product_id is not null
