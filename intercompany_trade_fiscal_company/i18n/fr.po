@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-21 10:57+0000\n"
-"PO-Revision-Date: 2015-08-21 10:57+0000\n"
+"POT-Creation-Date: 2015-09-25 13:02+0000\n"
+"PO-Revision-Date: 2015-09-25 13:02+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,8 +17,8 @@ msgstr ""
 
 #. module: intercompany_trade_fiscal_company
 #: sql_constraint:fiscal.company.transcoding.account:0
-msgid "An Account must only be to once time for a same company!"
-msgstr "Un compte comptable peut seulement être transcodé une seule fois pour une même société !"
+msgid "An Account must only be transcoded once time for a same company!"
+msgstr "Un compte peut seulement être transcodé une fois par société !"
 
 #. module: intercompany_trade_fiscal_company
 #: constraint:fiscal.company.transcoding.account:0
@@ -43,15 +43,74 @@ msgstr "Compte de départ"
 #. module: intercompany_trade_fiscal_company
 #: help:intercompany.trade.config,same_fiscal_mother_company:0
 msgid "If this field is checked, the intercompany trade is realized between two fiscal child companies that have the same mother company. Special rules will be applied.\n"
-" * VAT are deleted;\n * Sale and Purchase Accounts are updated using a transcoding table; "
+" * VAT are deleted;\n"
+" * Sale and Purchase Accounts are updated using a transcoding table; "
 msgstr "Si ce champ est coché, la transaction Inter Société est réalisée entre deux sociétés d'une même CAE. Des règles spéciales seront appliquée :.\n"
 " * Les TVA sont supprimées; * Les comptes comptables d'achat et de vente sont mis à jour en utilisant une table de transodage ;"
 
 #. module: intercompany_trade_fiscal_company
-#: code:addons/intercompany_trade_fiscal_company/model/intercompany_trade_config.py:48
+#: code:addons/intercompany_trade_fiscal_company/model/account_invoice.py:66
+#, python-format
+msgid "Incorrect Changes!"
+msgstr "Changement incorrects !"
+
+#. module: intercompany_trade_fiscal_company
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_fiscal_company.model_intercompany_trade_config
+#, python-format
+msgid "Intercompany Trade"
+msgstr "Transaction Inter Société"
+
+#. module: intercompany_trade_fiscal_company
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_fiscal_company.model_account_invoice
+#, python-format
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: intercompany_trade_fiscal_company
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_fiscal_company.model_account_invoice_line
+#, python-format
+msgid "Invoice Line"
+msgstr "Lignes de facture"
+
+#. module: intercompany_trade_fiscal_company
+#: field:intercompany.trade.config,purchase_journal_id:0
+msgid "Journal in Customer Company"
+msgstr "Journal d'achat dans la société cliente"
+
+#. module: intercompany_trade_fiscal_company
+#: field:intercompany.trade.config,sale_journal_id:0
+msgid "Journal in Supplier Company"
+msgstr "Journal de vente dans la société fournisseur"
+
+#. module: intercompany_trade_fiscal_company
+#: code:addons/intercompany_trade_fiscal_company/model/intercompany_trade_config.py:49
 #, python-format
 msgid "Missing Setting!"
 msgstr "Paramétrage manquant !"
+
+#. module: intercompany_trade_fiscal_company
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_fiscal_company.model_stock_picking
+#, python-format
+msgid "Picking List"
+msgstr "Opération de manutention"
+
+#. module: intercompany_trade_fiscal_company
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_fiscal_company.model_purchase_order_line
+#, python-format
+msgid "Purchase Order Line"
+msgstr "Ligne de commande d'achat"
+
+#. module: intercompany_trade_fiscal_company
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_fiscal_company.model_sale_order_line
+#, python-format
+msgid "Sales Order Line"
+msgstr "Ligne de commandes de vente"
 
 #. module: intercompany_trade_fiscal_company
 #: field:intercompany.trade.config,same_fiscal_mother_company:0
@@ -59,9 +118,15 @@ msgid "Same Fiscal Mother Company"
 msgstr "Même Société CAE"
 
 #. module: intercompany_trade_fiscal_company
+#: help:intercompany.trade.config,purchase_journal_id:0
+#: help:intercompany.trade.config,sale_journal_id:0
+msgid "Set a journal to use for intercompany trade. This setting is used only for trade between child companies of the same fiscal company."
+msgstr "Mettre un journal a utiliser pour les Transactions Inter Société. Ce paramétrage est utilisé seulement pour des transactions entre deux sociétés appartenant à la même CAE."
+
+#. module: intercompany_trade_fiscal_company
 #: field:fiscal.company.transcoding.account,to_account_id:0
 msgid "To Account"
-msgstr "Compte d'arrivé"
+msgstr "Compte d'arrivée"
 
 #. module: intercompany_trade_fiscal_company
 #: view:fiscal.company.transcoding.account:0
@@ -71,15 +136,26 @@ msgid "Transcoding Account for Fiscal Company"
 msgstr "Compte transcodé pour CAE"
 
 #. module: intercompany_trade_fiscal_company
-#: code:addons/intercompany_trade_fiscal_company/model/intercompany_trade_config.py:52
+#: code:addons/intercompany_trade_fiscal_company/model/intercompany_trade_config.py:55
 #, python-format
 msgid "Unable to sell or purchase a product because the following account is not transcoded for the company %s. \n"
 "\n"
 " %s - %s\n"
 "\n"
-".Please ask to your accountant to add a setting for this account."
-msgstr "Impossible de vendre ou d'acheter un produit car le compte suivant n'a pas été transcodé pour la société %s. \n"
+".Please ask to your accountant to add a setting for this account. \n"
+"\n"
+" Product Name : %s - %s"
+msgstr "Impossible d'acheter ou de vendre un produit car le compte comptable suivant n'est pas transcodé pour la société %s. \n"
 "\n"
 " %s - %s\n"
 "\n"
-".Merci de demander à votre comptable d'ajouter un paramétrage pour ce compte."
+".Veuillez demander à votre comptable d'ajouter un paramétrage pour ce compte. \n"
+"\n"
+" Nom du produit : %s - %s"
+
+#. module: intercompany_trade_fiscal_company
+#: code:addons/intercompany_trade_fiscal_company/model/account_invoice.py:68
+#, python-format
+msgid "You can not change journal of invoice '%s' because of intercompany Trade rules."
+msgstr "Vous ne pouvez pas changer le journal de la facture '%s' à cause de règles de Transaction Inter Société."
+

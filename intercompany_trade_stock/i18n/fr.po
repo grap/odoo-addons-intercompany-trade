@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-21 09:13+0000\n"
-"PO-Revision-Date: 2015-08-21 09:13+0000\n"
+"POT-Creation-Date: 2015-09-25 12:50+0000\n"
+"PO-Revision-Date: 2015-09-25 12:50+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,6 +15,19 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
+#. module: intercompany_trade_stock
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_stock.model_stock_picking_out
+#, python-format
+msgid "Delivery Orders"
+msgstr "Bons de livraisons"
+
+#. module: intercompany_trade_stock
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_stock.model_stock_picking_in
+#, python-format
+msgid "Incoming Shipments"
+msgstr "Livraisons à recevoir"
 
 #. module: intercompany_trade_stock
 #: field:stock.picking,intercompany_trade:0
@@ -22,8 +35,14 @@ msgid "Intercompany Trade"
 msgstr "Transaction Inter Société"
 
 #. module: intercompany_trade_stock
-#: code:addons/intercompany_trade_stock/model/stock_invoice_onshipping.py:40
-#: code:addons/intercompany_trade_stock/model/stock_invoice_onshipping.py:47
+#: code:addons/intercompany_trade_stock/model/stock_invoice_onshipping.py:50
+#, python-format
+msgid "Intercompany Trade - Missing Information!"
+msgstr "Transaction Inter Société - Information manquante !"
+
+#. module: intercompany_trade_stock
+#: code:addons/intercompany_trade_stock/model/stock_invoice_onshipping.py:44
+#: code:addons/intercompany_trade_stock/model/stock_invoice_onshipping.py:56
 #: code:addons/intercompany_trade_stock/model/stock_picking.py:65
 #: code:addons/intercompany_trade_stock/model/stock_picking_in.py:38
 #: code:addons/intercompany_trade_stock/model/stock_picking_in.py:51
@@ -50,13 +69,41 @@ msgid "Intercompany Trade Stock Move"
 msgstr "Mouvement de stock Inter Société"
 
 #. module: intercompany_trade_stock
-#: code:addons/intercompany_trade_stock/model/stock_invoice_onshipping.py:48
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_stock.model_stock_picking
+#, python-format
+msgid "Picking List"
+msgstr "Opération de manutention"
+
+#. module: intercompany_trade_stock
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_stock.model_stock_return_picking
+#, python-format
+msgid "Return Picking"
+msgstr "Retour de marchandise"
+
+#. module: intercompany_trade_stock
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_stock.model_stock_invoice_onshipping
+#, python-format
+msgid "Stock Invoice Onshipping"
+msgstr "Facturation du stock au moment de l'expédition"
+
+#. module: intercompany_trade_stock
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_stock.model_stock_move
+#, python-format
+msgid "Stock Move"
+msgstr "Mouvement de stock"
+
+#. module: intercompany_trade_stock
+#: code:addons/intercompany_trade_stock/model/stock_invoice_onshipping.py:57
 #, python-format
 msgid "You can not Invoice a Picking In that come from Intercompany Trade. Only Picking Out can be invoiced. Please ask to your supplier to invoice the Trade."
 msgstr "Vous ne pouvez pas facturer ce bon de réception qui provient d'une transaction Inter Société. Seulement les bons de livraison peuvent être facturés. Merci de demander à votre fournisseur de facturer la transaction."
 
 #. module: intercompany_trade_stock
-#: code:addons/intercompany_trade_stock/model/stock_invoice_onshipping.py:41
+#: code:addons/intercompany_trade_stock/model/stock_invoice_onshipping.py:45
 #, python-format
 msgid "You can not Invoice many Pickings Out that come from Intercompany Trade."
 msgstr "Vous ne pouvez pas facturer plusieurs bon de livraison de transaction Inter Société en même temps."
@@ -86,4 +133,10 @@ msgstr "Vous ne pouvez pas faire de retour sur un bon de livraison (ou de récep
 #, python-format
 msgid "You can not set a partner flagged as 'Intercompany Trade'."
 msgstr "Vous ne pouvez pas paramétrer un partenaire de type 'Transaction Inter Société'."
+
+#. module: intercompany_trade_stock
+#: code:addons/intercompany_trade_stock/model/stock_invoice_onshipping.py:51
+#, python-format
+msgid "You have to set an invoice date for Invoices in Intercompany Trade."
+msgstr "Vous devez mettre une date de facture pour les factures de Transaction Inter Société."
 

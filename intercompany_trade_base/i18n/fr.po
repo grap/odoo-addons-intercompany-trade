@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-20 15:39+0000\n"
-"PO-Revision-Date: 2015-08-20 15:39+0000\n"
+"POT-Creation-Date: 2015-09-25 12:16+0000\n"
+"PO-Revision-Date: 2015-09-25 12:16+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: intercompany_trade_base
-#: code:addons/intercompany_trade_base/model/intercompany_trade_config.py:115
+#: code:addons/intercompany_trade_base/model/intercompany_trade_config.py:117
 #, python-format
 msgid "(Intercompany Trade)"
 msgstr "(Transaction Inter Société)"
@@ -25,7 +25,7 @@ msgstr "(Transaction Inter Société)"
 #: code:addons/intercompany_trade_base/model/res_partner.py:57
 #, python-format
 msgid "Access Denied!"
-msgstr "Accès Interdit!"
+msgstr "Accès Interdit !"
 
 #. module: intercompany_trade_base
 #: field:intercompany.trade.config,active:0
@@ -71,16 +71,16 @@ msgid "Customers"
 msgstr "Clients"
 
 #. module: intercompany_trade_base
-#: code:addons/intercompany_trade_base/model/intercompany_trade_config.py:189
+#: code:addons/intercompany_trade_base/model/intercompany_trade_config.py:191
 #, python-format
 msgid "Error!"
-msgstr "Erreur!"
+msgstr "Erreur !"
 
 #. module: intercompany_trade_base
 #: code:addons/intercompany_trade_base/model/res_partner.py:58
 #, python-format
 msgid "Error: You have no right to create or update a partner that is set as 'Intercompany Trade'"
-msgstr "Error: Vous n'avez pas le droit de créer ou de modifier un partenaire qui est marqué comme 'Transaction Inter Société'"
+msgstr "Erreur : Vous n'avez pas le droit de créer ou de modifier un partenaire qui est marqué comme 'Transaction Inter Société'"
 
 #. module: intercompany_trade_base
 #: view:intercompany.trade.config:0
@@ -220,7 +220,7 @@ msgid "User"
 msgstr "Utilisateur"
 
 #. module: intercompany_trade_base
-#: code:addons/intercompany_trade_base/model/intercompany_trade_config.py:190
+#: code:addons/intercompany_trade_base/model/intercompany_trade_config.py:192
 #, python-format
 msgid "You can not change customer or supplier company.If you want to do so, please disable this intercompany trade and create a new one."
 msgstr "Vous ne pouvez pas changer de société cliente ou fournisseur. Si vous voulez faire cela, merci de désactiver la transaction inter société et d'en créer une nouvelle."

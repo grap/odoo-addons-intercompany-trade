@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-21 09:25+0000\n"
-"PO-Revision-Date: 2015-08-21 09:25+0000\n"
+"POT-Creation-Date: 2015-09-25 12:45+0000\n"
+"PO-Revision-Date: 2015-09-25 12:45+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,17 +21,16 @@ msgid "Confirm Request"
 msgstr "Confirmer la demande"
 
 #. module: intercompany_trade_purchase_sale
-#: code:addons/intercompany_trade_purchase_sale/model/purchase_order.py:150
-#: code:addons/intercompany_trade_purchase_sale/model/purchase_order.py:159
-#: code:addons/intercompany_trade_purchase_sale/model/purchase_order.py:187
-#: code:addons/intercompany_trade_purchase_sale/model/purchase_order_line.py:136
-#: code:addons/intercompany_trade_purchase_sale/model/purchase_order_line.py:142
-#: code:addons/intercompany_trade_purchase_sale/model/purchase_order_line.py:147
+#: code:addons/intercompany_trade_purchase_sale/model/purchase_order.py:91
+#: code:addons/intercompany_trade_purchase_sale/model/purchase_order.py:174
+#: code:addons/intercompany_trade_purchase_sale/model/purchase_order.py:183
+#: code:addons/intercompany_trade_purchase_sale/model/purchase_order.py:191
+#: code:addons/intercompany_trade_purchase_sale/model/purchase_order_line.py:121
+#: code:addons/intercompany_trade_purchase_sale/model/purchase_order_line.py:127
+#: code:addons/intercompany_trade_purchase_sale/model/purchase_order_line.py:132
+#: code:addons/intercompany_trade_purchase_sale/model/sale_order.py:142
 #: code:addons/intercompany_trade_purchase_sale/model/sale_order.py:151
-#: code:addons/intercompany_trade_purchase_sale/model/sale_order.py:160
-#: code:addons/intercompany_trade_purchase_sale/model/sale_order_line.py:67
-#: code:addons/intercompany_trade_purchase_sale/model/sale_order_line.py:146
-#: code:addons/intercompany_trade_purchase_sale/model/sale_order_line.py:152
+#: code:addons/intercompany_trade_purchase_sale/model/sale_order_line.py:113
 #, python-format
 msgid "Error!"
 msgstr "Erreur !"
@@ -54,6 +53,7 @@ msgstr "Erreur: Le module 'Transaction Inter Société' fonctionne seulement ave
 #: field:purchase.order.line,intercompany_trade:0
 #: view:sale.order:0
 #: field:sale.order,intercompany_trade:0
+#: field:sale.order.line,intercompany_trade:0
 #, python-format
 msgid "Intercompany Trade"
 msgstr "Transaction Inter Société"
@@ -91,6 +91,32 @@ msgid "Intercompany Trade To Confirm"
 msgstr "Transaction Inter Société à confirmer"
 
 #. module: intercompany_trade_purchase_sale
+#: code:addons/intercompany_trade_purchase_sale/model/purchase_order.py:100
+#, python-format
+msgid "It seems that your Purchase Order has not the same amount that the according Sale Order. Please call the IT Support\n"
+"\n"
+" * Purchase : %s \n"
+" * Amount Untaxed : %d\n"
+" * Taxes : %d\n"
+"\n"
+" * Sale Order : %s \n"
+" * Amount Untaxed : %d\n"
+" * Taxes : %d\n"
+"\n"
+""
+msgstr "Il semble que votre bon de commande d'achat n'a pas le même total que la vente correspondante. Veuillez appeler le support informatique \n"
+"\n"
+" * Achat : %s \n"
+" * Total HT : %d\n"
+" * Taxes : %d\n"
+"\n"
+" * Vente : %s \n"
+" * Total HT : %d\n"
+" * Taxes : %d\n"
+"\n"
+""
+
+#. module: intercompany_trade_purchase_sale
 #: code:_description:0
 #: model:ir.model,name:intercompany_trade_purchase_sale.model_purchase_order
 #, python-format
@@ -124,49 +150,51 @@ msgid "Sales Order Line"
 msgstr "Ligne de commandes de vente"
 
 #. module: intercompany_trade_purchase_sale
-#: code:addons/intercompany_trade_purchase_sale/model/purchase_order.py:160
+#: code:addons/intercompany_trade_purchase_sale/model/purchase_order.py:184
 #, python-format
 msgid "You can not change Lines of a Sent Purchase Order because of Intercompany Trade Rules. Please cancel this Purchase Order and create a new one, duplicating it."
 msgstr "Vous ne pouvez pas changer les lignes d'un bon de commande d'achat envoyé à cause des règles de validation des transaction Inter Société. Merci d'annuler ce bon de commande d'achat et d'en créer un autre, en dupliquant celui-ci."
 
 #. module: intercompany_trade_purchase_sale
-#: code:addons/intercompany_trade_purchase_sale/model/sale_order.py:161
+#: code:addons/intercompany_trade_purchase_sale/model/sale_order.py:152
 #, python-format
 msgid "You can not change Lines of a Sent Sale Order because of Intercompany Trade Rules. Please ask to your Customer to cancel the Purchase Order and create a new one, duplicating it."
 msgstr "Vous ne pouvez pas changer les lignes d'un bon de commande de vente envoyé à cause des règles de validation des transaction Inter Société. Merci de demander à votre founrisseur de 'annuler ce bon de commande d'achat et d'en créer un autre, en dupliquant celui-ci."
 
 #. module: intercompany_trade_purchase_sale
-#: code:addons/intercompany_trade_purchase_sale/model/purchase_order.py:188
+#: code:addons/intercompany_trade_purchase_sale/model/purchase_order.py:192
 #, python-format
 msgid "You can not change set to 'draft' again this Quotation because of Intercompany Trade Rules. Please cancel this one and create a new one, duplicating it."
 msgstr "Vous ne pouvez pas remettre à l'état de brouillon ce devis à cause de règles de validation sur les Transactions Inter Société. Merci d'annuler ce devis et d'en créer un nouveau, en dupliquant celui-ci."
 
 #. module: intercompany_trade_purchase_sale
-#: code:addons/intercompany_trade_purchase_sale/model/purchase_order_line.py:150
+#: code:addons/intercompany_trade_purchase_sale/model/purchase_order_line.py:135
 #, python-format
 msgid "You can not change the Price for the product '%s'. Please ask to your supplier."
 msgstr "Vous ne pouvez pas changer le prix pour le produit '%s'. Merci de demander à votre fournisseur."
 
 #. module: intercompany_trade_purchase_sale
-#: code:addons/intercompany_trade_purchase_sale/model/purchase_order_line.py:144
+#: code:addons/intercompany_trade_purchase_sale/model/purchase_order_line.py:129
 #, python-format
 msgid "You can not change the UoM of the Product %s."
 msgstr "Vous ne pouvez pas changer l'unité de mesure du produit %s."
 
 #. module: intercompany_trade_purchase_sale
-#: code:addons/intercompany_trade_purchase_sale/model/purchase_order.py:151
-#, python-format
-msgid "You can not change the supplier because of Intercompany Trade Rules. Please create a new one Purchase Order."
-msgstr "Vous ne pouvez pas changer le client à cause de règle de fonctionnement sur les Transactions Inter Sociétés. Merci de créer un nouveau bon de commande d'achat."
-
-#. module: intercompany_trade_purchase_sale
-#: code:addons/intercompany_trade_purchase_sale/model/sale_order.py:152
+#: code:addons/intercompany_trade_purchase_sale/model/sale_order.py:143
 #, python-format
 msgid "You can not change the customer because of Intercompany Trade Rules. Please create a new one Sale Order."
 msgstr "Vous ne pouvez pas changer le client à cause de règle de fonctionnement sur les Transactions Inter Sociétés. Merci de créer un nouveau bon de commande d'achat."
 
 #. module: intercompany_trade_purchase_sale
-#: code:addons/intercompany_trade_purchase_sale/model/sale_order_line.py:149
+#: code:addons/intercompany_trade_purchase_sale/model/purchase_order_line.py:124
+#, python-format
+msgid "You can not change the product '%s'\n"
+". Please remove this line and create a new one."
+msgstr "Vous ne pouvez pas changer de produit '%s'\n"
+". Veuillez supprimer cette ligne et en créer une nouvelle."
+
+#. module: intercompany_trade_purchase_sale
+#: code:addons/intercompany_trade_purchase_sale/model/sale_order_line.py:116
 #, python-format
 msgid "You can not change the product '%s'.\n"
 " Please remove this line and create a new one."
@@ -174,17 +202,7 @@ msgstr "Vous ne pouvez pas changer le produit '%s'.\n"
 " Merci de supprimer cette ligne et d'en saisir une autre."
 
 #. module: intercompany_trade_purchase_sale
-#: code:addons/intercompany_trade_purchase_sale/model/purchase_order_line.py:139
+#: code:addons/intercompany_trade_purchase_sale/model/purchase_order.py:175
 #, python-format
-msgid "You can not change the product'%s'.\n Please remove this line and choose a a new one."
-msgstr "Vous ne pouvez pas changer le produit '%s'.\n"
-" Merci de supprimer cette ligne et d'en saisir une autre."
-
-#. module: intercompany_trade_purchase_sale
-#: code:addons/intercompany_trade_purchase_sale/model/sale_order_line.py:71
-#: code:addons/intercompany_trade_purchase_sale/model/sale_order_line.py:156
-#, python-format
-msgid "You can not set a discount for the product '%s'.\n"
-" Please change the unit price."
-msgstr "You can not set a discount for the product '%s'.\n"
-" Please change the unit price."
+msgid "You can not change the supplier because of Intercompany Trade Rules. Please create a new one Purchase Order."
+msgstr "Vous ne pouvez pas changer le client à cause de règle de fonctionnement sur les Transactions Inter Sociétés. Merci de créer un nouveau bon de commande d'achat."
