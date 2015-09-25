@@ -32,9 +32,9 @@ class ProductPricelist(Model):
             supplier_partner, pricelist,
             context=None):
         """
-        This function Overload the original one, adding vat exclude / incude
+        This function Overload the original one, adding tax exclude / incude
         values;
-        Sale price is always said as vat excluded;
+        Sale price is always said as taxes excluded;
         """
         at_obj = self.pool['account.tax']
 
@@ -48,9 +48,9 @@ class ProductPricelist(Model):
             res['supplier_sale_price'], 1.0, supplier_product.id)
         res.update({
             'supplier_sale_price': tax_info['total'],
-            'supplier_sale_price_vat_excl': tax_info['total'],
-            'supplier_sale_price_vat_incl': tax_info['total_included'],
-            'supplier_vat_name': ', '.join(
+            'supplier_sale_price_tax_excluded': tax_info['total'],
+            'supplier_sale_price_tax_included': tax_info['total_included'],
+            'supplier_tax_name': ', '.join(
                 [x.name for x in supplier_product.taxes_id])
         })
         return res

@@ -36,20 +36,20 @@ class ProductIntercompanyTradeCatalog(Model):
 
     # Column Section
     _columns = {
-        'supplier_sale_price_vat_excl': fields.function(
+        'supplier_sale_price_tax_excluded': fields.function(
             _get_supplier_price,
-            string='Supplier Sale Price VAT Excluded',
+            string='Supplier Sale Price Taxes Excluded',
             multi='supplier_price', type='float',
             digits_compute=dp.get_precision(
                 'Intercompany Trade Product Price')),
-        'supplier_sale_price_vat_incl': fields.function(
+        'supplier_sale_price_tax_included': fields.function(
             _get_supplier_price,
-            string='Supplier Sale Price VAT Included',
+            string='Supplier Sale Price Taxes Included',
             multi='supplier_price', type='float',
             digits_compute=dp.get_precision(
                 'Intercompany Trade Product Price')),
-        'supplier_vat_name': fields.function(
+        'supplier_tax_name': fields.function(
             _get_supplier_price,
-            string='Supplier VAT Name',
+            string='Supplier Taxes Name',
             multi='supplier_price', type='char'),
     }
