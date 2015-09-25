@@ -33,18 +33,18 @@ class IntercompanyTradeWizardLinkProduct(TransientModel):
 
     # Column Section
     _columns = {
-        'supplier_sale_price_vat_excl': fields.float(
-            'Supplier Sale Price VAT Excluded', readonly=True,
+        'supplier_sale_price_tax_excluded': fields.float(
+            'Supplier Sale Price Taxes Excluded', readonly=True,
             digits_compute=dp.get_precision(
                 'Intercompany Trade Product Price')),
-        'supplier_sale_price_vat_incl': fields.float(
-            'Supplier Sale Price VAT Included', readonly=True,
+        'supplier_sale_price_tax_included': fields.float(
+            'Supplier Sale Price Taxes Included', readonly=True,
             digits_compute=dp.get_precision(
                 'Intercompany Trade Product Price')),
         # The Following Field are used to display external information
         # And avoir ACL problem
-        'supplier_vat_name': fields.char(
-            'Supplier VAT Name', readonly=True),
+        'supplier_tax_name': fields.char(
+            'Supplier Taxes Name', readonly=True),
     }
 
     # Button Section
