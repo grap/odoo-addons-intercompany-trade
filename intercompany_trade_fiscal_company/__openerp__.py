@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Fiscal Company for Intercompany Trade Module for Odoo
+#    Intercompany Trade - Fiscal Company Module for Odoo
 #    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
@@ -21,9 +21,9 @@
 ##############################################################################
 
 {
-    'name': 'CIS - Intercompany Trade Fiscal Company',
+    'name': 'Intercompany Trade - Fiscal Company',
     'version': '1.0',
-    'category': 'CIS',
+    'category': 'Intercompany Trade',
     'description': """
 Manage specific intercompany trade for Cooperative
 ==================================================
