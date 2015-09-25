@@ -169,9 +169,9 @@ class AccountInvoiceLine(Model):
                     if 'product_id' in vals.keys():
                         raise except_osv(
                             _("Error!"),
-                            _("""You can not change the product. %s"""
-                                """Please remove this line and choose a"""
-                                """ a new one.""" % (ail.product_id.name)))
+                            _("""You can not change the product %s."""
+                                """Please remove this line and create a"""
+                                """ new one.""" % (ail.product_id.name)))
                     if 'discount' in vals.keys():
                         raise except_osv(
                             _("Error!"),
