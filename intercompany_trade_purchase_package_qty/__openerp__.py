@@ -40,7 +40,8 @@ Copyright, Authors and Licence:
     'website': 'http://www.grap.coop',
     'license': 'AGPL-3',
     'depends': [
-        'intercompany_trade_base',
+        'intercompany_trade_product',
         'purchase_package_qty',
     ],
+    'auto_install': True,
 }
