@@ -35,5 +35,6 @@ class intercompany_trade_config(Model):
                 cr, uid, id, supplier_product_id, customer_product_id,
                 context=context)
         res['indicative_package'] = True
+        res['package_qty'] = 1
 
         return res
