@@ -88,8 +88,8 @@ def _intercompany_trade_update(
     for psi in psi_obj.browse(cr, SUPERUSER_ID, psi_ids, context=context):
         pp_ids = pp_obj.search(cr, SUPERUSER_ID, [
             ('product_tmpl_id', '=', psi.product_id.id)], context=context)
-        psi_vals = _intercompany_trade_prepare(
-            pool, cr, SUPERUSER_ID, intercompany_trade_id,
+        psi_vals = rit_obj._prepare_product_supplierinfo(
+            cr, SUPERUSER_ID, intercompany_trade_id,
             psi.supplier_product_id.id, pp_ids[0], context=context)
         psi_obj.write(
             cr, SUPERUSER_ID, [psi.id], psi_vals, context=context)
@@ -186,34 +186,3 @@ def _get_other_product_info(
                         pp.name)))
         res['product_id'] = customer_pp_ids[0]
     return res
-
-
-# Overloadable Section
-def _intercompany_trade_prepare(
-        pool, cr, uid, intercompany_trade_id, supplier_product_id,
-        customer_product_id, context=None):
-    """
-    This function prepares supplier_info values.
-    Please overload this function to change the datas of the supplierinfo
-    created when a link between two products is done."""
-    pp_obj = pool['product.product']
-    rit_obj = pool['intercompany.trade.config']
-    ppl_obj = pool['product.pricelist']
-    rit = rit_obj.browse(
-        cr, uid, intercompany_trade_id, context=context)
-    supplier_pp = pp_obj.browse(
-        cr, rit.supplier_user_id.id, supplier_product_id, context=context)
-    price_info = ppl_obj._compute_intercompany_trade_prices(
-        cr, rit.supplier_user_id.id, supplier_pp,
-        rit.supplier_partner_id, rit.sale_pricelist_id, context=context)
-    return {
-        'min_qty': 0.0,
-        'name': rit.supplier_partner_id.id,
-        'product_name': supplier_pp.name,
-        'product_code': supplier_pp.default_code,
-        'company_id': rit.customer_company_id.id,
-        'supplier_product_id': supplier_pp.id,
-        'pricelist_ids': [[5], [0, False, {
-            'min_quantity': 0.0,
-            'price': price_info['supplier_sale_price']}]],
-    }
