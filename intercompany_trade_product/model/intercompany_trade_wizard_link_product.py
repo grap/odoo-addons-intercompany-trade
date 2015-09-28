@@ -27,8 +27,6 @@ from openerp.osv.osv import except_osv
 from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp
 
-from .custom_tools import _intercompany_trade_prepare
-
 
 class intercompany_trade_wizard_link_product(TransientModel):
     _name = 'intercompany.trade.wizard.link.product'
@@ -98,10 +96,12 @@ class intercompany_trade_wizard_link_product(TransientModel):
         pt_obj = self.pool['product.template']
         pp_obj = self.pool['product.product']
         pitc_obj = self.pool['product.intercompany.trade.catalog']
+        rit_obj = self.pool['intercompany.trade.config']
+
         for itwlp in self.browse(cr, uid, ids, context=context):
             # Prepare Product Supplierinfo
-            psi_vals = _intercompany_trade_prepare(
-                self.pool, cr, uid, itwlp.intercompany_trade_id.id,
+            psi_vals = rit_obj._prepare_product_supplierinfo(
+                cr, uid, itwlp.intercompany_trade_id.id,
                 itwlp.supplier_product_id.id,
                 itwlp.customer_product_id.id, context=context)
             psi_vals['product_id'] = itwlp.customer_product_tmpl_id.id
