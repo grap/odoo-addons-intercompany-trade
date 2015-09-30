@@ -96,4 +96,12 @@ class ResIntercompanyTrade(Model):
             " a journal to use for intercompany trade. This setting is used"
             " only for trade between child companies of the same fiscal"
             " company."),
+        'fiscal_company_customer_account_id': fields.related(
+            'customer_company_id', 'intercompany_trade_account_id',
+            type='many2one', relation='account.account', readonly=True,
+            string='Receivable Account for the Customer.'),
+        'fiscal_company_supplier_account_id': fields.related(
+            'supplier_company_id', 'intercompany_trade_account_id',
+            type='many2one', relation='account.account', readonly=True,
+            string='Payable Account for the Supplier.'),
     }

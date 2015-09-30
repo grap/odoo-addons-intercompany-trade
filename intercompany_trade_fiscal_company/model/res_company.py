@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Fiscal Company for Intercompany Trade Module for Odoo
-#    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
+#    Fiscal Company for Fiscal Company Module for Odoo
+#    Copyright (C) 2015 GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,12 +20,21 @@
 #
 ##############################################################################
 
-from . import account_account
-from . import account_invoice
-from . import account_invoice_line
-from . import fiscal_company_transcoding_account
-from . import intercompany_trade_config
-from . import stock_picking
-from . import sale_order_line
-from . import purchase_order_line
-from . import res_company
+from openerp.osv import fields
+from openerp.osv.orm import Model
+
+
+class res_ompany(Model):
+    _inherit = 'res.company'
+
+    _columns = {
+        'intercompany_trade_account_id': fields.many2one(
+            'account.account', domain="["
+                "('company_id', '=', fiscal_company),"
+                "('is_intercompany_trade_fiscal_company', '=', True)]",
+            string='Account for Intercompany Trade',
+            help="Set an account if there"
+            " is Intercompany Trade with this company. This setting will have"
+            " an effect only in trade between two company that belong to"
+            " the same fiscal company."),
+    }
