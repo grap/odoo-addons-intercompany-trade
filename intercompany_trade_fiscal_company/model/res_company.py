@@ -30,8 +30,8 @@ class res_ompany(Model):
     _columns = {
         'intercompany_trade_account_id': fields.many2one(
             'account.account', domain="["
-                "('company_id', '=', fiscal_company),"
-                "('is_intercompany_trade_fiscal_company', '=', True)]",
+            "('company_id', '=', fiscal_company),"
+            "('is_intercompany_trade_fiscal_company', '=', True)]",
             string='Account for Intercompany Trade',
             help="Set an account if there"
             " is Intercompany Trade with this company. This setting will have"
