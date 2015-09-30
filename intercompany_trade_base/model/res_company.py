@@ -38,19 +38,19 @@ class res_company(Model):
             rit_1 = rit_obj.browse(cr, uid, rit_obj.search(
                 cr, uid, [('supplier_company_id', '=', rc.id)],
                 context=context), context=context)
-            customer_partner_ids = [
-                x.customer_partner_id.id for x in rit_1]
+            supplier_partner_ids = [
+                x.supplier_partner_id.id for x in rit_1]
             # Get supplier partner created for this company
             rit_2 = rit_obj.browse(cr, uid, rit_obj.search(
                 cr, uid, [('customer_company_id', '=', rc.id)],
                 context=context), context=context)
-            supplier_partner_ids = [
-                x.supplier_partner_id.id for x in rit_2]
+            customer_partner_ids = [
+                x.customer_partner_id.id for x in rit_2]
             # Update all the partner with updated information of the company
+            data = rit_obj._prepare_partner_from_company(
+                    cr, uid, rc.id, context=context)
             rp_obj.write(
                 cr, uid,
                 list(set(customer_partner_ids + supplier_partner_ids)),
-                rit_obj._prepare_partner_from_company(
-                    cr, uid, rc.id, context=context),
-                context=context)
+                data, context=context)
         return res
