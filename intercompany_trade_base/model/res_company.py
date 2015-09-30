@@ -48,7 +48,7 @@ class res_company(Model):
                 x.customer_partner_id.id for x in rit_2]
             # Update all the partner with updated information of the company
             data = rit_obj._prepare_partner_from_company(
-                    cr, uid, rc.id, context=context)
+                cr, uid, rc.id, context=context)
             rp_obj.write(
                 cr, uid,
                 list(set(customer_partner_ids + supplier_partner_ids)),
