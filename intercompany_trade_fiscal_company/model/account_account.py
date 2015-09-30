@@ -22,8 +22,6 @@
 
 from openerp.osv import fields
 from openerp.osv.orm import Model
-from openerp.osv.osv import except_osv
-from openerp.tools.translate import _
 
 
 class account_account(Model):
