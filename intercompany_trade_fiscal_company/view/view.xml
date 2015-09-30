@@ -57,9 +57,33 @@
                 </field>
                 <field name="supplier_company_id" position="after">
                     <field name="sale_journal_id" />
+                    <field name="fiscal_company_supplier_account_id" />
                 </field>
                 <field name="customer_company_id" position="after">
                     <field name="purchase_journal_id" />
+                    <field name="fiscal_company_customer_account_id" />
+                </field>
+            </field>
+        </record>
+
+<!-- Overload : res.company -->
+        <record id="view_res_company_form" model="ir.ui.view">
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base_fiscal_company.view_res_company_form" />
+            <field name="arch" type="xml">
+                <field name="fiscal_company" position="after">
+                    <field name="intercompany_trade_account_id" attrs="{'visible': [('fiscal_type', '=', 'fiscal_child')]}"/>
+                </field>
+            </field>
+        </record>
+
+<!-- Overload : account.account -->
+        <record id="view_account_account_form" model="ir.ui.view">
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form" />
+            <field name="arch" type="xml">
+                <field name="user_type" position="after">
+                    <field name="is_intercompany_trade_fiscal_company"/>
                 </field>
             </field>
         </record>
