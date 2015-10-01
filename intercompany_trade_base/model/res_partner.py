@@ -37,7 +37,7 @@ class ResPartner(Model):
     }
 
     def _intercompany_tradefields_allowed(self):
-        """Overload this function to allow basic to change
+        """Overload this function to allow basic users to change
         some fields for intercompany trade partner"""
         return []
 
