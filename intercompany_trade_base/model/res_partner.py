@@ -45,6 +45,7 @@ class ResPartner(Model):
             self, cr, uid, ids, fields, context=None):
         """Restrict access of partner set as intercompany_trade for only
         'intercompany_trade_manager' users."""
+        context = context and context or {}
         if context.get('ignore_intercompany_trade_check', False):
             return
         unallowed_fields =\
