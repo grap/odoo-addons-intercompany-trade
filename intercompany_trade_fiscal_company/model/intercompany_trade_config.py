@@ -31,11 +31,11 @@ class ResIntercompanyTrade(Model):
 
     # Custom Section
     def _prepare_partner_from_company(
-            self, cr, uid, company_id, context=None):
+            self, cr, uid, company_id, inner_company_id, context=None):
         res = super(ResIntercompanyTrade, self)._prepare_partner_from_company(
-            cr, uid, company_id, context=context)
+            cr, uid, company_id, inner_company_id, context=context)
         rc_obj = self.pool['res.company']
-        rc = rc_obj.browse(cr, uid, company_id, context=context)
+        rc = rc_obj.browse(cr, uid, inner_company_id, context=context)
         if rc.intercompany_trade_account_id:
             res.update({
                 'property_account_receivable':
