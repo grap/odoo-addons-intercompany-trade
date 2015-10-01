@@ -106,7 +106,8 @@ class intercompany_trade_config(Model):
         rit_id = self.search(cr, uid, domain, context=context)[0]
         return self.browse(cr, uid, rit_id, context=context)
 
-    def _prepare_partner_from_company(self, cr, uid, company_id, context=None):
+    def _prepare_partner_from_company(
+            self, cr, uid, company_id, inner_company_id, context=None):
         """
             Return vals for the creation of a partner, depending of
             a company_id.
@@ -141,25 +142,32 @@ class intercompany_trade_config(Model):
             ('supplier_company_id', '=', vals['customer_company_id']),
         ], context=context)
         if len(rit_id) == 0:
+            rit = self.browse(cr, uid, res, context=context)
+            ctx = context.copy()
+            ctx['ignore_intercompany_trade_check'] = True
             # create supplier in customer company
             partner_vals = self._prepare_partner_from_company(
-                cr, uid, vals['supplier_company_id'], context=context)
+                cr, uid, vals['supplier_company_id'],
+                vals['customer_company_id'], context=context)
             partner_vals['customer'] = False
             partner_vals['supplier'] = True
             partner_vals['intercompany_trade'] = True
             partner_vals['company_id'] = vals['customer_company_id']
             supplier_partner_id = rp_obj.create(
-                cr, uid, partner_vals, context=context)
+                cr, rit.customer_user_id.id, partner_vals, context=ctx)
 
             # create customer in supplier company
             partner_vals = self._prepare_partner_from_company(
-                cr, uid, vals['customer_company_id'], context=context)
+                cr, uid, vals['customer_company_id'],
+                vals['supplier_company_id'], context=context)
             partner_vals['customer'] = True
             partner_vals['supplier'] = False
             partner_vals['intercompany_trade'] = True
             partner_vals['company_id'] = vals['supplier_company_id']
             customer_partner_id = rp_obj.create(
-                cr, uid, partner_vals, context=context)
+                cr, rit.supplier_user_id.id, partner_vals, context=ctx)
+
+            # Update intercompany trade config
             self.write(cr, uid, [res], {
                 'customer_partner_id': customer_partner_id,
                 'supplier_partner_id': supplier_partner_id,
