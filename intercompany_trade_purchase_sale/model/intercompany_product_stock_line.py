@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Intercompany Trade - Purchase & Sale module for OpenERP
-#    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
+#    Intercompany Trade - Purchase and Sale module for OpenERP
+#    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,10 +20,18 @@
 #
 ##############################################################################
 
-from . import intercompany_trade_config
-from . import purchase_order
-from . import purchase_order_line
-from . import sale_order
-from . import sale_order_line
-from . import intercompany_product_stock
-from . import intercompany_product_stock_line
+from openerp.osv.orm import TransientModel
+from openerp.osv import fields
+
+
+class intercompany_product_stock_line(TransientModel):
+    _name = 'intercompany.product.stock.line'
+
+    # Columns Section
+    _columns = {
+        'wizard_id': fields.many2one('intercompany.product.stock', 'Wizard'),
+        'product_code': fields.char('Supplier Product Internal Reference'),
+        'product_name': fields.char('Supplier Product Name'),
+        'product_qty_available': fields.float('Quantity On Hand'),
+        'product_virtual_available': fields.float('Forcasted Quantity'),
+    }

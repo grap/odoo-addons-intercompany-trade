@@ -278,3 +278,17 @@ class purchase_order(Model):
             'client_order_ref': po.name,
             'order_policy': 'picking',
         }
+
+    def button_intercompany_trade_product_quantity(
+            self, cr, uid, ids, context=None):
+        ctx = context.copy()
+        print "before call"
+        print ctx
+        return {
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'intercompany.product.stock',
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            'context': context,
+        }

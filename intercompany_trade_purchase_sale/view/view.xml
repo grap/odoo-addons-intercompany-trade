@@ -20,6 +20,31 @@
 <openerp>
     <data>
 
+<!-- Model: intercompany.product.stock -->
+        <record id="view_intercompany_product_stock_form" model="ir.ui.view">
+            <field name="model">intercompany.product.stock</field>
+            <field name="arch" type="xml">
+                <form string="Print Price Tags">
+                    <group colspan="2">
+                        <group col="4" colspan="1">
+                            <button icon="gtk-cancel" special="cancel" string="OK !"/>
+                       </group>
+                        <group string="Products" col="4" colspan="2">
+                            <field name="line_ids" readonly="1">
+                                <tree string="Products">
+                                    <field name="product_code"/>
+                                    <field name="product_name"/>
+                                    <field name="product_qty_available"/>
+                                    <field name="product_virtual_available" />
+                                </tree>
+                            </field>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+
 <!-- Model: intercompany.trade.config -->
         <record id="view_intercompany_trade_config_form" model="ir.ui.view">
             <field name="model">intercompany.trade.config</field>
@@ -52,6 +77,9 @@
                 <xpath expr="//button[@name='wkf_send_rfq' and @states='draft']" position="after">
                     <button name="intercompany_trade_request" type="object" string="Confirm Request"
                         attrs="{'invisible': ['|', ('intercompany_trade','=', False), ('state', 'not in', 'draft')]}"
+                    />
+                    <button name="button_intercompany_trade_product_quantity" type="object" string="See Supplier Quantities"
+                        attrs="{'invisible': ['|', ('intercompany_trade','=', False), ('state', 'not in', ('draft', 'sent'))]}"
                     />
                 </xpath>
                 <xpath expr="//button[@name='wkf_send_rfq' and @states='draft']" position="attributes">
