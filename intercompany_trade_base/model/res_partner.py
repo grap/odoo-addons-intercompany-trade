@@ -45,6 +45,8 @@ class ResPartner(Model):
             self, cr, uid, ids, fields, context=None):
         """Restrict access of partner set as intercompany_trade for only
         'intercompany_trade_manager' users."""
+        if context.get('ignore_intercompany_trade_check', False):
+            return
         unallowed_fields =\
             set(fields) - set(self._intercompany_tradefields_allowed())
         ru_obj = self.pool['res.users']
