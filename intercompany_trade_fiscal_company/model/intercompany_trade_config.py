@@ -29,6 +29,22 @@ from openerp.tools.translate import _
 class ResIntercompanyTrade(Model):
     _inherit = 'intercompany.trade.config'
 
+    # Custom Section
+    def _prepare_partner_from_company(
+            self, cr, uid, company_id, context=None):
+        res = super(ResIntercompanyTrade, self)._prepare_partner_from_company(
+            cr, uid, company_id, context=context)
+        rc_obj = self.pool['res.company']
+        rc = rc_obj.browse(cr, uid, company_id, context=context)
+        if rc.intercompany_trade_account_id:
+            res.update({
+                'property_account_receivable':
+                    rc.intercompany_trade_account_id.id,
+                'property_account_payable':
+                    rc.intercompany_trade_account_id.id,
+            })
+        return res
+
     def transcode_account_id(
             self, cr, uid, rit, from_account_id, product, context=None):
         fcta_obj = self.pool['fiscal.company.transcoding.account']
@@ -105,3 +121,22 @@ class ResIntercompanyTrade(Model):
             type='many2one', relation='account.account', readonly=True,
             string='Payable Account for the Supplier.'),
     }
+
+    # Constraints Section
+    def _check_account_settings_fiscal_company(
+            self, cr, uid, ids, context=None):
+        for rit in self.browse(cr, uid, ids, context=context):
+            if rit.same_fiscal_mother_company:
+                if not rit.fiscal_company_customer_account_id or\
+                        not rit.fiscal_company_supplier_account_id:
+                    return False
+        return True
+
+    _constraints = [
+        (
+            _check_account_settings_fiscal_company,
+            " For Intercompany Trade between two child companies of the same"
+            " fiscal company, please define first Intercompany Trade account"
+            " in Companies Form",
+            ['customer_company_id', 'supplier_company_id']),
+    ]
