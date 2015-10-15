@@ -54,29 +54,18 @@ class AccountInvoice(Model):
     }
 
     # Private Function
-    # TODO FIXME delete this function and
-    # rit_obj._get_intercompany_trade_by_partner_company
-    # instead
-    def _get_intercompany_trade_config(
-            self, cr, uid, partner_id, company_id, type,
-            context=None):
+    def _get_intercompany_trade_by_partner_company_type(
+            self, cr, uid, partner_id, company_id, type, context=None):
         rit_obj = self.pool['intercompany.trade.config']
-        if type in ('in', 'in_invoice', 'in_refund'):
-            rit_id = rit_obj.search(cr, uid, [
-                ('supplier_partner_id', '=', partner_id),
-                ('customer_company_id', '=', company_id),
-            ], context=context)[0]
-        elif type in ('out', 'out_invoice', 'out_refund'):
-            rit_id = rit_obj.search(cr, uid, [
-                ('customer_partner_id', '=', partner_id),
-                ('supplier_company_id', '=', company_id),
-            ], context=context)[0]
+
+        if type in ('in_invoice', 'in_refund'):
+            regular_type = 'in'
         else:
-            raise except_osv(
-                _("Incorrect Call!"),
-                _("'%s' is not a a valid value for get intercompany"
-                    " function." % (type)))
-        return rit_obj.browse(cr, uid, rit_id, context=context)
+            regular_type = 'out'
+
+        return rit = rit_obj._get_intercompany_trade_by_partner_company(
+                cr, uid, ai.partner_id.id, ai.company_id.id, regular_type,
+                context=context)
 
     # Overload Section
     def create(self, cr, uid, vals, context=None):
@@ -113,7 +102,7 @@ class AccountInvoice(Model):
                     _("""You can not create an invoice %s with a"""
                         """ partner flagged as Intercompany Trade. """ % (
                             ai.type)))
-            rit = self._get_intercompany_trade_config(
+            rit = self._get_intercompany_trade_by_partner_company_type(
                 cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
                 context=context)
 
@@ -179,7 +168,7 @@ class AccountInvoice(Model):
             for ai in self.browse(
                     cr, uid, ids, context=context):
                 if ai.intercompany_trade:
-                    rit = self._get_intercompany_trade_config(
+                    rit = self._get_intercompany_trade_by_partner_company_type(
                         cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
                         context=context)
                     if ai.type in ('in_invoice', 'in_refund'):
