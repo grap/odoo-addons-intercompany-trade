@@ -44,7 +44,6 @@
             </field>
         </record>
 
-
 <!-- Model: intercompany.trade.config -->
         <record id="view_intercompany_trade_config_form" model="ir.ui.view">
             <field name="model">intercompany.trade.config</field>
@@ -57,6 +56,16 @@
         </record>
 
 <!-- Overload: purchase.order -->
+        <record id="view_purchase_order_search" model="ir.ui.view">
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <filter string="Intercompany Trade" name="intercompany_trade" domain="[('intercompany_trade','=',True)]"/>
+                </field>
+            </field>
+        </record>
+
         <record id="view_purchase_order_form" model="ir.ui.view">
             <field name="model">purchase.order</field>
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
@@ -116,7 +125,18 @@
             </field>
         </record>
 
+
 <!-- Overload: sale.order -->
+        <record id="view_sale_order_search" model="ir.ui.view">
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+                <filter name="message_unread" position="after">
+                    <filter string="Intercompany Trade" name="intercompany_trade" domain="[('intercompany_trade','=',True)]"/>
+                </filter>
+            </field>
+        </record>
+
         <record id="view_sale_order_form" model="ir.ui.view">
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
