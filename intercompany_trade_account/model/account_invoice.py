@@ -53,6 +53,20 @@ class AccountInvoice(Model):
         ),
     }
 
+    def invoice_validate(self, cr, uid, ids, context=None):
+        context = context and context or {}
+        for invoice in self.browse(cr, uid, ids, context=context):
+            if invoice.intercompany_trade and\
+                    invoice.type in ('out_invoice', 'out_refund') and\
+                    not context.get(
+                        'intercompany_trade_do_not_propagate', False):
+                raise except_osv(
+                    _("Forbidden Operation!"),
+                    _("You're not allowed to validate the Invoice."
+                    " Please ask your supplier to do it."))
+        return super(AccountInvoice, self).invoice_validate(
+            cr, uid, ids, context=context)
+
     # Private Function
     def _get_intercompany_trade_by_partner_company_type(
             self, cr, uid, partner_id, company_id, type, context=None):
