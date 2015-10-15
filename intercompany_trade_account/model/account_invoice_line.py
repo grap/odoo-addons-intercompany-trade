@@ -65,7 +65,7 @@ class AccountInvoiceLine(Model):
             ctx = context.copy()
             ctx['intercompany_trade_do_not_propagate'] = True
 
-            rit = ai_obj._get_intercompany_trade_config(
+            rit = ai_obj_get_intercompany_trade_by_partner_company_type(
                 cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
                 context=context)
 
@@ -156,10 +156,11 @@ class AccountInvoiceLine(Model):
             ctx['intercompany_trade_do_not_propagate'] = True
             for ail in self.browse(cr, uid, ids, context=context):
                 if ail.intercompany_trade_account_invoice_line_id:
-                    rit = ai_obj._get_intercompany_trade_config(
-                        cr, uid, ail.invoice_id.partner_id.id,
-                        ail.invoice_id.company_id.id,
-                        ail.invoice_id.type, context=context)
+                    rit = ai_obj.\
+                        _get_intercompany_trade_by_partner_company_type(
+                            cr, uid, ail.invoice_id.partner_id.id,
+                            ail.invoice_id.company_id.id,
+                            ail.invoice_id.type, context=context)
 
                     if ail.invoice_id.type in ('in_invoice', 'in_refund'):
                         other_user_id = rit.supplier_user_id.id
@@ -213,10 +214,11 @@ class AccountInvoiceLine(Model):
             for ail in self.browse(
                     cr, uid, ids, context=context):
                 if ail.intercompany_trade:
-                    rit = ai_obj._get_intercompany_trade_config(
-                        cr, uid, ail.invoice_id.partner_id.id,
-                        ail.invoice_id.company_id.id, ail.invoice_id.type,
-                        context=context)
+                    rit = ai_obj.\
+                        _get_intercompany_trade_by_partner_company_type(
+                            cr, uid, ail.invoice_id.partner_id.id,
+                            ail.invoice_id.company_id.id, ail.invoice_id.type,
+                            context=context)
                     if ail.invoice_id.type in ('in_invoice', 'in_refund'):
                         other_uid = rit.supplier_user_id.id
                     else:
