@@ -142,7 +142,7 @@ class AccountInvoice(Model):
                 if ai.intercompany_trade:
                     rit = self._get_intercompany_trade_by_partner_company_type(
                         cr, uid, ai.partner_id.id, ai.company_id.id,
-                        ai.type, 'in', context=context)
+                        ai.type, context=context)
                     # Disable possibility to change the supplier
                     if 'partner_id' in vals:
                         raise except_osv(
