@@ -57,7 +57,7 @@ class AccountInvoice(Model):
         context = context and context or {}
         for invoice in self.browse(cr, uid, ids, context=context):
             if invoice.intercompany_trade and\
-                    invoice.type in ('out_invoice', 'out_refund') and\
+                    invoice.type in ('in_invoice', 'in_refund') and\
                     not context.get(
                         'intercompany_trade_do_not_propagate', False):
                 raise except_osv(
@@ -67,19 +67,18 @@ class AccountInvoice(Model):
         return super(AccountInvoice, self).invoice_validate(
             cr, uid, ids, context=context)
 
-    # Private Function
-    def _get_intercompany_trade_by_partner_company_type(
-            self, cr, uid, partner_id, company_id, type, context=None):
-        rit_obj = self.pool['intercompany.trade.config']
+# TODO FIXME Make constraint on type and intercompany_trade
+#            if ai.type == 'out_invoice':
+#                ctx['type'] = 'in_invoice'
+#            elif ai.type == 'in_invoice':
+#                ctx['type'] = 'out_invoice'
+#            else:
+#                raise except_osv(
+#                    _("Unimplemented Feature!"),
+#                    _("""You can not create an invoice %s with a"""
+#                        """ partner flagged as Intercompany Trade. """ % (
+#                            ai.type)))
 
-        if type in ('in_invoice', 'in_refund'):
-            regular_type = 'in'
-        else:
-            regular_type = 'out'
-
-        return rit = rit_obj._get_intercompany_trade_by_partner_company(
-                cr, uid, ai.partner_id.id, ai.company_id.id, regular_type,
-                context=context)
 
     # Overload Section
     def create(self, cr, uid, vals, context=None):
@@ -106,50 +105,18 @@ class AccountInvoice(Model):
 
             # Create associated Invoice
             ai = self.browse(cr, uid, res, context=context)
-            if ai.type == 'out_invoice':
-                ctx['type'] = 'in_invoice'
-            elif ai.type == 'in_invoice':
-                ctx['type'] = 'out_invoice'
-            else:
-                raise except_osv(
-                    _("Unimplemented Feature!"),
-                    _("""You can not create an invoice %s with a"""
-                        """ partner flagged as Intercompany Trade. """ % (
-                            ai.type)))
+
             rit = self._get_intercompany_trade_by_partner_company_type(
                 cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
                 context=context)
 
-            if ctx['type'] == 'out_invoice':
-                # A Purchase Invoice Create a Sale Invoice
-                other_user_id = rit.supplier_user_id.id
-                other_company_id = rit.supplier_company_id.id
-                other_partner_id = rit.customer_partner_id.id
-            else:
-                # A Sale Invoice Create a Purchase Invoice
-                other_user_id = rit.customer_user_id.id
-                other_company_id = rit.customer_company_id.id
-                other_partner_id = rit.supplier_partner_id.id
+            ai_other_vals, other_user_id =\
+                self.prepare_intercompany_invoice(
+                    cr, uid, ai, rit, context=context)
 
             # Update ctx['uid'] due to an incompatibility with
             # account_invoice_pricelist
             ctx['uid'] = other_user_id
-
-            account_info = self.onchange_partner_id(
-                cr, other_user_id, [], ctx['type'], other_partner_id,
-                company_id=other_company_id)['value']
-
-            account_journal_id = self._get_journal(cr, other_user_id, {
-                'type': ctx['type'], 'company_id': other_company_id})
-
-            ai_other_vals = {
-                'intercompany_trade_account_invoice_id': ai.id,
-                'type': ctx['type'],
-                'company_id': other_company_id,
-                'partner_id': other_partner_id,
-                'account_id': account_info['account_id'],
-                'journal_id': account_journal_id,
-            }
 
             ai_other_id = self.create(
                 cr, other_user_id, ai_other_vals, context=ctx)
@@ -161,6 +128,64 @@ class AccountInvoice(Model):
             }, context=context)
         return res
 
+    def write(self, cr, uid, ids, vals, context=None):
+        context = context if context else {}
+        rit_obj = self.pool['intercompany.trade.config']
+
+        res = super(AccountInvoice, self).write(
+            cr, uid, ids, vals, context=context)
+
+        if 'intercompany_trade_do_not_propagate' not in context.keys():
+            ctx = context.copy()
+            ctx['intercompany_trade_do_not_propagate'] = True
+
+            for ai in self.browse(cr, uid, ids, context=context):
+                if ai.intercompany_trade:
+                    rit = self._get_intercompany_trade_by_partner_company_type(
+                            cr, uid, po.partner_id.id, po.company_id.id,
+                            ai.type, 'in', context=context)
+                    # Disable possibility to change the supplier
+                    if 'partner_id' in vals:
+                        raise except_osv(
+                            _("Error!"),
+                            _("You can not change the partner because of"
+                                " Intercompany Trade Rules. Please create"
+                                " a new Invoice."))
+                    # Disable possibility to set to draft again
+                    if vals.get('state', False) == 'draft':
+                        raise except_osv(
+                            _("Error!"),
+                            _("""You can not change set to 'draft' again"""
+                                """ this Invoice because of Intercompany"""
+                                """ Trade Rules. Please cancel this"""
+                                """ one and create a new one, duplicating"""
+                                """ it."""))
+
+                    # Update changes for according invoice
+                    ai_vals, other_user_id = self.prepare_intercompany_invoice(
+                        cr, uid, ai, rit, context=context)
+                    # FIXME : TODO investigate why we have to set the
+                    # following line
+                    so_vals.pop('company_id', False)
+                    ai_obj.write(
+                        cr, other_user_id,
+                        [ai.intercompany_trade_sale_order_id.id], ai_vals,
+                        context=ctx)
+
+                    # Apply change of status any --> 'cancel'
+                    if vals.get('state', False) == 'cancel':
+                        # Change state of purchase order to 'cancel' must
+                        # change the status of the Sale Order
+                        wf_service = netsvc.LocalService("workflow")
+                        wf_service.trg_validate(
+                            rit.supplier_user_id.id, 'sale.order',
+                            po.intercompany_trade_sale_order_id.id,
+                            'cancel', cr)
+
+        return res
+
+
+    # FIXME : WHY ?
     def copy(self, cr, uid, id, default=None, context=None):
         ai = self.browse(cr, uid, id, context=context)
         if ai.intercompany_trade:
@@ -196,3 +221,56 @@ class AccountInvoice(Model):
         res = super(AccountInvoice, self).unlink(
             cr, uid, ids, context=context)
         return res
+
+    # Custom Section
+    def _get_intercompany_trade_by_partner_company_type(
+            self, cr, uid, partner_id, company_id, type, context=None):
+        rit_obj = self.pool['intercompany.trade.config']
+
+        if type in ('in', 'in_invoice', 'in_refund'):
+            regular_type = 'in'
+        else:
+            regular_type = 'out'
+
+        return rit_obj._get_intercompany_trade_by_partner_company(
+                cr, uid, partner_id, company_id, regular_type,
+                context=context)
+
+    def prepare_intercompany_invoice(
+            self, cr, uid, ai, rit, context=None):
+        vals = {}
+        if ai.type == 'out_invoice':
+            # A Purchase Invoice Create a Sale Invoice
+            other_type = 'in_invoice'
+            other_user_id = rit.supplier_user_id.id
+            other_company_id = rit.supplier_company_id.id
+            other_partner_id = rit.customer_partner_id.id
+        elif ai.type == 'in_invoice':
+            # A Sale Invoice Create a Purchase Invoice
+            type = 'out_invoice'
+            other_user_id = rit.customer_user_id.id
+            other_company_id = rit.customer_company_id.id
+            other_partner_id = rit.supplier_partner_id.id
+        else:
+            raise except_osv(
+                _("Unimplemented Feature!"),
+                _("You can not create an invoice %s with a"
+                    " partner flagged as Intercompany Trade." % (ai.type)))
+
+        account_info = self.onchange_partner_id(
+            cr, other_user_id, [], other_type, other_partner_id,
+            company_id=other_company_id)['value']
+
+        account_journal_id = self._get_journal(cr, other_user_id, {
+            'type': other_type, 'company_id': other_company_id})
+
+        return {
+            'intercompany_trade_account_invoice_id': ai.id,
+            'type': other_type,
+            'company_id': other_company_id,
+            'partner_id': other_partner_id,
+            'account_id': account_info['account_id'],
+            'journal_id': account_journal_id,
+            'date_invoice': ai.date_invoice,
+            'date_due': ai.date_due,
+        }, other_user_id

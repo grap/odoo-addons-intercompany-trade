@@ -65,7 +65,7 @@ class AccountInvoiceLine(Model):
             ctx = context.copy()
             ctx['intercompany_trade_do_not_propagate'] = True
 
-            rit = ai_obj_get_intercompany_trade_by_partner_company_type(
+            rit = ai_obj._get_intercompany_trade_by_partner_company_type(
                 cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
                 context=context)
 
@@ -130,11 +130,12 @@ class AccountInvoiceLine(Model):
 
             # Recompute All Invoice
             ai_obj.button_reset_taxes(
-                cr, uid, [ai.id], context=context)
-            ai_obj.button_reset_taxes(
-                cr, other_user_id,
-                [ai.intercompany_trade_account_invoice_id.id],
-                context=context)
+                cr, uid, [ai.id], context=ctx)
+            # PUTE FIXME PAS SUR
+#            ai_obj.button_reset_taxes(
+#                cr, other_user_id,
+#                [ai.intercompany_trade_account_invoice_id.id],
+#                context=ctx)
 
         return res
 
