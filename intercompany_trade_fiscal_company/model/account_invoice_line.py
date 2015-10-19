@@ -50,7 +50,7 @@ class AccountInvoiceLine(Model):
         if rp.intercompany_trade:
             company_id = ru_obj.browse(
                 cr, uid, uid, context=context).company_id.id
-            rit = ai_obj._get_intercompany_trade_config(
+            rit = ai_obj._get_intercompany_trade_by_partner_company_type(
                 cr, uid, partner_id, company_id, type, context=context)
 
             if rit.same_fiscal_mother_company:

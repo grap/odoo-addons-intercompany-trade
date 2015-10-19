@@ -37,7 +37,7 @@ class StockPicking(Model):
 
         if picking.intercompany_trade:
 
-            rit = ai_obj._get_intercompany_trade_config(
+            rit = ai_obj._get_intercompany_trade_by_partner_company_type(
                 cr, uid, picking.partner_id.id, picking.company_id.id,
                 picking.type, context=context)
 
