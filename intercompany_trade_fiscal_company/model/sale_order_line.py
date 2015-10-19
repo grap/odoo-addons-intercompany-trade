@@ -31,7 +31,7 @@ class SaleOrderLine(Model):
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
             lang=False, update_tax=True, date_order=False, packaging=False,
             fiscal_position=False, flag=False, context=None):
-        ai_obj = self.pool['account.invoice']
+        rit_obj = self.pool['intercompany.trade.config']
         rp_obj = self.pool['res.partner']
         ru_obj = self.pool['res.users']
         res = super(SaleOrderLine, self).product_id_change(
@@ -46,8 +46,8 @@ class SaleOrderLine(Model):
         if rp.intercompany_trade:
             company_id = ru_obj.browse(
                 cr, uid, uid, context=context).company_id.id
-            rit = ai_obj._get_intercompany_trade_config(
-                cr, uid, partner_id, company_id, 'out_invoice',
+            rit = rit_obj._get_intercompany_trade_by_partner_company(
+                cr, uid, partner_id, company_id, 'out',
                 context=context)
 
             if rit.same_fiscal_mother_company:

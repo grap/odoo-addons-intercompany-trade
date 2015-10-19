@@ -41,7 +41,7 @@ class AccountInvoice(Model):
                 transaction_type = 'out'
             elif aj.type in ('purchase'):
                 transaction_type = 'in'
-            rit = self._get_intercompany_trade_config(
+            rit = self._get_intercompany_trade_by_partner_company_type(
                 cr, uid, rp.id, rp.company_id.id, transaction_type,
                 context=context)
             if rit.same_fiscal_mother_company:
@@ -58,7 +58,7 @@ class AccountInvoice(Model):
         if vals.get('journal_id', False):
             for ai in self.browse(cr, uid, ids, context=context):
                 if ai.intercompany_trade:
-                    rit = self._get_intercompany_trade_config(
+                    rit = self._get_intercompany_trade_by_partner_company_type(
                         cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
                         context=context)
                     if rit.same_fiscal_mother_company:
