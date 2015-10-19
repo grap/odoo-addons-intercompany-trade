@@ -279,7 +279,6 @@ class purchase_order(Model):
 
     def button_intercompany_trade_product_quantity(
             self, cr, uid, ids, context=None):
-        ctx = context.copy()
         return {
             'view_type': 'form',
             'view_mode': 'form',

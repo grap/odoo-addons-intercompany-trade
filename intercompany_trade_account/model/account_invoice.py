@@ -20,6 +20,7 @@
 #
 ##############################################################################
 
+from openerp import netsvc
 from openerp.osv import fields
 from openerp.osv.osv import except_osv
 from openerp.osv.orm import Model
@@ -63,7 +64,7 @@ class AccountInvoice(Model):
                 raise except_osv(
                     _("Forbidden Operation!"),
                     _("You're not allowed to validate the Invoice."
-                    " Please ask your supplier to do it."))
+                        " Please ask your supplier to do it."))
         return super(AccountInvoice, self).invoice_validate(
             cr, uid, ids, context=context)
 
@@ -78,7 +79,6 @@ class AccountInvoice(Model):
 #                    _("""You can not create an invoice %s with a"""
 #                        """ partner flagged as Intercompany Trade. """ % (
 #                            ai.type)))
-
 
     # Overload Section
     def create(self, cr, uid, vals, context=None):
@@ -128,10 +128,9 @@ class AccountInvoice(Model):
             }, context=context)
         return res
 
+    # TODO: TESTME
     def write(self, cr, uid, ids, vals, context=None):
         context = context if context else {}
-        rit_obj = self.pool['intercompany.trade.config']
-
         res = super(AccountInvoice, self).write(
             cr, uid, ids, vals, context=context)
 
@@ -142,8 +141,8 @@ class AccountInvoice(Model):
             for ai in self.browse(cr, uid, ids, context=context):
                 if ai.intercompany_trade:
                     rit = self._get_intercompany_trade_by_partner_company_type(
-                            cr, uid, po.partner_id.id, po.company_id.id,
-                            ai.type, 'in', context=context)
+                        cr, uid, ai.partner_id.id, ai.company_id.id,
+                        ai.type, 'in', context=context)
                     # Disable possibility to change the supplier
                     if 'partner_id' in vals:
                         raise except_osv(
@@ -155,37 +154,32 @@ class AccountInvoice(Model):
                     if vals.get('state', False) == 'draft':
                         raise except_osv(
                             _("Error!"),
-                            _("""You can not change set to 'draft' again"""
-                                """ this Invoice because of Intercompany"""
-                                """ Trade Rules. Please cancel this"""
-                                """ one and create a new one, duplicating"""
-                                """ it."""))
+                            _("You can not change set to 'draft' again"
+                                " this Invoice because of Intercompany"
+                                " Trade Rules. Please cancel this"
+                                " one and create a new one, duplicating it."))
 
                     # Update changes for according invoice
                     ai_vals, other_user_id = self.prepare_intercompany_invoice(
                         cr, uid, ai, rit, context=context)
-                    # FIXME : TODO investigate why we have to set the
-                    # following line
-                    so_vals.pop('company_id', False)
-                    ai_obj.write(
+                    self.write(
                         cr, other_user_id,
                         [ai.intercompany_trade_sale_order_id.id], ai_vals,
                         context=ctx)
 
+                    # TODO TESTME
                     # Apply change of status any --> 'cancel'
                     if vals.get('state', False) == 'cancel':
-                        # Change state of purchase order to 'cancel' must
-                        # change the status of the Sale Order
+                        # Change state of invoice to 'cancel' must
+                        # change the status of the according invoice
                         wf_service = netsvc.LocalService("workflow")
                         wf_service.trg_validate(
                             rit.supplier_user_id.id, 'sale.order',
-                            po.intercompany_trade_sale_order_id.id,
+                            ai.intercompany_trade_sale_order_id.id,
                             'cancel', cr)
-
         return res
 
-
-    # FIXME : WHY ?
+    # TODO: TESME
     def copy(self, cr, uid, id, default=None, context=None):
         ai = self.browse(cr, uid, id, context=context)
         if ai.intercompany_trade:
@@ -233,12 +227,11 @@ class AccountInvoice(Model):
             regular_type = 'out'
 
         return rit_obj._get_intercompany_trade_by_partner_company(
-                cr, uid, partner_id, company_id, regular_type,
-                context=context)
+            cr, uid, partner_id, company_id, regular_type,
+            context=context)
 
     def prepare_intercompany_invoice(
             self, cr, uid, ai, rit, context=None):
-        vals = {}
         if ai.type == 'out_invoice':
             # A Purchase Invoice Create a Sale Invoice
             other_type = 'in_invoice'
@@ -247,7 +240,7 @@ class AccountInvoice(Model):
             other_partner_id = rit.customer_partner_id.id
         elif ai.type == 'in_invoice':
             # A Sale Invoice Create a Purchase Invoice
-            type = 'out_invoice'
+            other_type = 'out_invoice'
             other_user_id = rit.customer_user_id.id
             other_company_id = rit.customer_company_id.id
             other_partner_id = rit.supplier_partner_id.id
