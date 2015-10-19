@@ -181,19 +181,18 @@ class purchase_order(Model):
                             vals.get('order_line', False)):
                         raise except_osv(
                             _("Error!"),
-                            _("""You can not change Lines of a Sent Purchase"""
-                                """ Order because of Intercompany Trade"""
-                                """ Rules. Please cancel this Purchase Order"""
-                                """ and create a new one, duplicating it."""))
+                            _("You can not change Lines of a Sent Purchase"
+                                " Order because of Intercompany Trade"
+                                " Rules. Please cancel this Purchase Order"
+                                " and create a new one, duplicating it."))
                     # Disable possibility to set to draft again
                     if vals.get('state', False) == 'draft':
                         raise except_osv(
                             _("Error!"),
-                            _("""You can not change set to 'draft' again"""
-                                """ this Quotation because of Intercompany"""
-                                """ Trade Rules. Please cancel this"""
-                                """ one and create a new one, duplicating"""
-                                """ it."""))
+                            _("You can not change set to 'draft' again"
+                                " this Quotation because of Intercompany"
+                                " Trade Rules. Please cancel this"
+                                " one and create a new one, duplicating it."))
 
                     # Update changes for according sale order
                     so_vals = self.prepare_intercompany_sale_order(
@@ -258,7 +257,6 @@ class purchase_order(Model):
     def prepare_intercompany_sale_order(
             self, cr, uid, po, rit, context=None):
         iv_obj = self.pool['ir.values']
-
         # WEIRD: sale_order has a bad _get_default_shop base on the
         # company of the current user, so we request ir.values
         # to have the correct one
@@ -282,8 +280,6 @@ class purchase_order(Model):
     def button_intercompany_trade_product_quantity(
             self, cr, uid, ids, context=None):
         ctx = context.copy()
-        print "before call"
-        print ctx
         return {
             'view_type': 'form',
             'view_mode': 'form',
