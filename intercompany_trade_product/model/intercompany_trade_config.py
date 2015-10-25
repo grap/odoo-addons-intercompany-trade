@@ -79,14 +79,15 @@ class intercompany_trade_config(Model):
         created when a link between two products is done."""
         pp_obj = self.pool['product.product']
         ppl_obj = self.pool['product.pricelist']
+        psi_obj = self.pool['product.supplierinfo']
+        res = psi_obj._add_missing_default_values(cr, uid, {})
         rit = self.browse(cr, uid, id, context=context)
         supplier_pp = pp_obj.browse(
             cr, rit.supplier_user_id.id, supplier_product_id, context=context)
         price_info = ppl_obj._compute_intercompany_trade_prices(
             cr, rit.supplier_user_id.id, supplier_pp,
             rit.supplier_partner_id, rit.sale_pricelist_id, context=context)
-        return {
-            'min_qty': 0.0,
+        res.update({
             'name': rit.supplier_partner_id.id,
             'product_name': supplier_pp.name,
             'product_code': supplier_pp.default_code,
@@ -95,4 +96,5 @@ class intercompany_trade_config(Model):
             'pricelist_ids': [[5], [0, False, {
                 'min_quantity': 0.0,
                 'price': price_info['supplier_sale_price']}]],
-        }
+        })
+        return res
