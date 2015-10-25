@@ -65,6 +65,7 @@ Copyright, Author and Licence :
     'demo': [
         'demo/account_tax.yml',
         'demo/account_account.xml',
+        'demo/res_company.yml',
         'demo/fiscal_company_transcoding_account.yml',
         'demo/res_users.yml',
         'demo/res_groups.yml',

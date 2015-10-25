@@ -12,14 +12,24 @@
         </record>
 
         <!-- Receivable / Payable Part-->
-        <record model="account.account" id="a_receivable_payable_cis">
+        <record model="account.account" id="a_receivable_payable_cis_production">
             <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
-            <field name="code">CIS_185</field>
-            <field name="name">CIS - Receivable / Payable (Intercompany Trade) - (test)</field>
+            <field name="code">CIS_185_PROD</field>
+            <field name="name">CIS - Receivable / Payable (Intercompany Trade) - (test) PRODUCTION</field>
             <field name="parent_id" ref="a_intercompany_trade"/>
             <field name="type">other</field>
             <field name="user_type" ref="account.data_account_type_asset"/>
         </record>
+
+        <record model="account.account" id="a_receivable_payable_cis_service">
+            <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
+            <field name="code">CIS_185_SERV</field>
+            <field name="name">CIS - Receivable / Payable (Intercompany Trade) - (test) SERVICE</field>
+            <field name="parent_id" ref="a_intercompany_trade"/>
+            <field name="type">other</field>
+            <field name="user_type" ref="account.data_account_type_asset"/>
+        </record>
+
 
         <!-- Income Part-->
         <record model="account.account" id="a_sale_cis">
