@@ -22,8 +22,11 @@
 
 
 - !record {model: res.company, id: base_fiscal_company.company_fiscal_child_1}:
+    # TODO, understand why the following line is necessary
+    fiscal_type: fiscal_child
     intercompany_trade_account_id: a_receivable_payable_cis_production
 
 - !record {model: res.company, id: base_fiscal_company.company_fiscal_child_2}:
+    fiscal_type: fiscal_child
     intercompany_trade_account_id: a_receivable_payable_cis_service
 
