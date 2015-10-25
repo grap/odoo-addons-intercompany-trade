@@ -29,6 +29,7 @@ class res_company(Model):
     def write(self, cr, uid, ids, vals, context=None):
         """update partners that are flagged as 'intercompany_trade' and
            are associated to the companies"""
+        context = context and context or {}
         res = super(res_company, self).write(
             cr, uid, ids, vals, context=context)
         rit_obj = self.pool['intercompany.trade.config']
