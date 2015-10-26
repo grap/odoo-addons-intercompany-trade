@@ -77,5 +77,5 @@ class Test(TransactionCase):
         rit = self.rit_obj.browse(cr, uid, self.intercompany_trade_id)
 
         self.assertEqual(
-            rit.supplier_partner_id.street, new_street,
+            rit.customer_partner_id.street, new_street,
             "Update a company must change the associated partner.")
