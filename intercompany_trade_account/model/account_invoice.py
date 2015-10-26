@@ -266,4 +266,5 @@ class AccountInvoice(Model):
             'journal_id': account_journal_id,
             'date_invoice': ai.date_invoice,
             'date_due': ai.date_due,
+            'currency_id': ai.currency_id.id,
         }, other_user_id
