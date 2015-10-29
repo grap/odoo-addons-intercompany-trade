@@ -57,16 +57,19 @@ class AccountInvoice(Model):
     def write(self, cr, uid, ids, vals, context=None):
         if vals.get('journal_id', False):
             for ai in self.browse(cr, uid, ids, context=context):
-                if ai.intercompany_trade:
+                if ai.intercompany_trade\
+                        and ai.journal_id.id != vals.get('journal_id', False):
                     rit = self._get_intercompany_trade_by_partner_company_type(
                         cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
                         context=context)
                     if rit.same_fiscal_mother_company:
-                        raise except_osv(
-                            _("Incorrect Changes!"),
-                            _("You can not change journal of invoice '%s'"
-                                " because of intercompany Trade rules." % (
-                                    ai.name)))
+                        # TODO investigate why it is called
+                        vals.pop('journal_id')
+#                        raise except_osv(
+#                            _("Incorrect Changes!"),
+#                            _("You can not change journal of invoice '%s'"
+#                                " because of intercompany Trade rules." % (
+#                                    ai.name)))
         # Call to super
         return super(AccountInvoice, self).write(
             cr, uid, ids, vals, context=context)

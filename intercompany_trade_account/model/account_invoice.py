@@ -112,7 +112,7 @@ class AccountInvoice(Model):
 
             ai_other_vals, other_user_id =\
                 self.prepare_intercompany_invoice(
-                    cr, uid, ai, rit, context=context)
+                    cr, uid, ai, rit, 'create', context=context)
 
             # Update ctx['uid'] due to an incompatibility with
             # account_invoice_pricelist
@@ -161,22 +161,22 @@ class AccountInvoice(Model):
 
                     # Update changes for according invoice
                     ai_vals, other_user_id = self.prepare_intercompany_invoice(
-                        cr, uid, ai, rit, context=context)
+                        cr, uid, ai, rit, 'update', context=context)
                     self.write(
                         cr, other_user_id,
-                        [ai.intercompany_trade_sale_order_id.id], ai_vals,
+                        [ai.intercompany_trade_account_invoice_id.id], ai_vals,
                         context=ctx)
 
-                    # TODO TESTME
-                    # Apply change of status any --> 'cancel'
-                    if vals.get('state', False) == 'cancel':
-                        # Change state of invoice to 'cancel' must
-                        # change the status of the according invoice
-                        wf_service = netsvc.LocalService("workflow")
-                        wf_service.trg_validate(
-                            rit.supplier_user_id.id, 'sale.order',
-                            ai.intercompany_trade_sale_order_id.id,
-                            'cancel', cr)
+#                    # TODO TESTME
+#                    # Apply change of status any --> 'cancel'
+#                    if vals.get('state', False) == 'cancel':
+#                        # Change state of invoice to 'cancel' must
+#                        # change the status of the according invoice
+#                        wf_service = netsvc.LocalService("workflow")
+#                        wf_service.trg_validate(
+#                            rit.supplier_user_id.id, 'sale.order',
+#                            ai.intercompany_trade_sale_order_id.id,
+#                            'cancel', cr)
         return res
 
     # TODO: TESME
@@ -231,19 +231,19 @@ class AccountInvoice(Model):
             context=context)
 
     def prepare_intercompany_invoice(
-            self, cr, uid, ai, rit, context=None):
+            self, cr, uid, ai, rit, operation, context=None):
         if ai.type == 'out_invoice':
             # A Purchase Invoice Create a Sale Invoice
             other_type = 'in_invoice'
-            other_user_id = rit.supplier_user_id.id
-            other_company_id = rit.supplier_company_id.id
-            other_partner_id = rit.customer_partner_id.id
-        elif ai.type == 'in_invoice':
-            # A Sale Invoice Create a Purchase Invoice
-            other_type = 'out_invoice'
             other_user_id = rit.customer_user_id.id
             other_company_id = rit.customer_company_id.id
             other_partner_id = rit.supplier_partner_id.id
+        elif ai.type == 'in_invoice':
+            # A Sale Invoice Create a Purchase Invoice
+            other_type = 'out_invoice'
+            other_user_id = rit.supplier_user_id.id
+            other_company_id = rit.supplier_company_id.id
+            other_partner_id = rit.customer_partner_id.id
         else:
             raise except_osv(
                 _("Unimplemented Feature!"),
@@ -257,14 +257,20 @@ class AccountInvoice(Model):
         account_journal_id = self._get_journal(cr, other_user_id, {
             'type': other_type, 'company_id': other_company_id})
 
-        return {
+        values = {
             'intercompany_trade_account_invoice_id': ai.id,
             'type': other_type,
             'company_id': other_company_id,
-            'partner_id': other_partner_id,
-            'account_id': account_info['account_id'],
-            'journal_id': account_journal_id,
             'date_invoice': ai.date_invoice,
             'date_due': ai.date_due,
             'currency_id': ai.currency_id.id,
-        }, other_user_id
+        }
+        if operation == 'create':
+            values.update({
+                'partner_id': other_partner_id,
+                'account_id': account_info['account_id'],
+                'journal_id': account_journal_id,
+            })
+
+        res = values, other_user_id
+        return res
