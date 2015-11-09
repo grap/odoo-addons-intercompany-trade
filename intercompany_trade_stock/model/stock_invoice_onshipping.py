@@ -95,7 +95,7 @@ class stock_invoice_onshipping(TransientModel):
             ai_in_vals['date_invoice'] = wizard.invoice_date
 
             ai_obj.write(
-                cr, rit.customer_user_id.id, ai_in_id, ai_in_vals,
+                cr, rit.customer_user_id.id, [ai_in_id], ai_in_vals,
                 context=context)
 
         return res
