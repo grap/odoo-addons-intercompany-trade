@@ -21,8 +21,6 @@
 ##############################################################################
 
 from openerp.osv.orm import Model
-from openerp.osv.osv import except_osv
-from openerp.tools.translate import _
 
 
 class AccountInvoice(Model):
@@ -65,11 +63,7 @@ class AccountInvoice(Model):
                     if rit.same_fiscal_mother_company:
                         # TODO investigate why it is called
                         vals.pop('journal_id')
-#                        raise except_osv(
-#                            _("Incorrect Changes!"),
-#                            _("You can not change journal of invoice '%s'"
-#                                " because of intercompany Trade rules." % (
-#                                    ai.name)))
+
         # Call to super
         return super(AccountInvoice, self).write(
             cr, uid, ids, vals, context=context)
