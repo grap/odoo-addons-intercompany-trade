@@ -20,7 +20,6 @@
 #
 ##############################################################################
 
-from openerp import netsvc
 from openerp.osv import fields
 from openerp.osv.osv import except_osv
 from openerp.osv.orm import Model
@@ -114,10 +113,6 @@ class AccountInvoice(Model):
                 self.prepare_intercompany_invoice(
                     cr, uid, ai, rit, 'create', context=context)
 
-            # Update ctx['uid'] due to an incompatibility with
-            # account_invoice_pricelist
-            ctx['uid'] = other_user_id
-
             ai_other_id = self.create(
                 cr, other_user_id, ai_other_vals, context=ctx)
 
@@ -162,6 +157,7 @@ class AccountInvoice(Model):
                     # Update changes for according invoice
                     ai_vals, other_user_id = self.prepare_intercompany_invoice(
                         cr, uid, ai, rit, 'update', context=context)
+
                     self.write(
                         cr, other_user_id,
                         [ai.intercompany_trade_account_invoice_id.id], ai_vals,
@@ -272,5 +268,4 @@ class AccountInvoice(Model):
                 'journal_id': account_journal_id,
             })
 
-        res = values, other_user_id
-        return res
+        return values, other_user_id

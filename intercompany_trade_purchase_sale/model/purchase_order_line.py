@@ -103,7 +103,7 @@ class purchase_order_line(Model):
 
     def write(self, cr, uid, ids, vals, context=None):
         """"- Update the according Sale Order Line with new data.
-            - Block any changes of product."""
+            - Block some changes of product."""
         context = context and context or {}
         sol_obj = self.pool['sale.order.line']
         rit_obj = self.pool['intercompany.trade.config']
@@ -116,6 +116,7 @@ class purchase_order_line(Model):
             ctx['intercompany_trade_do_not_propagate'] = True
             for pol in self.browse(cr, uid, ids, context=context):
                 if pol.intercompany_trade_sale_order_line_id:
+                    # Block some changes of product
                     if 'product_id' in vals.keys():
                         raise except_osv(
                             _("Error!"),
@@ -134,6 +135,7 @@ class purchase_order_line(Model):
                                 """ the product '%s'."""
                                 """ Please ask to your supplier.""" % (
                                     pol.product_id.name)))
+
                     # Get Intercompany Trade
                     rit = rit_obj._get_intercompany_trade_by_partner_company(
                         cr, uid, pol.order_id.partner_id.id,
