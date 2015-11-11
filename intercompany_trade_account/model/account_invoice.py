@@ -67,18 +67,6 @@ class AccountInvoice(Model):
         return super(AccountInvoice, self).invoice_validate(
             cr, uid, ids, context=context)
 
-# TODO FIXME Make constraint on type and intercompany_trade
-#            if ai.type == 'out_invoice':
-#                ctx['type'] = 'in_invoice'
-#            elif ai.type == 'in_invoice':
-#                ctx['type'] = 'out_invoice'
-#            else:
-#                raise except_osv(
-#                    _("Unimplemented Feature!"),
-#                    _("""You can not create an invoice %s with a"""
-#                        """ partner flagged as Intercompany Trade. """ % (
-#                            ai.type)))
-
     # Overload Section
     def create(self, cr, uid, vals, context=None):
         rp_obj = self.pool['res.partner']
@@ -175,18 +163,6 @@ class AccountInvoice(Model):
 #                            'cancel', cr)
         return res
 
-    # TODO: TESME
-    def copy(self, cr, uid, id, default=None, context=None):
-        ai = self.browse(cr, uid, id, context=context)
-        if ai.intercompany_trade:
-            raise except_osv(
-                _("Intercompany Trade - Unimplemented Feature!"),
-                _(
-                    """You can not duplicate a Invoice that come from"""
-                    """ Intercompany Trade."""))
-        return super(AccountInvoice, self).copy(
-            cr, uid, id, default=default, context=context)
-
     def unlink(self, cr, uid, ids, context=None):
         """"- Unlink the according Invoice."""
         context = context and context or {}
@@ -260,7 +236,12 @@ class AccountInvoice(Model):
             'date_invoice': ai.date_invoice,
             'date_due': ai.date_due,
             'currency_id': ai.currency_id.id,
+            'comment': ai.comment,
         }
+        if ai.type == 'out_invoice':
+            print 'out_invoice'
+            values['supplier_invoice_number'] = ai.number and ai.number or\
+                _('Intercompany Trade')
         if operation == 'create':
             values.update({
                 'partner_id': other_partner_id,
