@@ -65,44 +65,18 @@ class AccountInvoiceLine(Model):
             ctx = context.copy()
             ctx['intercompany_trade_do_not_propagate'] = True
 
+            # Get Created Account Invoice Line
+            ail = self.browse(cr, uid, res, context=context)
+
+            # Get Intercompany Trade
             rit = ai_obj._get_intercompany_trade_by_partner_company_type(
                 cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
                 context=context)
 
-            if ai.type in ('in_invoice', 'in_refund'):
-                direction = 'in'
-                other_user_id = rit.supplier_user_id.id
-                other_type = 'out_invoice'
-                other_company_id = rit.supplier_company_id.id
-                other_partner_id = rit.customer_partner_id.id
-            else:
-                direction = 'out'
-                other_user_id = rit.customer_user_id.id
-                other_type = 'in_invoice'
-                other_company_id = rit.customer_company_id.id
-                other_partner_id = rit.supplier_partner_id.id
-
-            # Create according account invoice line
-            other_product_info = _get_other_product_info(
-                self.pool, cr, uid, rit, vals['product_id'], direction,
-                context=context)
-
-            ail_other_vals = self.product_id_change(
-                cr, other_user_id, False, other_product_info['product_id'],
-                False, type=other_type, company_id=other_company_id,
-                partner_id=other_partner_id)['value']
-            ail_other_vals.update({
-                'invoice_id': ai.intercompany_trade_account_invoice_id.id,
-                'product_id': other_product_info['product_id'],
-                'company_id': other_company_id,
-                'partner_id': other_partner_id,
-                'quantity': vals['quantity'],
-                'uos_id': vals['uos_id'],
-                'invoice_line_tax_id': (
-                    ail_other_vals['invoice_line_tax_id']
-                    and [[6, False, ail_other_vals['invoice_line_tax_id']]]
-                    or False),
-                })
+            # Prepare and create associated Account Invoice Line
+            ail_other_vals, other_user_id = \
+                self.prepare_intercompany_account_invoice_line(
+                    cr, uid, ail, rit, context=context)
 
             ail_other_id = self.create(
                 cr, other_user_id, ail_other_vals, context=ctx)
@@ -111,7 +85,7 @@ class AccountInvoiceLine(Model):
             # doesn't have the right to change the unit price, so we will
             # erase the unit price, and recover the good one.
             if ai.type in ('in_invoice', 'in_refund'):
-                price_unit = other_product_info['price_unit']
+                price_unit = ail_other_vals['price_unit']
             else:
                 price_unit = vals['price_unit']
 
@@ -157,29 +131,13 @@ class AccountInvoiceLine(Model):
             ctx['intercompany_trade_do_not_propagate'] = True
             for ail in self.browse(cr, uid, ids, context=context):
                 if ail.intercompany_trade_account_invoice_line_id:
-                    rit = ai_obj.\
-                        _get_intercompany_trade_by_partner_company_type(
-                            cr, uid, ail.invoice_id.partner_id.id,
-                            ail.invoice_id.company_id.id,
-                            ail.invoice_id.type, context=context)
-
-                    if ail.invoice_id.type in ('in_invoice', 'in_refund'):
-                        other_user_id = rit.supplier_user_id.id
-                    else:
-                        other_user_id = rit.customer_user_id.id
-
+                    # Block some changes of product
                     if 'product_id' in vals.keys():
                         raise except_osv(
                             _("Error!"),
                             _("""You can not change the product %s."""
                                 """Please remove this line and create a"""
                                 """ new one.""" % (ail.product_id.name)))
-                    if 'discount' in vals.keys():
-                        raise except_osv(
-                            _("Error!"),
-                            _("""You can not set a discount for intercompany"""
-                                """ trade. Please change the Unit Price"""
-                                """ of %s.""" % (ail.product_id.name)))
                     if 'uos_id' in vals.keys():
                         raise except_osv(
                             _("Error!"),
@@ -189,19 +147,28 @@ class AccountInvoiceLine(Model):
                             in ('in_invoice', 'in_refund'):
                         raise except_osv(
                             _("Error!"),
-                            _("""You can not change the Unit Price of"""
-                                """ '%s'. Please ask to your supplier.""" % (
+                            _("You can not change the Unit Price of"
+                                " '%s'. Please ask to your supplier." % (
                                     ail.product_id.name)))
-                    other_vals = {}
-                    if vals.get('quantity', False):
-                        other_vals['quantity'] = vals['quantity']
-                    if vals.get('price_unit', False):
-                        other_vals['price_unit'] = vals['price_unit']
 
+                    # Get Intercompany Trade
+                    rit = ai_obj.\
+                        _get_intercompany_trade_by_partner_company_type(
+                            cr, uid, ail.invoice_id.partner_id.id,
+                            ail.invoice_id.company_id.id,
+                            ail.invoice_id.type, context=context)
+
+                    # Prepare and update associated Sale Order line
+                    ail_other_vals, other_user_id = \
+                        self.prepare_intercompany_account_invoice_line(
+                            cr, uid, ail, rit, context=context)
+
+                    if 'price_unit' in vals.keys():
+                        ail_other_vals['price_unit'] = vals['price_unit']
                     self.write(
                         cr, other_user_id,
-                        ail.intercompany_trade_account_invoice_line_id.id,
-                        other_vals, context=ctx)
+                        [ail.intercompany_trade_account_invoice_line_id.id],
+                        ail_other_vals, context=ctx)
         return res
 
     def unlink(self, cr, uid, ids, context=None):
@@ -231,3 +198,53 @@ class AccountInvoiceLine(Model):
         res = super(AccountInvoiceLine, self).unlink(
             cr, uid, ids, context=context)
         return res
+
+    # Custom Section
+    def prepare_intercompany_account_invoice_line(
+            self, cr, uid, ail, rit, context=None):
+        ai = ail.invoice_id
+        if ai.type == 'out_invoice':
+            # A Purchase Invoice Create a Sale Invoice
+            direction = 'out'
+            other_type = 'in_invoice'
+            other_user_id = rit.customer_user_id.id
+            other_company_id = rit.customer_company_id.id
+            other_partner_id = rit.supplier_partner_id.id
+        elif ai.type == 'in_invoice':
+            # A Sale Invoice Create a Purchase Invoice
+            direction = 'in'
+            other_type = 'out_invoice'
+            other_user_id = rit.supplier_user_id.id
+            other_company_id = rit.supplier_company_id.id
+            other_partner_id = rit.customer_partner_id.id
+        else:
+            raise except_osv(
+                _("Unimplemented Feature!"),
+                _("You can not create an invoice Line %s with a"
+                    " partner flagged as Intercompany Trade." % (ai.type)))
+
+        # Create according account invoice line
+        other_product_info = _get_other_product_info(
+            self.pool, cr, uid, rit, ail.product_id.id, direction,
+            context=context)
+
+        values = self.product_id_change(
+            cr, other_user_id, False, other_product_info['product_id'],
+            False, type=other_type, company_id=other_company_id,
+            partner_id=other_partner_id)['value']
+
+        values.update({
+            'invoice_id': ai.intercompany_trade_account_invoice_id.id,
+            'product_id': other_product_info['product_id'],
+            'company_id': other_company_id,
+            'partner_id': other_partner_id,
+            'quantity': ail.quantity,
+            'discount': ail.discount,
+            'uos_id': ail.uos_id.id,
+            'invoice_line_tax_id': (
+                values['invoice_line_tax_id']
+                and [[6, False, values['invoice_line_tax_id']]]
+                or False),
+            })
+
+        return values, other_user_id
