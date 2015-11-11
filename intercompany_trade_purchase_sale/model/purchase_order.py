@@ -219,12 +219,13 @@ class purchase_order(Model):
                             po.intercompany_trade_sale_order_id.id,
                             'quotation_sent', cr)
 
-                        et = imd_obj.get_object(
-                            cr, uid, 'purchase',
-                            'email_template_edi_purchase')
-                        et_obj.send_mail(
-                            cr, uid, et.id, po.id, True,
-                            context=context)
+                        # TODO FIXME
+#                        et = imd_obj.get_object(
+#                            cr, uid, 'purchase',
+#                            'email_template_edi_purchase')
+#                        et_obj.send_mail(
+#                            cr, uid, et.id, po.id, True,
+#                            context=context)
 
                     # Apply change of status any --> 'cancel'
                     if vals.get('state', False) == 'cancel':
@@ -235,7 +236,6 @@ class purchase_order(Model):
                             rit.supplier_user_id.id, 'sale.order',
                             po.intercompany_trade_sale_order_id.id,
                             'cancel', cr)
-
         return res
 
     def unlink(self, cr, uid, ids, context=None):
