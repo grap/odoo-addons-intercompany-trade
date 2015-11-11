@@ -20,6 +20,8 @@
 #
 ##############################################################################
 
+from openerp import netsvc
+from openerp import SUPERUSER_ID
 from openerp.osv import fields
 from openerp.osv.osv import except_osv
 from openerp.osv.orm import Model
@@ -53,19 +55,36 @@ class AccountInvoice(Model):
         ),
     }
 
-    def invoice_validate(self, cr, uid, ids, context=None):
-        context = context and context or {}
-        for invoice in self.browse(cr, uid, ids, context=context):
-            if invoice.intercompany_trade and\
-                    invoice.type in ('in_invoice', 'in_refund') and\
-                    not context.get(
-                        'intercompany_trade_do_not_propagate', False):
-                raise except_osv(
-                    _("Forbidden Operation!"),
-                    _("You're not allowed to validate the Invoice."
-                        " Please ask your supplier to do it."))
-        return super(AccountInvoice, self).invoice_validate(
-            cr, uid, ids, context=context)
+#    # TODO Move this
+#    def wkf_verify_invoice(self, cr, uid, ids, context=None):
+#        context = context and context or {}
+#        for invoice in self.browse(cr, uid, ids, context=context):
+#            if invoice.intercompany_trade and\
+#                    invoice.type in ('in_invoice', 'in_refund') and\
+#                    not self.pool['res.users'].has_group(
+#                    cr, uid, 'account.group_account_manager'):
+#                raise except_osv(
+#                    _("Forbidden Operation!"),
+#                    _("You're not allowed to verify the Invoice."
+#                        " Please ask your supplier or your accountant to do"
+#                        " it."))
+#        return super(AccountInvoice, self).wkf_verify_invoice(
+#            cr, uid, ids, context=context)
+
+#    def invoice_validate(self, cr, uid, ids, context=None):
+#        context = context and context or {}
+#        for invoice in self.browse(cr, uid, ids, context=context):
+#            if invoice.intercompany_trade and\
+#                    invoice.type in ('in_invoice', 'in_refund') and\
+#                    not self.pool['res.users'].has_group(
+#                    cr, uid, 'account.group_account_manager'):
+#                raise except_osv(
+#                    _("Forbidden Operation!"),
+#                    _("You're not allowed to validate the Invoice."
+#                        " Please ask your supplier or your accountant to do"
+#                        " it."))
+#        return super(AccountInvoice, self).invoice_validate(
+#            cr, uid, ids, context=context)
 
     # Overload Section
     def create(self, cr, uid, vals, context=None):
@@ -133,14 +152,6 @@ class AccountInvoice(Model):
                             _("You can not change the partner because of"
                                 " Intercompany Trade Rules. Please create"
                                 " a new Invoice."))
-                    # Disable possibility to set to draft again
-                    if vals.get('state', False) == 'draft':
-                        raise except_osv(
-                            _("Error!"),
-                            _("You can not change set to 'draft' again"
-                                " this Invoice because of Intercompany"
-                                " Trade Rules. Please cancel this"
-                                " one and create a new one, duplicating it."))
 
                     # Update changes for according invoice
                     ai_vals, other_user_id = self.prepare_intercompany_invoice(
@@ -151,16 +162,32 @@ class AccountInvoice(Model):
                         [ai.intercompany_trade_account_invoice_id.id], ai_vals,
                         context=ctx)
 
-#                    # TODO TESTME
-#                    # Apply change of status any --> 'cancel'
-#                    if vals.get('state', False) == 'cancel':
-#                        # Change state of invoice to 'cancel' must
-#                        # change the status of the according invoice
-#                        wf_service = netsvc.LocalService("workflow")
-#                        wf_service.trg_validate(
-#                            rit.supplier_user_id.id, 'sale.order',
-#                            ai.intercompany_trade_sale_order_id.id,
-#                            'cancel', cr)
+                    # TODO FORBID state change for customer
+                    if ai.type == 'out_invoice' and\
+                            vals.get('state', False) == 'open':
+                        ai_other_super = self.browse(
+                            cr, SUPERUSER_ID,
+                            ai.intercompany_trade_account_invoice_id.id,
+                            context=context)
+                        if ai_other_super.amount_untaxed != ai.amount_untaxed\
+                                    or ai_other_super.amount_tax !=\
+                                    ai.amount_tax:
+                            raise except_osv(_("Error!"),_(
+                                "You can not validate this invoice"
+                                " because the according customer invoice"
+                                " don't have the same total amount."
+                                " Please fix the problem first."))
+                        wf_service = netsvc.LocalService("workflow")
+                        wf_service.trg_validate(
+                            other_user_id, 'account.invoice',
+                            ai.intercompany_trade_account_invoice_id.id,
+                            'invoice_verify', cr)
+
+                        wf_service.trg_validate(
+                            other_user_id, 'account.invoice',
+                            ai.intercompany_trade_account_invoice_id.id,
+                            'invoice_open', cr)
+
         return res
 
     def unlink(self, cr, uid, ids, context=None):
