@@ -1,0 +1,9 @@
+purchase-workflow
+sale-workflow
+web
+pos
+l10n-france
+
+https://github.com/grap/odoo-addons-misc.git -b 7.0
+https://github.com/grap/odoo-addons-cis.git -b 7.0
+https://github.com/grap/odoo-addons-cpo.git -b 7.0
