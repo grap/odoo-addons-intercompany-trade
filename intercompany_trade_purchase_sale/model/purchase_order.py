@@ -153,8 +153,6 @@ class purchase_order(Model):
 
     def write(self, cr, uid, ids, vals, context=None):
         context = context if context else {}
-        imd_obj = self.pool['ir.model.data']
-        et_obj = self.pool['email.template']
         rit_obj = self.pool['intercompany.trade.config']
         so_obj = self.pool['sale.order']
 
@@ -218,14 +216,6 @@ class purchase_order(Model):
                             rit.supplier_user_id.id, 'sale.order',
                             po.intercompany_trade_sale_order_id.id,
                             'quotation_sent', cr)
-
-                        # TODO FIXME
-#                        et = imd_obj.get_object(
-#                            cr, uid, 'purchase',
-#                            'email_template_edi_purchase')
-#                        et_obj.send_mail(
-#                            cr, uid, et.id, po.id, True,
-#                            context=context)
 
                     # Apply change of status any --> 'cancel'
                     if vals.get('state', False) == 'cancel':
