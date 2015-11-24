@@ -245,10 +245,6 @@ class Test(TransactionCase):
             """Delete customer Invoice Line must delete according"""
             """ Supplier Invoice Line.""")
 
-        # Copy Invoice (must fail)
-        with self.assertRaises(except_osv):
-            self.ai_obj.copy(cr, cus_uid, cus_ai_id)
-
         # Unlink customer Invoice (must unlink according supplier Invoice)
         self.ai_obj.unlink(cr, cus_uid, [cus_ai_id], context=context)
         count_ai = self.ai_obj.search(cr, sup_uid, [('id', '=', sup_ai_id)])
