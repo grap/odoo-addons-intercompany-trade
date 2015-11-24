@@ -170,9 +170,9 @@ class AccountInvoice(Model):
                             ai.intercompany_trade_account_invoice_id.id,
                             context=context)
                         if ai_other_super.amount_untaxed != ai.amount_untaxed\
-                                    or ai_other_super.amount_tax !=\
-                                    ai.amount_tax:
-                            raise except_osv(_("Error!"),_(
+                                or ai_other_super.amount_tax !=\
+                                ai.amount_tax:
+                            raise except_osv(_("Error!"), _(
                                 "You can not validate this invoice"
                                 " because the according customer invoice"
                                 " don't have the same total amount."
@@ -266,7 +266,6 @@ class AccountInvoice(Model):
             'comment': ai.comment,
         }
         if ai.type == 'out_invoice':
-            print 'out_invoice'
             values['supplier_invoice_number'] = ai.number and ai.number or\
                 _('Intercompany Trade')
         if operation == 'create':
