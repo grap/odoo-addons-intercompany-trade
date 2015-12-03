@@ -32,11 +32,11 @@ class product_supplierinfo(Model):
     def _get_intercompany_trade_price(
             self, cr, uid, ids, field_name, arg, context=None):
         res = {}
-        for psi in self.browse(cr, uid, ids, context=context):
-            if psi.supplier_product_id and psi.pricelist_ids:
-                res[psi.id] = psi.pricelist_ids[0].price
+        for supplierinfo in self.browse(cr, uid, ids, context=context):
+            if supplierinfo.supplier_product_id and supplierinfo.pricelist_ids:
+                res[supplierinfo.id] = supplierinfo.pricelist_ids[0].price
             else:
-                res[psi.id] = 0
+                res[supplierinfo.id] = 0
         return res
 
     _columns = {
@@ -54,3 +54,19 @@ class product_supplierinfo(Model):
             'product.product', 'Product in the Supplier Catalog',
             readonly=True, selected=True),
     }
+
+    def _check_supplier_product_id(self, cr, uid, ids, context=None):
+        for supplierinfo in self.browse(cr, uid, ids, context=context):
+            if not supplierinfo.supplier_product_id and\
+                    supplierinfo.name.intercompany_trade:
+                return False
+        return True
+
+    _constraints = [
+        (
+            _check_supplier_product_id,
+            "Error ! You can not link this product in this manner because"
+            " the supplier is flagged as Inter Company Trade. Please use"
+            " the dedicated interface in the Intercompany Trade menu.",
+            ['supplier_product_id', 'name']),
+    ]
