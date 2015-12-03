@@ -142,13 +142,17 @@ class purchase_order_line(Model):
                         pol.order_id.company_id.id, 'in', context=context)
 
                     # Prepare and update associated Sale Order line
-                    sol_vals = self.prepare_intercompany_sale_order_line(
-                        cr, uid, pol, rit, context=context)
+                    if pol.state != 'confirmed':
+                        # Note : we will not update according sale order
+                        # if purchase state is confirmed because it will
+                        # recompute purchase that could be false
+                        sol_vals = self.prepare_intercompany_sale_order_line(
+                            cr, uid, pol, rit, context=context)
 
-                    sol_obj.write(
-                        cr, rit.supplier_user_id.id,
-                        [pol.intercompany_trade_sale_order_line_id.id],
-                        sol_vals, context=ctx)
+                        sol_obj.write(
+                            cr, rit.supplier_user_id.id,
+                            [pol.intercompany_trade_sale_order_line_id.id],
+                            sol_vals, context=ctx)
         return res
 
     def unlink(self, cr, uid, ids, context=None):
