@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-25 12:35+0000\n"
-"PO-Revision-Date: 2015-09-25 12:35+0000\n"
+"POT-Creation-Date: 2015-12-02 23:39+0000\n"
+"PO-Revision-Date: 2015-12-02 23:39+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,38 +16,23 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/model/account_invoice.py:78
-#, python-format
-msgid "'%s' is not a a valid value for get intercompany function."
-msgstr "'%s' n'est pas une valeur valide pour la fonction get intercompany."
-
-#. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/model/account_invoice_line.py:171
-#: code:addons/intercompany_trade_account/model/account_invoice_line.py:177
-#: code:addons/intercompany_trade_account/model/account_invoice_line.py:183
-#: code:addons/intercompany_trade_account/model/account_invoice_line.py:189
+#: code:addons/intercompany_trade_account/model/account_invoice.py:151
+#: code:addons/intercompany_trade_account/model/account_invoice.py:175
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:137
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:143
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:149
 #, python-format
 msgid "Error!"
 msgstr "Erreur !"
 
 #. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/model/account_invoice.py:76
-#, python-format
-msgid "Incorrect Call!"
-msgstr "Appel incorrect !"
-
-#. module: intercompany_trade_account
 #: view:account.invoice:0
 #: field:account.invoice,intercompany_trade:0
 #: field:account.invoice.line,intercompany_trade:0
+#: code:addons/intercompany_trade_account/model/account_invoice.py:270
+#, python-format
 msgid "Intercompany Trade"
 msgstr "Transaction Inter Société"
-
-#. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/model/account_invoice.py:165
-#, python-format
-msgid "Intercompany Trade - Unimplemented Feature!"
-msgstr "Transaction Inter Société - Fonction non implémentée !"
 
 #. module: intercompany_trade_account
 #: field:account.invoice,intercompany_trade_account_invoice_id:0
@@ -58,6 +43,26 @@ msgstr "Facture de Transaction Inter Société"
 #: field:account.invoice.line,intercompany_trade_account_invoice_line_id:0
 msgid "Intercompany Trade Account Invoice Line"
 msgstr "Ligne de facture de Transaction Inter Société"
+
+#. module: intercompany_trade_account
+#: view:account.invoice:0
+msgid "Intercompany Trade Canceled"
+msgstr "Transaction inter société annulée"
+
+#. module: intercompany_trade_account
+#: view:account.invoice:0
+msgid "Intercompany Trade Done"
+msgstr "Transaction inter société terminé"
+
+#. module: intercompany_trade_account
+#: view:account.invoice:0
+msgid "Intercompany Trade To Confirm"
+msgstr "Transaction inter société à confirmer"
+
+#. module: intercompany_trade_account
+#: view:account.invoice:0
+msgid "Intercompany Trade To Pay"
+msgstr "Transaction inter société à payer"
 
 #. module: intercompany_trade_account
 #: code:_description:0
@@ -121,40 +126,47 @@ msgid "Too Complex Taxes Setting!"
 msgstr "Paramètre de taxes trop complexe !"
 
 #. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/model/account_invoice.py:112
+#: code:addons/intercompany_trade_account/model/account_invoice.py:248
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:222
 #, python-format
 msgid "Unimplemented Feature!"
 msgstr "Fonctionnalité non implémentée !"
 
 #. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/model/account_invoice_line.py:191
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:151
 #, python-format
 msgid "You can not change the Unit Price of '%s'. Please ask to your supplier."
 msgstr "Vous ne pouvez pas changer le prix unitaire de '%s'. Veuillez demander à votre fournisseur."
 
 #. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/model/account_invoice_line.py:185
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:145
 #, python-format
 msgid "You can not change the UoM of the Product %s."
 msgstr "Vous ne pouvez pas changer l'unité de mesure du produit %s."
 
 #. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/model/account_invoice_line.py:174
+#: code:addons/intercompany_trade_account/model/account_invoice.py:152
 #, python-format
-msgid "You can not change the product. %sPlease remove this line and choose a a new one."
-msgstr "Vous ne pouvez pas changer de produit %s. Veuillez supprimer cette ligne et en créer une nouvelle."
+msgid "You can not change the partner because of Intercompany Trade Rules. Please create a new Invoice."
+msgstr "Vous ne pouvez pas changer de partenaire sur une facturation Inter Société. Veuillez créer une nouvelle facture."
 
 #. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/model/account_invoice.py:114
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:140
 #, python-format
-msgid "You can not create an invoice %s with a partner flagged as Intercompany Trade. "
-msgstr "Vous ne pouvez pas créer de facture %s avec un partenaire marqué comme 'Transaction Interne'. "
+msgid "You can not change the product %s.Please remove this line and create a new one."
+msgstr "Vous ne pouvez pas changer le produit %s. Veuillez supprimer la ligne et en créer une nouvelle."
 
 #. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/model/account_invoice.py:166
+#: code:addons/intercompany_trade_account/model/account_invoice.py:250
 #, python-format
-msgid "You can not duplicate a Invoice that come from Intercompany Trade."
-msgstr "Vous ne pouvez pas dupliquer une facture qui provient de Transaction Inter Société."
+msgid "You can not create an invoice %s with a partner flagged as Intercompany Trade."
+msgstr "Vous ne pouvez pas créer une facture de type %s avec un partenaire marqué comme 'transaction inter société'."
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:224
+#, python-format
+msgid "You can not create an invoice Line %s with a partner flagged as Intercompany Trade."
+msgstr "Vous ne pouvez pas créer une ligne facture de type %s avec un partenaire marqué comme 'transaction inter société'."
 
 #. module: intercompany_trade_account
 #: code:addons/intercompany_trade_account/model/custom_tools.py:41
@@ -193,7 +205,7 @@ msgid "You can not link this Supplier Product. The tax  setting of %s is %s. (On
 msgstr "Vous ne pouvez pas référencer cet article fournisseur. La configuration de taxe de %s est %s. (La valeur 'pourcentage' est la seule acceptée)"
 
 #. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/model/account_invoice_line.py:180
+#: code:addons/intercompany_trade_account/model/account_invoice.py:175
 #, python-format
-msgid "You can not set a discount for intercompany trade. Please change the Unit Price of %s."
-msgstr "You can not set a discount for intercompany trade. Please change the Unit Price of %s."
+msgid "You can not validate this invoice because the according customer invoice don't have the same total amount. Please fix the problem first."
+msgstr "Vous ne pouvez pas valider cette facture car la facture client correspondante n'a pas le même total. Veuillez corriger le problème avant de continuer."
