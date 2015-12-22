@@ -47,6 +47,7 @@ class AccountInvoiceLine(Model):
     # Overload Section
     def create(self, cr, uid, vals, context=None):
         """Create the according Account Invoice Line."""
+        context = context and context or {}
         ai_obj = self.pool['account.invoice']
 
         if vals.get('invoice_id', False):
