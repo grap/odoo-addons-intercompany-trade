@@ -174,7 +174,7 @@
                 </xpath>
                 <xpath expr="//button[@name='cancel' and @states='draft,sent']" position="attributes">
                     <attribute name="states" />
-                    <attribute name="attrs">{'invisible': ['|', ('intercompany_trade','=', True), ('state', 'not in', 'draft,sent')]}</attribute>
+                    <attribute name="attrs">{'invisible': ['|', ('intercompany_trade','=', True), ('state', 'not in', ['draft', 'sent'])]}</attribute>
                 </xpath>
                 <xpath expr="//button[@name='action_button_confirm' and @states='draft']" position="attributes">
                     <attribute name="states" />
