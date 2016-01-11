@@ -183,8 +183,7 @@ class sale_order(Model):
                         cr, rit.customer_user_id.id,
                         [so.intercompany_trade_purchase_order_id.id],
                         context=ctx)
-        return super(sale_order, self).unlink(
-            cr, uid, ids, context=ctx)
+        return super(sale_order, self).unlink(cr, uid, ids, context=context)
 
     # Custom Section
     def prepare_intercompany_purchase_order(
