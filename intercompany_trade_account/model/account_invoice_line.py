@@ -52,9 +52,9 @@ class AccountInvoiceLine(Model):
 
         if vals.get('invoice_id', False):
             ai = ai_obj.browse(cr, uid, vals['invoice_id'], context=context)
-            create_account_invoice_line = (
-                not context.get('intercompany_trade_do_not_propagate', False)
-                and ai.intercompany_trade)
+            create_account_invoice_line = (not context.get(
+                'intercompany_trade_do_not_propagate', False) and
+                ai.intercompany_trade)
         else:
             create_account_invoice_line = False
 
@@ -243,9 +243,8 @@ class AccountInvoiceLine(Model):
             'discount': ail.discount,
             'uos_id': ail.uos_id.id,
             'invoice_line_tax_id': (
-                values['invoice_line_tax_id']
-                and [[6, False, values['invoice_line_tax_id']]]
-                or False),
+                values['invoice_line_tax_id'] and
+                [[6, False, values['invoice_line_tax_id']]] or False),
             })
 
         return values, other_user_id

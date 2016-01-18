@@ -180,8 +180,6 @@ class sale_order_line(Model):
             'intercompany_trade_sale_order_line_id': sol.id,
             'date_planned': datetime.now().strftime('%d-%m-%Y'),
             'taxes_id': (
-                res['taxes_id']
-                and [[6, False, res['taxes_id']]]
-                or False),
+                res['taxes_id'] and [[6, False, res['taxes_id']]] or False),
         })
         return res

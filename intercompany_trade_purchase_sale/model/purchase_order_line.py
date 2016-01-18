@@ -196,10 +196,7 @@ class purchase_order_line(Model):
             'order_id': pol.order_id.intercompany_trade_sale_order_id.id,
             'product_id': other_product_info['product_id'],
             'delay': 0,
-            'tax_id': (
-                res['tax_id']
-                and [[6, False, res['tax_id']]]
-                or False),
+            'tax_id': (res['tax_id'] and [[6, False, res['tax_id']]] or False),
             'product_uom': (
                 res['product_uos'] and
                 res['product_uos'] or pol.product_uom.id),
