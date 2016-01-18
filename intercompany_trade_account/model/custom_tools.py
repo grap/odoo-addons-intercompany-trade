@@ -34,8 +34,8 @@ def _check_taxes(
         * if tax type is not 'percent';
     """
     # Check if taxes are correct
-    if (len(supplier_product.taxes_id)
-            != len(customer_product.supplier_taxes_id)):
+    if (len(supplier_product.taxes_id) !=
+            len(customer_product.supplier_taxes_id)):
         raise except_osv(
             _("Taxes Mismatch!"),
             _(
