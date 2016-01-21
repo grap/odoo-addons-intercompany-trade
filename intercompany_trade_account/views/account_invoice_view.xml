@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ********************************************************************** -->
+<!--    Intercompany Trade - Account module for Odoo                          -->
+<!--    Copyright (C) 2015-Today GRAP (http://www.grap.coop)                -->
+<!--    @author Sylvain LE GAL (https://twitter.com/legalsylvain)           -->
+
+<!--This program is free software: you can redistribute it and/or modify    -->
+<!--it under the terms of the GNU Affero General Public License as          -->
+<!--published by the Free Software Foundation, either version 3 of the      -->
+<!--License, or (at your option) any later version.                         -->
+
+<!--This program is distributed in the hope that it will be useful,         -->
+<!--but WITHOUT ANY WARRANTY; without even the implied warranty of          -->
+<!--MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           -->
+<!--GNU Affero General Public License for more details.                     -->
+
+<!--You should have received a copy of the GNU Affero General Public License-->
+<!--along with this program.  If not, see <http://www.gnu.org/licenses/>.   -->
+<!-- ********************************************************************** -->
+<openerp><data>
+
+    <record id="view_account_invoice_search" model="ir.ui.view">
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <field name="number" position="after">
+                <filter string="Intercompany Trade" name="intercompany_trade" domain="[('intercompany_trade','=',True)]"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_account_invoice_form_customer" model="ir.ui.view">
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+          <xpath expr="//sheet[@string='Invoice']/h1" position="inside">
+                <span class="intercompany_trade_done"
+                    attrs="{'invisible': ['|', ('state', 'not in', ['paid']), ('intercompany_trade','=', False)]}">Intercompany Trade Done</span>
+                <span class="intercompany_trade_todo"
+                    attrs="{'invisible': ['|', ('state', 'not in', ['draft', 'verified', 'proforma', 'proforma2']), ('intercompany_trade','=', False)]}">Intercompany Trade To Confirm</span>
+                <span class="intercompany_trade_todo"
+                    attrs="{'invisible': ['|', ('state', 'not in', ['open']), ('intercompany_trade','=', False)]}">Intercompany Trade To Pay</span>
+                <span class="intercompany_trade_canceled"
+                    attrs="{'invisible': ['|', ('state', 'not in', ['cancel']), ('intercompany_trade','=', False)]}">Intercompany Trade Canceled</span>
+            </xpath>
+            <field name="account_id" position="after">
+                <field name="intercompany_trade"
+                    groups="intercompany_trade_base.intercompany_trade_user"
+                    />
+                <field name="intercompany_trade_account_invoice_id"
+                    groups="intercompany_trade_base.intercompany_trade_manager"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_account_invoice_form_supplier" model="ir.ui.view">
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_form"/>
+        <field name="arch" type="xml">
+          <xpath expr="//sheet[@string='Supplier Invoice']/div/h1" position="inside">
+                <span class="intercompany_trade_done"
+                    attrs="{'invisible': ['|', ('state', 'not in', ['paid']), ('intercompany_trade','=', False)]}">Intercompany Trade Done</span>
+                <span class="intercompany_trade_todo"
+                    attrs="{'invisible': ['|', ('state', 'not in', ['draft', 'verified', 'proforma', 'proforma2']), ('intercompany_trade','=', False)]}">Intercompany Trade To Confirm</span>
+                <span class="intercompany_trade_todo"
+                    attrs="{'invisible': ['|', ('state', 'not in', ['open']), ('intercompany_trade','=', False)]}">Intercompany Trade To Pay</span>
+                <span class="intercompany_trade_canceled"
+                    attrs="{'invisible': ['|', ('state', 'not in', ['cancel']), ('intercompany_trade','=', False)]}">Intercompany Trade Canceled</span>
+            </xpath>
+            <field name="account_id" position="after">
+                <field name="intercompany_trade"
+                    groups="intercompany_trade_base.intercompany_trade_user"
+                    />
+                <field name="intercompany_trade_account_invoice_id"
+                    groups="intercompany_trade_base.intercompany_trade_manager"/>
+            </field>
+        </field>
+    </record>
+
+</data></openerp>
