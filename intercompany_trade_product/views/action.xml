@@ -20,18 +20,15 @@
 <openerp>
     <data>
 
-<!-- Intercompany Trade: SubMenu Catalog -->
-        <menuitem id="menu_intercompany_trade_catalog"
-            parent="intercompany_trade_base.menu_intercompany_trade_root"
-            name="Catalogs"
-            sequence="2"/>
+        <record id="action_product_intercompany_trade_catalog" model="ir.actions.act_window">
+            <field name="name">Catalogs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.intercompany.trade.catalog</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{'search_default_linked_product':1}</field>
 
-<!-- Model: product.intercompany.trade.catalog -->
-        <menuitem id="menu_intercompany_trade_product_catalog"
-            parent="menu_intercompany_trade_catalog"
-            name="Products"
-            action="action_product_intercompany_trade_catalog"
-            sequence="1"/>
+        </record>
 
     </data>
 </openerp>

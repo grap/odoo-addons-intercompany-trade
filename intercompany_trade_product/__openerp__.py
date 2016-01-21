@@ -66,9 +66,11 @@ Copyright, Authors and Licence:
     'data': [
         'security/ir_model_access.yml',
         'security/ir_rule.yml',
-        'view/view.xml',
-        'view/action.xml',
-        'view/menu.xml',
+        'views/intercompany_trade_config_view.xml',
+        'views/intercompany_trade_wizard_link_product_view.xml',
+        'views/product_intercompany_trade_catalog_view.xml',
+        'views/action.xml',
+        'views/menu.xml',
     ],
     'auto_install': True,
 }

@@ -17,18 +17,13 @@
 <!--You should have received a copy of the GNU Affero General Public License-->
 <!--along with this program.  If not, see <http://www.gnu.org/licenses/>.   -->
 <!-- ********************************************************************** -->
-<openerp>
-    <data>
 
-        <record id="action_product_intercompany_trade_catalog" model="ir.actions.act_window">
-            <field name="name">Products</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">product.intercompany.trade.catalog</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree</field>
-            <field name="context">{'search_default_linked_product':1}</field>
+<openerp><data>
 
-        </record>
+<!-- Model: product.intercompany.trade.catalog (1.5) -->
+    <menuitem id="menu_intercompany_trade_product_catalog"
+        parent="intercompany_trade_base.menu_intercompany_trade_purchase"
+        action="action_product_intercompany_trade_catalog"
+        sequence="5"/>
 
-    </data>
-</openerp>
+</data></openerp>
