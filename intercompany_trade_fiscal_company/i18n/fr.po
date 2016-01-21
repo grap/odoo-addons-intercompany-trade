@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 23:45+0000\n"
-"PO-Revision-Date: 2015-12-02 23:45+0000\n"
+"POT-Creation-Date: 2016-01-21 11:51+0000\n"
+"PO-Revision-Date: 2016-01-21 11:51+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -121,8 +121,8 @@ msgstr "Seulement les comptes de type 'client' peuvent être marqués comme 'Com
 
 #. module: intercompany_trade_fiscal_company
 #: field:intercompany.trade.config,fiscal_company_supplier_account_id:0
-msgid "Payable Account for the Supplier."
-msgstr "Compte fournisseur."
+msgid "Payable Account for the Supplier"
+msgstr "Compte fournisseur"
 
 #. module: intercompany_trade_fiscal_company
 #: code:_description:0
@@ -140,8 +140,8 @@ msgstr "Ligne de commande d'achat"
 
 #. module: intercompany_trade_fiscal_company
 #: field:intercompany.trade.config,fiscal_company_customer_account_id:0
-msgid "Receivable Account for the Customer."
-msgstr "Compte client."
+msgid "Receivable Account for the Customer"
+msgstr "Compte client"
 
 #. module: intercompany_trade_fiscal_company
 #: code:_description:0
@@ -173,10 +173,14 @@ msgstr "Compte d'arrivée"
 
 #. module: intercompany_trade_fiscal_company
 #: view:fiscal.company.transcoding.account:0
-#: model:ir.actions.act_window,name:intercompany_trade_fiscal_company.action_fiscal_company_transcoding_account
-#: model:ir.ui.menu,name:intercompany_trade_fiscal_company.menu_fiscal_company_transcoding_account
 msgid "Transcoding Account for Fiscal Company"
 msgstr "Compte transcodé pour CAE"
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.actions.act_window,name:intercompany_trade_fiscal_company.action_fiscal_company_transcoding_account
+#: model:ir.ui.menu,name:intercompany_trade_fiscal_company.menu_fiscal_company_transcoding_account
+msgid "Transcoding Accounts (Fiscal Company)"
+msgstr "Comptes transcodés (CAE)"
 
 #. module: intercompany_trade_fiscal_company
 #: code:addons/intercompany_trade_fiscal_company/model/intercompany_trade_config.py:71

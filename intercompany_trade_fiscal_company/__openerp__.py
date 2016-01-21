@@ -59,9 +59,12 @@ Copyright, Author and Licence :
     'data': [
         'security/ir_rule.xml',
         'security/ir_model_access.yml',
-        'view/view.xml',
-        'view/action.xml',
-        'view/menu.xml',
+        'views/account_account_view.xml',
+        'views/fiscal_company_transcoding_account_view.xml',
+        'views/intercompany_trade_config_view.xml',
+        'views/res_company_view.xml',
+        'views/action.xml',
+        'views/menu.xml',
     ],
     'demo': [
         'demo/account_tax.yml',

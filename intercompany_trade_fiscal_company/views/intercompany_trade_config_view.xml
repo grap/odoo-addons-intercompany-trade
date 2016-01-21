@@ -17,14 +17,24 @@
 <!--You should have received a copy of the GNU Affero General Public License-->
 <!--along with this program.  If not, see <http://www.gnu.org/licenses/>.   -->
 <!-- ********************************************************************** -->
-<openerp>
-    <data>
+<openerp><data>
 
-<!-- Model: fiscal.company.transcoding.account -->
-        <menuitem id="menu_fiscal_company_transcoding_account"
-            parent="intercompany_trade_base.menu_intercompany_trade"
-            action="action_fiscal_company_transcoding_account"
-            sequence="2"/>
-    </data>
-</openerp>
+    <record id="view_intercompany_trade_config_form" model="ir.ui.view">
+        <field name="model">intercompany.trade.config</field>
+        <field name="inherit_id" ref="intercompany_trade_base.view_intercompany_trade_config_form" />
+        <field name="arch" type="xml">
+            <field name="active" position="after">
+                <field name="same_fiscal_mother_company" />
+            </field>
+            <field name="supplier_company_id" position="after">
+                <field name="sale_journal_id" />
+                <field name="fiscal_company_supplier_account_id" />
+            </field>
+            <field name="customer_company_id" position="after">
+                <field name="purchase_journal_id" />
+                <field name="fiscal_company_customer_account_id" />
+            </field>
+        </field>
+    </record>
 
+</data></openerp>
