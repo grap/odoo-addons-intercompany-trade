@@ -67,9 +67,10 @@ Copyright, Authors and Licence:
         'security/ir_module_category.yml',
         'security/res_groups.yml',
         'security/ir_model_access.yml',
-        'view/view.xml',
-        'view/action.xml',
-        'view/menu.xml',
+        'views/res_partner_view.xml',
+        'views/intercompany_trade_config_view.xml',
+        'views/action.xml',
+        'views/menu.xml',
     ],
     'css': [
         'static/src/css/itb.css',

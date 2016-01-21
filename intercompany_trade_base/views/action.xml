@@ -27,7 +27,6 @@
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
-            <!-- FIXME : Set filter instead of domain-->
             <field name="domain" eval="[('customer', '=', True), ('intercompany_trade', '=', True)]"/>
         </record>
 
@@ -37,7 +36,6 @@
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
-            <!-- FIXME : Set filter instead of domain-->
             <field name="domain" eval="[('supplier', '=', True), ('intercompany_trade', '=', True)]"/>
         </record>
 
