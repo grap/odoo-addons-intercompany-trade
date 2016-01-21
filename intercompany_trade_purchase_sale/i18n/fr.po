@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-03 00:00+0000\n"
-"PO-Revision-Date: 2015-12-03 00:00+0000\n"
+"POT-Creation-Date: 2016-01-21 12:45+0000\n"
+"PO-Revision-Date: 2016-01-21 12:45+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr "Confirmer la demande"
 #: code:addons/intercompany_trade_purchase_sale/model/purchase_order_line.py:133
 #: code:addons/intercompany_trade_purchase_sale/model/sale_order.py:142
 #: code:addons/intercompany_trade_purchase_sale/model/sale_order.py:151
-#: code:addons/intercompany_trade_purchase_sale/model/sale_order_line.py:113
+#: code:addons/intercompany_trade_purchase_sale/model/sale_order_line.py:116
 #, python-format
 msgid "Error!"
 msgstr "Erreur !"
@@ -48,7 +48,7 @@ msgstr "Erreur: Le module 'Transaction Inter Société' fonctionne seulement ave
 #. module: intercompany_trade_purchase_sale
 #: field:intercompany.product.stock.line,product_virtual_available:0
 msgid "Forcasted Quantity"
-msgstr "Forcasted Quantity"
+msgstr "Quantité prévue"
 
 #. module: intercompany_trade_purchase_sale
 #: code:_description:0
@@ -145,11 +145,6 @@ msgstr "OK !"
 
 #. module: intercompany_trade_purchase_sale
 #: view:intercompany.product.stock:0
-msgid "Supplier Quantities"
-msgstr "Stock chez le fournisseur"
-
-#. module: intercompany_trade_purchase_sale
-#: view:intercompany.product.stock:0
 msgid "Products"
 msgstr "Articles"
 
@@ -176,6 +171,18 @@ msgstr "Liste de prix d'achat dans la société cliente"
 #: field:intercompany.product.stock.line,product_qty_available:0
 msgid "Quantity On Hand"
 msgstr "Quantité en stock"
+
+#. module: intercompany_trade_purchase_sale
+#: model:ir.actions.act_window,name:intercompany_trade_purchase_sale.action_purchase_order_supplier
+#: model:ir.ui.menu,name:intercompany_trade_purchase_sale.menu_purchase_order_supplier
+msgid "Quotations / Purchase Orders"
+msgstr "Devis / BdC d'achat"
+
+#. module: intercompany_trade_purchase_sale
+#: model:ir.actions.act_window,name:intercompany_trade_purchase_sale.action_sale_order_customer
+#: model:ir.ui.menu,name:intercompany_trade_purchase_sale.menu_sale_order_customer
+msgid "Quotations / Sale Orders"
+msgstr "Devis / BdC de vente"
 
 #. module: intercompany_trade_purchase_sale
 #: code:_description:0
@@ -205,6 +212,11 @@ msgstr "Code du produit (Frs)"
 #: field:intercompany.product.stock.line,product_name:0
 msgid "Supplier Product Name"
 msgstr "Nom du produit (Frs)"
+
+#. module: intercompany_trade_purchase_sale
+#: view:intercompany.product.stock:0
+msgid "Supplier Quantities"
+msgstr "Stock chez le fournisseur"
 
 #. module: intercompany_trade_purchase_sale
 #: field:intercompany.product.stock.line,wizard_id:0
@@ -256,7 +268,7 @@ msgstr "Vous ne pouvez pas changer de produit '%s'\n"
 ". Veuillez supprimer cette ligne et en créer une nouvelle."
 
 #. module: intercompany_trade_purchase_sale
-#: code:addons/intercompany_trade_purchase_sale/model/sale_order_line.py:116
+#: code:addons/intercompany_trade_purchase_sale/model/sale_order_line.py:119
 #, python-format
 msgid "You can not change the product '%s'.\n"
 " Please remove this line and create a new one."

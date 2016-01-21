@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ********************************************************************** -->
-<!--    Intercompany Trade - Product module for Odoo                          -->
-<!--    Copyright (C) 2014 -Today GRAP (http://www.grap.coop)               -->
+<!--    Intercompany Trade - Account module for Odoo                          -->
+<!--    Copyright (C) 2015-Today GRAP (http://www.grap.coop)                -->
 <!--    @author Sylvain LE GAL (https://twitter.com/legalsylvain)           -->
 
 <!--This program is free software: you can redistribute it and/or modify    -->
@@ -17,21 +17,18 @@
 <!--You should have received a copy of the GNU Affero General Public License-->
 <!--along with this program.  If not, see <http://www.gnu.org/licenses/>.   -->
 <!-- ********************************************************************** -->
-<openerp>
-    <data>
+<openerp><data>
 
-<!-- Intercompany Trade: SubMenu Catalog -->
-        <menuitem id="menu_intercompany_trade_catalog"
-            parent="intercompany_trade_base.menu_intercompany_trade_root"
-            name="Catalogs"
-            sequence="2"/>
+<!-- Model: account.invoice (1.30) -->
+    <menuitem id="menu_account_invoice_supplier"
+        parent="intercompany_trade_base.menu_intercompany_trade_purchase"
+        action="action_account_invoice_supplier"
+        sequence="30"/>
 
-<!-- Model: product.intercompany.trade.catalog -->
-        <menuitem id="menu_intercompany_trade_product_catalog"
-            parent="menu_intercompany_trade_catalog"
-            name="Products"
-            action="action_product_intercompany_trade_catalog"
-            sequence="1"/>
+<!-- Model: account.invoice (2.30) -->
+    <menuitem id="menu_account_invoice_customer"
+        parent="intercompany_trade_base.menu_intercompany_trade_sale"
+        action="action_account_invoice_customer"
+        sequence="30"/>
 
-    </data>
-</openerp>
+</data></openerp>

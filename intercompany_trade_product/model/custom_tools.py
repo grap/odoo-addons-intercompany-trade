@@ -20,9 +20,6 @@
 #
 ##############################################################################
 
-
-# from datetime import date
-
 from openerp import SUPERUSER_ID
 from openerp.tools.translate import _
 from openerp.osv.osv import except_osv
@@ -96,8 +93,7 @@ def _intercompany_trade_update(
 
 
 def _get_other_product_info(
-        pool, cr, uid, rit, product_id, direction,
-        context=None):
+        pool, cr, uid, rit, product_id, direction, context=None):
     """
         Deliver a product id from another product id.
         Usefull to call when create (sale / purchase / invoice) line to
@@ -137,11 +133,10 @@ def _get_other_product_info(
         if len(psi_ids) == 0:
             raise except_osv(
                 _("Product Selection Error!"),
-                _("""You can not add the product '%s' to the current"""
-                    """ Order or Invoice because you didn't linked the"""
-                    """ product to any Supplier Product. Please do it"""
-                    """ in the 'Intercompany Trade' menu.""" % (
-                        pp.name)))
+                _("You can not add '%s' to the current Order or Invoice"
+                    " because you didn't linked the product to any Supplier"
+                    " Product. Please do it in the 'Intercompany Trade'"
+                    " menu.") % (pp.name))
 
         psi = psi_obj.browse(cr, uid, psi_ids[0], context=context)
         res['product_id'] = psi.supplier_product_id.id
@@ -164,11 +159,10 @@ def _get_other_product_info(
         if len(psi_ids) == 0:
             raise except_osv(
                 _("Product Selection Error!"),
-                _("""You can not add the product '%s' to the current"""
-                    """ Order or Invoice because the customer didn't"""
-                    """ referenced your product. Please contact him and"""
-                    """ say him to do it.""" % (
-                        pp.name)))
+                _("You can not add the product '%s' to the"
+                    " current Order or Invoice because the customer didn't"
+                    " referenced your product. Please contact him and"
+                    " say him to do it.") % (pp.name))
         psi = psi_obj.browse(
             cr, rit.customer_user_id.id, psi_ids[0], context=context)
         customer_pp_ids = pp_obj.search(cr, rit.customer_user_id.id, [
@@ -178,11 +172,10 @@ def _get_other_product_info(
         if len(customer_pp_ids) != 1:
             raise except_osv(
                 _("Product Selection Error!"),
-                _("""You can not add the product '%s' to the current"""
-                    """ Order or Invoice because the customer referenced"""
-                    """ many variants of this product. Please contact him"""
-                    """ and say him to add the product manually to his """
-                    """ Order or Invoice.""" % (
-                        pp.name)))
+                _("You can not add '%s' to the current Order or Invoice"
+                    " because the customer referenced many variants of"
+                    "  this template. Please contact him and say him to add"
+                    "  the product manually to his Order or Invoice .") % (
+                        pp.name))
         res['product_id'] = customer_pp_ids[0]
     return res

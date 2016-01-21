@@ -115,11 +115,11 @@ class ResIntercompanyTrade(Model):
         'fiscal_company_customer_account_id': fields.related(
             'customer_company_id', 'intercompany_trade_account_id',
             type='many2one', relation='account.account', readonly=True,
-            string='Receivable Account for the Customer.'),
+            string='Receivable Account for the Customer'),
         'fiscal_company_supplier_account_id': fields.related(
             'supplier_company_id', 'intercompany_trade_account_id',
             type='many2one', relation='account.account', readonly=True,
-            string='Payable Account for the Supplier.'),
+            string='Payable Account for the Supplier'),
     }
 
     # Constraints Section

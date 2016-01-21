@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ********************************************************************** -->
-<!--    Intercompany Trade - Stock module for Odoo                            -->
+<!--    Intercompany Trade - Account module for Odoo                          -->
 <!--    Copyright (C) 2015-Today GRAP (http://www.grap.coop)                -->
 <!--    @author Sylvain LE GAL (https://twitter.com/legalsylvain)           -->
 
@@ -17,8 +17,18 @@
 <!--You should have received a copy of the GNU Affero General Public License-->
 <!--along with this program.  If not, see <http://www.gnu.org/licenses/>.   -->
 <!-- ********************************************************************** -->
-<openerp>
-    <data>
+<openerp><data>
 
-    </data>
-</openerp>
+    <record id="view_intercompany_trade_wizard_link_product_form" model="ir.ui.view">
+        <field name="model">intercompany.trade.wizard.link.product</field>
+        <field name="inherit_id" ref="intercompany_trade_product.view_intercompany_trade_wizard_link_product_form"/>
+        <field name="arch" type="xml">
+            <field name="supplier_sale_price" position="replace">
+                <field name="supplier_sale_price_tax_excluded"/>
+                <field name="supplier_sale_price_tax_included"/>
+                <field name="supplier_tax_name"/>
+            </field>
+        </field>
+    </record>
+
+</data></openerp>

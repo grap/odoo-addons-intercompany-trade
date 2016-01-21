@@ -26,34 +26,41 @@
             groups="intercompany_trade_base.intercompany_trade_user"
             sequence="21"/>
 
-<!-- Intercompany Trade: SubMenu Partners -->
-        <menuitem id="menu_intercompany_trade_partner"
+<!-- Intercompany Trade: SubMenu Purchase (1) -->
+        <menuitem id="menu_intercompany_trade_purchase"
             parent="menu_intercompany_trade_root"
-            name="Partners"
+            name="Purchase"
             sequence="1"/>
 
-<!-- Model: res.partner -->
-        <menuitem id="menu_intercompany_trade_partner_customer"
-            parent="menu_intercompany_trade_partner"
-            action="action_res_partner_intercompany_trade_customer"
-            sequence="1"/>
-
+<!-- Model: res.partner (1.1)-->
         <menuitem id="menu_intercompany_trade_partner_supplier"
-            parent="menu_intercompany_trade_partner"
+            parent="menu_intercompany_trade_purchase"
             action="action_res_partner_intercompany_trade_supplier"
             sequence="2"/>
 
-<!-- Model: intercompany.trade.config -->
-        <menuitem id="menu_intercompany_trade"
+<!-- Intercompany Trade: SubMenu Sale (10) -->
+        <menuitem id="menu_intercompany_trade_sale"
+            parent="menu_intercompany_trade_root"
+            name="Sale"
+            sequence="10"/>
+
+<!-- Model: res.partner (10.1)-->
+        <menuitem id="menu_intercompany_trade_partner_customer"
+            parent="menu_intercompany_trade_sale"
+            action="action_res_partner_intercompany_trade_customer"
+            sequence="1"/>
+
+<!-- Intercompany Trade: SubMenu Setting (25)-->
+        <menuitem id="menu_intercompany_trade_setting"
             parent="menu_intercompany_trade_root"
             name="Setting" groups="intercompany_trade_manager"
             sequence="25"/>
 
+<!-- Model: intercompany.trade.config (25.1) -->
         <menuitem id="menu_intercompany_trade_config"
-            parent="menu_intercompany_trade"
+            parent="menu_intercompany_trade_setting"
             action="action_intercompany_trade_config"
             sequence="1"/>
-
 
     </data>
 </openerp>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ********************************************************************** -->
-<!--    Intercompany Trade - Product module for Odoo                          -->
-<!--    Copyright (C) 2014 -Today GRAP (http://www.grap.coop)               -->
+<!--    Intercompany Trade - Purchase Sale module for Odoo                    -->
+<!--    Copyright (C) 2015-Today GRAP (http://www.grap.coop)                -->
 <!--    @author Sylvain LE GAL (https://twitter.com/legalsylvain)           -->
 
 <!--This program is free software: you can redistribute it and/or modify    -->
@@ -17,18 +17,16 @@
 <!--You should have received a copy of the GNU Affero General Public License-->
 <!--along with this program.  If not, see <http://www.gnu.org/licenses/>.   -->
 <!-- ********************************************************************** -->
-<openerp>
-    <data>
+<openerp><data>
 
-        <record id="action_product_intercompany_trade_catalog" model="ir.actions.act_window">
-            <field name="name">Products</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">product.intercompany.trade.catalog</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree</field>
-            <field name="context">{'search_default_linked_product':1}</field>
+    <record id="view_intercompany_trade_config_form" model="ir.ui.view">
+        <field name="model">intercompany.trade.config</field>
+        <field name="inherit_id" ref="intercompany_trade_base.view_intercompany_trade_config_form" />
+        <field name="arch" type="xml">
+            <field name="supplier_partner_id" position="after">
+                <field name="purchase_pricelist_id"/>
+            </field>
+        </field>
+    </record>
 
-        </record>
-
-    </data>
-</openerp>
+</data></openerp>

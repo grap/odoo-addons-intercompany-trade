@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 23:39+0000\n"
-"PO-Revision-Date: 2015-12-02 23:39+0000\n"
+"POT-Creation-Date: 2016-01-21 14:29+0000\n"
+"PO-Revision-Date: 2016-01-21 14:29+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,11 +16,17 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: intercompany_trade_account
+#: model:ir.actions.act_window,name:intercompany_trade_account.action_account_invoice_customer
+#: model:ir.ui.menu,name:intercompany_trade_account.menu_account_invoice_customer
+msgid "Customer Invoices"
+msgstr "Factures clients"
+
+#. module: intercompany_trade_account
 #: code:addons/intercompany_trade_account/model/account_invoice.py:151
 #: code:addons/intercompany_trade_account/model/account_invoice.py:175
-#: code:addons/intercompany_trade_account/model/account_invoice_line.py:137
-#: code:addons/intercompany_trade_account/model/account_invoice_line.py:143
-#: code:addons/intercompany_trade_account/model/account_invoice_line.py:149
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:138
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:144
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:150
 #, python-format
 msgid "Error!"
 msgstr "Erreur !"
@@ -52,7 +58,7 @@ msgstr "Transaction inter société annulée"
 #. module: intercompany_trade_account
 #: view:account.invoice:0
 msgid "Intercompany Trade Done"
-msgstr "Transaction inter société terminé"
+msgstr "Transaction inter société terminée"
 
 #. module: intercompany_trade_account
 #: view:account.invoice:0
@@ -86,11 +92,27 @@ msgid "Partner"
 msgstr "Partenaire"
 
 #. module: intercompany_trade_account
+#: view:product.intercompany.trade.catalog:0
+msgid "Price VAT Excl."
+msgstr "Prix HT"
+
+#. module: intercompany_trade_account
+#: view:product.intercompany.trade.catalog:0
+msgid "Price VAT Incl."
+msgstr "Prix TTC"
+
+#. module: intercompany_trade_account
 #: code:_description:0
 #: model:ir.model,name:intercompany_trade_account.model_product_pricelist
 #, python-format
 msgid "Pricelist"
 msgstr "Liste de prix"
+
+#. module: intercompany_trade_account
+#: model:ir.actions.act_window,name:intercompany_trade_account.action_account_invoice_supplier
+#: model:ir.ui.menu,name:intercompany_trade_account.menu_account_invoice_supplier
+msgid "Supplier Invoices"
+msgstr "Factures fournisseur"
 
 #. module: intercompany_trade_account
 #: field:intercompany.trade.wizard.link.product,supplier_sale_price_tax_excluded:0
@@ -127,19 +149,19 @@ msgstr "Paramètre de taxes trop complexe !"
 
 #. module: intercompany_trade_account
 #: code:addons/intercompany_trade_account/model/account_invoice.py:248
-#: code:addons/intercompany_trade_account/model/account_invoice_line.py:222
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:223
 #, python-format
 msgid "Unimplemented Feature!"
 msgstr "Fonctionnalité non implémentée !"
 
 #. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/model/account_invoice_line.py:151
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:152
 #, python-format
 msgid "You can not change the Unit Price of '%s'. Please ask to your supplier."
 msgstr "Vous ne pouvez pas changer le prix unitaire de '%s'. Veuillez demander à votre fournisseur."
 
 #. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/model/account_invoice_line.py:145
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:146
 #, python-format
 msgid "You can not change the UoM of the Product %s."
 msgstr "Vous ne pouvez pas changer l'unité de mesure du produit %s."
@@ -151,7 +173,7 @@ msgid "You can not change the partner because of Intercompany Trade Rules. Pleas
 msgstr "Vous ne pouvez pas changer de partenaire sur une facturation Inter Société. Veuillez créer une nouvelle facture."
 
 #. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/model/account_invoice_line.py:140
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:141
 #, python-format
 msgid "You can not change the product %s.Please remove this line and create a new one."
 msgstr "Vous ne pouvez pas changer le produit %s. Veuillez supprimer la ligne et en créer une nouvelle."
@@ -163,7 +185,7 @@ msgid "You can not create an invoice %s with a partner flagged as Intercompany T
 msgstr "Vous ne pouvez pas créer une facture de type %s avec un partenaire marqué comme 'transaction inter société'."
 
 #. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/model/account_invoice_line.py:224
+#: code:addons/intercompany_trade_account/model/account_invoice_line.py:225
 #, python-format
 msgid "You can not create an invoice Line %s with a partner flagged as Intercompany Trade."
 msgstr "Vous ne pouvez pas créer une ligne facture de type %s avec un partenaire marqué comme 'transaction inter société'."

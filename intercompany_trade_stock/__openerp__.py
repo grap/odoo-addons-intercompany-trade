@@ -32,8 +32,6 @@ Features:
     * Make a link between stock.picking.in and stock.picking.out model;
     * Block possibility to copy a stock.picking;
     * Block possibility to invoice a stock picking out;
-
-TODO:
     * block possibility to invoices multiple picking;
 
 Copyright, Authors and Licence:
@@ -55,7 +53,8 @@ Copyright, Authors and Licence:
         'demo/stock_warehouse.yml',
     ],
     'data': [
-        'view/view.xml',
+        'views/action.xml',
+        'views/menu.xml',
     ],
     'auto_install': True,
 }

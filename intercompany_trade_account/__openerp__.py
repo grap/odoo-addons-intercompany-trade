@@ -67,7 +67,11 @@ Copyright, Authors and Licence:
         'demo/product_product.yml',
     ],
     'data': [
-        'view/view.xml',
+        'views/product_intercompany_trade_catalog_view.xml',
+        'views/intercompany_trade_wizard_link_product_view.xml',
+        'views/account_invoice_view.xml',
+        'views/action.xml',
+        'views/menu.xml',
         'data/init.xml',
     ],
     'auto_install': True,

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ********************************************************************** -->
-<!--    Intercompany Trade - Fiscal Company module for Odoo                   -->
-<!--    Copyright (C) 2015 - Today GRAP (http://www.grap.coop)             -->
+<!--    Intercompany Trade - Product module for Odoo                          -->
+<!--    Copyright (C) 2014 -Today GRAP (http://www.grap.coop)               -->
 <!--    @author Sylvain LE GAL (https://twitter.com/legalsylvain)           -->
 
 <!--This program is free software: you can redistribute it and/or modify    -->
@@ -20,11 +20,15 @@
 <openerp>
     <data>
 
-<!-- Model: fiscal.company.transcoding.account -->
-        <menuitem id="menu_fiscal_company_transcoding_account"
-            parent="intercompany_trade_base.menu_intercompany_trade"
-            action="action_fiscal_company_transcoding_account"
-            sequence="2"/>
+        <record id="action_product_intercompany_trade_catalog" model="ir.actions.act_window">
+            <field name="name">Catalogs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.intercompany.trade.catalog</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{'search_default_linked_product':1}</field>
+
+        </record>
+
     </data>
 </openerp>
-

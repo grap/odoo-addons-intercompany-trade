@@ -81,7 +81,12 @@ Copyright, Authors and Licence:
         'demo/ir_values.yml',
     ],
     'data': [
-        'view/view.xml',
+        'views/intercompany_product_stock_view.xml',
+        'views/intercompany_trade_config_view.xml',
+        'views/purchase_order_view.xml',
+        'views/sale_order_view.xml',
+        'views/action.xml',
+        'views/menu.xml',
     ],
     'auto_install': True,
 }

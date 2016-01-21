@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 23:38+0000\n"
-"PO-Revision-Date: 2015-12-02 23:38+0000\n"
+"POT-Creation-Date: 2016-01-21 11:43+0000\n"
+"PO-Revision-Date: 2016-01-21 11:43+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -133,9 +133,14 @@ msgid "Partner"
 msgstr "Partenaire"
 
 #. module: intercompany_trade_base
-#: model:ir.ui.menu,name:intercompany_trade_base.menu_intercompany_trade_partner
-msgid "Partners"
-msgstr "Partenaires"
+#: model:ir.ui.menu,name:intercompany_trade_base.menu_intercompany_trade_purchase
+msgid "Purchase"
+msgstr "Achat"
+
+#. module: intercompany_trade_base
+#: model:ir.ui.menu,name:intercompany_trade_base.menu_intercompany_trade_sale
+msgid "Sale"
+msgstr "Vente"
 
 #. module: intercompany_trade_base
 #: help:intercompany.trade.config,customer_company_id:0
@@ -153,7 +158,7 @@ msgid "Select the level of access of Intercompany Trade"
 msgstr "Selectionner le niveau d'accès pour les transactions inter société"
 
 #. module: intercompany_trade_base
-#: model:ir.ui.menu,name:intercompany_trade_base.menu_intercompany_trade
+#: model:ir.ui.menu,name:intercompany_trade_base.menu_intercompany_trade_setting
 msgid "Setting"
 msgstr "Configuration"
 

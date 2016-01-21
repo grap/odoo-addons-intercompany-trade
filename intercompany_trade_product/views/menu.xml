@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ********************************************************************** -->
-<!--    Intercompany Trade - Base module for Odoo                             -->
+<!--    Intercompany Trade - Product module for Odoo                          -->
 <!--    Copyright (C) 2014 -Today GRAP (http://www.grap.coop)               -->
 <!--    @author Sylvain LE GAL (https://twitter.com/legalsylvain)           -->
 
@@ -17,17 +17,13 @@
 <!--You should have received a copy of the GNU Affero General Public License-->
 <!--along with this program.  If not, see <http://www.gnu.org/licenses/>.   -->
 <!-- ********************************************************************** -->
-<openerp>
-    <data>
 
-<!-- Model: fiscal.company.transcoding.account -->
-        <record id="action_fiscal_company_transcoding_account" model="ir.actions.act_window">
-            <field name="name">Transcoding Account for Fiscal Company</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">fiscal.company.transcoding.account</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-        </record>
+<openerp><data>
 
-    </data>
-</openerp>
+<!-- Model: product.intercompany.trade.catalog (1.5) -->
+    <menuitem id="menu_intercompany_trade_product_catalog"
+        parent="intercompany_trade_base.menu_intercompany_trade_purchase"
+        action="action_product_intercompany_trade_catalog"
+        sequence="5"/>
+
+</data></openerp>

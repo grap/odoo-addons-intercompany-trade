@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 23:53+0000\n"
-"PO-Revision-Date: 2015-12-02 23:53+0000\n"
+"POT-Creation-Date: 2016-01-21 15:33+0000\n"
+"PO-Revision-Date: 2016-01-21 15:33+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,9 +16,15 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: intercompany_trade_product
-#: model:ir.ui.menu,name:intercompany_trade_product.menu_intercompany_trade_catalog
+#: model:ir.actions.act_window,name:intercompany_trade_product.action_product_intercompany_trade_catalog
+#: model:ir.ui.menu,name:intercompany_trade_product.menu_intercompany_trade_product_catalog
 msgid "Catalogs"
-msgstr "Catalogues"
+msgstr "Catalogues Fournisseur"
+
+#. module: intercompany_trade_product
+#: view:product.intercompany.trade.catalog:0
+msgid "Code (Supp.)"
+msgstr "Code (Frs)"
 
 #. module: intercompany_trade_product
 #: field:product.intercompany.trade.catalog,customer_company_id:0
@@ -45,8 +51,8 @@ msgstr "Références dupliquées !"
 
 #. module: intercompany_trade_product
 #: constraint:product.supplierinfo:0
-msgid "Error ! You can not link this product in this manner because the supplier is flaged as Inter Company Trade. Please use the dedicated interface in the Intercompany Trade menu."
-msgstr "Erreur ! Vous ne pouvez pas référencé ce produit de cette façon car le fournisseur est marqué comme Transaction Inter Société. Veuillez utiliser l'interface dédié dans le menu 'Transaction inter société'"
+msgid "Error ! You can not link this product in this manner because the supplier is flagged as Inter Company Trade. Please use the dedicated interface in the Intercompany Trade menu."
+msgstr "Erreur ! Vous ne pouvez pas référencer ce produit de cette façon car le fournisseur est marqué comme 'transaction Inter Société'. Veuillez utiliser l'interface dédié dans le menu 'Transaction Inter Société'."
 
 #. module: intercompany_trade_product
 #: view:product.intercompany.trade.catalog:0
@@ -103,6 +109,11 @@ msgid "Partner"
 msgstr "Partenaire"
 
 #. module: intercompany_trade_product
+#: view:product.intercompany.trade.catalog:0
+msgid "Price (Supp.)"
+msgstr "Prix (Frs)"
+
+#. module: intercompany_trade_product
 #: code:_description:0
 #: model:ir.model,name:intercompany_trade_product.model_product_pricelist
 #, python-format
@@ -117,9 +128,14 @@ msgid "Product"
 msgstr "Article"
 
 #. module: intercompany_trade_product
-#: code:addons/intercompany_trade_product/model/custom_tools.py:139
-#: code:addons/intercompany_trade_product/model/custom_tools.py:166
-#: code:addons/intercompany_trade_product/model/custom_tools.py:180
+#: view:product.intercompany.trade.catalog:0
+msgid "Product Name (Supp.)"
+msgstr "Nom du produit (Frs)"
+
+#. module: intercompany_trade_product
+#: code:addons/intercompany_trade_product/model/custom_tools.py:135
+#: code:addons/intercompany_trade_product/model/custom_tools.py:161
+#: code:addons/intercompany_trade_product/model/custom_tools.py:174
 #, python-format
 msgid "Product Selection Error!"
 msgstr "Erreur dans la sélection de l'article !"
@@ -128,12 +144,6 @@ msgstr "Erreur dans la sélection de l'article !"
 #: field:product.supplierinfo,supplier_product_id:0
 msgid "Product in the Supplier Catalog"
 msgstr "Article dans le catalogue fournisseur"
-
-#. module: intercompany_trade_product
-#: model:ir.actions.act_window,name:intercompany_trade_product.action_product_intercompany_trade_catalog
-#: model:ir.ui.menu,name:intercompany_trade_product.menu_intercompany_trade_product_catalog
-msgid "Products"
-msgstr "Articles"
 
 #. module: intercompany_trade_product
 #: field:product.intercompany.trade.catalog,sale_pricelist_id:0
@@ -149,6 +159,11 @@ msgstr "Liste de prix de vente dans la société fournisseur"
 #: view:product.intercompany.trade.catalog:0
 msgid "See My Product"
 msgstr "Voir mon produit"
+
+#. module: intercompany_trade_product
+#: view:product.intercompany.trade.catalog:0
+msgid "Supplier"
+msgstr "Fournisseur"
 
 #. module: intercompany_trade_product
 #: field:product.intercompany.trade.catalog,supplier_partner_id:0
@@ -248,22 +263,27 @@ msgid "Unlink Product"
 msgstr "Déréférencer un article"
 
 #. module: intercompany_trade_product
-#: code:addons/intercompany_trade_product/model/custom_tools.py:170
+#: view:product.intercompany.trade.catalog:0
+msgid "UoM (Supp.)"
+msgstr "UdM (Frs)"
+
+#. module: intercompany_trade_product
+#: code:addons/intercompany_trade_product/model/custom_tools.py:175
+#, python-format
+msgid "You can not add '%s' to the current Order or Invoice because the customer referenced many variants of  this template. Please contact him and say him to add  the product manually to his Order or Invoice ."
+msgstr "Vous ne pouvez pas ajouter l'article '%s' à la commande ou à la facture en cours car le client a référencé plusieurs variantes de ce template. Veuillez le contacter et lui dire d'ajouter le produit manuellement à la commande ou à la facture."
+
+#. module: intercompany_trade_product
+#: code:addons/intercompany_trade_product/model/custom_tools.py:136
+#, python-format
+msgid "You can not add '%s' to the current Order or Invoice because you didn't linked the product to any Supplier Product. Please do it in the 'Intercompany Trade' menu."
+msgstr "Vous ne pouvez pas ajouter le produit '%s' à la commande ou à la facture en cours, car vous n'avez pas référencé le produit à un produit du fournisseur. Veuillez le faire dans le menu 'Transaction Inter Société'."
+
+#. module: intercompany_trade_product
+#: code:addons/intercompany_trade_product/model/custom_tools.py:162
 #, python-format
 msgid "You can not add the product '%s' to the current Order or Invoice because the customer didn't referenced your product. Please contact him and say him to do it."
 msgstr "Vous ne pouvez pas ajouter l'article '%s' à la commande ou à la facture en cours car le client n'a pas référencé votre article. Merci de le contacter et de lui dire de le faire."
-
-#. module: intercompany_trade_product
-#: code:addons/intercompany_trade_product/model/custom_tools.py:185
-#, python-format
-msgid "You can not add the product '%s' to the current Order or Invoice because the customer referenced many variants of this product. Please contact him and say him to add the product manually to his  Order or Invoice."
-msgstr "Vous ne pouvez pas ajouter l'article '%s' à la commande ou à la facture en cours car le client a référencé plusieurs variante pour cet article. Merci de le contacter et de lui dire de rajouter manuellement l'article à la commande ou à la facture."
-
-#. module: intercompany_trade_product
-#: code:addons/intercompany_trade_product/model/custom_tools.py:143
-#, python-format
-msgid "You can not add the product '%s' to the current Order or Invoice because you didn't linked the product to any Supplier Product. Please do it in the 'Intercompany Trade' menu."
-msgstr "Vous ne pouvez pas ajouter l'article '%s' à la commande ou à la facture en cours car vous n'avez pas référencé l'article avec aucun article chez le fournisseur. Merci de le faire dans le menu 'Transaction Inter Société'."
 
 #. module: intercompany_trade_product
 #: code:addons/intercompany_trade_product/model/intercompany_trade_wizard_link_product.py:135
@@ -279,8 +299,16 @@ msgstr "Vous ne pouvez pas référencer cet article '%s' car il y a '%d' variant
 
 #. module: intercompany_trade_product
 #: view:intercompany.trade.wizard.link.product:0
+#: view:product.intercompany.trade.catalog:0
 msgid "Your Product"
 msgstr "Votre article"
+
+#. module: intercompany_trade_product
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_product.model_intercompany_trade_wizard_link_product
+#, python-format
+msgid "intercompany.trade.wizard.link.product"
+msgstr "intercompany.trade.wizard.link.product"
 
 #. module: intercompany_trade_product
 #: code:_description:0
@@ -288,3 +316,11 @@ msgstr "Votre article"
 #, python-format
 msgid "pricelist.partnerinfo"
 msgstr "Informations sur le partenaire"
+
+#. module: intercompany_trade_product
+#: code:_description:0
+#: model:ir.model,name:intercompany_trade_product.model_product_intercompany_trade_catalog
+#, python-format
+msgid "product.intercompany.trade.catalog"
+msgstr "product.intercompany.trade.catalog"
+
