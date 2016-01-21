@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-03 00:07+0000\n"
-"PO-Revision-Date: 2015-12-03 00:07+0000\n"
+"POT-Creation-Date: 2016-01-21 12:50+0000\n"
+"PO-Revision-Date: 2016-01-21 12:50+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,17 +17,21 @@ msgstr ""
 
 #. module: intercompany_trade_stock
 #: code:_description:0
+#: model:ir.actions.act_window,name:intercompany_trade_stock.action_stock_picking_out_customer
 #: model:ir.model,name:intercompany_trade_stock.model_stock_picking_out
+#: model:ir.ui.menu,name:intercompany_trade_stock.menu_stock_picking_out_customer
 #, python-format
 msgid "Delivery Orders"
-msgstr "Bons de livraisons"
+msgstr "Bons de livraison"
 
 #. module: intercompany_trade_stock
 #: code:_description:0
+#: model:ir.actions.act_window,name:intercompany_trade_stock.action_stock_picking_in_supplier
 #: model:ir.model,name:intercompany_trade_stock.model_stock_picking_in
+#: model:ir.ui.menu,name:intercompany_trade_stock.menu_stock_picking_in_supplier
 #, python-format
 msgid "Incoming Shipments"
-msgstr "Livraisons à recevoir"
+msgstr "Bons de réception"
 
 #. module: intercompany_trade_stock
 #: field:stock.picking,intercompany_trade:0

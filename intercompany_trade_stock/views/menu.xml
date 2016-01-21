@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ********************************************************************** -->
-<!--    Intercompany Trade - Stock module for Odoo                            -->
+<!--    Intercompany Trade - Stock module for Odoo                          -->
 <!--    Copyright (C) 2015-Today GRAP (http://www.grap.coop)                -->
 <!--    @author Sylvain LE GAL (https://twitter.com/legalsylvain)           -->
 
@@ -17,8 +17,18 @@
 <!--You should have received a copy of the GNU Affero General Public License-->
 <!--along with this program.  If not, see <http://www.gnu.org/licenses/>.   -->
 <!-- ********************************************************************** -->
-<openerp>
-    <data>
+<openerp><data>
 
-    </data>
-</openerp>
+<!-- Model: stock.picking.in (1.10) -->
+    <menuitem id="menu_stock_picking_in_supplier"
+        parent="intercompany_trade_base.menu_intercompany_trade_purchase"
+        action="action_stock_picking_in_supplier"
+        sequence="20"/>
+
+<!-- Model: stock.picking.out (2.10) -->
+    <menuitem id="menu_stock_picking_out_customer"
+        parent="intercompany_trade_base.menu_intercompany_trade_sale"
+        action="action_stock_picking_out_customer"
+        sequence="20"/>
+
+</data></openerp>
