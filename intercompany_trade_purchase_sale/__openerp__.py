@@ -73,7 +73,7 @@ Copyright, Authors and Licence:
         'simple_tax_sale',
     ],
     'demo': [
-        'demo/product_pricelist_item.yml',
+        # 'demo/product_pricelist_item.yml',
         'demo/res_groups.yml',
         'demo/sale_shop.yml',
         'demo/ir_values.xml',
