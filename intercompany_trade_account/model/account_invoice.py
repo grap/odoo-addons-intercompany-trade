@@ -120,6 +120,8 @@ class AccountInvoice(Model):
                 self.prepare_intercompany_invoice(
                     cr, uid, ai, rit, 'create', context=context)
 
+            ctx['uid'] = other_user_id
+
             ai_other_id = self.create(
                 cr, other_user_id, ai_other_vals, context=ctx)
 
