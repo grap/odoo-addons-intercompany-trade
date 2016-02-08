@@ -21,6 +21,7 @@
 ##############################################################################
 
 - !record {model: product.pricelist.item, id: intregrated_purchase_pricelist_item}:
+    name: Default Pricelist Based on Supplier Form
     price_version_id: purchase.ver0
     base: -2
     min_quantity: 0

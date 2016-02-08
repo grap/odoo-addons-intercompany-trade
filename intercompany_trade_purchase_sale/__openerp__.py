@@ -74,7 +74,6 @@ Copyright, Authors and Licence:
     ],
     'demo': [
         'demo/product_pricelist_item.yml',
-        'demo/res_partner.yml',
         'demo/res_groups.yml',
         'demo/sale_shop.yml',
         'demo/ir_values.xml',
