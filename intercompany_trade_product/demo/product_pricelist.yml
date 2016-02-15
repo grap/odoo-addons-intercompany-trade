@@ -20,12 +20,12 @@
 #
 ##############################################################################
 
-  !record {model: product.pricelist, id: pricelist_discount}:
+- !record {model: product.pricelist, id: pricelist_discount_2}:
     name: Intercompany Trade - Sale Pricelist (Discount)
     type: sale
     version_id:
       - name: Intercompany Trade - Sale Pricelist Version (Discount)
         items_id:
-            - name: Intercompany Trade - Sale Pricelist Item (Discount)
-              base: 1
-              price_surcharge: -0.10
+          - name: Intercompany Trade - Sale Pricelist Item (Discount)
+            base: 1
+            price_surcharge: -0.10
