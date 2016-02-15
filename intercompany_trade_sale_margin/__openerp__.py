@@ -46,4 +46,5 @@ Copyright, Authors and Licence:
         'sale_margin',
     ],
     'auto_install': True,
+    'installable': False,
 }
