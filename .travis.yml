@@ -23,6 +23,7 @@ env:
 before_install:
   - sudo pip install GitPython bzr
   - sudo pip install cairosvg
+  - sudo pip install unicodecsv
 
 
 virtualenv:
