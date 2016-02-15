@@ -59,9 +59,9 @@ Copyright, Authors and Licence:
         'product',
     ],
     'demo': [
-        'demo/product_product.yml',
-        'demo/res_groups.yml',
-        'demo/product_pricelist.yml',
+        #        'demo/product_product.yml',
+        #        'demo/res_groups.yml',
+        #        'demo/product_pricelist.yml',
     ],
     'data': [
         'security/ir_model_access.yml',

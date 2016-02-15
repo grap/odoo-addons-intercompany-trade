@@ -59,12 +59,12 @@ Copyright, Authors and Licence:
         'account_invoice_pricelist',
     ],
     'demo': [
-        'demo/res_groups.yml',
-        'demo/account_account.yml',
-        'demo/account_journal.yml',
-        'demo/ir_property.xml',
-        'demo/account_tax.yml',
-        'demo/product_product.yml',
+        #        'demo/res_groups.yml',
+        #        'demo/account_account.yml',
+        #        'demo/account_journal.yml',
+        #        'demo/ir_property.xml',
+        #        'demo/account_tax.yml',
+        #        'demo/product_product.yml',
     ],
     'data': [
         'views/product_intercompany_trade_catalog_view.xml',
@@ -75,5 +75,4 @@ Copyright, Authors and Licence:
         'data/init.xml',
     ],
     'auto_install': True,
-    'installable': False,
 }

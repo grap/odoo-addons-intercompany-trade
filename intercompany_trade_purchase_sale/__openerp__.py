@@ -74,10 +74,10 @@ Copyright, Authors and Licence:
     ],
     'demo': [
         # 'demo/product_pricelist_item.yml',
-        'demo/res_groups.yml',
-        'demo/sale_shop.yml',
-        'demo/ir_values.xml',
-        'demo/ir_values.yml',
+        #        'demo/res_groups.yml',
+        #        'demo/sale_shop.yml',
+        #        'demo/ir_values.xml',
+        #        'demo/ir_values.yml',
     ],
     'data': [
         'views/intercompany_product_stock_view.xml',

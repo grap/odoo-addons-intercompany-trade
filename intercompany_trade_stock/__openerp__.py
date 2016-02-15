@@ -48,9 +48,9 @@ Copyright, Authors and Licence:
         'stock',
     ],
     'demo': [
-        'demo/res_groups.yml',
-        'demo/stock_location.yml',
-        'demo/stock_warehouse.yml',
+        #        'demo/res_groups.yml',
+        #        'demo/stock_location.yml',
+        #        'demo/stock_warehouse.yml',
     ],
     'data': [
         'views/action.xml',

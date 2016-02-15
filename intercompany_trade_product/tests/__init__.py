@@ -20,9 +20,9 @@
 #
 ##############################################################################
 
-from . import test
+# from . import test
 
 
-fast_suite = [
-    test,
-]
+# fast_suite = [
+#     test,
+# ]
