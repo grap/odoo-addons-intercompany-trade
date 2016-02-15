@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-- !record {model: product.pricelist, id: pricelist_discount_2}:
+- !record {model: product.pricelist, id: pricelist_discount}:
     name: Intercompany Trade - Sale Pricelist (Discount)
     type: sale
     version_id:
