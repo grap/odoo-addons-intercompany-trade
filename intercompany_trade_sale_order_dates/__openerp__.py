@@ -44,4 +44,5 @@ Copyright, Authors and Licence:
         'sale_order_dates',
     ],
     'auto_install': True,
+    'installable': False,
 }

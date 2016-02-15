@@ -44,4 +44,5 @@ Copyright, Authors and Licence:
         'purchase_discount',
     ],
     'auto_install': True,
+    'installable': False,
 }
