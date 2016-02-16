@@ -44,5 +44,4 @@ Copyright, Authors and Licence:
         'purchase_order_reorder_lines',
     ],
     'auto_install': True,
-    'installable': False,
 }
