@@ -178,7 +178,7 @@ class sale_order_line(Model):
             'product_qty': sol.product_uom_qty,
             'product_uom': sol.product_uom.id,
             'intercompany_trade_sale_order_line_id': sol.id,
-            'date_planned': datetime.now().strftime('%d-%m-%Y'),
+            'date_planned': datetime.now().strftime('%Y-%m-%d'),
             'taxes_id': (
                 res['taxes_id'] and [[6, False, res['taxes_id']]] or False),
         })
