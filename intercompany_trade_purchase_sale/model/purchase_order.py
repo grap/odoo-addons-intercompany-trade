@@ -274,6 +274,7 @@ class purchase_order(Model):
             'pricelist_id': rit.sale_pricelist_id.id,
             'client_order_ref': po.name,
             'order_policy': 'picking',
+            'order_line': [],
         }
 
     def button_intercompany_trade_product_quantity(
