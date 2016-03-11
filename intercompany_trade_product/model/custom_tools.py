@@ -68,6 +68,7 @@ def _intercompany_trade_update(
     :supplier_product_ids (list of ids of product.product):
         products that has been changed in the supplier database;
     """
+    context = context and context or {}
     rit_obj = pool['intercompany.trade.config']
     psi_obj = pool['product.supplierinfo']
     pp_obj = pool['product.product']
