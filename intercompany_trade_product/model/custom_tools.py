@@ -82,9 +82,11 @@ def _intercompany_trade_update(
             ('name', '=', rit.supplier_partner_id.id),
             ('supplier_product_id', 'in', supplier_product_ids)
         ], context=context)
+    ctx = context.copy()
+    ctx['active_test'] = False
     for psi in psi_obj.browse(cr, SUPERUSER_ID, psi_ids, context=context):
         pp_ids = pp_obj.search(cr, SUPERUSER_ID, [
-            ('product_tmpl_id', '=', psi.product_id.id)], context=context)
+            ('product_tmpl_id', '=', psi.product_id.id)], context=ctx)
         psi_vals = rit_obj._prepare_product_supplierinfo(
             cr, SUPERUSER_ID, intercompany_trade_id,
             psi.supplier_product_id.id, pp_ids[0], context=context)
