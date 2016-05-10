@@ -56,7 +56,8 @@ Copyright, Authors and Licence:
         'account',
         'intercompany_trade_base',
         'simple_tax_account',
-        'account_invoice_pricelist',
+        'invoice_pricelist',
+#        'account_invoice_pricelist',
     ],
     'demo': [
         #        'demo/res_groups.yml',
