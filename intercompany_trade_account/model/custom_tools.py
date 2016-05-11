@@ -42,8 +42,8 @@ def _check_taxes(
                 """You can not link Supplier Product that has %d Sale"""
                 """ Tax(es) with this Customer Product that has %d"""
                 """ Supplier Taxes.""") % (
-                    len(supplier_product.taxes_id),
-                    len(customer_product.supplier_taxes_id)))
+                len(supplier_product.taxes_id),
+                len(customer_product.supplier_taxes_id)))
     if (len(supplier_product.taxes_id) > 1):
         raise except_osv(
             _("Too Complex Taxes Setting!"),
