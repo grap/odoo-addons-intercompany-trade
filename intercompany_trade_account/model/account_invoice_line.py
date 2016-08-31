@@ -240,6 +240,7 @@ class AccountInvoiceLine(Model):
             'company_id': other_company_id,
             'partner_id': other_partner_id,
             'quantity': ail.quantity,
+            'price_unit': ail.price_unit,
             'discount': ail.discount,
             'uos_id': ail.uos_id.id,
             'invoice_line_tax_id': (
