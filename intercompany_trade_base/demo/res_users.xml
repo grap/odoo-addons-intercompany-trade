@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2014 - Today GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<openerp><data>
+
+    <record id="base.user_root" model="res.users">
+        <field name="company_ids" eval="[(4, [ref('customer_company'), ref('supplier_company')])]" />
+    </record>
+
+    <record id="customer_user" model="res.users">
+        <field name="name">Intercompany Trade Customer User</field>
+        <field name="login">intercompany_trade_customer</field>
+        <field name="password">demo</field>
+        <field name="company_id" eval="customer_company" />
+        <field name="company_ids" eval="[(4, [ref('customer_company')])]" />
+    </record>
+
+    <record id="supplier_user" model="res.users">
+        <field name="name">Intercompany Trade Supplier User</field>
+        <field name="login">intercompany_trade_supplier</field>
+        <field name="password">demo</field>
+        <field name="company_id" eval="supplier_company" />
+        <field name="company_ids" eval="[(4, [ref('supplier_company')])]" />
+    </record>
+
+</data></openerp>
