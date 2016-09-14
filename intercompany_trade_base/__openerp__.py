@@ -61,7 +61,7 @@ Copyright, Authors and Licence:
         'demo/res_company.yml',
         'demo/res_users.xml',
         'demo/res_groups.xml',
-        'demo/intercompany_trade_config.xml',
+        'demo/intercompany_trade_config.yml',
     ],
     'data': [
         'security/ir_module_category.yml',
