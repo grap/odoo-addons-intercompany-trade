@@ -59,8 +59,8 @@ Copyright, Authors and Licence:
     ],
     'demo': [
         'demo/res_company.yml',
-        'demo/res_users.yml',
-        'demo/res_groups.yml',
+        'demo/res_users.xml',
+        'demo/res_groups.xml',
         'demo/intercompany_trade_config.yml',
     ],
     'data': [
