@@ -52,6 +52,12 @@ class ProductIntercompanyTradeCatalog(Model):
         pp_ids = pp_obj.search(cr, uid, [
             ('product_tmpl_id', '=', psi.product_id.id)],
             context=context)
+        if not pp_ids:
+            # TODO improve me in V8.0, using variants ORM fields
+            pp_ids = pp_obj.search(cr, uid, [
+            ('product_tmpl_id', '=', psi.product_id.id),
+            ('active', '=', False)],
+            context=context)
         res = {
             'type': 'ir.actions.act_window',
             'res_model': 'product.product',

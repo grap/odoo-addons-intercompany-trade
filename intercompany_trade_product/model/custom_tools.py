@@ -172,6 +172,13 @@ def _get_other_product_info(
             ('company_id', '=', rit.customer_company_id.id),
             ('product_tmpl_id', '=', psi.product_id.id),
         ], context=context)
+        if len(customer_pp_ids) == 0:
+            # TODO improve me with V8.0 ORM, using variants fields
+            customer_pp_ids = pp_obj.search(cr, rit.customer_user_id.id, [
+                ('company_id', '=', rit.customer_company_id.id),
+                ('product_tmpl_id', '=', psi.product_id.id),
+                ('active', '=', False),
+            ], context=context)
         if len(customer_pp_ids) != 1:
             raise except_osv(
                 _("Product Selection Error!"),
