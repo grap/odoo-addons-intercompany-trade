@@ -50,7 +50,7 @@ class ProductIntercompanyTradeCatalog(Model):
             context=context)
         psi = psi_obj.browse(cr, uid, psi_ids[0])
         pp_ids = pp_obj.search(cr, uid, [
-            ('product_tmpl_id', '=', psi.product_id.id)],
+            ('product_tmpl_id', '=', psi.product_tmpl_id.id)],
             context=context)
         if not pp_ids:
             # TODO improve me in V8.0, using variants ORM fields
@@ -149,7 +149,7 @@ CREATE OR REPLACE VIEW %s AS (
         SELECT
             to_char(s_pp.id, 'FM099999') || to_char(rit.id, 'FM0000') as id,
             rit.id as intercompany_trade_id,
-            c_psi.product_id as customer_product_tmpl_id,
+            c_psi.product_tmpl_id as customer_product_tmpl_id,
             rit.customer_company_id,
             rit.sale_pricelist_id as sale_pricelist_id,
             rit.customer_partner_id,
@@ -179,6 +179,6 @@ CREATE OR REPLACE VIEW %s AS (
             AND c_psi.company_id = rit.customer_company_id
         WHERE
             (s_pp.active = True and s_pt.sale_ok = True)
-            OR c_psi.product_id is not null
+            OR c_psi.product_tmpl_id is not null
         ORDER BY s_pt.name
 )""" % (self._table))
