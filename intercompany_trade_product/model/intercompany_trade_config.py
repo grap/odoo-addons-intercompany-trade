@@ -1,73 +1,31 @@
 # -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    Intercompany Trade - Base module for OpenERP
-#    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
-#    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# Copyright (C) 2014 - Today GRAP (http://www.grap.coop)
+# @author Sylvain LE GAL (https://twitter.com/legalsylvain)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+from openerp import api, fields, models
 
 
-from openerp.osv import fields
-from openerp.osv.orm import Model
-
-
-class intercompany_trade_config(Model):
+class IntercompanyTradeConfig(models.Model):
     _inherit = 'intercompany.trade.config'
 
     # Compute Section
-    def _get_intercompany_trade_from_sale_pricelist(
-            self, cr, uid, ids, context=None):
-        """Return Intercompany Trade ids depending on changes of Sale
-        Pricelist"""
-        res = []
-        rp_obj = self.pool['res.partner']
-        rit_obj = self.pool['intercompany.trade.config']
-        for rp in rp_obj.browse(cr, uid, ids, context=context):
-            if rp.intercompany_trade and rp.customer:
-                res.extend(rit_obj.search(cr, uid, [
-                    ('customer_partner_id', '=', rp.id),
-                ], context=context))
-        return list(set(res))
-
-    def _get_sale_pricelist_id(self, cr, uid, ids, field_name, arg, context):
-        res = {}
-        rp_obj = self.pool['res.partner']
-        for rit in self.browse(cr, uid, ids, context=context):
-            ctx = context.copy()
-            ctx['force_company'] = rit.supplier_company_id.id
-            rp = rp_obj.browse(
-                cr, uid, rit.customer_partner_id.id, context=ctx)
-            res[rit.id] = rp.property_product_pricelist.id
-        return res
+    @api.depends(
+            'supplier_company_id',
+            'customer_partner_id.property_product_pricelist')
+    def _compute_sale_pricelist_id(self):
+        partner_obj = self.env['res.partner']
+        for config in self:
+            partner = partner_obj.with_context(
+                force_company=config.supplier_company_id.id).browse(
+                    config.customer_partner_id.id)
+            config.sale_pricelist_id = partner.property_product_pricelist
 
     # Columns section
-    _columns = {
-        'sale_pricelist_id': fields.function(
-            _get_sale_pricelist_id,
-            string='Sale Pricelist in the Supplier Company',
-            type='many2one', relation='product.pricelist', store={
-                'res.partner': (
-                    _get_intercompany_trade_from_sale_pricelist,
-                    ['property_product_pricelist'], 10),
-                'intercompany.trade.config': (
-                    lambda self, cr, uid, ids, c={}: ids,
-                    ['customer_partner_id', 'supplier_company_id'], 10),
-            }),
-    }
+    sale_pricelist_id = fields.Many2one(
+        string='Sale Pricelist', comodel_name='product.pricelist',
+        compute=_compute_sale_pricelist_id, store=True,
+        help="Sale Pricelist in the Supplier Company")
 
     # Custom Section
     def _prepare_product_supplierinfo(

@@ -104,10 +104,10 @@ class intercompany_trade_wizard_link_product(TransientModel):
                 cr, uid, itwlp.intercompany_trade_id.id,
                 itwlp.supplier_product_id.id,
                 itwlp.customer_product_id.id, context=context)
-            psi_vals['product_id'] = itwlp.customer_product_tmpl_id.id
+            psi_vals['product_tmpl_id'] = itwlp.customer_product_tmpl_id.id
 
             cus_pt = pt_obj.browse(
-                cr, uid, psi_vals['product_id'], context=context)
+                cr, uid, psi_vals['product_tmpl_id'], context=context)
             sup_pp = pp_obj.browse(
                 cr, SUPERUSER_ID, psi_vals['supplier_product_id'],
                 context=context)
@@ -126,7 +126,7 @@ class intercompany_trade_wizard_link_product(TransientModel):
 
             # raise error if there is a product linked
             pitc_ids = pitc_obj.search(cr, uid, [
-                ('customer_product_tmpl_id', '=', psi_vals['product_id']),
+                ('customer_product_tmpl_id', '=', psi_vals['product_tmpl_id']),
                 ('customer_company_id', '=', psi_vals['company_id']),
             ], context=context)
             if len(pitc_ids) != 0:
