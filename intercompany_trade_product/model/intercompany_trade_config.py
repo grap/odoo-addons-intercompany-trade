@@ -11,8 +11,8 @@ class IntercompanyTradeConfig(models.Model):
 
     # Compute Section
     @api.depends(
-            'supplier_company_id',
-            'customer_partner_id.property_product_pricelist')
+        'supplier_company_id',
+        'customer_partner_id.property_product_pricelist')
     def _compute_sale_pricelist_id(self):
         partner_obj = self.env['res.partner']
         for config in self:
