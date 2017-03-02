@@ -1,64 +1,37 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    Intercompany Trade - Product module for OpenERP
-#    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
-#    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# Copyright (C) 2014 - Today: GRAP (http://www.grap.coop)
+# @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# -*- coding: utf-8 -*-
+# Copyright (C) 2017 - Today: GRAP (http://www.grap.coop)
+# @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import SUPERUSER_ID
-from openerp import tools
-from openerp.osv import fields
-from openerp.osv.orm import Model
+from openerp import api, fields, models, tools
 from openerp.addons import decimal_precision as dp
 
 
-class ProductIntercompanyTradeCatalog(Model):
+class ProductIntercompanyTradeCatalog(models.Model):
     _name = 'product.intercompany.trade.catalog'
     _auto = False
-    _table = 'product_intercompany_trade_catalog'
 
     # Custom Section
-    def _get_supplier_product_id_from_id(self, str_id):
-        return int(str_id[:-4])
-
-    def _get_intercompany_trade_id_from_id(self, str_id):
-        return int(str_id[-4:])
+    @api.multi
+    def _get_supplier_product_id_from_id(self):
+        self.ensure_one()
+        return int(str(self.id)[:-4])
 
     # Button Section
-    def button_see_customer_product(self, cr, uid, ids, context=None):
-        psi_obj = self.pool['product.supplierinfo']
-        pp_obj = self.pool['product.product']
-        id = ids[0]
-        supplier_product_id = self._get_supplier_product_id_from_id(id)
-        psi_ids = psi_obj.search(cr, uid, [
-            ('supplier_product_id', '=', supplier_product_id)],
-            context=context)
-        psi = psi_obj.browse(cr, uid, psi_ids[0])
-        pp_ids = pp_obj.search(cr, uid, [
-            ('product_tmpl_id', '=', psi.product_tmpl_id.id)],
-            context=context)
-        if not pp_ids:
-            # TODO improve me in V8.0, using variants ORM fields
-            pp_ids = pp_obj.search(cr, uid, [
-            ('product_tmpl_id', '=', psi.product_id.id),
-            ('active', '=', False)],
-            context=context)
-        res = {
+    @api.multi
+    def button_see_customer_product(self):
+        self.ensure_one()
+        psi_obj = self.env['product.supplierinfo']
+        supplier_product_id = self._get_supplier_product_id_from_id()
+        psi = psi_obj.search([
+            ('supplier_product_id', '=', supplier_product_id)])[0]
+        pp_ids = psi.product_tmpl_id.with_context(
+            active_test=False).product_variant_ids.ids
+        return {
             'type': 'ir.actions.act_window',
             'res_model': 'product.product',
             'view_type': 'form',
@@ -66,80 +39,96 @@ class ProductIntercompanyTradeCatalog(Model):
             'views': [(False, 'form')],
             'res_id': pp_ids[0],
             'target': 'new',
-            'context': context,
+            'context': self.env.context,
         }
-        return res
 
-    def button_link_product_wizard(self, cr, uid, ids, context=None):
+    @api.multi
+    def button_link_product_wizard(self):
+        api.ensure_one()
         return {
             'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'intercompany.trade.wizard.link.product',
             'type': 'ir.actions.act_window',
             'target': 'new',
-            'context': context,
+            'context': self.env.context,
         }
 
-    def button_unlink_product(self, cr, uid, ids, context=None):
+    @api.multi
+    def button_unlink_product(self):
+        self.ensure_one()
         psi_obj = self.pool['product.supplierinfo']
-        for id in ids:
-            supplier_product_id = self._get_supplier_product_id_from_id(id)
-            psi_ids = psi_obj.search(cr, uid, [
-                ('supplier_product_id', '=', supplier_product_id)],
-                context=context)
-            psi_obj.unlink(cr, uid, psi_ids, context=context)
-        return True
-
-    # Fields Function Section
-    def _get_supplier_price(self, cr, uid, ids, name, arg, context=None):
-        ppl_obj = self.pool['product.pricelist']
-        res = {}
-        for pitc in self.browse(cr, SUPERUSER_ID, ids, context=context):
-            res[pitc.id] = ppl_obj._compute_intercompany_trade_prices(
-                cr, SUPERUSER_ID, pitc.supplier_product_id,
-                pitc.supplier_partner_id, pitc.sale_pricelist_id,
-                context=context)
-        return res
+        for item in self:
+            supplier_product_id = item._get_supplier_product_id_from_id()
+            psi_ids = psi_obj.search([
+                ('supplier_product_id', '=', supplier_product_id)])
+            psi_ids.unlink()
 
     # Column Section
-    _columns = {
-        'intercompany_trade_id': fields.many2one(
-            'intercompany.trade.config', 'Intercompany Trade', readonly=True),
-        'customer_product_tmpl_id': fields.many2one(
-            'product.template', 'Customer Product', readonly=True),
-        'supplier_sale_price': fields.function(
-            _get_supplier_price, string='Supplier Sale Price',
-            multi='supplier_price', type='float',
-            digits_compute=dp.get_precision(
-                'Intercompany Trade Product Price')),
-        'customer_purchase_price': fields.float(
-            'Customer Purchase Price', readonly=True),
-        'sale_pricelist_id': fields.many2one(
-            'product.pricelist', 'Sale Pricelist', readonly=True),
-        'customer_company_id': fields.many2one(
-            'res.company', 'Customer Company', readonly=True),
-        'supplier_product_name': fields.char(
-            'Supplier Product Name', readonly=True),
-        'supplier_product_uom': fields.many2one(
-            'product.uom', 'Supplier Product UoM', readonly=True),
-        'supplier_product_default_code': fields.char(
-            'Supplier Product Code', readonly=True),
-        'supplier_partner_id': fields.many2one(
-            'res.partner', 'Supplier Partner', readonly=True),
-        'supplier_partner_name': fields.char(
-            'Supplier Partner Name', readonly=True),
-        'supplier_category_id': fields.many2one(
-            'product.category', 'Supplier Product Category', readonly=True),
-        'supplier_category_name': fields.char(
-            'Supplier Product Category', readonly=True),
-        'supplier_product_id': fields.many2one(
-            'product.product', 'Supplier Product', readonly=True),
-        'supplier_product_active': fields.boolean(
-            'Supplier Product Active', readonly=True),
-        'supplier_product_sale_ok': fields.boolean(
-            'Supplier Product Can be sold', readonly=True),
+    intercompany_trade_id = fields.Many2one(
+        string='Intercompany Trade', readonly=True,
+        comodel_name='intercompany.trade.config')
 
-    }
+    customer_product_tmpl_id = fields.Many2one(
+        string='Customer Product', readonly=True,
+        comodel_name='product.template')
+
+    supplier_sale_price = fields.Float(
+        string='Supplier Sale Price', compute='_compute_supplier_sale_price',
+        digits_compute=dp.get_precision('Intercompany Trade Product Price'))
+
+    customer_purchase_price = fields.Float(
+        string='Customer Purchase Price', readonly=True)
+
+    sale_pricelist_id = fields.Many2one(
+        string='Sale Pricelist', readonly=True,
+        comodel_name='product.pricelist')
+
+    customer_company_id = fields.Many2one(
+        string='Customer Company', readonly=True, comodel_name='res.company')
+
+    supplier_product_name = fields.Char(
+        string='Supplier Product Name', readonly=True)
+
+    supplier_product_uom = fields.Many2one(
+        string='Supplier Product UoM', readonly=True,
+        comodel_name='product.uom')
+
+    supplier_product_default_code = fields.Char(
+        string='Supplier Product Code', readonly=True)
+
+    supplier_partner_id = fields.Many2one(
+        string='Supplier Partner', readonly=True, comodel_name='res.partner')
+
+    supplier_partner_name = fields.Char(
+        string='Supplier Partner Name', readonly=True)
+
+    supplier_category_id = fields.Many2one(
+        string='Supplier Product Category', readonly=True,
+        comodel_name='product.category')
+
+    supplier_category_name = fields.Char(
+        string='Supplier Product Category', readonly=True)
+
+    supplier_product_id = fields.Many2one(
+        string='Supplier Product', readonly=True,
+        comodel_name='product.product')
+
+    supplier_product_active = fields.Boolean(
+        string='Supplier Product Active', readonly=True)
+
+    supplier_product_sale_ok = fields.Boolean(
+        string='Supplier Product Can be sold', readonly=True)
+
+    # Fields Function Section
+    @api.multi
+    def _compute_supplier_sale_price(self):
+        ppl_obj = self.env['product.pricelist']
+        for pitc in self.sudo():
+            pitc.supplier_sale_price =\
+                ppl_obj.sudo()._compute_intercompany_trade_prices(
+                    pitc.supplier_product_id, pitc.supplier_partner_id,
+                    pitc.sale_pricelist_id)
 
     # View Section
     def init(self, cr):

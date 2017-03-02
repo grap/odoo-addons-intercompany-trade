@@ -1,24 +1,7 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    Intercompany Trade - Product module for Odoo
-#    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
-#    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# Copyright (C) 2014 - Today: GRAP (http://www.grap.coop)
+# @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import SUPERUSER_ID
 from openerp.tools.translate import _
@@ -71,7 +54,6 @@ def _intercompany_trade_update(
     context = context and context or {}
     rit_obj = pool['intercompany.trade.config']
     psi_obj = pool['product.supplierinfo']
-    pp_obj = pool['product.product']
     rit = rit_obj.browse(cr, uid, intercompany_trade_id, context=context)
     if not supplier_product_ids:
         # Global Update
@@ -86,8 +68,7 @@ def _intercompany_trade_update(
     ctx = context.copy()
     ctx['active_test'] = False
     for psi in psi_obj.browse(cr, SUPERUSER_ID, psi_ids, context=context):
-        pp_ids = pp_obj.search(cr, SUPERUSER_ID, [
-            ('product_tmpl_id', '=', psi.product_id.id)], context=ctx)
+        pp_ids = psi.product_tmpl_id.product_variant_ids.ids
         psi_vals = rit_obj._prepare_product_supplierinfo(
             cr, SUPERUSER_ID, intercompany_trade_id,
             psi.supplier_product_id.id, pp_ids[0], context=context)
@@ -170,13 +151,14 @@ def _get_other_product_info(
             cr, rit.customer_user_id.id, psi_ids[0], context=context)
         customer_pp_ids = pp_obj.search(cr, rit.customer_user_id.id, [
             ('company_id', '=', rit.customer_company_id.id),
-            ('product_tmpl_id', '=', psi.product_id.id),
+            ('product_tmpl_id', '=', psi.product_tmpl.id),
         ], context=context)
         if len(customer_pp_ids) == 0:
             # TODO improve me with V8.0 ORM, using variants fields
+            # psi.product_tmpl_id.product_variant_ids.ids
             customer_pp_ids = pp_obj.search(cr, rit.customer_user_id.id, [
                 ('company_id', '=', rit.customer_company_id.id),
-                ('product_tmpl_id', '=', psi.product_id.id),
+                ('product_tmpl_id', '=', psi.product_tmpl_id.id),
                 ('active', '=', False),
             ], context=context)
         if len(customer_pp_ids) != 1:
