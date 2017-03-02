@@ -75,4 +75,5 @@ Copyright, Authors and Licence:
         'data/init.xml',
     ],
     'auto_install': True,
+    'installable': False,
 }

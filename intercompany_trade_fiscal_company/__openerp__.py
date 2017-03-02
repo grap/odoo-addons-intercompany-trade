@@ -43,5 +43,5 @@
         'demo/ir_values.yml',
     ],
     'auto_install': True,
-    'installable': True,
+    'installable': False,
 }

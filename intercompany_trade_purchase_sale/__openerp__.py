@@ -87,5 +87,5 @@ Copyright, Authors and Licence:
         'views/action.xml',
         'views/menu.xml',
     ],
-    'auto_install': True,
+    'auto_install': False,
 }
