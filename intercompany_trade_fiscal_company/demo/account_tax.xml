@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+
+<openerp><data>
+
+    <record id="intercompany_trade_sale_vat_10_excluded" model="account.tax">
+        <field name="name">SALE VAT 10% Excluded (Intercompany Trade)</field>
+        <field name="type_tax_use">sale</field>
+        <field name="type">percent</field>
+        <field name="amount">0.1</field>
+        <field name="price_include">False</field>
+        <field name="company_id" ref="base_fiscal_company.company_fiscal_mother" />
+    </record>
+
+    <record id="intercompany_trade_sale_vat_10_included" model="account.tax">
+        <field name="name">SALE VAT 10% Included (Intercompany Trade)</field>
+        <field name="type_tax_use">sale</field>
+        <field name="type">percent</field>
+        <field name="amount">0.1</field>
+        <field name="price_include">True</field>
+        <field name="company_id" ref="base_fiscal_company.company_fiscal_mother" />
+        <field name="simple_tax_id" ref="intercompany_trade_sale_vat_10_excluded" />
+    </record>
+
+    <record id="intercompany_trade_sale_vat_10_excluded" model="account.tax">
+        <field name="simple_tax_id" ref="intercompany_trade_sale_vat_10_included" />
+    </record>
+
+    <record id="intercompany_trade_purchase_vat_10_excluded" model="account.tax">
+        <field name="name">PURCHASE VAT 10% Excluded (Intercompany Trade)</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="type">percent</field>
+        <field name="amount">0.1</field>
+        <field name="price_include">False</field>
+        <field name="company_id" ref="base_fiscal_company.company_fiscal_mother" />
+    </record>
+
+</data></openerp>

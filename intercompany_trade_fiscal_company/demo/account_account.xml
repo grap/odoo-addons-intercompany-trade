@@ -1,54 +1,59 @@
-<?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2016 - Today: GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
 
-        <record model="account.account" id="a_intercompany_trade">
-            <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
-            <field name="code">CIS_18</field>
-            <field name="name">CIS - Intercompany Trade - (test) </field>
-            <field name="parent_id" ref="account_fiscal_company.assets_view"/>
-            <field name="type">view</field>
-            <field name="user_type" ref="account.data_account_type_view"/>
-        </record>
+<openerp><data>
 
-        <!-- Receivable / Payable Part-->
-        <record model="account.account" id="a_receivable_payable_cis_production">
-            <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
-            <field name="code">CIS_185_PROD</field>
-            <field name="name">CIS - Receivable / Payable (Intercompany Trade) - (test) PRODUCTION</field>
-            <field name="parent_id" ref="a_intercompany_trade"/>
-            <field name="type">other</field>
-            <field name="user_type" ref="account.data_account_type_asset"/>
-        </record>
+    <record model="account.account" id="a_intercompany_trade">
+        <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
+        <field name="code">CIS_18</field>
+        <field name="name">CIS - Intercompany Trade - (test) </field>
+        <field name="parent_id" ref="account_fiscal_company.assets_view"/>
+        <field name="type">view</field>
+        <field name="user_type" ref="account.data_account_type_view"/>
+    </record>
 
-        <record model="account.account" id="a_receivable_payable_cis_service">
-            <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
-            <field name="code">CIS_185_SERV</field>
-            <field name="name">CIS - Receivable / Payable (Intercompany Trade) - (test) SERVICE</field>
-            <field name="parent_id" ref="a_intercompany_trade"/>
-            <field name="type">other</field>
-            <field name="user_type" ref="account.data_account_type_asset"/>
-        </record>
+    <!-- Receivable / Payable Part-->
+    <record model="account.account" id="a_receivable_payable_cis_production">
+        <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
+        <field name="code">CIS_185_PROD</field>
+        <field name="name">CIS - Receivable / Payable (Intercompany Trade) - (test) PRODUCTION</field>
+        <field name="parent_id" ref="a_intercompany_trade"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account.data_account_type_asset"/>
+    </record>
+
+    <record model="account.account" id="a_receivable_payable_cis_service">
+        <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
+        <field name="code">CIS_185_SERV</field>
+        <field name="name">CIS - Receivable / Payable (Intercompany Trade) - (test) SERVICE</field>
+        <field name="parent_id" ref="a_intercompany_trade"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account.data_account_type_asset"/>
+    </record>
 
 
-        <!-- Income Part-->
-        <record model="account.account" id="a_sale_cis">
-            <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
-            <field name="code">CIS_1871</field>
-            <field name="name">CIS - Product Sales (Intercompany Trade) - (test)</field>
-            <field name="parent_id" ref="a_intercompany_trade"/>
-            <field name="type">other</field>
-            <field name="user_type" ref="account.data_account_type_income"/>
-        </record>
+    <!-- Income Part-->
+    <record model="account.account" id="a_sale_cis">
+        <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
+        <field name="code">CIS_1871</field>
+        <field name="name">CIS - Product Sales (Intercompany Trade) - (test)</field>
+        <field name="parent_id" ref="a_intercompany_trade"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account.data_account_type_income"/>
+    </record>
 
-        <!-- Expense Part-->
-        <record model="account.account" id="a_expense_cis">
-            <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
-            <field name="code">CIS_1861</field>
-            <field name="name">CIS - Expenses (Intercompany Trade) - (test)</field>
-            <field name="parent_id" ref="a_intercompany_trade"/>
-            <field name="type">other</field>
-            <field name="user_type" ref="account.data_account_type_expense"/>
-        </record>
-    </data>
-</openerp>
+    <!-- Expense Part-->
+    <record model="account.account" id="a_expense_cis">
+        <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
+        <field name="code">CIS_1861</field>
+        <field name="name">CIS - Expenses (Intercompany Trade) - (test)</field>
+        <field name="parent_id" ref="a_intercompany_trade"/>
+        <field name="type">other</field>
+        <field name="user_type" ref="account.data_account_type_expense"/>
+    </record>
+
+</data></openerp>
