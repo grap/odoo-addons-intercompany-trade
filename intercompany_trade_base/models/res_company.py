@@ -16,7 +16,7 @@ class ResCompany(models.Model):
            are associated to the companies
            TODO : check if sudo is necessary.
            """
-        config_obj = self.pool['intercompany.trade.config']
+        config_obj = self.env['intercompany.trade.config']
 
         res = super(ResCompany, self).write(vals)
 
