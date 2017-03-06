@@ -28,13 +28,14 @@ class IntercompanyTradeConfig(models.Model):
         help="Sale Pricelist in the Supplier Company")
 
     # Custom Section
+    @api.multi
     def _prepare_product_supplierinfo(
-            self, cr, uid, id, supplier_product_id,
-            customer_product_id, context=None):
+            self, supplier_product_id, customer_product_id):
         """
         This function prepares supplier_info values.
         Please overload this function to change the datas of the supplierinfo
         created when a link between two products is done."""
+        api.ensure_one()
         pp_obj = self.pool['product.product']
         ppl_obj = self.pool['product.pricelist']
         psi_obj = self.pool['product.supplierinfo']
