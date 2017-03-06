@@ -29,5 +29,5 @@
         'views/menu.xml',
     ],
     'auto_install': True,
-    'installable': False,
+    'installable': True,
 }
