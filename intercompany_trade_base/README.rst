@@ -20,6 +20,13 @@ Features
 * When we set a new intercompany trade, Odoo create a supplier in the
   customer company and a customer in the supplier company
 
+* Intercompany trade partner can be accessed only by 'intercompany trade
+  manager' members, except for specific fields, declared in
+  ResPartner._intercompany_tradefields_allowed()
+
+* Updating a company will update associated partners, in each company that
+  that has trade with the updated company.
+
 Demo Data
 ---------
 * In demo mode, the module creates two new companies, and two users:

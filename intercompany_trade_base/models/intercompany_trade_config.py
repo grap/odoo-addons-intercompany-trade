@@ -8,7 +8,7 @@ from openerp.exceptions import Warning as UserError
 
 
 class IntercompanyTradeConfig(models.Model):
-    _inherit = 'intercompany.trade.config'
+    _name = 'intercompany.trade.config'
     _order = 'customer_company_id, supplier_company_id'
 
     name = fields.Char(string='Name', required=True, default='/')
@@ -82,8 +82,7 @@ class IntercompanyTradeConfig(models.Model):
         return res and res or False
 
     @api.model
-    def _prepare_partner_from_company(
-            self, company_id, inner_company_id):
+    def _prepare_partner_from_company(self, company_id, inner_company_id):
         """
             Return vals for the creation of a partner, depending of
             a company_id.
@@ -136,8 +135,8 @@ class IntercompanyTradeConfig(models.Model):
 
             # Update intercompany trade config
             config.write({
-                'customer_partner_id': customer_partner_id,
-                'supplier_partner_id': supplier_partner_id,
+                'customer_partner_id': customer_partner_id.id,
+                'supplier_partner_id': supplier_partner_id.id,
             })
         else:
             # Change the actual partners of the other config and use
