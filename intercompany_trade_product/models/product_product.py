@@ -1,30 +1,14 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    Intercompany Trade - Product module for OpenERP
-#    Copyright (C) 2014-Today GRAP (http://www.grap.coop)
-#    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# Copyright (C) 2017 - Today: GRAP (http://www.grap.coop)
+# @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp.osv.orm import Model
+from openerp import api, models
+
 from .custom_tools import _intercompany_trade_update_multicompany
 
 
-class product_product(Model):
+class ProductProduct(models.Model):
     _inherit = 'product.product'
 
     _INTEGRATED_FIELDS = [
@@ -33,21 +17,21 @@ class product_product(Model):
         'standard_price', 'list_price',
     ]
 
-    def copy_data(self, cr, uid, id, default=None, context=None):
-        default = default and default or {}
-        # TODO: improve me.
-        # It's not necessary to remove all seller_ids, only ones that
-        # come from intercompany_trade
+    # TODO: improve me.
+    # It's not necessary to remove all seller_ids, only ones that
+    # come from intercompany_trade
+    @api.multi
+    def copy_data(self, default=None):
         default['seller_ids'] = False
-        return super(product_product, self).copy_data(
-            cr, uid, id, default, context=context)
+        return super(ProductProduct, self).copy_data(default)
 
-    def write(self, cr, uid, ids, vals, context=None):
+    @api.multi
+    def write(self, vals):
         """Update product supplierinfo in customer company, if required"""
-        res = super(product_product, self).write(
-            cr, uid, ids, vals, context=context)
+        res = super(ProductProduct, self).write(vals)
         # Update product in customer database if required
         if list(set(vals.keys()) & set(self._INTEGRATED_FIELDS)):
             _intercompany_trade_update_multicompany(
-                self.pool, cr, uid, ids, context=context)
+                self.pool, self.env.cr, self.env.user.id, self.ids,
+                context=self.env.context)
         return res
