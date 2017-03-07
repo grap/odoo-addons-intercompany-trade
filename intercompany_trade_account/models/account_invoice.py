@@ -41,16 +41,16 @@ class AccountInvoice(models.Model):
 
             # Create associated Invoice
             invoice_other_vals, other_user =\
-                self.prepare_intercompany_invoice(invoice, config, 'create')
+                invoice.prepare_intercompany_invoice(config, 'create')
 
-            invoice_other_id = self.sudo(user=other_user).with_context(
+            invoice_other = self.sudo(user=other_user).with_context(
                 intercompany_trade_do_not_propagate=True,
                 type=None, journal_type=None, default_type=None).create(
                 invoice_other_vals)
 
             # Update Proper Account Invoice
             invoice.write({
-                'intercompany_trade_account_invoice_id': invoice_other_id,
+                'intercompany_trade_account_invoice_id': invoice_other.id,
                 'invoice_line': line_ids})
         return invoice
 
@@ -77,7 +77,7 @@ class AccountInvoice(models.Model):
 
                     # Update changes for according invoice
                     invoice_vals, other_user =\
-                        self.prepare_intercompany_invoice(config, 'update')
+                        invoice.prepare_intercompany_invoice(config, 'update')
 
                     invoice.intercompany_trade_account_invoice_id.sudo(
                         user=other_user).with_context(
@@ -164,10 +164,9 @@ class AccountInvoice(models.Model):
                     self.type)))
 
         account_info = self.sudo(user=other_user).onchange_partner_id(
-            [], other_type, other_partner_id,
-            company_id=other_company_id)['value']
+            other_type, other_partner_id, company_id=other_company_id)['value']
 
-        account_journal_id = self.sudo(user=other_user).with_context(
+        account_journal = self.sudo(user=other_user).with_context(
             type=other_type, company_id=other_company_id)._default_journal()
 
         values = {
@@ -186,7 +185,7 @@ class AccountInvoice(models.Model):
             values.update({
                 'partner_id': other_partner_id,
                 'account_id': account_info['account_id'],
-                'journal_id': account_journal_id,
+                'journal_id': account_journal.id,
             })
 
         return values, other_user
