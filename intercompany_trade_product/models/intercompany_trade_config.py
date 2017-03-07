@@ -35,25 +35,24 @@ class IntercompanyTradeConfig(models.Model):
         This function prepares supplier_info values.
         Please overload this function to change the datas of the supplierinfo
         created when a link between two products is done."""
-        api.ensure_one()
-        pp_obj = self.pool['product.product']
-        ppl_obj = self.pool['product.pricelist']
-        psi_obj = self.pool['product.supplierinfo']
-        res = psi_obj._add_missing_default_values(cr, uid, {})
-        rit = self.browse(cr, uid, id, context=context)
-        supplier_pp = pp_obj.browse(
-            cr, rit.supplier_user_id.id, supplier_product_id, context=context)
-        price_info = ppl_obj._compute_intercompany_trade_prices(
-            cr, rit.supplier_user_id.id, supplier_pp,
-            rit.supplier_partner_id, rit.sale_pricelist_id, context=context)
-        res.update({
-            'name': rit.supplier_partner_id.id,
-            'product_name': supplier_pp.name,
-            'product_code': supplier_pp.default_code,
-            'company_id': rit.customer_company_id.id,
-            'supplier_product_id': supplier_pp.id,
+        self.ensure_one()
+        product_obj = self.env['product.product']
+        pricelist_obj = self.env['product.pricelist']
+        supplierinfo_obj = self.env['product.supplierinfo']
+        vals = supplierinfo_obj._add_missing_default_values({})
+        supplier_product = product_obj.sudo(user=self.supplier_user_id).browse(
+            supplier_product_id)
+        price_info = pricelist_obj.sudo(
+            user=self.supplier_user_id)._compute_intercompany_trade_prices(
+            supplier_product, self.supplier_partner_id, self.sale_pricelist_id)
+        vals.update({
+            'name': self.supplier_partner_id.id,
+            'product_name': supplier_product.name,
+            'product_code': supplier_product.default_code,
+            'company_id': self.customer_company_id.id,
+            'supplier_product_id': supplier_product.id,
             'pricelist_ids': [[5], [0, False, {
                 'min_quantity': 0.0,
                 'price': price_info['supplier_sale_price']}]],
         })
-        return res
+        return vals

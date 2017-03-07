@@ -16,17 +16,20 @@ class ProductIntercompanyTradeCatalog(models.Model):
     _auto = False
 
     # Custom Section
-    @api.multi
-    def _get_supplier_product_id_from_id(self):
-        self.ensure_one()
-        return int(str(self.id)[:-4])
+    @api.model
+    def _get_supplier_product_id_from_id(self, id):
+        return int(str(id)[:-4])
+
+    @api.model
+    def _get_intercompany_trade_id_from_id(self, id):
+        return int(id[-4:])
 
     # Button Section
     @api.multi
     def button_see_customer_product(self):
         self.ensure_one()
         psi_obj = self.env['product.supplierinfo']
-        supplier_product_id = self._get_supplier_product_id_from_id()
+        supplier_product_id = self._get_supplier_product_id_from_id(self.id)
         psi = psi_obj.search([
             ('supplier_product_id', '=', supplier_product_id)])[0]
         pp_ids = psi.product_tmpl_id.with_context(
@@ -44,7 +47,7 @@ class ProductIntercompanyTradeCatalog(models.Model):
 
     @api.multi
     def button_link_product_wizard(self):
-        api.ensure_one()
+        self.ensure_one()
         return {
             'view_type': 'form',
             'view_mode': 'form',
@@ -57,12 +60,10 @@ class ProductIntercompanyTradeCatalog(models.Model):
     @api.multi
     def button_unlink_product(self):
         self.ensure_one()
-        psi_obj = self.pool['product.supplierinfo']
-        for item in self:
-            supplier_product_id = item._get_supplier_product_id_from_id()
-            psi_ids = psi_obj.search([
-                ('supplier_product_id', '=', supplier_product_id)])
-            psi_ids.unlink()
+        supplierinfo_obj = self.env['product.supplierinfo']
+        supplier_product_id = self._get_supplier_product_id_from_id(self.id)
+        supplierinfo_obj.search([
+            ('supplier_product_id', '=', supplier_product_id)]).unlink()
 
     # Column Section
     intercompany_trade_id = fields.Many2one(
@@ -123,12 +124,12 @@ class ProductIntercompanyTradeCatalog(models.Model):
     # Fields Function Section
     @api.multi
     def _compute_supplier_sale_price(self):
-        ppl_obj = self.env['product.pricelist']
-        for pitc in self.sudo():
-            pitc.supplier_sale_price =\
-                ppl_obj.sudo()._compute_intercompany_trade_prices(
-                    pitc.supplier_product_id, pitc.supplier_partner_id,
-                    pitc.sale_pricelist_id)
+        pricelist_obj = self.env['product.pricelist']
+        for catalog in self.sudo():
+            catalog.supplier_sale_price =\
+                pricelist_obj.sudo()._compute_intercompany_trade_prices(
+                    catalog.supplier_product_id, catalog.supplier_partner_id,
+                    catalog.sale_pricelist_id)['supplier_sale_price']
 
     # View Section
     def init(self, cr):

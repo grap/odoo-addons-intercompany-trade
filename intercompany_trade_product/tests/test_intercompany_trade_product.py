@@ -3,9 +3,7 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-# from openerp.addons.intercompany_trade_product.model.custom_tools\
-#    import _get_other_product_info
-from openerp.osv.osv import except_osv
+from openerp.exceptions import Warning as UserError
 from openerp.tests.common import TransactionCase
 
 
@@ -48,6 +46,9 @@ class Test(TransactionCase):
             self.cr, self.uid,
             'intercompany_trade_base', 'supplier_user')[1]
 
+        self.precision = self.env['decimal.precision'].precision_get(
+            'Intercompany Trade Product Price')
+
     # Test Section
     def test_01_product_association(self):
         """[Functional Test] Check if associate a product create a
@@ -76,14 +77,14 @@ class Test(TransactionCase):
 
         self.assertEqual(
             pp_customer_apple.seller_ids[0].intercompany_trade_price,
-            pp_supplier_banana.list_price,
+            round(pp_supplier_banana.list_price, self.precision),
             """Associate a Customer Product to a Supplier Product must"""
             """ set as intercompany trade price in customer database the"""
             """ sale price of the supplier product.""")
 
         self.assertEqual(
             pp_customer_apple.seller_ids[0].pricelist_ids[0].price,
-            pp_supplier_banana.list_price,
+            round(pp_supplier_banana.list_price, self.precision),
             """Associate a Customer Product to a Supplier Product must"""
             """ set as intercompany trade price in customer database the"""
             """ sale price of the supplier product in items list.""")
@@ -96,7 +97,7 @@ class Test(TransactionCase):
         itwlp_id = self.itwlp_obj.create(cr, uid, {
             'customer_product_id': self.customer_apple_id,
         }, context={'active_id': active_id_2})
-        with self.assertRaises(except_osv):
+        with self.assertRaises(UserError):
             # this must fail
             self.itwlp_obj.link_product(cr, uid, [itwlp_id])
 
