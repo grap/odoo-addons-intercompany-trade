@@ -22,6 +22,9 @@ class IntercompanyTradeWizardLinkProduct(models.TransientModel):
         res = super(IntercompanyTradeWizardLinkProduct, self).default_get(
             fields)
 
+        if not self.env.context.get('active_id', False):
+            return res
+
         supplier_product_id = catalog_obj._get_supplier_product_id_from_id(
             self.env.context.get('active_id'))
         intercompany_trade_id = catalog_obj._get_intercompany_trade_id_from_id(
@@ -112,11 +115,14 @@ class IntercompanyTradeWizardLinkProduct(models.TransientModel):
                 supplierinfo_vals['product_tmpl_id']),
             ('customer_company_id', '=', supplierinfo_vals['company_id'])])
         if len(catalog_ids) != 0:
-            raise UserError(_(
-                "Duplicated References !\nYou can not link the Product"
-                " %s because it is yet linked to another supplier product."
-                " Please unlink the Product and try again.") % (
-                    cus_template.name))
+            if not self.env.context.get('demo_integrated', False):
+                raise UserError(_(
+                    "Duplicated References !\nYou can not link the Product"
+                    " %s because it is yet linked to another supplier product."
+                    " Please unlink the Product and try again.") % (
+                        cus_template.name))
+            else:
+                return
 
         # Raise an error if Unit doesn't match
         if cus_template.uom_id.category_id.id !=\

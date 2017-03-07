@@ -71,7 +71,8 @@ class ProductIntercompanyTradeCatalog(models.Model):
         comodel_name='product.template')
 
     supplier_sale_price = fields.Float(
-        string='Supplier Sale Price', compute='_compute_supplier_sale_price',
+        string='Supplier Sale Price', compute='_compute_sale_info',
+        multi='_compute_sale_info',
         digits_compute=dp.get_precision('Intercompany Trade Product Price'))
 
     customer_purchase_price = fields.Float(
@@ -119,7 +120,7 @@ class ProductIntercompanyTradeCatalog(models.Model):
 
     # Fields Function Section
     @api.multi
-    def _compute_supplier_sale_price(self):
+    def _compute_sale_info(self):
         pricelist_obj = self.env['product.pricelist']
         for catalog in self.sudo():
             catalog.supplier_sale_price =\

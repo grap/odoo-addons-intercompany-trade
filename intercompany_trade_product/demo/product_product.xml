@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2017 - Today: GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+
+<openerp><data>
+
+
+    <record id="product_supplier_ref" model="product.product">
+        <field name="name">Supplier Reference</field>
+        <field name="default_code">SUPPLIER-REF</field>
+        <field name="standard_price">80.00</field>
+        <field name="list_price">100.00</field>
+        <field name="type">service</field>
+        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+    </record>
+
+    <record id="product_customer_ref" model="product.product">
+        <field name="name">Customer Reference</field>
+        <field name="default_code">CUSTOMER-REF</field>
+        <field name="standard_price">100.00</field>
+        <field name="list_price">120.00</field>
+        <field name="type">service</field>
+        <field name="company_id" ref="intercompany_trade_base.customer_company" />
+    </record>
+
+</data></openerp>
