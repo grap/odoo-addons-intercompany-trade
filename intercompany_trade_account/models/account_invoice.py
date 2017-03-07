@@ -1,274 +1,186 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    Intercompany Trade - Account module for Odoo
-#    Copyright (C) 2015-Today GRAP (http://www.grap.coop)
-#    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# Copyright (C) 2017 - Today: GRAP (http://www.grap.coop)
+# @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import netsvc
-from openerp import SUPERUSER_ID
-from openerp.osv import fields
-from openerp.osv.osv import except_osv
-from openerp.osv.orm import Model
-from openerp.tools.translate import _
+from openerp import _, api, fields, models, netsvc
+from openerp.exceptions import Warning as UserError
 
 
-class AccountInvoice(Model):
+class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    # Fields Function Section
-    def _get_intercompany_trade(
-            self, cr, uid, ids, field_name, arg, context=None):
-        res = {}
-        for ai in self.browse(cr, uid, ids, context=context):
-            res[ai.id] = ai.partner_id.intercompany_trade
-        return res
-
     # Columns Section
-    _columns = {
-        'intercompany_trade': fields.function(
-            _get_intercompany_trade, type='boolean',
-            string='Intercompany Trade',
-            store={'account.invoice': (
-                lambda self, cr, uid, ids, context=None: ids,
-                [
-                    'partner_id',
-                ], 10)}),
-        'intercompany_trade_account_invoice_id': fields.many2one(
-            'account.invoice', string='Intercompany Trade Account Invoice',
-            readonly=True,
-        ),
-    }
+    intercompany_trade_account_invoice_id = fields.Many2one(
+        comodel_name='account.invoice', readonly=True, _prefetch=True,
+        string='Intercompany Trade Account Invoice')
 
-#    # TODO Move this
-#    def wkf_verify_invoice(self, cr, uid, ids, context=None):
-#        context = context and context or {}
-#        for invoice in self.browse(cr, uid, ids, context=context):
-#            if invoice.intercompany_trade and\
-#                    invoice.type in ('in_invoice', 'in_refund') and\
-#                    not self.pool['res.users'].has_group(
-#                    cr, uid, 'account.group_account_manager'):
-#                raise except_osv(
-#                    _("Forbidden Operation!"),
-#                    _("You're not allowed to verify the Invoice."
-#                        " Please ask your supplier or your accountant to do"
-#                        " it."))
-#        return super(AccountInvoice, self).wkf_verify_invoice(
-#            cr, uid, ids, context=context)
-
-#    def invoice_validate(self, cr, uid, ids, context=None):
-#        context = context and context or {}
-#        for invoice in self.browse(cr, uid, ids, context=context):
-#            if invoice.intercompany_trade and\
-#                    invoice.type in ('in_invoice', 'in_refund') and\
-#                    not self.pool['res.users'].has_group(
-#                    cr, uid, 'account.group_account_manager'):
-#                raise except_osv(
-#                    _("Forbidden Operation!"),
-#                    _("You're not allowed to validate the Invoice."
-#                        " Please ask your supplier or your accountant to do"
-#                        " it."))
-#        return super(AccountInvoice, self).invoice_validate(
-#            cr, uid, ids, context=context)
+    intercompany_trade = fields.Boolean(
+        string='Intercompany Trade', related='partner_id.intercompany_trade')
 
     # Overload Section
-    def create(self, cr, uid, vals, context=None):
-        rp_obj = self.pool['res.partner']
+    @api.model
+    def create(self, vals):
+        partner_obj = self.env['res.partner']
+        partner = partner_obj.browse(vals['partner_id'])
 
-        rp = rp_obj.browse(cr, uid, vals['partner_id'], context=context)
-        create_account_invoice = (
-            not context.get('intercompany_trade_do_not_propagate', False) and
-            rp.intercompany_trade)
+        create_account_invoice = (not self.env.context.get(
+            'intercompany_trade_do_not_propagate', False) and
+            partner.intercompany_trade)
 
         if create_account_invoice:
             line_ids = vals.get('invoice_line', False)
             vals.pop('invoice_line', None)
 
-        res = super(AccountInvoice, self).create(
-            cr, uid, vals, context=context)
+        invoice = super(AccountInvoice, self).create(vals)
 
         if create_account_invoice:
-            ctx = context.copy()
-            ctx['intercompany_trade_do_not_propagate'] = True
-            ctx.pop('type', None)
-            ctx.pop('journal_type', None)
-            ctx.pop('default_type', None)
+            # Get config
+            config = self._get_intercompany_trade_by_partner_company_type(
+                invoice.partner_id.id, invoice.company_id.id, invoice.type)
 
             # Create associated Invoice
-            ai = self.browse(cr, uid, res, context=context)
+            invoice_other_vals, other_user =\
+                self.prepare_intercompany_invoice(invoice, config, 'create')
 
-            rit = self._get_intercompany_trade_by_partner_company_type(
-                cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
-                context=context)
-
-            ai_other_vals, other_user_id =\
-                self.prepare_intercompany_invoice(
-                    cr, uid, ai, rit, 'create', context=context)
-
-            ctx['uid'] = other_user_id
-
-            ai_other_id = self.create(
-                cr, other_user_id, ai_other_vals, context=ctx)
+            invoice_other_id = self.sudo(user=other_user).with_context(
+                intercompany_trade_do_not_propagate=True,
+                type=None, journal_type=None, default_type=None).create(
+                invoice_other_vals)
 
             # Update Proper Account Invoice
-            self.write(cr, uid, [ai.id], {
-                'intercompany_trade_account_invoice_id': ai_other_id,
-                'invoice_line': line_ids,
-            }, context=context)
-        return res
+            invoice.write({
+                'intercompany_trade_account_invoice_id': invoice_other_id,
+                'invoice_line': line_ids})
+        return invoice
 
-    # TODO: TESTME
-    def write(self, cr, uid, ids, vals, context=None):
-        context = context if context else {}
-        res = super(AccountInvoice, self).write(
-            cr, uid, ids, vals, context=context)
+    # TODO FORBID state change for customer
+    # TODO refactor state management (verify state) or wait for V10
+    @api.multi
+    def write(self, vals):
+        res = super(AccountInvoice, self).write(vals)
 
-        if 'intercompany_trade_do_not_propagate' not in context.keys():
-            ctx = context.copy()
-            ctx['intercompany_trade_do_not_propagate'] = True
+        if 'intercompany_trade_do_not_propagate' not in self.env.context:
 
-            for ai in self.browse(cr, uid, ids, context=context):
-                if ai.intercompany_trade:
-                    rit = self._get_intercompany_trade_by_partner_company_type(
-                        cr, uid, ai.partner_id.id, ai.company_id.id,
-                        ai.type, context=context)
+            for invoice in self:
+                if invoice.intercompany_trade:
+                    config =\
+                        self._get_intercompany_trade_by_partner_company_type(
+                            invoice.partner_id.id, invoice.company_id.id,
+                            invoice.type)
                     # Disable possibility to change the supplier
                     if 'partner_id' in vals:
-                        raise except_osv(
-                            _("Error!"),
-                            _("You can not change the partner because of"
-                                " Intercompany Trade Rules. Please create"
-                                " a new Invoice."))
+                        raise UserError(_(
+                            "Error!\nYou can not change the partner because of"
+                            " Intercompany Trade Rules. Please create"
+                            " a new Invoice."))
 
                     # Update changes for according invoice
-                    ai_vals, other_user_id = self.prepare_intercompany_invoice(
-                        cr, uid, ai, rit, 'update', context=context)
+                    invoice_vals, other_user =\
+                        self.prepare_intercompany_invoice(config, 'update')
 
-                    self.write(
-                        cr, other_user_id,
-                        [ai.intercompany_trade_account_invoice_id.id], ai_vals,
-                        context=ctx)
+                    invoice.intercompany_trade_account_invoice_id.sudo(
+                        user=other_user).with_context(
+                            intercompany_trade_do_not_propagate=True).write(
+                                invoice_vals)
 
-                    # TODO FORBID state change for customer
-                    if ai.type == 'out_invoice' and\
+                    if invoice.type == 'out_invoice' and\
                             vals.get('state', False) == 'open':
-                        ai_other_super = self.browse(
-                            cr, SUPERUSER_ID,
-                            ai.intercompany_trade_account_invoice_id.id,
-                            context=context)
-                        if ai_other_super.amount_untaxed != ai.amount_untaxed\
-                                or ai_other_super.amount_tax !=\
-                                ai.amount_tax:
-                            raise except_osv(_("Error!"), _(
-                                "You can not validate this invoice"
+                        invoice_other = self.sudo(other_user).browse(
+                            invoice.intercompany_trade_account_invoice_id.id)
+                        if invoice_other.amount_untaxed !=\
+                                invoice.amount_untaxed\
+                                or invoice_other.amount_tax !=\
+                                invoice.amount_tax:
+                            raise UserError(_(
+                                "Error!\nYou can not validate this invoice"
                                 " because the according customer invoice"
                                 " don't have the same total amount."
                                 " Please fix the problem first."))
                         wf_service = netsvc.LocalService("workflow")
-                        wf_service.trg_validate(
-                            other_user_id, 'account.invoice',
-                            ai.intercompany_trade_account_invoice_id.id,
-                            'invoice_verify', cr)
 
                         wf_service.trg_validate(
-                            other_user_id, 'account.invoice',
-                            ai.intercompany_trade_account_invoice_id.id,
-                            'invoice_open', cr)
+                            other_user.id, 'account.invoice',
+                            invoice_other.id, 'invoice_verify', self.env.cr)
+
+                        wf_service.trg_validate(
+                            other_user.id, 'account.invoice',
+                            invoice_other.id, 'invoice_open', self.env.cr)
 
         return res
 
-    def unlink(self, cr, uid, ids, context=None):
-        """"- Unlink the according Invoice."""
-        context = context and context or {}
-
-        if 'intercompany_trade_do_not_propagate' not in context.keys():
-            ctx = context.copy()
-            ctx['intercompany_trade_do_not_propagate'] = True
-            for ai in self.browse(
-                    cr, uid, ids, context=context):
-                if ai.intercompany_trade:
-                    rit = self._get_intercompany_trade_by_partner_company_type(
-                        cr, uid, ai.partner_id.id, ai.company_id.id, ai.type,
-                        context=context)
-                    if ai.type in ('in_invoice', 'in_refund'):
-                        other_uid = rit.supplier_user_id.id
+    @api.multi
+    def unlink(self):
+        """" Unlink the according Invoices"""
+        if 'intercompany_trade_do_not_propagate' not in self.env.context:
+            for invoice in self:
+                if invoice.intercompany_trade:
+                    config =\
+                        self._get_intercompany_trade_by_partner_company_type(
+                            invoice.partner_id.id, invoice.company_id.id,
+                            invoice.type)
+                    if invoice.type in ('in_invoice', 'in_refund'):
+                        other_uid = config.supplier_user_id
                     else:
-                        other_uid = rit.customer_user_id.id
-                    self.unlink(
-                        cr, other_uid,
-                        [ai.intercompany_trade_account_invoice_id.id],
-                        context=ctx)
-        res = super(AccountInvoice, self).unlink(
-            cr, uid, ids, context=context)
-        return res
+                        other_uid = config.customer_user_id
+                    invoice.intercompany_trade_account_invoice_id.sudo(
+                        user=other_uid).with_context(
+                            intercompany_trade_do_not_propagate=True).unlink()
+        return super(AccountInvoice, self).unlink()
 
     # Custom Section
+    @api.model
     def _get_intercompany_trade_by_partner_company_type(
-            self, cr, uid, partner_id, company_id, type, context=None):
-        rit_obj = self.pool['intercompany.trade.config']
+            self, partner_id, company_id, type):
+        config_obj = self.env['intercompany.trade.config']
 
         if type in ('in', 'in_invoice', 'in_refund'):
             regular_type = 'in'
         else:
             regular_type = 'out'
 
-        return rit_obj._get_intercompany_trade_by_partner_company(
-            cr, uid, partner_id, company_id, regular_type,
-            context=context)
+        return config_obj._get_intercompany_trade_by_partner_company(
+            partner_id, company_id, regular_type)
 
-    def prepare_intercompany_invoice(
-            self, cr, uid, ai, rit, operation, context=None):
-        if ai.type == 'out_invoice':
+    @api.multi
+    def prepare_intercompany_invoice(self, config, operation):
+        self.ensure_one()
+        if self.type == 'out_invoice':
             # A Purchase Invoice Create a Sale Invoice
             other_type = 'in_invoice'
-            other_user_id = rit.customer_user_id.id
-            other_company_id = rit.customer_company_id.id
-            other_partner_id = rit.supplier_partner_id.id
-        elif ai.type == 'in_invoice':
+            other_user = config.customer_user_id
+            other_company_id = config.customer_company_id.id
+            other_partner_id = config.supplier_partner_id.id
+        elif self.type == 'in_invoice':
             # A Sale Invoice Create a Purchase Invoice
             other_type = 'out_invoice'
-            other_user_id = rit.supplier_user_id.id
-            other_company_id = rit.supplier_company_id.id
-            other_partner_id = rit.customer_partner_id.id
+            other_user = config.supplier_user_id
+            other_company_id = config.supplier_company_id.id
+            other_partner_id = config.customer_partner_id.id
         else:
-            raise except_osv(
-                _("Unimplemented Feature!"),
-                _("You can not create an invoice %s with a"
-                    " partner flagged as Intercompany Trade." % (ai.type)))
+            raise UserError(_(
+                "Unimplemented Feature!\n You can not create an invoice %s"
+                " with a partner flagged as Intercompany Trade." % (
+                    self.type)))
 
-        account_info = self.onchange_partner_id(
-            cr, other_user_id, [], other_type, other_partner_id,
+        account_info = self.sudo(user=other_user).onchange_partner_id(
+            [], other_type, other_partner_id,
             company_id=other_company_id)['value']
 
-        account_journal_id = self._get_journal(cr, other_user_id, {
-            'type': other_type, 'company_id': other_company_id})
+        account_journal_id = self.sudo(user=other_user).with_context(
+            type=other_type, company_id=other_company_id)._default_journal()
 
         values = {
-            'intercompany_trade_account_invoice_id': ai.id,
+            'intercompany_trade_account_invoice_id': self.id,
             'type': other_type,
             'company_id': other_company_id,
-            'date_invoice': ai.date_invoice,
-            'date_due': ai.date_due,
-            'currency_id': ai.currency_id.id,
-            'comment': ai.comment,
+            'date_invoice': self.date_invoice,
+            'date_due': self.date_due,
+            'currency_id': self.currency_id.id,
+            'comment': self.comment,
         }
-        if ai.type == 'out_invoice':
-            values['supplier_invoice_number'] = ai.number and ai.number or\
+        if self.type == 'out_invoice':
+            values['supplier_invoice_number'] = self.number and self.number or\
                 _('Intercompany Trade')
         if operation == 'create':
             values.update({
@@ -277,4 +189,4 @@ class AccountInvoice(Model):
                 'journal_id': account_journal_id,
             })
 
-        return values, other_user_id
+        return values, other_user

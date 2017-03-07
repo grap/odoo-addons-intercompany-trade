@@ -25,7 +25,7 @@ from openerp.tools.translate import _
 from openerp.osv import fields
 from openerp.osv.orm import Model
 
-from openerp.addons.intercompany_trade_product.model.custom_tools\
+from openerp.addons.intercompany_trade_product.models.custom_tools\
     import _get_other_product_info
 
 

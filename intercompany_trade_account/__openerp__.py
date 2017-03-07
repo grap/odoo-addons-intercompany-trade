@@ -23,32 +23,6 @@
     'name': 'Intercompany Trade - Account',
     'version': '1.0',
     'category': 'Intercompany Trade',
-    'description': """
-Module for Intercompany Trade for Account Module
-==============================================
-
-Features :
-----------
-    * Add Demo Data;
-    * Create link between:
-        * customer 'account.invoice' and supplier 'account.invoice';
-        * customer 'account.invoice.line' and supplier 'account.invoice.line';
-    * create or delete a customer / supplier invoice update the according
-      customer / supplier invoice;
-    * create, update or delete a customer / supplier line update the according
-      customer / supplier line;
-    * Add Tax management to avoid Tax Bug:
-        * All invoices are Tax excluded allways;
-
-    * Customers doesn't have the possibility to change price_unit;
-    * Users doesn't the right to copy an 'intercompany_trade' invoice;
-
-Copyright, Authors and Licence:
--------------------------------
-    * Copyright: 2015, GRAP: Groupement Régional Alimentaire de Proximité;
-    * Author:
-        * Sylvain LE GAL (https://twitter.com/legalsylvain);
-    * Licence: AGPL-3 (http://www.gnu.org/licenses/);""",
     'author': 'GRAP',
     'website': 'http://www.grap.coop',
     'license': 'AGPL-3',
@@ -59,12 +33,12 @@ Copyright, Authors and Licence:
         'invoice_pricelist',
     ],
     'demo': [
-        #        'demo/res_groups.yml',
-        #        'demo/account_account.yml',
-        #        'demo/account_journal.yml',
-        #        'demo/ir_property.xml',
-        #        'demo/account_tax.yml',
-        #        'demo/product_product.yml',
+        'demo/res_groups.yml',
+        'demo/account_account.yml',
+        'demo/account_journal.yml',
+        'demo/ir_property.xml',
+        'demo/account_tax.yml',
+        'demo/product_product.yml',
     ],
     'data': [
         'views/product_intercompany_trade_catalog_view.xml',
@@ -75,5 +49,5 @@ Copyright, Authors and Licence:
         'data/init.xml',
     ],
     'auto_install': True,
-    'installable': False,
+    'installable': True,
 }
