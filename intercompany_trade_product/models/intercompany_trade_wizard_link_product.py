@@ -50,8 +50,8 @@ class IntercompanyTradeWizardLinkProduct(models.TransientModel):
         required=True, readonly=True)
 
     customer_product_id = fields.Many2one(
-            string='Customer Product', comodel_name='product.product',
-            required=True)
+        string='Customer Product', comodel_name='product.product',
+        required=True)
 
     customer_product_tmpl_id = fields.Many2one(
         string='Customer Product', comodel_name='product.template',
@@ -95,7 +95,7 @@ class IntercompanyTradeWizardLinkProduct(models.TransientModel):
         cus_template = template_obj.browse(
             supplierinfo_vals['product_tmpl_id'])
         sup_product = product_obj.sudo().browse(
-                supplierinfo_vals['supplier_product_id'])
+            supplierinfo_vals['supplier_product_id'])
 
         # Raise error if there is many products associated to the template
         product_qty = product_obj.search([
