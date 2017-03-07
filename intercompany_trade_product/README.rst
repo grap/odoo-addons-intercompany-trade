@@ -19,6 +19,9 @@ Features
 
 Roadmap / Issues
 ----------------
+* Refactor this module.
+    * set new api
+    * maybe remove custom_tools
 
 * Round sale price to make it compatible with purchase prices.
 
