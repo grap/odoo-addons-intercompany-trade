@@ -110,7 +110,7 @@ def _get_other_product_info(
     if direction == 'in':
         # Get product supplier info (if any)
         psi_ids = psi_obj.search(cr, uid, [
-            ('product_id', '=', pp.product_tmpl_id.id),
+            ('product_tmpl_id', '=', pp.product_tmpl_id.id),
             ('name', '=', rit.supplier_partner_id.id),
             ('company_id', '=', rit.customer_company_id.id),
         ], context=context)
@@ -151,7 +151,7 @@ def _get_other_product_info(
             cr, rit.customer_user_id.id, psi_ids[0], context=context)
         customer_pp_ids = pp_obj.search(cr, rit.customer_user_id.id, [
             ('company_id', '=', rit.customer_company_id.id),
-            ('product_tmpl_id', '=', psi.product_tmpl.id),
+            ('product_tmpl_id', '=', psi.product_tmpl_id.id),
         ], context=context)
         if len(customer_pp_ids) == 0:
             # TODO improve me with V8.0 ORM, using variants fields
