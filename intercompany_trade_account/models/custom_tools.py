@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp.tools.translate import _
-from openerp.osv.osv import except_osv
+from openerp.exceptions import Warning as UserError
 
 
 def _check_taxes(
@@ -19,7 +19,7 @@ def _check_taxes(
     # Check if taxes are correct
     if (len(supplier_product.taxes_id) !=
             len(customer_product.supplier_taxes_id)):
-        raise except_osv(
+        raise UserError(
             _("Taxes Mismatch!"),
             _(
                 """You can not link Supplier Product that has %d Sale"""
@@ -28,7 +28,7 @@ def _check_taxes(
                 len(supplier_product.taxes_id),
                 len(customer_product.supplier_taxes_id)))
     if (len(supplier_product.taxes_id) > 1):
-        raise except_osv(
+        raise UserError(
             _("Too Complex Taxes Setting!"),
             _(
                 """You can not link this Supplier Product. It has more"""
@@ -39,14 +39,14 @@ def _check_taxes(
         customer_tax = customer_product.supplier_taxes_id[0]
         # Check percent type
         if supplier_tax.type != 'percent':
-            raise except_osv(
+            raise UserError(
                 _("Too Complex Taxes Setting!"),
                 _(
                     """You can not link this Supplier Product. The tax """
                     """ setting of %s is %s. (Only 'percent' is accepted)"""
                     """""") % (supplier_tax.name, supplier_tax.type))
         if customer_tax.type != 'percent':
-            raise except_osv(
+            raise UserError(
                 _("Too Complex Taxes Setting!"),
                 _(
                     """You can not link this Customer Product. The tax """
@@ -54,7 +54,7 @@ def _check_taxes(
                     """""") % (customer_tax.name, customer_tax.type))
         # Check amount
         if supplier_tax.amount != customer_tax.amount:
-            raise except_osv(
+            raise UserError(
                 _("Taxes Mismatch!"),
                 _(
                     """You can not link this Customer Product to this"""

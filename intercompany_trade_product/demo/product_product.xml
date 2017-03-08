@@ -17,6 +17,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
     </record>
 
+    <function model="product.product" name="write"
+        eval="([ref('product_supplier_ref')], {'standard_price': 80.00}, {'force_company': ref('intercompany_trade_base.supplier_company')})" />
+
     <record id="product_customer_ref" model="product.product">
         <field name="name">Customer Reference</field>
         <field name="default_code">CUSTOMER-REF</field>
@@ -26,4 +29,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="company_id" ref="intercompany_trade_base.customer_company" />
     </record>
 
+    <function model="product.product" name="write"
+        eval="([ref('product_customer_ref')], {'standard_price': 100.00}, {'force_company': ref('intercompany_trade_base.customer_company')})" />
 </data></openerp>
