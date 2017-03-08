@@ -45,6 +45,7 @@
         'views/view_product_intercompany_trade_catalog.xml',
         'views/view_intercompany_trade_wizard_link_product.xml',
         'views/view_account_invoice.xml',
+        'views/view_intercompany_trade_config.xml',
         'views/action.xml',
         'views/menu.xml',
         'data/init.xml',
