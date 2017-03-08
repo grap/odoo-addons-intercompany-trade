@@ -6,3 +6,4 @@ from . import product_intercompany_trade_catalog
 from . import intercompany_trade_wizard_link_product
 from . import account_invoice
 from . import account_invoice_line
+from . import intercompany_trade_config

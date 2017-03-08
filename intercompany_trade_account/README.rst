@@ -24,6 +24,13 @@ Features
 * Customers doesn't have the possibility to change price_unit;
 * Users doesn't the right to copy an 'intercompany_trade' invoice;
 
+Roadmap / Issues
+----------------
+
+* Some tests are disabled for the time being.
+* Could be great to rename this module into intercompany_trade_transaction
+  for generic, and depending officialy from purchase, sale, account and merging
+  with intercompany_trade_stock.
 
 Contributors
 ------------
