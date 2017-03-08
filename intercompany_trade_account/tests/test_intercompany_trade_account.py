@@ -147,111 +147,111 @@ class Test(TransactionCase):
                 """ a supplier Product with 10% Incl VAT"""
                 """ must succeed.""")
 
-#    def test_03_create_invoice_in(self):
-#        """
-#            Create an In Invoice (Supplier Invoice) by the customer
-#            must create an Out Invoice
-#        """
-#        cr, cus_uid, sup_uid =\
-#            self.cr, self.customer_user_id, self.supplier_user_id
+    def test_03_create_invoice_in(self):
+        """
+            Create an In Invoice (Supplier Invoice) by the customer
+            must create an Out Invoice
+        """
+        cr, cus_uid, sup_uid =\
+            self.cr, self.customer_user_id, self.supplier_user_id
 
-#        # Associate a product
-#        active_id = self.pitc_obj.search(cr, cus_uid, [(
-#            'supplier_product_id', '=',
-#            self.product_supplier_service_10_excl)])[0]
+        # Associate a product
+        active_id = self.pitc_obj.search(cr, cus_uid, [(
+            'supplier_product_id', '=',
+            self.product_supplier_service_10_excl)])[0]
 
-#        itwlp_id = self.itwlp_obj.create(cr, cus_uid, {
-#            'customer_product_id': self.product_customer_service_10_excl,
-#        }, context={'active_id': active_id})
-#        self.itwlp_obj.link_product(cr, cus_uid, [itwlp_id])
+        itwlp_id = self.itwlp_obj.create(cr, cus_uid, {
+            'customer_product_id': self.product_customer_service_10_excl,
+        }, context={'active_id': active_id})
+        self.itwlp_obj.link_product(cr, cus_uid, [itwlp_id])
 
-#        sup_pp = self.pp_obj.browse(
-#            cr, sup_uid, self.product_supplier_service_10_excl)
+        sup_pp = self.pp_obj.browse(
+            cr, sup_uid, self.product_supplier_service_10_excl)
 
-#        # Create a Invoice
-#        context = {'type': 'in_invoice'}
-#        vals = self.ai_obj.default_get(
-#            cr, cus_uid, ['currency_id', 'journal_id'],
-#            context=context)
-#        vals.update({
-#            'partner_id': self.rit.supplier_partner_id.id,
-#            'account_id': self.customer_account_payable_id,
-#        })
+        # Create a Invoice
+        context = {'type': 'in_invoice'}
+        vals = self.ai_obj.default_get(
+            cr, cus_uid, ['currency_id', 'journal_id'],
+            context=context)
+        vals.update({
+            'partner_id': self.rit.supplier_partner_id.id,
+            'account_id': self.customer_account_payable_id,
+        })
 
-#        cus_ai_id = self.ai_obj.create(cr, cus_uid, vals, context=context)
+        cus_ai_id = self.ai_obj.create(cr, cus_uid, vals, context=context)
 
-#        # Checks creation of the according Invoice
-#        SUPER_ai = self.ai_obj.browse(cr, self.uid, cus_ai_id)
-#        SUPER_ai_other = SUPER_ai.intercompany_trade_account_invoice_id
+        # Checks creation of the according Invoice
+        SUPER_ai = self.ai_obj.browse(cr, self.uid, cus_ai_id)
+        SUPER_ai_other = SUPER_ai.intercompany_trade_account_invoice_id
 
-#        sup_ai_id = SUPER_ai.intercompany_trade_account_invoice_id.id
+        sup_ai_id = SUPER_ai.intercompany_trade_account_invoice_id.id
 
-#        self.assertNotEqual(
-#            SUPER_ai_other.id, False,
-#            """Create a Invoice must create another invoice.""")
+        self.assertNotEqual(
+            SUPER_ai_other.id, False,
+            """Create a Invoice must create another invoice.""")
 
-#        self.assertEqual(
-#            SUPER_ai_other.type, 'out_invoice',
-#            """Create an In Invoice must create an Out invoice.""")
+        self.assertEqual(
+            SUPER_ai_other.type, 'out_invoice',
+            """Create an In Invoice must create an Out invoice.""")
 
-#        # Create a Invoice Line
-#        vals = self.ail_obj.default_get(
-#            cr, cus_uid, ['account_id', 'quantity'],
-#            context=context)
-#        vals.update({
-#            'invoice_id': cus_ai_id,
-#            'name': 'TEST',
-#            'product_id': self.product_customer_service_10_excl,
-#            'uos_id': self.product_uom_unit_id,
-#        })
+        # Create a Invoice Line
+        vals = self.ail_obj.default_get(
+            cr, cus_uid, ['account_id', 'quantity'],
+            context=context)
+        vals.update({
+            'invoice_id': cus_ai_id,
+            'name': 'TEST',
+            'product_id': self.product_customer_service_10_excl,
+            'uos_id': self.product_uom_unit_id,
+        })
 
-#        cus_ail_id = self.ail_obj.create(cr, cus_uid, vals, context=context)
+        cus_ail_id = self.ail_obj.create(cr, cus_uid, vals, context=context)
 
-#        # Checks creation of the according Invoice Line
-#        SUPER_ail = self.ail_obj.browse(cr, self.uid, cus_ail_id)
-#        SUPER_ail_other = SUPER_ail.intercompany_trade_account_invoice_line_id
+        # Checks creation of the according Invoice Line
+        SUPER_ail = self.ail_obj.browse(cr, self.uid, cus_ail_id)
+        SUPER_ail_other = SUPER_ail.intercompany_trade_account_invoice_line_id
 
-#        sup_ail_id = SUPER_ail.intercompany_trade_account_invoice_line_id.id
+        sup_ail_id = SUPER_ail.intercompany_trade_account_invoice_line_id.id
 
-#        self.assertNotEqual(
-#            SUPER_ail_other, False,
-#            """Create a Invoice Line must create another invoice Line.""")
+        self.assertNotEqual(
+            SUPER_ail_other, False,
+            """Create a Invoice Line must create another invoice Line.""")
 
-#        self.assertEqual(
-#            SUPER_ail_other.price_unit, sup_pp.list_price,
-#            """Create a In Invoice Line must automatically reset the"""
-#            """ price_unit, using the sale price of the supplier.""")
+        self.assertEqual(
+            SUPER_ail_other.price_unit, sup_pp.list_price,
+            """Create a In Invoice Line must automatically reset the"""
+            """ price_unit, using the sale price of the supplier.""")
 
-#        # Update Invoice Line (change price = must fail)
-#        with self.assertRaises(except_osv):
-#            self.ail_obj.write(
-#                cr, cus_uid, [cus_ail_id], {'price_unit': 10}, context=context)
+        # Update Invoice Line (change price = must fail)
+        with self.assertRaises(except_osv):
+            self.ail_obj.write(
+                cr, cus_uid, [cus_ail_id], {'price_unit': 10}, context=context)
 
-#        # Update Invoice Line (change quantity = must succeed)
-#        self.ail_obj.write(
-#            cr, cus_uid, [cus_ail_id], {'quantity': 2}, context=context)
-#        SUPER_ail = self.ail_obj.browse(cr, self.uid, cus_ail_id)
-#        SUPER_ail_other = SUPER_ail.intercompany_trade_account_invoice_line_id
+        # Update Invoice Line (change quantity = must succeed)
+        self.ail_obj.write(
+            cr, cus_uid, [cus_ail_id], {'quantity': 2}, context=context)
+        SUPER_ail = self.ail_obj.browse(cr, self.uid, cus_ail_id)
+        SUPER_ail_other = SUPER_ail.intercompany_trade_account_invoice_line_id
 
-#        self.assertEqual(
-#            SUPER_ail_other.price_subtotal, 2 * sup_pp.list_price,
-#            """Double Quantity asked by the customer must double price"""
-#            """ subtotal of the according Sale Invoice of the supplier.""")
+        self.assertEqual(
+            SUPER_ail_other.price_subtotal, 2 * sup_pp.list_price,
+            """Double Quantity asked by the customer must double price"""
+            """ subtotal of the according Sale Invoice of the supplier.""")
 
-#        # Unlink customer Invoice line (must unlink according supplier line)
-#        self.ail_obj.unlink(cr, cus_uid, [cus_ail_id], context=context)
-#        count_ail = self.ail_obj.search(cr, sup_uid, [('id', '=', sup_ail_id)])
+        # Unlink customer Invoice line (must unlink according supplier line)
+        self.ail_obj.unlink(cr, cus_uid, [cus_ail_id], context=context)
+        count_ail = self.ail_obj.search(cr, sup_uid, [('id', '=', sup_ail_id)])
 
-#        self.assertEqual(
-#            len(count_ail), 0,
-#            """Delete customer Invoice Line must delete according"""
-#            """ Supplier Invoice Line.""")
+        self.assertEqual(
+            len(count_ail), 0,
+            """Delete customer Invoice Line must delete according"""
+            """ Supplier Invoice Line.""")
 
-#        # Unlink customer Invoice (must unlink according supplier Invoice)
-#        self.ai_obj.unlink(cr, cus_uid, [cus_ai_id], context=context)
-#        count_ai = self.ai_obj.search(cr, sup_uid, [('id', '=', sup_ai_id)])
+        # Unlink customer Invoice (must unlink according supplier Invoice)
+        self.ai_obj.unlink(cr, cus_uid, [cus_ai_id], context=context)
+        count_ai = self.ai_obj.search(cr, sup_uid, [('id', '=', sup_ai_id)])
 
-#        self.assertEqual(
-#            len(count_ai), 0,
-#            """Delete customer Invoice must delete according"""
-#            """ Supplier Invoice.""")
+        self.assertEqual(
+            len(count_ai), 0,
+            """Delete customer Invoice must delete according"""
+            """ Supplier Invoice.""")

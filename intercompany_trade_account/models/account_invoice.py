@@ -10,9 +10,16 @@ from openerp.exceptions import Warning as UserError
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
+    # ACL Changes
+    # TODO investigate why compute_amount is launched with the same
+    # user for the two invoices, raising ACL Error
+    @api.one
+    def _compute_amount(self):
+        return super(AccountInvoice, self.sudo())._compute_amount()
+
     # Columns Section
     intercompany_trade_account_invoice_id = fields.Many2one(
-        comodel_name='account.invoice', readonly=True, _prefetch=True,
+        comodel_name='account.invoice', readonly=True, _prefetch=False,
         string='Intercompany Trade Account Invoice')
 
     intercompany_trade = fields.Boolean(
@@ -61,7 +68,6 @@ class AccountInvoice(models.Model):
         res = super(AccountInvoice, self).write(vals)
 
         if 'intercompany_trade_do_not_propagate' not in self.env.context:
-
             for invoice in self:
                 if invoice.intercompany_trade:
                     config =\
@@ -69,7 +75,8 @@ class AccountInvoice(models.Model):
                             invoice.partner_id.id, invoice.company_id.id,
                             invoice.type)
                     # Disable possibility to change the supplier
-                    if 'partner_id' in vals:
+                    if 'partner_id' in vals and\
+                            vals.get('partner_id') != invoice.partner_id.id:
                         raise UserError(_(
                             "Error!\nYou can not change the partner because of"
                             " Intercompany Trade Rules. Please create"

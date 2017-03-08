@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2017 - Today: GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+
+<openerp><data>
+
+    <record id="integrated_supplier_invoice" model="account.invoice">
+        <field name="company_id" ref="intercompany_trade_base.supplier_company"/>
+        <field name="partner_id" eval="obj(ref('intercompany_trade_base.intercompany_trade')).customer_partner_id.id" model="intercompany.trade.config"/>
+        <field name="account_id" ref="supplier_account_receivable"/>
+    </record>
+
+<!--    <record id="integrated_supplier_invoice_line_1" model="account.invoice.line">-->
+<!--        <field name="invoice_id" ref="integrated_supplier_invoice"/>-->
+<!--        <field name="product_id" ref="intercompany_trade_product.product_supplier_ref" />-->
+<!--        <field name="name">Supplier Product</field>-->
+<!--        <field name="quantity">10</field>-->
+<!--        <field name="account_id" ref="supplier_account_income"/>-->
+<!--        <field name="price_unit">100</field>-->
+<!--    </record>-->
+
+
+</data></openerp>

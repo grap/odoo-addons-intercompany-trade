@@ -39,6 +39,7 @@
         'demo/ir_property.xml',
         'demo/account_tax.yml',
         'demo/product_product.yml',
+        'demo/account_invoice.xml',
     ],
     'data': [
         'views/product_intercompany_trade_catalog_view.xml',
