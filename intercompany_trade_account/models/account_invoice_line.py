@@ -20,66 +20,68 @@ class AccountInvoiceLine(models.Model):
 
     intercompany_trade_account_invoice_line_id = fields.Many2one(
         string='Intercompany Trade Account Invoice Line',
-        comodel_name='account.invoice.line', required=True, readonly=True,
-        _prefetch=False)
+        comodel_name='account.invoice.line', readonly=True, _prefetch=False)
 
     # Overload Section
     @api.model
     def create(self, vals):
         """Create the according Account Invoice Line."""
+        print "******************************* account.invoice.line::CREATE"
         invoice_obj = self.env['account.invoice']
-
-        if vals.get('invoice_id', False):
-            invoice = invoice_obj.browse(vals['invoice_id'])
-            create_account_invoice_line = (not self.env.context.get(
-                'intercompany_trade_do_not_propagate', False) and
-                invoice.intercompany_trade)
-        else:
-            create_account_invoice_line = False
 
         # Call Super
         line = super(AccountInvoiceLine, self).create(vals)
 
-        if create_account_invoice_line:
-            # Get Intercompany Trade
+        if not self.env.context.get(
+                'intercompany_trade_do_not_propagate', False) and\
+                line.intercompany_trade:
+
             config =\
                 invoice_obj._get_intercompany_trade_by_partner_company_type(
-                    invoice.partner_id.id, invoice.company_id.id, invoice.type)
+                    line.invoice_id.partner_id.id,
+                    line.invoice_id.company_id.id,
+                    line.invoice_id.type)
 
             # Prepare and create associated Account Invoice Line
             line_other_vals, other_user = \
                 line.prepare_intercompany_account_invoice_line(config)
 
-            line_other = self.sudo(user=other_user).create(line_other_vals)
+            print line_other_vals
+            import pdb; pdb.set_trace()
+            line_other = self.sudo(user=other_user).with_context(
+                intercompany_trade_do_not_propagate=True).create(
+                    line_other_vals)
+
+            return line
 
             # if this is a supplier invoice and an intercompany trade, the user
             # doesn't have the right to change the unit price, so we will
             # erase the unit price, and recover the good one.
-            if invoice.type in ('in_invoice', 'in_refund'):
+            if line.invoice_id.type in ('in_invoice', 'in_refund'):
                 price_unit = line_other_vals['price_unit']
             else:
                 price_unit = vals['price_unit']
 
-            # Update Original Account Invoice Line
-            line.sudo(user=other_user).with_context(
-                intercompany_trade_do_not_propagate=True).write({
-                    'intercompany_trade_account_invoice_line_id':
-                    line_other.id,
-                    'price_unit': price_unit})
+##            # Update Original Account Invoice Line
+##            line.with_context(
+##                intercompany_trade_do_not_propagate=True).write({
+##                    'intercompany_trade_account_invoice_line_id':
+##                    line_other.id,
+##                    'price_unit': price_unit})
 
-            # Update Other Account Invoice Line
-            line_other.sudo(user=other_user).with_context(
-                intercompany_trade_do_not_propagate=True).write({
-                    'intercompany_trade_account_invoice_line_id': line.id,
-                    'price_unit': price_unit})
+##            # Update Other Account Invoice Line
+##            line_other.sudo(user=other_user).with_context(
+##                intercompany_trade_do_not_propagate=True).write({
+##                    'intercompany_trade_account_invoice_line_id': line.id,
+##                    'price_unit': price_unit})
 
-            # Recompute All Invoice
-            invoice.with_context(
-                intercompany_trade_do_not_propagate=True).button_reset_taxes()
+##            # Recompute All Invoice
+##            invoice.with_context(
+##                intercompany_trade_do_not_propagate=True).button_reset_taxes()
 
-            invoice.intercompany_trade_account_invoice_id.with_context(
-                    intercompany_trade_do_not_propagate=True).sudo(
-                        user=other_user).button_reset_taxes()
+##            invoice.intercompany_trade_account_invoice_id.with_context(
+##                    intercompany_trade_do_not_propagate=True).sudo(
+##                        user=other_user).button_reset_taxes()
 
         return line
 
@@ -91,6 +93,7 @@ class AccountInvoiceLine(models.Model):
               price or quantity changes. All others are ignored. Most of
               the important fields ignored will generated an error.
               (product / discount / UoM changes)    """
+        print "********************* account.invoice.line::WRITE %s" % self.ids
         invoice_obj = self.env['account.invoice']
 
         res = super(AccountInvoiceLine, self).write(vals)
@@ -103,9 +106,9 @@ class AccountInvoiceLine(models.Model):
                     # Get Intercompany Trade
                         config = invoice_obj.\
                             _get_intercompany_trade_by_partner_company_type(
-                                line.invoice.partner_id.id,
-                                line.invoice.company_id.id,
-                                line.invoice.type)
+                                line.invoice_id.partner_id.id,
+                                line.invoice_id.company_id.id,
+                                line.invoice_id.type)
 
                     # Block some changes of product
                 if 'product_id' in vals.keys():
@@ -124,17 +127,17 @@ class AccountInvoiceLine(models.Model):
                         " '%s'. Please ask to your supplier." % (
                                 line.product_id.name)))
 
-                    # Prepare and update associated Sale Order line
-                    line_other_vals, other_user = \
-                        line.prepare_intercompany_account_invoice_line(
-                            config)
+                # Prepare and update associated Sale Order line
+                line_other_vals, other_user = \
+                    line.prepare_intercompany_account_invoice_line(
+                        config)
 
-                    if 'price_unit' in vals.keys():
-                        line_other_vals['price_unit'] = vals['price_unit']
-                    line.intercompany_trade_account_invoice_line_id.sudo(
-                        user=other_user).with_context(
-                            intercompany_trade_do_not_propagate=True).write(
-                                line_other_vals)
+                if 'price_unit' in vals.keys():
+                    line_other_vals['price_unit'] = vals['price_unit']
+                line.intercompany_trade_account_invoice_line_id.sudo(
+                    user=other_user).with_context(
+                        intercompany_trade_do_not_propagate=True).write(
+                            line_other_vals)
         return res
 
     def unlink(self, cr, uid, ids, context=None):
@@ -196,7 +199,7 @@ class AccountInvoiceLine(models.Model):
             self.product_id.id, direction, context=self.env.context)
 
         values = self.sudo(user=other_user).product_id_change(
-            False, other_product_info['product_id'],
+            other_product_info['product_id'],
             False, type=other_type, company_id=other_company_id,
             partner_id=other_partner_id)['value']
 
@@ -210,7 +213,7 @@ class AccountInvoiceLine(models.Model):
             'discount': self.discount,
             'uos_id': self.uos_id.id,
             'invoice_line_tax_id': (
-                values['invoice_line_tax_id'] and
+                values.get('invoice_line_tax_id', False) and
                 [[6, False, values['invoice_line_tax_id']]] or False),
             })
 

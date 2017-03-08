@@ -18,6 +18,8 @@
         'demo/product_product.yml',
         'demo/res_groups.yml',
         'demo/product_pricelist.yml',
+        'demo/product_product.xml',
+        'demo/wizard_link_product.xml',
     ],
     'data': [
         'security/ir_model_access.yml',

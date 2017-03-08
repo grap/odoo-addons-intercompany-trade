@@ -68,6 +68,7 @@ class IntercompanyTradeConfig(models.Model):
         * If type='out', partner_id is a customer in the supplier company;
           (sale workflow)
         """
+        print "config::_get_intercompany_trade_by_partner_company"
         if type == 'in':
             domain = [
                 ('supplier_partner_id', '=', partner_id),

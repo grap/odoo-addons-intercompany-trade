@@ -21,6 +21,7 @@ class AccountInvoice(models.Model):
     # Overload Section
     @api.model
     def create(self, vals):
+        print "******************************* account.invoice::CREATE"
         partner_obj = self.env['res.partner']
         partner = partner_obj.browse(vals['partner_id'])
 
@@ -58,10 +59,10 @@ class AccountInvoice(models.Model):
     # TODO refactor state management (verify state) or wait for V10
     @api.multi
     def write(self, vals):
+        print "********************* account.invoice::WRITE %s" % self.ids
         res = super(AccountInvoice, self).write(vals)
 
         if 'intercompany_trade_do_not_propagate' not in self.env.context:
-
             for invoice in self:
                 if invoice.intercompany_trade:
                     config =\
@@ -69,7 +70,8 @@ class AccountInvoice(models.Model):
                             invoice.partner_id.id, invoice.company_id.id,
                             invoice.type)
                     # Disable possibility to change the supplier
-                    if 'partner_id' in vals:
+                    if 'partner_id' in vals and\
+                            vals.get('partner_id') != invoice.partner_id.id:
                         raise UserError(_(
                             "Error!\nYou can not change the partner because of"
                             " Intercompany Trade Rules. Please create"
