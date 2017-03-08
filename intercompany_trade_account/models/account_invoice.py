@@ -10,9 +10,16 @@ from openerp.exceptions import Warning as UserError
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
+    # ACL Changes
+    # TODO investigate why compute_amount is launched with the same
+    # user for the two invoices, raising ACL Error
+    @api.one
+    def _compute_amount(self):
+        return super(AccountInvoice, self.sudo())._compute_amount()
+
     # Columns Section
     intercompany_trade_account_invoice_id = fields.Many2one(
-        comodel_name='account.invoice', readonly=True, _prefetch=True,
+        comodel_name='account.invoice', readonly=True, _prefetch=False,
         string='Intercompany Trade Account Invoice')
 
     intercompany_trade = fields.Boolean(
@@ -21,7 +28,6 @@ class AccountInvoice(models.Model):
     # Overload Section
     @api.model
     def create(self, vals):
-        print "******************************* account.invoice::CREATE"
         partner_obj = self.env['res.partner']
         partner = partner_obj.browse(vals['partner_id'])
 
@@ -59,7 +65,6 @@ class AccountInvoice(models.Model):
     # TODO refactor state management (verify state) or wait for V10
     @api.multi
     def write(self, vals):
-        print "********************* account.invoice::WRITE %s" % self.ids
         res = super(AccountInvoice, self).write(vals)
 
         if 'intercompany_trade_do_not_propagate' not in self.env.context:

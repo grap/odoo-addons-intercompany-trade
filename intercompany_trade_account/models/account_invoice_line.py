@@ -26,7 +26,6 @@ class AccountInvoiceLine(models.Model):
     @api.model
     def create(self, vals):
         """Create the according Account Invoice Line."""
-        print "******************************* account.invoice.line::CREATE"
         invoice_obj = self.env['account.invoice']
 
         # Call Super
@@ -46,13 +45,9 @@ class AccountInvoiceLine(models.Model):
             line_other_vals, other_user = \
                 line.prepare_intercompany_account_invoice_line(config)
 
-            print line_other_vals
-            import pdb; pdb.set_trace()
             line_other = self.sudo(user=other_user).with_context(
                 intercompany_trade_do_not_propagate=True).create(
                     line_other_vals)
-
-            return line
 
             # if this is a supplier invoice and an intercompany trade, the user
             # doesn't have the right to change the unit price, so we will
@@ -62,26 +57,18 @@ class AccountInvoiceLine(models.Model):
             else:
                 price_unit = vals['price_unit']
 
-##            # Update Original Account Invoice Line
-##            line.with_context(
-##                intercompany_trade_do_not_propagate=True).write({
-##                    'intercompany_trade_account_invoice_line_id':
-##                    line_other.id,
-##                    'price_unit': price_unit})
+            # Update Original Account Invoice Line
+            line.with_context(
+                intercompany_trade_do_not_propagate=True).write({
+                    'intercompany_trade_account_invoice_line_id':
+                    line_other.id,
+                    'price_unit': price_unit})
 
-##            # Update Other Account Invoice Line
-##            line_other.sudo(user=other_user).with_context(
-##                intercompany_trade_do_not_propagate=True).write({
-##                    'intercompany_trade_account_invoice_line_id': line.id,
-##                    'price_unit': price_unit})
-
-##            # Recompute All Invoice
-##            invoice.with_context(
-##                intercompany_trade_do_not_propagate=True).button_reset_taxes()
-
-##            invoice.intercompany_trade_account_invoice_id.with_context(
-##                    intercompany_trade_do_not_propagate=True).sudo(
-##                        user=other_user).button_reset_taxes()
+            # Update Other Account Invoice Line
+            line_other.sudo(user=other_user).with_context(
+                intercompany_trade_do_not_propagate=True).write({
+                    'intercompany_trade_account_invoice_line_id': line.id,
+                    'price_unit': price_unit})
 
         return line
 
@@ -93,7 +80,6 @@ class AccountInvoiceLine(models.Model):
               price or quantity changes. All others are ignored. Most of
               the important fields ignored will generated an error.
               (product / discount / UoM changes)    """
-        print "********************* account.invoice.line::WRITE %s" % self.ids
         invoice_obj = self.env['account.invoice']
 
         res = super(AccountInvoiceLine, self).write(vals)
