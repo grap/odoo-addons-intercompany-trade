@@ -113,7 +113,7 @@ class AccountInvoiceLine(models.Model):
                     raise UserError(_(
                         "Error!\nYou can not change the Unit Price of"
                         " '%s'. Please ask to your supplier." % (
-                                line.product_id.name)))
+                            line.product_id.name)))
 
                 # Prepare and update associated Sale Order line
                 line_other_vals, other_user = \
