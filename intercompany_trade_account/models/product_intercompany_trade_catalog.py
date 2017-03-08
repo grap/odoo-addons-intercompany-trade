@@ -21,7 +21,6 @@ class ProductIntercompanyTradeCatalog(models.Model):
         compute='_compute_sale_info', multi='_compute_sale_info',
         digits_compute=dp.get_precision('Intercompany Trade Product Price'))
 
-    supplier_sale_price_tax_included = fields.Char(
+    supplier_tax_name = fields.Char(
         string='Supplier Taxes Name',
-        compute='_compute_sale_info', multi='_compute_sale_info',
-        digits_compute=dp.get_precision('Intercompany Trade Product Price'))
+        compute='_compute_sale_info', multi='_compute_sale_info')
