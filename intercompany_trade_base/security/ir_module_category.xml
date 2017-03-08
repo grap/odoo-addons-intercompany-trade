@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+
+<openerp><data>
+
+    <record id="intercompany_trade_category" model="ir.module.category">
+        <field name="name">Intercompany Trade</field>
+        <field name="sequence">120</field>
+        <field name="description">Select the level of access of Intercompany Trade</field>
+    </record>
+
+</data></openerp>

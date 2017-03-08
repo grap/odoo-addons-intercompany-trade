@@ -13,16 +13,10 @@
     'depends': [
         'base',
     ],
-    'demo': [
-        'demo/res_company.yml',
-        'demo/res_users.xml',
-        'demo/res_groups.xml',
-        'demo/intercompany_trade_config.xml',
-    ],
     'data': [
-        'security/ir_module_category.yml',
-        'security/res_groups.yml',
-        'security/ir_model_access.yml',
+        'security/ir_module_category.xml',
+        'security/res_groups.xml',
+        'security/ir.model.access.csv',
         'views/res_partner_view.xml',
         'views/intercompany_trade_config_view.xml',
         'views/action.xml',
@@ -30,6 +24,12 @@
     ],
     'css': [
         'static/src/css/itb.css',
+    ],
+    'demo': [
+        'demo/res_company.xml',
+        'demo/res_users.xml',
+        'demo/res_groups.xml',
+        'demo/intercompany_trade_config.xml',
     ],
     'installable': True,
 }

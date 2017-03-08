@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+
+<openerp><data>
+
+    <record id="customer_company" model="res.company">
+        <field name="name">French Ministry of Economy CUSTOMER</field>
+        <field name="street">139, rue de Bercy</field>
+        <field name="street2">Télédoc 136 Cedex 12</field>
+        <field name="zip">75572</field>
+        <field name="city">Paris</field>
+    </record>
+
+    <record id="supplier_company" model="res.company">
+        <field name="name">French Ministry of Agriculture SUPPLIER</field>
+        <field name="street">78, rue de Varenne</field>
+        <field name="street2">SP 07</field>
+        <field name="zip">75349</field>
+        <field name="city">Paris</field>
+    </record>
+
+</data></openerp>
