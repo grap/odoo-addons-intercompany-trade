@@ -22,6 +22,8 @@ class AccountInvoiceLine(models.Model):
         string='Intercompany Trade Account Invoice Line',
         comodel_name='account.invoice.line', readonly=True, _prefetch=False)
 
+    price_subtotal = fields.Float(compute_sudo=True)
+
     # Overload Section
     @api.model
     def create(self, vals):

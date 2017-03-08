@@ -42,9 +42,9 @@
         'demo/account_invoice.xml',
     ],
     'data': [
-        'views/product_intercompany_trade_catalog_view.xml',
-        'views/intercompany_trade_wizard_link_product_view.xml',
-        'views/account_invoice_view.xml',
+        'views/view_product_intercompany_trade_catalog.xml',
+        'views/view_intercompany_trade_wizard_link_product.xml',
+        'views/view_account_invoice.xml',
         'views/action.xml',
         'views/menu.xml',
         'data/init.xml',

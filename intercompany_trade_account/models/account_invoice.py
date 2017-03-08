@@ -10,13 +10,6 @@ from openerp.exceptions import Warning as UserError
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    # ACL Changes
-    # TODO investigate why compute_amount is launched with the same
-    # user for the two invoices, raising ACL Error
-    @api.one
-    def _compute_amount(self):
-        return super(AccountInvoice, self.sudo())._compute_amount()
-
     # Columns Section
     intercompany_trade_account_invoice_id = fields.Many2one(
         comodel_name='account.invoice', readonly=True, _prefetch=False,
@@ -24,6 +17,12 @@ class AccountInvoice(models.Model):
 
     intercompany_trade = fields.Boolean(
         string='Intercompany Trade', related='partner_id.intercompany_trade')
+
+    amount_total = fields.Float(compute_sudo=True)
+
+    amount_tax = fields.Float(compute_sudo=True)
+
+    amount_untaxed = fields.Float(compute_sudo=True)
 
     # Overload Section
     @api.model
