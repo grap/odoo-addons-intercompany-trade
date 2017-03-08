@@ -121,12 +121,16 @@ class ProductIntercompanyTradeCatalog(models.Model):
     # Fields Function Section
     @api.multi
     def _compute_sale_info(self):
+        """Overload _compute_intercompany_trade_prices to add extra computed
+        values in this multi computation function"""
         pricelist_obj = self.env['product.pricelist']
         for catalog in self.sudo():
-            catalog.supplier_sale_price =\
-                pricelist_obj.sudo()._compute_intercompany_trade_prices(
-                    catalog.supplier_product_id, catalog.supplier_partner_id,
-                    catalog.sale_pricelist_id)['supplier_sale_price']
+            res = pricelist_obj.sudo()._compute_intercompany_trade_prices(
+                catalog.supplier_product_id,
+                catalog.supplier_partner_id,
+                catalog.sale_pricelist_id)
+            for field_name, value in res.iteritems():
+                setattr(catalog, field_name, value)
 
     # View Section
     def init(self, cr):

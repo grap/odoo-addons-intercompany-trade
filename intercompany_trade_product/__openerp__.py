@@ -24,9 +24,10 @@
     'data': [
         'security/ir_model_access.yml',
         'security/ir_rule.yml',
-        'views/intercompany_trade_config_view.xml',
-        'views/intercompany_trade_wizard_link_product_view.xml',
-        'views/product_intercompany_trade_catalog_view.xml',
+        'views/view_intercompany_trade_config.xml',
+        'views/view_intercompany_trade_wizard_link_product.xml',
+        'views/view_product_intercompany_trade_catalog.xml',
+        'views/view_product_supplierinfo.xml',
         'views/action.xml',
         'views/menu.xml',
     ],
