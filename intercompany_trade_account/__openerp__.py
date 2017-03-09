@@ -19,12 +19,12 @@
         'invoice_pricelist',
     ],
     'demo': [
-        'demo/res_groups.yml',
-        'demo/account_account.yml',
-        'demo/account_journal.yml',
+        'demo/res_groups.xml',
+        'demo/account_account.xml',
+        'demo/account_journal.xml',
         'demo/ir_property.xml',
-        'demo/account_tax.yml',
-        'demo/product_product.yml',
+        'demo/account_tax.xml',
+        'demo/product_product.xml',
         'demo/account_invoice.xml',
     ],
     'data': [

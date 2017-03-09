@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+
+<openerp><data>
+
+    <!-- Sale 10% -->
+    <record id="sale_vat_10_excluded" model="account.tax">
+        <field name="name">SALE VAT 10% Excluded</field>
+        <field name="type_tax_use">sale</field>
+        <field name="type">percent</field>
+        <field name="amount">0.1</field>
+        <field name="price_include">False</field>
+        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+    </record>
+
+    <record id="sale_vat_10_included" model="account.tax">
+        <field name="name">SALE VAT 10% Included</field>
+        <field name="type_tax_use">sale</field>
+        <field name="type">percent</field>
+        <field name="amount">0.1</field>
+        <field name="price_include">True</field>
+        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="simple_tax_id" ref="sale_vat_10_excluded" />
+    </record>
+
+    <record id="sale_vat_10_excluded" model="account.tax">
+        <field name="simple_tax_id" ref="sale_vat_10_included" />
+    </record>
+
+    <!-- Sale 25% -->
+    <record id="sale_vat_25_excluded" model="account.tax">
+        <field name="name">SALE VAT 25% Excluded</field>
+        <field name="type_tax_use">sale</field>
+        <field name="type">percent</field>
+        <field name="amount">0.25</field>
+        <field name="price_include">False</field>
+        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+    </record>
+
+    <record id="sale_vat_25_included" model="account.tax">
+        <field name="name">SALE VAT 25% Included</field>
+        <field name="type_tax_use">sale</field>
+        <field name="type">percent</field>
+        <field name="amount">0.25</field>
+        <field name="price_include">True</field>
+        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="simple_tax_id" ref="sale_vat_25_excluded" />
+    </record>
+
+    <record id="sale_vat_25_excluded" model="account.tax">
+        <field name="simple_tax_id" ref="sale_vat_25_included" />
+    </record>
+
+    <!-- Purchase 10% -->
+    <record id="purchase_vat_10_excluded" model="account.tax">
+        <field name="name">SALE VAT 10% Excluded</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="type">percent</field>
+        <field name="amount">0.10</field>
+        <field name="price_include">False</field>
+        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+    </record>
+
+    <record id="purchase_vat_10_included" model="account.tax">
+        <field name="name">SALE VAT 10% Included</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="type">percent</field>
+        <field name="amount">0.1</field>
+        <field name="price_include">True</field>
+        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="simple_tax_id" ref="purchase_vat_10_excluded" />
+    </record>
+
+    <record id="purchase_vat_10_excluded" model="account.tax">
+        <field name="simple_tax_id" ref="purchase_vat_10_included" />
+    </record>
+
+</data></openerp>
