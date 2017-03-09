@@ -34,6 +34,14 @@ Features
 * Remove VAT in trades between two companies of a same cooperative for the
   following models purchase.order.line, sale.order.line, account.invoice.line.
 
+* When creating invoices, change journal if it is trade between two companies
+  of the same cooperative.
+
+Roadmap / Issues
+----------------
+
+* Add same concept as transoding account for journal. (simplify configuration)
+
 Contributors
 ------------
 
