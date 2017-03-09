@@ -45,6 +45,7 @@ Copyright, Authors and Licence:
     'license': 'AGPL-3',
     'depends': [
         'intercompany_trade_base',
+        'intercompany_trade_account',
         'stock',
     ],
     'demo': [
@@ -53,8 +54,6 @@ Copyright, Authors and Licence:
         #        'demo/stock_warehouse.yml',
     ],
     'data': [
-        'views/action.xml',
-        'views/menu.xml',
     ],
     'auto_install': False,
     'installable': False,
