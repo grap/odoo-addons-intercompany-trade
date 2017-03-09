@@ -153,7 +153,10 @@ class Test(TransactionCase):
             cr, sup_uid, self.product_supplier_service_10_excl)
 
         # Create a Invoice
-        context = {'type': 'in_invoice'}
+        context = {
+            'type': 'in_invoice',
+            'tracking_disable': True,
+        }
         vals = self.ai_obj.default_get(
             cr, cus_uid, ['currency_id', 'journal_id'],
             context=context)
