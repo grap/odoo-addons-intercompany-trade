@@ -3,36 +3,31 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp.osv.orm import Model
+from openerp import api, models
 
 
-class PurchaseOrderLine(Model):
+class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
 
+    @api.multi
     def onchange_product_id(
-            self, cr, uid, ids, pricelist_id, product_id, qty,
+            self, pricelist_id, product_id, qty,
             uom_id, partner_id, date_order=False, fiscal_position_id=False,
-            date_planned=False, name=False, price_unit=False, context=None):
-        rit_obj = self.pool['intercompany.trade.config']
-        rp_obj = self.pool['res.partner']
-        ru_obj = self.pool['res.users']
+            date_planned=False, name=False, price_unit=False):
+        config_obj = self.env['intercompany.trade.config']
+        partner_obj = self.env['res.partner']
         res = super(PurchaseOrderLine, self).onchange_product_id(
-            cr, uid, ids, pricelist_id, product_id, qty, uom_id,
-            partner_id, date_order=date_order,
-            fiscal_position_id=fiscal_position_id, date_planned=date_planned,
-            name=name, price_unit=price_unit, context=context)
+            pricelist_id, product_id, qty, uom_id, partner_id,
+            date_order=date_order, fiscal_position_id=fiscal_position_id,
+            date_planned=date_planned, name=name, price_unit=price_unit)
 
         if not partner_id:
             return res
-        rp = rp_obj.browse(cr, uid, partner_id, context=context)
-        if rp.intercompany_trade:
-            company_id = ru_obj.browse(
-                cr, uid, uid, context=context).company_id.id
-            rit = rit_obj._get_intercompany_trade_by_partner_company(
-                cr, uid, partner_id, company_id, 'in', context=context)
-
-            if rit.same_fiscal_mother_company:
-                # Remove VAT if it is a Trade between two company that belong
-                # to the same fiscal mother company
-                res['value']['taxes_id'] = False
+        partner = partner_obj.browse(partner_id)
+        if partner.intercompany_trade:
+            company_id = self.env.user.company_id.id
+            config = config_obj._get_intercompany_trade_by_partner_company(
+                partner_id, company_id, 'in')
+            res['value']['taxes_id'] = config.transcode_tax_ids(
+                res['value']['taxes_id'])
         return res
