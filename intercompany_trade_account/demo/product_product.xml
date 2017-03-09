@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2017 - Today: GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+
+<openerp><data>
+
+    <!-- Supplier Products -->
+    <record id="product_supplier_service_25_incl" model="product.product">
+        <field name="name">Supplier Service VAT 25% INCLUDED</field>
+        <field name="default_code">SUPPLIER-SERVICE-VAT-25-INCL</field>
+        <field name="list_price">1000</field>
+        <field name="sale_ok">True</field>
+        <field name="categ_id" ref="product.product_category_all" />
+        <field name="uom_id" ref="product.product_uom_unit" />
+        <field name="uom_po_id" ref="product.product_uom_unit" />
+        <field name="uos_id" ref="product.product_uom_unit" />
+        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="taxes_id" eval="[(4, ref('sale_vat_25_included'))]" />
+    </record>
+
+    <record id="product_supplier_service_10_incl" model="product.product">
+        <field name="name">Supplier Service VAT 10% INCLUDED</field>
+        <field name="default_code">SUPPLIER-SERVICE-VAT-10-INCL</field>
+        <field name="list_price">500</field>
+        <field name="sale_ok">True</field>
+        <field name="categ_id" ref="product.product_category_all" />
+        <field name="uom_id" ref="product.product_uom_unit" />
+        <field name="uom_po_id" ref="product.product_uom_unit" />
+        <field name="uos_id" ref="product.product_uom_unit" />
+        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="taxes_id" eval="[(4, ref('sale_vat_10_included'))]" />
+    </record>
+
+    <record id="product_supplier_service_10_excl" model="product.product">
+        <field name="name">Supplier Service VAT 10% EXCLUDED</field>
+        <field name="default_code">SUPPLIER-SERVICE-VAT-10-EXCL</field>
+        <field name="list_price">300</field>
+        <field name="sale_ok">True</field>
+        <field name="categ_id" ref="product.product_category_all" />
+        <field name="uom_id" ref="product.product_uom_unit" />
+        <field name="uom_po_id" ref="product.product_uom_unit" />
+        <field name="uos_id" ref="product.product_uom_unit" />
+        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="taxes_id" eval="[(4, ref('sale_vat_10_excluded'))]" />
+    </record>
+
+    <!-- Customer Products -->
+    <record id="product_customer_service_10_excl" model="product.product">
+        <field name="name">Customer Service VAT 10% EXCLUDED</field>
+        <field name="default_code">CUSTOMER-SERVICE-VAT-10-EXCL</field>
+        <field name="list_price">0</field>
+        <field name="categ_id" ref="product.product_category_all" />
+        <field name="uom_id" ref="product.product_uom_unit" />
+        <field name="uom_po_id" ref="product.product_uom_unit" />
+        <field name="uos_id" ref="product.product_uom_unit" />
+        <field name="company_id" ref="intercompany_trade_base.customer_company" />
+        <field name="taxes_id" eval="[(4, ref('purchase_vat_10_excluded'))]" />
+    </record>
+
+</data></openerp>
