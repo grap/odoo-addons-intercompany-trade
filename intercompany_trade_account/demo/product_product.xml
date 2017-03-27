@@ -60,4 +60,29 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="supplier_taxes_id" eval="[(4, ref('purchase_vat_10_excluded'))]" />
     </record>
 
+    <!-- Linked Products -->
+    <record id="product_supplier_ref_stock" model="product.product">
+        <field name="name">Supplier Reference Stockable</field>
+        <field name="default_code">SUPPLIER-REF-STOCK</field>
+        <field name="standard_price">90.00</field>
+        <field name="list_price">110.00</field>
+        <field name="type">product</field>
+        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+    </record>
+
+    <function model="product.product" name="write"
+        eval="([ref('product_supplier_ref_stock')], {'standard_price': 90.00}, {'force_company': ref('intercompany_trade_base.supplier_company')})" />
+
+    <record id="product_customer_ref_stock" model="product.product">
+        <field name="name">Customer Reference Stockable</field>
+        <field name="default_code">CUSTOMER-REF-STOCK</field>
+        <field name="standard_price">110.00</field>
+        <field name="list_price">130.00</field>
+        <field name="type">product</field>
+        <field name="company_id" ref="intercompany_trade_base.customer_company" />
+    </record>
+
+    <function model="product.product" name="write"
+        eval="([ref('product_customer_ref_stock')], {'standard_price': 110.00}, {'force_company': ref('intercompany_trade_base.customer_company')})" />
+
 </data></openerp>

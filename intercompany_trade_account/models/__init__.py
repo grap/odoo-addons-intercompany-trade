@@ -7,3 +7,4 @@ from . import intercompany_trade_wizard_link_product
 from . import account_invoice
 from . import account_invoice_line
 from . import intercompany_trade_config
+from . import purchase_order

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2017 - Today: GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+
+<openerp><data>
+
+    <record id="wizard_link_product_ref" model="intercompany.trade.wizard.link.product">
+        <field name="intercompany_trade_id" ref="intercompany_trade_base.intercompany_trade" />
+        <field name="customer_product_id" ref="product_customer_ref_stock"/>
+        <field name="supplier_product_id" ref="product_supplier_ref_stock"/>
+    </record>
+
+    <function model="intercompany.trade.wizard.link.product" name="link_product" eval="([ref('wizard_link_product_ref')], {'demo_integrated': True})"/>
+
+</data></openerp>
