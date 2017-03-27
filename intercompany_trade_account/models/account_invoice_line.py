@@ -27,7 +27,6 @@ class AccountInvoiceLine(models.Model):
     # Overload Section
     @api.model
     def create(self, vals):
-        """Create the according Account Invoice Line."""
         invoice_obj = self.env['account.invoice']
 
         # Call Super
@@ -81,7 +80,7 @@ class AccountInvoiceLine(models.Model):
             - the function will propagate only to according invoice line
               price or quantity changes. All others are ignored. Most of
               the important fields ignored will generated an error.
-              (product / discount / UoM changes)    """
+              (product / discount / UoM changes)"""
         invoice_obj = self.env['account.invoice']
 
         res = super(AccountInvoiceLine, self).write(vals)
