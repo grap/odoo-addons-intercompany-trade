@@ -26,6 +26,7 @@
         'demo/account_tax.xml',
         'demo/product_product.xml',
         'demo/account_invoice.xml',
+        'demo/stock_warehouse.xml',
     ],
     'data': [
         'views/view_product_intercompany_trade_catalog.xml',

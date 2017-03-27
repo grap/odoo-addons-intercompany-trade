@@ -57,7 +57,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="uom_po_id" ref="product.product_uom_unit" />
         <field name="uos_id" ref="product.product_uom_unit" />
         <field name="company_id" ref="intercompany_trade_base.customer_company" />
-        <field name="taxes_id" eval="[(4, ref('purchase_vat_10_excluded'))]" />
+        <field name="supplier_taxes_id" eval="[(4, ref('purchase_vat_10_excluded'))]" />
     </record>
 
 </data></openerp>
