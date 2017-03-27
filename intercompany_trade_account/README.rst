@@ -24,6 +24,11 @@ Features
 * Customers doesn't have the possibility to change price_unit;
 * Users doesn't the right to copy an 'intercompany_trade' invoice;
 
+In intercompany trade context:
+
+* Purchase orders can not be invoice
+* Incoming Pickings can not be invoiced
+
 Roadmap / Issues
 ----------------
 

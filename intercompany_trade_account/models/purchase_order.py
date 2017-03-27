@@ -26,3 +26,13 @@ class PurchaseOrder(models.Model):
                 "Intercompany Trade\n"
                 " The supplier invoices will be created by your supplier"))
         return self.view_invoice()
+
+    @api.model
+    def _prepare_order_line_move(
+            self, order, order_line, picking_id, group_id):
+        res = super(PurchaseOrder, self)._prepare_order_line_move(
+            order, order_line, picking_id, group_id)
+        if order.intercompany_trade:
+            for item in res:
+                item['invoice_state'] = 'none'
+        return res
