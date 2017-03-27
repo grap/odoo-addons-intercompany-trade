@@ -19,6 +19,7 @@
         'invoice_pricelist',
     ],
     'demo': [
+        'demo/account_fiscalyear.xml',
         'demo/res_groups.xml',
         'demo/account_account.xml',
         'demo/account_journal.xml',
