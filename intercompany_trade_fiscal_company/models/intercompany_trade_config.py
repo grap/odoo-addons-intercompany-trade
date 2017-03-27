@@ -12,15 +12,15 @@ class IntercompanyTradeConfig(models.Model):
 
     # Columns Section
     same_fiscal_mother_company = fields.Boolean(
-            compute='_compute_same_fiscal_mother_company',
-            string='Same Fiscal Mother Company', store=True,
-            help="If this field is checked, the intercompany"
-            " trade is realized between two fiscal child companies"
-            " that have the same mother company. Special rules"
-            " will be applied.\n"
-            " * VAT are deleted;\n"
-            " * Sale and Purchase Accounts are updated using a"
-            " transcoding table; ")
+        compute='_compute_same_fiscal_mother_company',
+        string='Same Fiscal Mother Company', store=True,
+        help="If this field is checked, the intercompany"
+        " trade is realized between two fiscal child companies"
+        " that have the same mother company. Special rules"
+        " will be applied.\n"
+        " * VAT are deleted;\n"
+        " * Sale and Purchase Accounts are updated using a"
+        " transcoding table; ")
 
     sale_journal_id = fields.Many2one(
         comodel_name='account.journal', string='Journal in Supplier Company',
