@@ -41,5 +41,5 @@
         'demo/stock_warehouse.xml',
     ],
     'auto_install': True,
-    'installable': False,
+    'installable': True,
 }

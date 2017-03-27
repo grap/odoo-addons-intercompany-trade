@@ -10,10 +10,10 @@ from openerp.exceptions import Warning as UserError
 class AccountAccount(models.Model):
     _inherit = 'account.account'
 
-    is_intercompany_trade_fiscal_company = fields.boolean(
-            string='Integrated Trade : Receivable / Payable Account',
-            help="Check this box for integrated Trade into 2 companies of"
-            " the same cooperative for customer and supplier.")
+    is_intercompany_trade_fiscal_company = fields.Boolean(
+        string='Integrated Trade : Receivable / Payable Account',
+        help="Check this box for integrated Trade into 2 companies of"
+        " the same cooperative for customer and supplier.")
 
     # Constraints Section
     @api.constrains('is_intercompany_trade_fiscal_company', 'type')
