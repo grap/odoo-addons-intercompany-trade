@@ -56,8 +56,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     </record>
 
     <record id="product_supplier_ref" model="product.product">
-        <field name="name">Supplier Reference</field>
-        <field name="default_code">SUPPLIER-REF</field>
+        <field name="name">Supplier Reference Service</field>
+        <field name="default_code">SUPPLIER-REF-SERV</field>
         <field name="standard_price">80.00</field>
         <field name="list_price">100.00</field>
         <field name="type">service</field>
@@ -68,8 +68,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         eval="([ref('product_supplier_ref')], {'standard_price': 80.00}, {'force_company': ref('intercompany_trade_base.supplier_company')})" />
 
     <record id="product_customer_ref" model="product.product">
-        <field name="name">Customer Reference</field>
-        <field name="default_code">CUSTOMER-REF</field>
+        <field name="name">Customer Reference Service</field>
+        <field name="default_code">CUSTOMER-REF-SERV</field>
         <field name="standard_price">100.00</field>
         <field name="list_price">120.00</field>
         <field name="type">service</field>
