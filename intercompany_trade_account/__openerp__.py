@@ -20,6 +20,7 @@
     ],
     'demo': [
         'demo/account_fiscalyear.xml',
+        'demo/account_period.xml',
         'demo/res_groups.xml',
         'demo/account_account.xml',
         'demo/account_journal.xml',
