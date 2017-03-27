@@ -23,8 +23,4 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
     </record>
 
-    <function model="account.fiscalyear" name="create_period" eval="([ref('customer_account_fiscal_year')])"/>
-
-    <function model="account.fiscalyear" name="create_period" eval="([ref('supplier_account_fiscal_year')])"/>
-
 </data></openerp>
