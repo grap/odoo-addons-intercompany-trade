@@ -14,6 +14,6 @@
         'intercompany_trade_product',
         'purchase_package_qty',
     ],
-    'auto_install': True,
+    'auto_install': False,
     'installable': True,
 }

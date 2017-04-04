@@ -38,6 +38,6 @@
         'demo/intercompany_trade_config.xml',
         'demo/product_product.xml',
     ],
-    'auto_install': True,
+    'auto_install': False,
     'installable': False,
 }

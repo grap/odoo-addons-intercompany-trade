@@ -40,6 +40,6 @@
         'views/menu.xml',
         'data/init.xml',
     ],
-    'auto_install': True,
+    'auto_install': False,
     'installable': False,
 }
