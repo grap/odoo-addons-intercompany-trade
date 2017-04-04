@@ -15,5 +15,5 @@
         'purchase_package_qty',
     ],
     'auto_install': True,
-    'installable': False,
+    'installable': True,
 }
