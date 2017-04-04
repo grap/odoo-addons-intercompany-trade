@@ -32,5 +32,5 @@
         'demo/wizard_link_product.xml',
     ],
     'auto_install': True,
-    'installable': False,
+    'installable': True,
 }
