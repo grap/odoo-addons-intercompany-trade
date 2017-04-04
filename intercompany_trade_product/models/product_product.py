@@ -5,8 +5,6 @@
 
 from openerp import api, models
 
-from .custom_tools import _intercompany_trade_update_multicompany
-
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
@@ -25,13 +23,14 @@ class ProductProduct(models.Model):
         default['seller_ids'] = False
         return super(ProductProduct, self).copy_data(default)
 
-    @api.multi
-    def write(self, vals):
-        """Update product supplierinfo in customer company, if required"""
-        res = super(ProductProduct, self).write(vals)
-        # Update product in customer database if required
-        if list(set(vals.keys()) & set(self._INTEGRATED_FIELDS)):
-            _intercompany_trade_update_multicompany(
-                self.pool, self.env.cr, self.env.user.id, self.ids,
-                context=self.env.context)
-        return res
+# WIP : Syncronization disabled
+#    @api.multi
+#    def write(self, vals):
+#        """Update product supplierinfo in customer company, if required"""
+#        res = super(ProductProduct, self).write(vals)
+#        # Update product in customer database if required
+#        if list(set(vals.keys()) & set(self._INTEGRATED_FIELDS)):
+#            _intercompany_trade_update_multicompany(
+#                self.pool, self.env.cr, self.env.user.id, self.ids,
+#                context=self.env.context)
+#        return res

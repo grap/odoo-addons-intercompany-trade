@@ -3,77 +3,76 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import SUPERUSER_ID
 from openerp.tools.translate import _
 from openerp.osv.osv import except_osv
 
 
-def _intercompany_trade_update_multicompany(
-        pool, cr, uid, supplier_product_ids, context=None):
-    """
-    This function update supplierinfo in customer database,
-    depending of changes in supplier database, for all intercompany trade
-    define.
-    Call this function when there is a change of product price,
-    product taxes, partner pricelist, etc...
-    :supplier_product_ids (list of ids of product.product):
-        products that has been changed in the supplier database;
-    """
-    rit_obj = pool['intercompany.trade.config']
-    psi_obj = pool['product.supplierinfo']
-    for supplier_product_id in supplier_product_ids:
-        psi_ids = psi_obj.search(cr, SUPERUSER_ID, [
-            ('supplier_product_id', '=', supplier_product_id),
-        ], context=context)
-        for psi in psi_obj.browse(
-                cr, SUPERUSER_ID, psi_ids, context=context):
-            rit_id = rit_obj.search(cr, uid, [
-                ('customer_company_id', '=', psi.company_id.id),
-                ('supplier_partner_id', '=', psi.name.id),
-            ], context=context)[0]
-            _intercompany_trade_update(
-                pool, cr, uid, rit_id, [supplier_product_id],
-                context=context)
+# WIP : Syncronization disabled
+# def _intercompany_trade_update_multicompany(
+#        pool, cr, uid, supplier_product_ids, context=None):
+#    """
+#    This function update supplierinfo in customer database,
+#    depending of changes in supplier database, for all intercompany trade
+#    define.
+#    Call this function when there is a change of product price,
+#    product taxes, partner pricelist, etc...
+#    :supplier_product_ids (list of ids of product.product):
+#        products that has been changed in the supplier database;
+#    """
+#    rit_obj = pool['intercompany.trade.config']
+#    psi_obj = pool['product.supplierinfo']
+#    for supplier_product_id in supplier_product_ids:
+#        psi_ids = psi_obj.search(cr, SUPERUSER_ID, [
+#            ('supplier_product_id', '=', supplier_product_id),
+#        ], context=context)
+#        for psi in psi_obj.browse(
+#                cr, SUPERUSER_ID, psi_ids, context=context):
+#            rit_id = rit_obj.search(cr, uid, [
+#                ('customer_company_id', '=', psi.company_id.id),
+#                ('supplier_partner_id', '=', psi.name.id),
+#            ], context=context)[0]
+#            _intercompany_trade_update(
+#                pool, cr, uid, rit_id, [supplier_product_id],
+#                context=context)
 
 
-# TODO Remove SUPERUSER_ID
-def _intercompany_trade_update(
-        pool, cr, uid, intercompany_trade_id, supplier_product_ids,
-        context=None):
-    """
-    This function update supplierinfo in customer database,
-    depending of changes in supplier database, depending of
-    a specific intercompany trade.
-    Call this function when there is a change of product price,
-    product taxes, partner pricelist, etc...
-    :param intercompany_trade_id (id of intercompany.trade.config):
-        intercompany trade impacted;
-    :supplier_product_ids (list of ids of product.product):
-        products that has been changed in the supplier database;
-    """
-    context = context and context or {}
-    rit_obj = pool['intercompany.trade.config']
-    psi_obj = pool['product.supplierinfo']
-    rit = rit_obj.browse(cr, uid, intercompany_trade_id, context=context)
-    if not supplier_product_ids:
-        # Global Update
-        psi_ids = psi_obj.search(cr, SUPERUSER_ID, [
-            ('name', '=', rit.supplier_partner_id.id),
-        ], context=context)
-    else:
-        psi_ids = psi_obj.search(cr, SUPERUSER_ID, [
-            ('name', '=', rit.supplier_partner_id.id),
-            ('supplier_product_id', 'in', supplier_product_ids)
-        ], context=context)
-    ctx = context.copy()
-    ctx['active_test'] = False
-    for psi in psi_obj.browse(cr, SUPERUSER_ID, psi_ids, context=context):
-        pp_ids = psi.product_tmpl_id.product_variant_ids.ids
-        psi_vals = rit_obj._prepare_product_supplierinfo(
-            cr, SUPERUSER_ID, intercompany_trade_id,
-            psi.supplier_product_id.id, pp_ids[0], context=context)
-        psi_obj.write(
-            cr, SUPERUSER_ID, [psi.id], psi_vals, context=context)
+# def _intercompany_trade_update(
+#        pool, cr, uid, intercompany_trade_id, supplier_product_ids,
+#        context=None):
+#    """
+#    This function update supplierinfo in customer database,
+#    depending of changes in supplier database, depending of
+#    a specific intercompany trade.
+#    Call this function when there is a change of product price,
+#    product taxes, partner pricelist, etc...
+#    :param intercompany_trade_id (id of intercompany.trade.config):
+#        intercompany trade impacted;
+#    :supplier_product_ids (list of ids of product.product):
+#        products that has been changed in the supplier database;
+#    """
+#    context = context and context or {}
+#    rit_obj = pool['intercompany.trade.config']
+#    psi_obj = pool['product.supplierinfo']
+#    rit = rit_obj.browse(cr, uid, intercompany_trade_id, context=context)
+#    if not supplier_product_ids:
+#        # Global Update
+#        psi_ids = psi_obj.search(cr, SUPERUSER_ID, [
+#            ('name', '=', rit.supplier_partner_id.id),
+#        ], context=context)
+#    else:
+#        psi_ids = psi_obj.search(cr, SUPERUSER_ID, [
+#            ('name', '=', rit.supplier_partner_id.id),
+#            ('supplier_product_id', 'in', supplier_product_ids)
+#        ], context=context)
+#    ctx = context.copy()
+#    ctx['active_test'] = False
+#    for psi in psi_obj.browse(cr, SUPERUSER_ID, psi_ids, context=context):
+#        pp_ids = psi.product_tmpl_id.product_variant_ids.ids
+#        psi_vals = rit_obj._prepare_product_supplierinfo(
+#            cr, SUPERUSER_ID, intercompany_trade_id,
+#            psi.supplier_product_id.id, pp_ids[0], context=context)
+#        psi_obj.write(
+#            cr, SUPERUSER_ID, [psi.id], psi_vals, context=context)
 
 
 def _get_other_product_info(
