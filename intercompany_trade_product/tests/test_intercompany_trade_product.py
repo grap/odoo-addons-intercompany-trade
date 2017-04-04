@@ -113,105 +113,105 @@ class Test(TransactionCase):
             """Unlink a Customer Product must delete"""
             """ The Product Supplierinfo.""")
 
-    def test_02_pricelist_change(self):
-        """[Functional Test] Check if change pricelist in supplier database
-        change price in customer database"""
-        cr, uid = self.cr, self.customer_user_id
+#    def test_02_pricelist_change(self):
+#        """[Functional Test] Check if change pricelist in supplier database
+#        change price in customer database"""
+#        cr, uid = self.cr, self.customer_user_id
 
-        # Associate with product (customer apple - supplier apple)
-        active_id = self.pitc_obj.search(cr, uid, [
-            ('supplier_product_id', '=', self.supplier_apple_id)])[0]
+#        # Associate with product (customer apple - supplier apple)
+#        active_id = self.pitc_obj.search(cr, uid, [
+#            ('supplier_product_id', '=', self.supplier_apple_id)])[0]
 
-        itwlp_id = self.itwlp_obj.create(cr, uid, {
-            'customer_product_id': self.customer_apple_id,
-        }, context={'active_id': active_id})
-        self.itwlp_obj.link_product(cr, uid, [itwlp_id])
+#        itwlp_id = self.itwlp_obj.create(cr, uid, {
+#            'customer_product_id': self.customer_apple_id,
+#        }, context={'active_id': active_id})
+#        self.itwlp_obj.link_product(cr, uid, [itwlp_id])
 
-        # Change customer pricelist
-        rit = self.rit_obj.browse(cr, self.supplier_user_id, self.rit_id)
-        self.rp_obj.write(
-            cr, self.supplier_user_id, [rit.customer_partner_id.id], {
-                'property_product_pricelist': self.pricelist_discount_id})
+#        # Change customer pricelist
+#        rit = self.rit_obj.browse(cr, self.supplier_user_id, self.rit_id)
+#        self.rp_obj.write(
+#            cr, self.supplier_user_id, [rit.customer_partner_id.id], {
+#                'property_product_pricelist': self.pricelist_discount_id})
 
-        # check if price has changed
-        pp_customer_apple = self.pp_obj.browse(
-            cr, uid, self.customer_apple_id)
+#        # check if price has changed
+#        pp_customer_apple = self.pp_obj.browse(
+#            cr, uid, self.customer_apple_id)
 
-        pp_supplier_apple = self.pp_obj.browse(
-            cr, self.supplier_user_id, self.supplier_apple_id)
+#        pp_supplier_apple = self.pp_obj.browse(
+#            cr, self.supplier_user_id, self.supplier_apple_id)
 
-        self.assertEqual(
-            pp_customer_apple.seller_ids[0].intercompany_trade_price,
-            pp_supplier_apple.list_price - 0.1,
-            """Change pricelist in supplier database must change prices"""
-            """ in customer database.""")
+#        self.assertEqual(
+#            pp_customer_apple.seller_ids[0].intercompany_trade_price,
+#            pp_supplier_apple.list_price - 0.1,
+#            """Change pricelist in supplier database must change prices"""
+#            """ in customer database.""")
 
-    def test_03_price_change(self):
-        """[Functional Test] Check if change price in supplier database
-        change price in customer database"""
-        cr, uid = self.cr, self.customer_user_id
+#    def test_03_price_change(self):
+#        """[Functional Test] Check if change price in supplier database
+#        change price in customer database"""
+#        cr, uid = self.cr, self.customer_user_id
 
-        # Associate with product (customer apple - supplier apple)
-        active_id = self.pitc_obj.search(cr, uid, [
-            ('supplier_product_id', '=', self.supplier_apple_id)])[0]
+#        # Associate with product (customer apple - supplier apple)
+#        active_id = self.pitc_obj.search(cr, uid, [
+#            ('supplier_product_id', '=', self.supplier_apple_id)])[0]
 
-        itwlp_id = self.itwlp_obj.create(cr, uid, {
-            'customer_product_id': self.customer_apple_id,
-        }, context={'active_id': active_id})
-        self.itwlp_obj.link_product(cr, uid, [itwlp_id])
+#        itwlp_id = self.itwlp_obj.create(cr, uid, {
+#            'customer_product_id': self.customer_apple_id,
+#        }, context={'active_id': active_id})
+#        self.itwlp_obj.link_product(cr, uid, [itwlp_id])
 
-        # Change Price in supplier database
-        self.pp_obj.write(
-            cr, self.supplier_user_id, [self.supplier_apple_id], {
-                'list_price': 10})
+#        # Change Price in supplier database
+#        self.pp_obj.write(
+#            cr, self.supplier_user_id, [self.supplier_apple_id], {
+#                'list_price': 10})
 
-        # check if price has changed
-        pp_customer_apple = self.pp_obj.browse(
-            cr, uid, self.customer_apple_id)
+#        # check if price has changed
+#        pp_customer_apple = self.pp_obj.browse(
+#            cr, uid, self.customer_apple_id)
 
-        self.assertEqual(
-            pp_customer_apple.seller_ids[0].intercompany_trade_price,
-            10,
-            """Change price in supplier database must change prices"""
-            """ in customer database.""")
+#        self.assertEqual(
+#            pp_customer_apple.seller_ids[0].intercompany_trade_price,
+#            10,
+#            """Change price in supplier database must change prices"""
+#            """ in customer database.""")
 
-    def test_04_product_update(self):
-        """[Functional Test] Check if change a supplier product update the
-        product supplierinfo in the customer database"""
-        cr, uid = self.cr, self.uid
+#    def test_04_product_update(self):
+#        """[Functional Test] Check if change a supplier product update the
+#        product supplierinfo in the customer database"""
+#        cr, uid = self.cr, self.uid
 
-        # Associate with product (customer apple - supplier apple)
-        active_id = self.pitc_obj.search(cr, uid, [
-            ('supplier_product_id', '=', self.supplier_apple_id)])[0]
+#        # Associate with product (customer apple - supplier apple)
+#        active_id = self.pitc_obj.search(cr, uid, [
+#            ('supplier_product_id', '=', self.supplier_apple_id)])[0]
 
-        itwlp_id = self.itwlp_obj.create(cr, uid, {
-            'customer_product_id': self.customer_apple_id,
-        }, context={'active_id': active_id})
-        self.itwlp_obj.link_product(cr, uid, [itwlp_id])
+#        itwlp_id = self.itwlp_obj.create(cr, uid, {
+#            'customer_product_id': self.customer_apple_id,
+#        }, context={'active_id': active_id})
+#        self.itwlp_obj.link_product(cr, uid, [itwlp_id])
 
-        # Change name in the supplier product
-        new_name = 'Supplier New Name'
-        self.pp_obj.write(cr, uid, [self.supplier_apple_id], {
-            'name': new_name})
+#        # Change name in the supplier product
+#        new_name = 'Supplier New Name'
+#        self.pp_obj.write(cr, uid, [self.supplier_apple_id], {
+#            'name': new_name})
 
-        pp_c_apple = self.pp_obj.browse(cr, uid, self.customer_apple_id)
-        self.assertEqual(
-            pp_c_apple.seller_ids[0].product_name,
-            new_name,
-            """Update the name of the supplier product must update the"""
-            """ Supplier Info of the customer Product.""")
+#        pp_c_apple = self.pp_obj.browse(cr, uid, self.customer_apple_id)
+#        self.assertEqual(
+#            pp_c_apple.seller_ids[0].product_name,
+#            new_name,
+#            """Update the name of the supplier product must update the"""
+#            """ Supplier Info of the customer Product.""")
 
-        # Change code in the supplier product
-        new_code = '[SUPPLIER-NEW-CODE]'
-        self.pp_obj.write(cr, uid, [self.supplier_apple_id], {
-            'default_code': new_code})
+#        # Change code in the supplier product
+#        new_code = '[SUPPLIER-NEW-CODE]'
+#        self.pp_obj.write(cr, uid, [self.supplier_apple_id], {
+#            'default_code': new_code})
 
-        pp_c_apple = self.pp_obj.browse(cr, uid, self.customer_apple_id)
-        self.assertEqual(
-            pp_c_apple.seller_ids[0].product_code,
-            new_code,
-            """Update the code of the supplier product must update the"""
-            """ Supplier Info of the customer Product.""")
+#        pp_c_apple = self.pp_obj.browse(cr, uid, self.customer_apple_id)
+#        self.assertEqual(
+#            pp_c_apple.seller_ids[0].product_code,
+#            new_code,
+#            """Update the code of the supplier product must update the"""
+#            """ Supplier Info of the customer Product.""")
 
     def test_05_product_association_recovery(self):
         """
