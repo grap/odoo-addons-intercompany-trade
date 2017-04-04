@@ -37,8 +37,6 @@
         'demo/res_groups.xml',
         'demo/intercompany_trade_config.xml',
         'demo/product_product.xml',
-        'demo/stock_location.xml',
-        'demo/stock_warehouse.xml',
     ],
     'auto_install': True,
     'installable': True,
