@@ -17,8 +17,8 @@ env:
 
   matrix:
   - LINT_CHECK="1"
-  - TESTS="1" ODOO_REPO="OCA/OCB"
-  - TESTS="1" ODOO_REPO="OCA/OCB" UNIT_TEST="1"
+  - TESTS="1" ODOO_REPO="OCA/OCB" EXCLUDE=intercompany_trade_fiscal_company
+  - TESTS="1" ODOO_REPO="OCA/OCB" UNIT_TEST="1" EXCLUDE=intercompany_trade_fiscal_company
 
 virtualenv:
   system_site_packages: true
