@@ -15,7 +15,7 @@ class AccountInvoiceLine(models.Model):
 
     # Columns Section
     intercompany_trade = fields.Boolean(
-        string='Intercompany Trade', default=True,
+        string='Intercompany Trade',
         related='invoice_id.intercompany_trade')
 
     intercompany_trade_account_invoice_line_id = fields.Many2one(
@@ -91,40 +91,40 @@ class AccountInvoiceLine(models.Model):
             for line in self:
                 if line.intercompany_trade:
                     # Get Intercompany Trade
-                        config = invoice_obj.\
-                            _get_intercompany_trade_by_partner_company_type(
-                                line.invoice_id.partner_id.id,
-                                line.invoice_id.company_id.id,
-                                line.invoice_id.type)
+                    config = invoice_obj.\
+                        _get_intercompany_trade_by_partner_company_type(
+                            line.invoice_id.partner_id.id,
+                            line.invoice_id.company_id.id,
+                            line.invoice_id.type)
 
                     # Block some changes of product
-                if 'product_id' in vals.keys():
-                    raise UserError(_(
-                        "Error!\nYou can not change the product %s."
-                        "Please remove this line and create a"
-                        " new one." % (line.product_id.name)))
-                if 'uos_id' in vals.keys():
-                    raise UserError(_(
-                        "Error!\nYou can not change the UoM of the Product"
-                        " %s." % (line.product_id.name)))
-                if 'price_unit' in vals.keys() and line.invoice_id.type\
-                        in ('in_invoice', 'in_refund'):
-                    raise UserError(_(
-                        "Error!\nYou can not change the Unit Price of"
-                        " '%s'. Please ask to your supplier." % (
-                            line.product_id.name)))
+                    if 'product_id' in vals.keys():
+                        raise UserError(_(
+                            "Error!\nYou can not change the product %s."
+                            "Please remove this line and create a"
+                            " new one." % (line.product_id.name)))
+                    if 'uos_id' in vals.keys():
+                        raise UserError(_(
+                            "Error!\nYou can not change the UoM of the Product"
+                            " %s." % (line.product_id.name)))
+                    if 'price_unit' in vals.keys() and line.invoice_id.type\
+                            in ('in_invoice', 'in_refund'):
+                        raise UserError(_(
+                            "Error!\nYou can not change the Unit Price of"
+                            " '%s'. Please ask to your supplier." % (
+                                line.product_id.name)))
 
-                # Prepare and update associated Sale Order line
-                line_other_vals, other_user = \
-                    line.prepare_intercompany_account_invoice_line(
-                        config)
+                    # Prepare and update associated Account Invoice line
+                    line_other_vals, other_user = \
+                        line.prepare_intercompany_account_invoice_line(
+                            config)
 
-                if 'price_unit' in vals.keys():
-                    line_other_vals['price_unit'] = vals['price_unit']
-                line.intercompany_trade_account_invoice_line_id.sudo(
-                    user=other_user).with_context(
-                        intercompany_trade_do_not_propagate=True).write(
-                            line_other_vals)
+                    if 'price_unit' in vals.keys():
+                        line_other_vals['price_unit'] = vals['price_unit']
+                    line.intercompany_trade_account_invoice_line_id.sudo(
+                        user=other_user).with_context(
+                            intercompany_trade_do_not_propagate=True).write(
+                                line_other_vals)
         return res
 
     def unlink(self, cr, uid, ids, context=None):

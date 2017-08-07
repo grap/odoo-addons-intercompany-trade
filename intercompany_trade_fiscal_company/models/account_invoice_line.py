@@ -14,14 +14,14 @@ class AccountInvoiceLine(models.Model):
             self, product, uom_id, qty=0, name='', type='out_invoice',
             partner_id=False, fposition_id=False, price_unit=False,
             currency_id=False, company_id=None):
-        invoice_obj = self.pool['account.invoice']
-        partner_obj = self.pool['res.partner']
+        invoice_obj = self.env['account.invoice']
+        partner_obj = self.env['res.partner']
         res = super(AccountInvoiceLine, self).product_id_change(
             product, uom_id, qty=qty, name=name, type=type,
             partner_id=partner_id, fposition_id=fposition_id,
             price_unit=price_unit, currency_id=currency_id,
             company_id=company_id)
-        if not partner_id:
+        if not partner_id or not product:
             return res
         partner = partner_obj.browse(partner_id)
         if partner.intercompany_trade:
@@ -31,8 +31,8 @@ class AccountInvoiceLine(models.Model):
                     partner_id, company_id, type)
 
             res['value']['account_id'] = config.transcode_account_id(
-                res['value']['account_id'], product)
+                res['value'].get('account_id', False), product)
             res['value']['invoice_line_tax_id'] = config.transcode_tax_ids(
-                res['value']['invoice_line_tax_id'])
+                res['value'].get('invoice_line_tax_id', False))
 
         return res
