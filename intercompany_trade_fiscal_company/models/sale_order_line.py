@@ -25,7 +25,7 @@ class SaleOrderLine(models.Model):
         if not partner_id:
             return res
         partner = partner_obj.browse(partner_id)
-        if partner.intercompany_trade:
+        if partner.intercompany_trade and res['value'].get('tax_id'):
             company_id = self.env.user.company_id.id
             config = config_obj._get_intercompany_trade_by_partner_company(
                 partner_id, company_id, 'out')
