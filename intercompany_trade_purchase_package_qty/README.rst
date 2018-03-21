@@ -9,10 +9,11 @@ Intercompany Trade - Glue Module For Purchase Package Quantity
 This module extends the functionality of Intercompany Trade, with the module
 Purchase Package Quantity.
 
-* By default, supplier_productinfo created in Intercompany Trade, has the
-  following default values:
-    * 'indicative_package': True
-    * 'package_qty': 1
+By default, supplier_productinfo created in Intercompany Trade, has the
+following default values:
+
+* ``indicative_package``: True
+* ``package_qty``: 1
 
 Contributors
 ------------

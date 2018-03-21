@@ -18,7 +18,7 @@ class AccountInvoice(models.Model):
         if self.type == 'out_invoice':
             pricelist = config.sudo(
                 user=other_user).supplier_partner_id.\
-                    property_product_pricelist_purchase
+                property_product_pricelist_purchase
         elif self.type == 'in_invoice':
             pricelist = config.sudo(
                 user=other_user).customer_partner_id.property_product_pricelist
