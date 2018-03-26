@@ -16,7 +16,8 @@ class AccountInvoice(models.Model):
         string='Intercompany Trade Account Invoice')
 
     intercompany_trade = fields.Boolean(
-        string='Intercompany Trade', related='partner_id.intercompany_trade')
+        string='Intercompany Trade', related='partner_id.intercompany_trade',
+        store=True)
 
     amount_total = fields.Float(compute_sudo=True)
 
