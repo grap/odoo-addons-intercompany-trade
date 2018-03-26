@@ -16,7 +16,7 @@ class AccountInvoiceLine(models.Model):
     # Columns Section
     intercompany_trade = fields.Boolean(
         string='Intercompany Trade',
-        related='invoice_id.intercompany_trade')
+        related='invoice_id.intercompany_trade', store=True)
 
     intercompany_trade_account_invoice_line_id = fields.Many2one(
         string='Intercompany Trade Account Invoice Line',
