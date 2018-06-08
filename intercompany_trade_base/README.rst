@@ -12,11 +12,13 @@ companies to make purchases and sales between us.
 Features
 --------
 * Add a New Model Intercompany Trade that define that two companies can
-  realize purchases and sales between them with:
-    * a supplier company;
-    * a customer company;
-* Add a new field 'intercompany_trade' in 'res.partner' model;
-* Add new groups to manage intercompany trade;
+  realize purchases and sales between them with a supplier company and
+  a customer company
+
+* Add a new field 'intercompany_trade' in 'res.partner' model
+
+* Add new groups to manage intercompany trade
+
 * When we set a new intercompany trade, Odoo create a supplier in the
   customer company and a customer in the supplier company
 
@@ -25,7 +27,7 @@ Features
   ResPartner._intercompany_tradefields_allowed()
 
 * Updating a company will update associated partners, in each company that
-  that has trade with the updated company.
+  that has trade with the updated company
 
 Demo Data
 ---------
