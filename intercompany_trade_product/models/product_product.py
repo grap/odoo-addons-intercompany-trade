@@ -3,25 +3,22 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import api, models
+from openerp import api, fields, models
 
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
+
+    # TODO: improve me.
+    # It's not necessary to remove all seller_ids, only ones that
+    # come from intercompany_trade
+    seller_ids = fields.One2many(copy=False)
 
     _INTEGRATED_FIELDS = [
         'name', 'default_code',
         'taxes_id',
         'standard_price', 'list_price',
     ]
-
-    # TODO: improve me.
-    # It's not necessary to remove all seller_ids, only ones that
-    # come from intercompany_trade
-    @api.multi
-    def copy_data(self, default=None):
-        default['seller_ids'] = False
-        return super(ProductProduct, self).copy_data(default)
 
 # WIP : Syncronization disabled
 #    @api.multi
