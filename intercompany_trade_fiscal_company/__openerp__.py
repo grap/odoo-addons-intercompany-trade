@@ -17,6 +17,7 @@
         'sale',
         'stock',
         'simple_tax_account',
+        'simple_tax_sale',
     ],
     'data': [
         'security/ir_rule.xml',
