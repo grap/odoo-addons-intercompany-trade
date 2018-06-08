@@ -12,7 +12,9 @@ class ProductProduct(models.Model):
     # TODO: improve me.
     # It's not necessary to remove all seller_ids, only ones that
     # come from intercompany_trade
-    seller_ids = fields.One2many(copy=False)
+    seller_ids = fields.One2many(
+        comodel_name='product.supplierinfo', inverse_name='product_tmpl_id',
+        string='Supplier', copy=False)
 
     _INTEGRATED_FIELDS = [
         'name', 'default_code',
