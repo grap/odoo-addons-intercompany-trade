@@ -11,9 +11,8 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     # Columns Section
-    intercompany_trade_account_invoice_id = fields.Many2one(
-        comodel_name='account.invoice', readonly=True, _prefetch=False,
-        string='Intercompany Trade Account Invoice')
+    intercompany_trade_account_invoice_id = fields.Integer(
+        string='Intercompany Trade Account Invoice', readonly=True)
 
     intercompany_trade = fields.Boolean(
         string='Intercompany Trade', related='partner_id.intercompany_trade',
@@ -50,15 +49,21 @@ class AccountInvoice(models.Model):
             invoice_other_vals, other_user =\
                 invoice.prepare_intercompany_invoice(config, 'create')
 
-            invoice_other = self.sudo(user=other_user).with_context(
+            invoice_other = self.sudo().with_context(
                 intercompany_trade_do_not_propagate=True,
                 type=None, journal_type=None, default_type=None).create(
                 invoice_other_vals)
 
-            # Update Proper Account Invoice
+            # Set other id
             invoice.write({
                 'intercompany_trade_account_invoice_id': invoice_other.id,
-                'invoice_line': line_ids})
+            })
+
+            # Update Proper Account Invoice
+            invoice.write({
+                'invoice_line': line_ids,
+            })
+
         return invoice
 
     # TODO FORBID state change for customer
@@ -86,15 +91,14 @@ class AccountInvoice(models.Model):
                     invoice_vals, other_user =\
                         invoice.prepare_intercompany_invoice(config, 'update')
 
-                    invoice.intercompany_trade_account_invoice_id.sudo(
-                        user=other_user).with_context(
-                            intercompany_trade_do_not_propagate=True).write(
-                                invoice_vals)
+                    invoice_other = invoice.sudo().browse(
+                        invoice.intercompany_trade_account_invoice_id)
+                    invoice_other.with_context(
+                        intercompany_trade_do_not_propagate=True).write(
+                            invoice_vals)
 
                     if invoice.type == 'out_invoice' and\
                             vals.get('state', False) == 'open':
-                        invoice_other = self.sudo(other_user).browse(
-                            invoice.intercompany_trade_account_invoice_id.id)
                         if invoice_other.amount_untaxed !=\
                                 invoice.amount_untaxed\
                                 or invoice_other.amount_tax !=\
@@ -122,17 +126,10 @@ class AccountInvoice(models.Model):
         if 'intercompany_trade_do_not_propagate' not in self.env.context:
             for invoice in self:
                 if invoice.intercompany_trade:
-                    config =\
-                        self._get_intercompany_trade_by_partner_company_type(
-                            invoice.partner_id.id, invoice.company_id.id,
-                            invoice.type)
-                    if invoice.type in ('in_invoice', 'in_refund'):
-                        other_uid = config.supplier_user_id
-                    else:
-                        other_uid = config.customer_user_id
-                    invoice.intercompany_trade_account_invoice_id.sudo(
-                        user=other_uid).with_context(
-                            intercompany_trade_do_not_propagate=True).unlink()
+                    invoice_other = invoice.sudo().browse(
+                        invoice.intercompany_trade_account_invoice_id)
+                    invoice_other.with_context(
+                        intercompany_trade_do_not_propagate=True).unlink()
         return super(AccountInvoice, self).unlink()
 
     # Custom Section
@@ -170,10 +167,10 @@ class AccountInvoice(models.Model):
                 " with a partner flagged as Intercompany Trade." % (
                     self.type)))
 
-        account_info = self.sudo(user=other_user).onchange_partner_id(
+        account_info = self.sudo().onchange_partner_id(
             other_type, other_partner_id, company_id=other_company_id)['value']
 
-        account_journal = self.sudo(user=other_user).with_context(
+        account_journal = self.sudo().with_context(
             type=other_type, company_id=other_company_id)._default_journal()
 
         values = {

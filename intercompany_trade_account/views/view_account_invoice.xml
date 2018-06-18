@@ -20,16 +20,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account.invoice_form"/>
         <field name="arch" type="xml">
-          <xpath expr="//sheet[@string='Invoice']/h1" position="inside">
-                <span class="intercompany_trade_done"
-                    attrs="{'invisible': ['|', ('state', 'not in', ['paid']), ('intercompany_trade','=', False)]}">Intercompany Trade Done</span>
-                <span class="intercompany_trade_todo"
-                    attrs="{'invisible': ['|', ('state', 'not in', ['draft', 'verified', 'proforma', 'proforma2']), ('intercompany_trade','=', False)]}">Intercompany Trade To Confirm</span>
-                <span class="intercompany_trade_todo"
-                    attrs="{'invisible': ['|', ('state', 'not in', ['open']), ('intercompany_trade','=', False)]}">Intercompany Trade To Pay</span>
-                <span class="intercompany_trade_canceled"
-                    attrs="{'invisible': ['|', ('state', 'not in', ['cancel']), ('intercompany_trade','=', False)]}">Intercompany Trade Canceled</span>
-            </xpath>
             <field name="account_id" position="after">
                 <field name="intercompany_trade"
                     groups="intercompany_trade_base.intercompany_trade_user"
@@ -44,16 +34,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account.invoice_supplier_form"/>
         <field name="arch" type="xml">
-          <xpath expr="//sheet[@string='Supplier Invoice']/div/h1" position="inside">
-                <span class="intercompany_trade_done"
-                    attrs="{'invisible': ['|', ('state', 'not in', ['paid']), ('intercompany_trade','=', False)]}">Intercompany Trade Done</span>
-                <span class="intercompany_trade_todo"
-                    attrs="{'invisible': ['|', ('state', 'not in', ['draft', 'verified', 'proforma', 'proforma2']), ('intercompany_trade','=', False)]}">Intercompany Trade To Confirm</span>
-                <span class="intercompany_trade_todo"
-                    attrs="{'invisible': ['|', ('state', 'not in', ['open']), ('intercompany_trade','=', False)]}">Intercompany Trade To Pay</span>
-                <span class="intercompany_trade_canceled"
-                    attrs="{'invisible': ['|', ('state', 'not in', ['cancel']), ('intercompany_trade','=', False)]}">Intercompany Trade Canceled</span>
-            </xpath>
             <field name="account_id" position="after">
                 <field name="intercompany_trade"
                     groups="intercompany_trade_base.intercompany_trade_user"
