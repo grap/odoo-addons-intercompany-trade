@@ -17,8 +17,8 @@ class AccountInvoice(models.Model):
                 config, operation)
         if self.type == 'out_invoice':
             pricelist = config.sudo().with_context(
-                force_company=config.supplier_company_id.id).\
-                    supplier_partner_id.property_product_pricelist_purchase
+                force_company=config.supplier_company_id.id
+                ).supplier_partner_id.property_product_pricelist_purchase
         elif self.type == 'in_invoice':
             pricelist =\
                 config.sudo().with_context(
