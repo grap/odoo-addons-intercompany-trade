@@ -30,10 +30,8 @@ class IntercompanyTradeWizardLinkProduct(models.TransientModel):
         intercompany_trade_id = catalog_obj._get_intercompany_trade_id_from_id(
             self.env.context.get('active_id'))
         config = config_obj.browse(intercompany_trade_id)
-        supplier_product = product_obj.sudo(
-            user=config.supplier_user_id).browse(supplier_product_id)
-        price_info = pricelist_obj.sudo(
-            user=config.supplier_user_id)._compute_intercompany_trade_prices(
+        supplier_product = product_obj.sudo().browse(supplier_product_id)
+        price_info = pricelist_obj.sudo()._compute_intercompany_trade_prices(
             supplier_product, config.supplier_partner_id,
             config.sale_pricelist_id)
         res.update({
