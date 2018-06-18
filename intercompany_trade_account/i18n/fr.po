@@ -51,26 +51,6 @@ msgid "Intercompany Trade Account Invoice Line"
 msgstr "Ligne de facture de Transaction Inter Société"
 
 #. module: intercompany_trade_account
-#: view:account.invoice:0
-msgid "Intercompany Trade Canceled"
-msgstr "Transaction inter société annulée"
-
-#. module: intercompany_trade_account
-#: view:account.invoice:0
-msgid "Intercompany Trade Done"
-msgstr "Transaction inter société terminée"
-
-#. module: intercompany_trade_account
-#: view:account.invoice:0
-msgid "Intercompany Trade To Confirm"
-msgstr "Transaction inter société à confirmer"
-
-#. module: intercompany_trade_account
-#: view:account.invoice:0
-msgid "Intercompany Trade To Pay"
-msgstr "Transaction inter société à payer"
-
-#. module: intercompany_trade_account
 #: code:_description:0
 #: model:ir.model,name:intercompany_trade_account.model_account_invoice
 #, python-format

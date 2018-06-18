@@ -18,9 +18,8 @@ class AccountInvoiceLine(models.Model):
         string='Intercompany Trade',
         related='invoice_id.intercompany_trade', store=True)
 
-    intercompany_trade_account_invoice_line_id = fields.Many2one(
-        string='Intercompany Trade Account Invoice Line',
-        comodel_name='account.invoice.line', readonly=True, _prefetch=False)
+    intercompany_trade_account_invoice_line_id = fields.Integer(
+        string='Intercompany Trade Account Invoice Line', readonly=True)
 
     price_subtotal = fields.Float(compute_sudo=True)
 
@@ -46,7 +45,7 @@ class AccountInvoiceLine(models.Model):
             line_other_vals, other_user = \
                 line.prepare_intercompany_account_invoice_line(config)
 
-            line_other = self.sudo(user=other_user).with_context(
+            line_other = self.sudo().with_context(
                 intercompany_trade_do_not_propagate=True).create(
                     line_other_vals)
 
@@ -66,7 +65,7 @@ class AccountInvoiceLine(models.Model):
                     'price_unit': price_unit})
 
             # Update Other Account Invoice Line
-            line_other.sudo(user=other_user).with_context(
+            line_other.sudo().with_context(
                 intercompany_trade_do_not_propagate=True).write({
                     'intercompany_trade_account_invoice_line_id': line.id,
                     'price_unit': price_unit})
@@ -107,12 +106,6 @@ class AccountInvoiceLine(models.Model):
                         raise UserError(_(
                             "Error!\nYou can not change the UoM of the Product"
                             " %s." % (line.product_id.name)))
-                    if 'price_unit' in vals.keys() and line.invoice_id.type\
-                            in ('in_invoice', 'in_refund'):
-                        raise UserError(_(
-                            "Error!\nYou can not change the Unit Price of"
-                            " '%s'. Please ask to your supplier." % (
-                                line.product_id.name)))
 
                     # Prepare and update associated Account Invoice line
                     line_other_vals, other_user = \
@@ -121,10 +114,11 @@ class AccountInvoiceLine(models.Model):
 
                     if 'price_unit' in vals.keys():
                         line_other_vals['price_unit'] = vals['price_unit']
-                    line.intercompany_trade_account_invoice_line_id.sudo(
-                        user=other_user).with_context(
-                            intercompany_trade_do_not_propagate=True).write(
-                                line_other_vals)
+                    line_other = line.sudo().browse(
+                        line.intercompany_trade_account_invoice_line_id)
+                    line_other.with_context(
+                        intercompany_trade_do_not_propagate=True).write(
+                            line_other_vals)
         return res
 
     def unlink(self, cr, uid, ids, context=None):
@@ -149,7 +143,7 @@ class AccountInvoiceLine(models.Model):
                         other_uid = rit.customer_user_id.id
                     self.unlink(
                         cr, other_uid,
-                        [ail.intercompany_trade_account_invoice_line_id.id],
+                        [ail.intercompany_trade_account_invoice_line_id],
                         context=ctx)
         res = super(AccountInvoiceLine, self).unlink(
             cr, uid, ids, context=context)
@@ -191,7 +185,7 @@ class AccountInvoiceLine(models.Model):
             partner_id=other_partner_id)['value']
 
         values.update({
-            'invoice_id': invoice.intercompany_trade_account_invoice_id.id,
+            'invoice_id': invoice.intercompany_trade_account_invoice_id,
             'product_id': other_product_info['product_id'],
             'company_id': other_company_id,
             'partner_id': other_partner_id,

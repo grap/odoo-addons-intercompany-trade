@@ -40,10 +40,8 @@ class IntercompanyTradeConfig(models.Model):
         pricelist_obj = self.env['product.pricelist']
         supplierinfo_obj = self.env['product.supplierinfo']
         vals = supplierinfo_obj._add_missing_default_values({})
-        supplier_product = product_obj.sudo(user=self.supplier_user_id).browse(
-            supplier_product_id)
-        price_info = pricelist_obj.sudo(
-            user=self.supplier_user_id)._compute_intercompany_trade_prices(
+        supplier_product = product_obj.sudo().browse(supplier_product_id)
+        price_info = pricelist_obj.sudo()._compute_intercompany_trade_prices(
             supplier_product, self.supplier_partner_id, self.sale_pricelist_id)
         vals.update({
             'name': self.supplier_partner_id.id,

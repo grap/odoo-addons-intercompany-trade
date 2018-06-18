@@ -16,12 +16,14 @@ class AccountInvoice(models.Model):
             AccountInvoice, self).prepare_intercompany_invoice(
                 config, operation)
         if self.type == 'out_invoice':
-            pricelist = config.sudo(
-                user=other_user).supplier_partner_id.\
-                property_product_pricelist_purchase
+            pricelist = config.sudo().with_context(
+                force_company=config.supplier_company_id.id).\
+                    supplier_partner_id.property_product_pricelist_purchase
         elif self.type == 'in_invoice':
-            pricelist = config.sudo(
-                user=other_user).customer_partner_id.property_product_pricelist
+            pricelist =\
+                config.sudo().with_context(
+                    force_company=config.supplier_company_id.id
+                    ).customer_partner_id.property_product_pricelist
 
         values['pricelist_id'] = pricelist.id
         return values, other_user
