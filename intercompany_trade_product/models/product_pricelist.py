@@ -9,7 +9,7 @@ from datetime import date
 from openerp.osv.orm import Model
 
 
-class product_pricelist(Model):
+class ProductPricelist(Model):
     _inherit = 'product.pricelist'
 
     # TODO FIXME
