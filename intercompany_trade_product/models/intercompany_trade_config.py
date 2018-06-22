@@ -84,7 +84,7 @@ class IntercompanyTradeConfig(models.Model):
         supplierinfo_obj = self.env['product.supplierinfo']
 
         # Get current Product
-        product = product_obj.browse(product_id)
+        product = product_obj.sudo().browse(product_id)
 
         if direction == 'in':
             # Get product supplier info (if any)
@@ -105,7 +105,7 @@ class IntercompanyTradeConfig(models.Model):
             # Get Supplier Sale Price
             res['price_unit'] =\
                 self.sale_pricelist_id._compute_intercompany_trade_prices(
-                    supplierinfo.supplier_product_id.id,
+                    supplierinfo.supplier_product_id,
                     self.supplier_partner_id)['supplier_sale_price']
 
         else:

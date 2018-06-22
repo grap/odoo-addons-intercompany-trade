@@ -107,11 +107,11 @@ class IntercompanyTradeWizardLinkProduct(models.TransientModel):
                     cus_template.name, len(product_qty)))
 
         # raise error if there is a product linked
-        catalog_ids = catalog_obj.search([
+        catalogs = catalog_obj.search([
             ('customer_product_tmpl_id', '=',
                 supplierinfo_vals['product_tmpl_id']),
             ('customer_company_id', '=', supplierinfo_vals['company_id'])])
-        if len(catalog_ids) != 0:
+        if len(catalogs) != 0:
             if not self.env.context.get('demo_integrated', False):
                 raise UserError(_(
                     "Duplicated References !\nYou can not link the Product"
