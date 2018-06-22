@@ -26,8 +26,6 @@ class AccountInvoiceLine(models.Model):
     # Overload Section
     @api.model
     def create(self, vals):
-        invoice_obj = self.env['account.invoice']
-
         # Call Super
         line = super(AccountInvoiceLine, self).create(vals)
 
@@ -35,15 +33,8 @@ class AccountInvoiceLine(models.Model):
                 'intercompany_trade_do_not_propagate', False) and\
                 line.intercompany_trade:
 
-            config =\
-                invoice_obj._get_intercompany_trade_by_partner_company_type(
-                    line.invoice_id.partner_id.id,
-                    line.invoice_id.company_id.id,
-                    line.invoice_id.type)
-
             # Prepare and create associated Account Invoice Line
-            line_other_vals, other_user = \
-                line.prepare_intercompany_account_invoice_line(config)
+            line_other_vals = line._prepare_intercompany_vals()
 
             line_other = self.sudo().with_context(
                 intercompany_trade_do_not_propagate=True).create(
@@ -80,8 +71,6 @@ class AccountInvoiceLine(models.Model):
               price or quantity changes. All others are ignored. Most of
               the important fields ignored will generated an error.
               (product / discount / UoM changes)"""
-        invoice_obj = self.env['account.invoice']
-
         res = super(AccountInvoiceLine, self).write(vals)
 
         if 'intercompany_trade_do_not_propagate' not in\
@@ -89,13 +78,6 @@ class AccountInvoiceLine(models.Model):
 
             for line in self:
                 if line.intercompany_trade:
-                    # Get Intercompany Trade
-                    config = invoice_obj.\
-                        _get_intercompany_trade_by_partner_company_type(
-                            line.invoice_id.partner_id.id,
-                            line.invoice_id.company_id.id,
-                            line.invoice_id.type)
-
                     # Block some changes of product
                     if 'product_id' in vals.keys():
                         raise UserError(_(
@@ -108,9 +90,7 @@ class AccountInvoiceLine(models.Model):
                             " %s." % (line.product_id.name)))
 
                     # Prepare and update associated Account Invoice line
-                    line_other_vals, other_user = \
-                        line.prepare_intercompany_account_invoice_line(
-                            config)
+                    line_other_vals = line._prepare_intercompany_vals()
 
                     if 'price_unit' in vals.keys():
                         line_other_vals['price_unit'] = vals['price_unit']
@@ -121,39 +101,34 @@ class AccountInvoiceLine(models.Model):
                             line_other_vals)
         return res
 
-    def unlink(self, cr, uid, ids, context=None):
+    @api.multi
+    def unlink(self):
         """"- Unlink the according Invoice Line."""
-        ai_obj = self.pool['account.invoice']
-        context = context and context or {}
 
-        if 'intercompany_trade_do_not_propagate' not in context.keys():
-            ctx = context.copy()
+
+        if 'intercompany_trade_do_not_propagate' not in\
+                self.env.context.keys():
+            ctx = self.env.context.copy()
             ctx['intercompany_trade_do_not_propagate'] = True
-            for ail in self.browse(
-                    cr, uid, ids, context=context):
-                if ail.intercompany_trade:
-                    rit = ai_obj.\
-                        _get_intercompany_trade_by_partner_company_type(
-                            cr, uid, ail.invoice_id.partner_id.id,
-                            ail.invoice_id.company_id.id, ail.invoice_id.type,
-                            context=context)
-                    if ail.invoice_id.type in ('in_invoice', 'in_refund'):
-                        other_uid = rit.supplier_user_id.id
-                    else:
-                        other_uid = rit.customer_user_id.id
-                    self.unlink(
-                        cr, other_uid,
-                        [ail.intercompany_trade_account_invoice_line_id],
-                        context=ctx)
-        res = super(AccountInvoiceLine, self).unlink(
-            cr, uid, ids, context=context)
-        return res
+            for line in self:
+                if line.intercompany_trade:
+                    line_other = line.sudo().browse(
+                        line.intercompany_trade_account_invoice_line_id)
+                    line_other.with_context(
+                        intercompany_trade_do_not_propagate=True).unlink()
+        return super(AccountInvoiceLine, self).unlink()
 
     # Custom Section
     @api.multi
-    def prepare_intercompany_account_invoice_line(self, config):
+    def _prepare_intercompany_vals(self):
         self.ensure_one()
+        invoice_obj = self.env['account.invoice']
         invoice = self.invoice_id
+        config =\
+            invoice_obj._get_intercompany_trade_by_partner_company_type(
+                invoice.partner_id.id,
+                invoice.company_id.id,
+                invoice.type)
         if invoice.type == 'out_invoice':
             # A Purchase Invoice Create a Sale Invoice
             direction = 'out'
@@ -198,4 +173,4 @@ class AccountInvoiceLine(models.Model):
                 [[6, False, values['invoice_line_tax_id']]] or False),
             })
 
-        return values, other_user
+        return values
