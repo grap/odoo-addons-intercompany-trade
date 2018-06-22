@@ -7,7 +7,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 <openerp><data>
 
-
     <record id="wizard_link_product_ref_2" model="intercompany.trade.wizard.link.product">
         <field name="intercompany_trade_id" ref="intercompany_trade_base.intercompany_trade" />
         <field name="customer_product_id" ref="product_customer_ref"/>

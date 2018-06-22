@@ -37,10 +37,7 @@ class ProductPricelist(models.Model):
         dp_obj = self.env['decimal.precision']
         # Compute Sale Price
         supplier_price = self.price_get(
-            supplier_product.id, 1.0, supplier_partner.id, {
-                'uom': supplier_product.uom_id.id,
-                'date': date.today().strftime('%Y-%m-%d'),
-            })[self.id]
+            supplier_product.id, 1.0, supplier_partner.id)[self.id]
         dp = dp_obj.precision_get('Intercompany Trade Product Price')
         res = {
             'supplier_sale_price': round(supplier_price, dp),

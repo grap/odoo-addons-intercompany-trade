@@ -9,7 +9,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     <record id="view_product_intercompany_trade_catalog_tree" model="ir.ui.view">
         <field name="model">product.intercompany.trade.catalog</field>
         <field name="arch" type="xml">
-            <tree string="Intercompany Trade - Products Catalog" colors="
+            <tree colors="
                     gray:customer_product_tmpl_id == False;
                     brown: supplier_product_sale_ok == False;
                     red: supplier_product_active == False;">
@@ -29,7 +29,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 <button name="button_link_product_wizard" icon="gtk-add" type="object" string="Link Product Windows"
                     attrs="{'invisible': [('customer_product_tmpl_id', '!=', False)]}"/>
                 <button name="button_unlink_product" icon="gtk-cancel" type="object" string="Unlink Product"
-                    attrs="{'invisible': [('customer_product_tmpl_id', '=', False)]}" groups="intercompany_trade_base.intercompany_trade_manager"/>
+                    attrs="{'invisible': [('customer_product_tmpl_id', '=', False)]}"/>
                 <field name="customer_company_id" groups="base.group_multi_company"/>
             </tree>
         </field>
@@ -53,5 +53,19 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             </search>
         </field>
     </record>
+
+    <record id="action_product_intercompany_trade_catalog" model="ir.actions.act_window">
+        <field name="name">Catalogs</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.intercompany.trade.catalog</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{'search_default_linked_product':1}</field>
+    </record>
+
+    <menuitem id="menu_intercompany_trade_product_catalog"
+        parent="intercompany_trade_base.menu_intercompany_trade_purchase"
+        action="action_product_intercompany_trade_catalog"
+        sequence="5"/>
 
 </data></openerp>

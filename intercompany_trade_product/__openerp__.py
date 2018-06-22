@@ -5,7 +5,7 @@
 
 {
     'name': 'Intercompany Trade - Product',
-    'version': '8.0.1.0.0',
+    'version': '8.0.2.0.0',
     'category': 'Intercompany Trade',
     'author': 'GRAP',
     'website': 'http://www.grap.coop',
@@ -21,8 +21,6 @@
         'views/view_intercompany_trade_wizard_link_product.xml',
         'views/view_product_intercompany_trade_catalog.xml',
         'views/view_product_supplierinfo.xml',
-        'views/action.xml',
-        'views/menu.xml',
     ],
     'demo': [
         'demo/res_groups.xml',
@@ -32,5 +30,5 @@
         'demo/wizard_link_product.xml',
     ],
     'auto_install': False,
-    'installable': False,
+    'installable': True,
 }
