@@ -104,8 +104,6 @@ class AccountInvoiceLine(models.Model):
     @api.multi
     def unlink(self):
         """"- Unlink the according Invoice Line."""
-
-
         if 'intercompany_trade_do_not_propagate' not in\
                 self.env.context.keys():
             ctx = self.env.context.copy()
