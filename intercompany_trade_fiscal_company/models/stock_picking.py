@@ -3,37 +3,31 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp.osv.orm import Model
+from openerp import api, models
 
 
-class StockPicking(Model):
+class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
+    @api.model
     def _prepare_invoice_line(
-            self, cr, uid, group, picking, move_line, invoice_id,
-            invoice_vals, context=None):
-        rit_obj = self.pool['intercompany.trade.config']
-        ai_obj = self.pool['account.invoice']
+            self, group, picking, move_line, invoice_id,
+            invoice_vals):
+        config_obj = self.env['intercompany.trade.config']
+        invoice_obj = self.env['account.invoice']
         res = super(StockPicking, self)._prepare_invoice_line(
-            cr, uid, group, picking, move_line, invoice_id,
-            invoice_vals, context=None)
+            group, picking, move_line, invoice_id, invoice_vals)
 
-        if picking.intercompany_trade:
+        if picking.partner_id.intercompany_trade:
+            config =\
+                invoice_obj._get_intercompany_trade_by_partner_company_type(
+                    picking.partner_id.id, picking.company_id.id, picking.type)
 
-            rit = ai_obj._get_intercompany_trade_by_partner_company_type(
-                cr, uid, picking.partner_id.id, picking.company_id.id,
-                picking.type, context=context)
-
-            if rit.same_fiscal_mother_company:
+            if config.same_fiscal_mother_company:
                 # Manage Transcoded account
                 if res.get('account_id', False):
-                    res['account_id'] = rit_obj.transcode_account_id(
-                        cr, uid, rit, res['account_id'],
-                        picking.product_id,
-                        context=context)
-
-                # Remove VAT if it is a Trade between two company that belong
-                # to the same fiscal mother company
+                    res['account_id'] = config_obj.transcode_account_id(
+                        config, res['account_id'], picking.product_id)
                 res['invoice_line_tax_id'] = False
 
         return res
