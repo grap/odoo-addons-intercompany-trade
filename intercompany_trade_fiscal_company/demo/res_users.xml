@@ -7,7 +7,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 <openerp><data>
 
-    <record id="fiscal_customer_user" model="res.users">
+    <record id="fiscal_customer_user" model="res.users" context="{'no_reset_password': True}">
         <field name="name">Fiscal Intercompany Trade Customer User</field>
         <field name="login">fiscal_intercompany_trade_customer</field>
         <field name="password">demo</field>
@@ -16,7 +16,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             (4, ref('base_fiscal_company.company_fiscal_child_2'))]" />
     </record>
 
-    <record id="fiscal_supplier_user" model="res.users">
+    <record id="fiscal_supplier_user" model="res.users" context="{'no_reset_password': True}">
         <field name="name">Fiscal Intercompany Trade Supplier User</field>
         <field name="login">fiscal_intercompany_trade_supplier</field>
         <field name="password">demo</field>
