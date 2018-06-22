@@ -9,7 +9,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     <record id="view_intercompany_trade_wizard_link_product_form" model="ir.ui.view">
         <field name="model">intercompany.trade.wizard.link.product</field>
         <field name="arch" type="xml">
-            <form string="Intercompany Trade - Link Product">
+            <form>
                 <group>
                     <group string="Your Product">
                         <field name="customer_product_id" />
