@@ -11,7 +11,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
         <field name="company_ids" eval="[(4, [ref('customer_company'), ref('supplier_company')])]" />
     </record>
 
-    <record id="customer_user" model="res.users">
+    <record id="customer_user" model="res.users" context="{'no_reset_password': True}">
         <field name="name">Intercompany Trade Customer User</field>
         <field name="login">intercompany_trade_customer</field>
         <field name="password">demo</field>
@@ -19,7 +19,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
         <field name="company_ids" eval="[(4, [ref('customer_company')])]" />
     </record>
 
-    <record id="supplier_user" model="res.users">
+    <record id="supplier_user" model="res.users" context="{'no_reset_password': True}">
         <field name="name">Intercompany Trade Supplier User</field>
         <field name="login">intercompany_trade_supplier</field>
         <field name="password">demo</field>
