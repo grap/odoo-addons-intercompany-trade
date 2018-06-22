@@ -18,7 +18,6 @@ class IntercompanyTradeWizardLinkProduct(models.TransientModel):
         product_obj = self.env['product.product']
         catalog_obj = self.env['product.intercompany.trade.catalog']
         config_obj = self.env['intercompany.trade.config']
-        pricelist_obj = self.env['product.pricelist']
         res = super(IntercompanyTradeWizardLinkProduct, self).default_get(
             fields)
 
@@ -31,9 +30,9 @@ class IntercompanyTradeWizardLinkProduct(models.TransientModel):
             self.env.context.get('active_id'))
         config = config_obj.browse(intercompany_trade_id)
         supplier_product = product_obj.sudo().browse(supplier_product_id)
-        price_info = pricelist_obj.sudo()._compute_intercompany_trade_prices(
-            supplier_product, config.supplier_partner_id,
-            config.sale_pricelist_id)
+        price_info = config.sale_pricelist_id.sudo().\
+            _compute_intercompany_trade_prices(
+                supplier_product, config.supplier_partner_id)
         res.update({
             'supplier_product_id': supplier_product_id,
             'intercompany_trade_id': intercompany_trade_id,

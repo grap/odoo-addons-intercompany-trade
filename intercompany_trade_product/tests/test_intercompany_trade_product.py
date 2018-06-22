@@ -3,11 +3,10 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp.addons.intercompany_trade_product.models.custom_tools\
-    import _get_other_product_info
-
 from openerp.exceptions import Warning as UserError
 from openerp.tests.common import TransactionCase
+
+from ..custom_tools import _get_other_product_info
 
 
 class Test(TransactionCase):
