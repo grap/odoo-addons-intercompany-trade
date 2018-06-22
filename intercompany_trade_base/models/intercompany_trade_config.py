@@ -122,16 +122,18 @@ class IntercompanyTradeConfig(models.Model):
                 vals['supplier_company_id'], vals['customer_company_id'])
             partner_vals.update({'customer': False, 'supplier': True})
             supplier_partner_id = partner_obj.with_context(
-                ignore_intercompany_trade_check=True).sudo(
-                    config.customer_user_id.id).create(partner_vals)
+                force_company=vals['customer_company_id'],
+                ignore_intercompany_trade_check=True).sudo().create(
+                    partner_vals)
 
             # create customer in supplier company
             partner_vals = self._prepare_partner_from_company(
                 vals['customer_company_id'], vals['supplier_company_id'])
             partner_vals.update({'customer': True, 'supplier': False})
             customer_partner_id = partner_obj.with_context(
-                ignore_intercompany_trade_check=True).sudo(
-                    config.supplier_user_id.id).create(partner_vals)
+                force_company=vals['supplier_company_id'],
+                ignore_intercompany_trade_check=True).sudo().create(
+                    partner_vals)
 
             # Update intercompany trade config
             config.write({
