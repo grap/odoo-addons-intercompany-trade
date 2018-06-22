@@ -15,5 +15,5 @@
         'invoice_pricelist',    # TODO Change to account_invoice_pricelist
     ],
     'auto_install': False,
-    'installable': True,
+    'installable': False,
 }
