@@ -19,14 +19,11 @@ class ProductPricelist(models.Model):
         Sale price is always said as taxes excluded;
         """
         self.ensure_one()
-        tax_obj = self.env['account.tax']
-
         res = super(ProductPricelist, self)._compute_intercompany_trade_prices(
             supplier_product, supplier_partner)
 
         # Compute Taxes detail
-        tax_info = tax_obj.compute_all(
-            supplier_product.taxes_id,
+        tax_info = supplier_product.taxes_id.compute_all(
             res['supplier_sale_price'], 1.0, supplier_product.id)
         res.update({
             'suppliger_sale_price': tax_info['total'],
