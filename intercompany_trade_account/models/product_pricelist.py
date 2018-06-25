@@ -26,7 +26,7 @@ class ProductPricelist(models.Model):
         tax_info = supplier_product.taxes_id.compute_all(
             res['supplier_sale_price'], 1.0, supplier_product.id)
         res.update({
-            'suppliger_sale_price': tax_info['total'],
+            'supplier_sale_price': tax_info['total'],
             'supplier_sale_price_tax_excluded': tax_info['total'],
             'supplier_sale_price_tax_included': tax_info['total_included'],
             'supplier_tax_name': ', '.join(
