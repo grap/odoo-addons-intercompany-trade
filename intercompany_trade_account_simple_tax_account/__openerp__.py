@@ -1,10 +1,10 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 # Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'Intercompany Trade - Account Invoice Pricelist',
+    'name': 'Intercompany Trade - Simple Tax Account',
     'version': '8.0.1.0.0',
     'category': 'Intercompany Trade',
     'author': 'GRAP',
@@ -12,7 +12,13 @@
     'license': 'AGPL-3',
     'depends': [
         'intercompany_trade_account',
-        'invoice_pricelist',
+        'simple_tax_account',
+    ],
+    'demo': [
+        'demo/account_tax.xml',
+    ],
+    'data': [
+        'data/init.xml',
     ],
     'auto_install': False,
     'installable': True,

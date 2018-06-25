@@ -6,9 +6,6 @@
 from openerp import _, api, fields, models
 from openerp.exceptions import Warning as UserError
 
-from openerp.addons.intercompany_trade_product.models.custom_tools\
-    import _get_other_product_info
-
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
@@ -148,9 +145,8 @@ class AccountInvoiceLine(models.Model):
                 " partner flagged as Intercompany Trade." % (invoice.type)))
 
         # Create according account invoice line
-        other_product_info = _get_other_product_info(
-            self.pool, self.env.cr, self.env.user.id, config,
-            self.product_id.id, direction, context=self.env.context)
+        other_product_info = config._get_other_product_info(
+            self.product_id.id, direction)
 
         values = self.sudo(user=other_user).product_id_change(
             other_product_info['product_id'],

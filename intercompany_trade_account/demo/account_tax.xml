@@ -24,11 +24,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="amount">0.1</field>
         <field name="price_include" eval="True" />
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
-        <field name="simple_tax_id" ref="sale_vat_10_excluded" />
-    </record>
-
-    <record id="sale_vat_10_excluded" model="account.tax">
-        <field name="simple_tax_id" ref="sale_vat_10_included" />
     </record>
 
     <!-- Sale 25% -->
@@ -48,11 +43,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="amount">0.25</field>
         <field name="price_include" eval="True"/>
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
-        <field name="simple_tax_id" ref="sale_vat_25_excluded" />
-    </record>
-
-    <record id="sale_vat_25_excluded" model="account.tax">
-        <field name="simple_tax_id" ref="sale_vat_25_included" />
     </record>
 
     <!-- Purchase 10% -->
@@ -72,11 +62,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="amount">0.1</field>
         <field name="price_include" eval="True"/>
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
-        <field name="simple_tax_id" ref="purchase_vat_10_excluded" />
-    </record>
-
-    <record id="purchase_vat_10_excluded" model="account.tax">
-        <field name="simple_tax_id" ref="purchase_vat_10_included" />
     </record>
 
 </data></openerp>

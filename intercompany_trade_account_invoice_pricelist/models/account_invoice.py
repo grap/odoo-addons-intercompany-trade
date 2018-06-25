@@ -16,6 +16,7 @@ class AccountInvoice(models.Model):
             AccountInvoice, self).prepare_intercompany_invoice(
                 config, operation)
         if self.type == 'out_invoice':
+            # FIXME lazy dependency to purchase module
             pricelist = config.sudo().with_context(
                 force_company=config.supplier_company_id.id
                 ).supplier_partner_id.property_product_pricelist_purchase

@@ -10,6 +10,7 @@ from openerp.addons import decimal_precision as dp
 class ProductIntercompanyTradeCatalog(models.Model):
     _inherit = 'product.intercompany.trade.catalog'
 
+    # TODO : Is it usefull ?
     # Column Section
     supplier_sale_price_tax_excluded = fields.Float(
         string='Supplier Sale Price Taxes Excluded',

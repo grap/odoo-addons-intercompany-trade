@@ -13,10 +13,6 @@
     'depends': [
         'intercompany_trade_product',
         'account',
-        'stock',
-        'purchase',
-        'simple_tax_account',
-        'invoice_pricelist',
     ],
     'demo': [
         'demo/account_fiscalyear.xml',
@@ -28,18 +24,13 @@
         'demo/account_tax.xml',
         'demo/product_product.xml',
         'demo/account_invoice.xml',
-        'demo/stock_warehouse.xml',
         'demo/wizard_link_product.xml',
     ],
     'data': [
         'views/view_product_intercompany_trade_catalog.xml',
         'views/view_intercompany_trade_wizard_link_product.xml',
         'views/view_account_invoice.xml',
-        'views/view_intercompany_trade_config.xml',
-        'views/action.xml',
-        'views/menu.xml',
-        'data/init.xml',
     ],
     'auto_install': False,
-    'installable': False,
+    'installable': True,
 }
