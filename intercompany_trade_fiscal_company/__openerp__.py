@@ -40,5 +40,5 @@
         'demo/product_product.xml',
     ],
     'auto_install': False,
-    'installable': False,
+    'installable': True,
 }
