@@ -40,6 +40,12 @@ class AccountInvoice(models.Model):
 
         invoice = super(AccountInvoice, self).create(vals)
 
+        if create_account_invoice and\
+                invoice.type in ['in_invoice', 'in_refund']:
+            raise UserError(_(
+                "You can not create a Purchase invoice or refund for "
+                " intercompany trade. Ask to your supplier to create it."))
+
         if create_account_invoice:
             # Get config
             config = self._get_intercompany_trade_by_partner_company_type(
