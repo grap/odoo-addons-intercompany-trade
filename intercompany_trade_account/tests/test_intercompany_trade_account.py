@@ -108,74 +108,79 @@ class Test(TransactionCase):
 ####                " Product with 10% Incl VAT must succeed.")
 
 
-#    def test_03_create_invoice_in(self):
-#        """
-#            Create an In Invoice (Supplier Invoice) by the customer
-#            must create an Out Invoice
-#        """
-#        # Associate a product
-## flake8: noqa        catalog = self.catalog_obj.sudo(self.customer_user).search([(
-#            'supplier_product_id', '=',
-#            self.product_supplier_service_10_excl.id)])
+    def test_03_create_invoice_in(self):
+        """
+            Create an In Invoice (Supplier Invoice) by the customer
+            must create an Out Invoice
+        """
+        # Associate a product
+        catalog = self.catalog_obj.sudo(self.customer_user).search([(
+            'supplier_product_id', '=',
+            self.product_supplier_service_10_excl.id)])
 
-#        link = self.link_obj.with_context(active_id=catalog.id).sudo(
-#            self.customer_user).create({
-#                'customer_product_id':
-#                self.product_customer_service_10_excl.id})
-#        link.sudo(self.customer_user).link_product()
+        link = self.link_obj.with_context(active_id=catalog.id).sudo(
+            self.customer_user).create({
+                'customer_product_id':
+                self.product_customer_service_10_excl.id})
+        link.sudo(self.customer_user).link_product()
 
-#        supplier_product = self.product_obj.sudo(self.supplier_user).browse(
-#            self.product_supplier_service_10_excl.id)
+        supplier_product = self.product_obj.sudo(self.supplier_user).browse(
+            self.product_supplier_service_10_excl.id)
 
-#        # Create a Invoice
-#        vals = self.invoice_obj.sudo(self.customer_user).with_context(
-#            type='in_invoice', tracking_disable=True).default_get(
-#                ['currency_id', 'journal_id'])
-#        vals.update({
-#            'partner_id': self.config.supplier_partner_id.id,
-#            'account_id': self.customer_account_payable.id,
-#        })
+        # Create a Invoice
+        vals = self.invoice_obj.sudo(self.customer_user).with_context(
+            type='in_invoice', tracking_disable=True).default_get(
+                ['currency_id', 'journal_id'])
+        vals.update({
+            'partner_id': self.config.supplier_partner_id.id,
+            'account_id': self.customer_account_payable.id,
+        })
 
-#        customer_invoice = self.invoice_obj.sudo(
-#            self.customer_user).with_context(tracking_disable=True).create(
-#                vals)
+        customer_invoice = self.invoice_obj.sudo(
+            self.customer_user).with_context(
+                type='in_invoice', tracking_disable=True).create(vals)
 
-#        supplier_invoice = self.invoice_obj.sudo(self.supplier_user).browse(
-#            customer_invoice.intercompany_trade_account_invoice_id)
+        supplier_invoice = self.invoice_obj.sudo(self.supplier_user).browse(
+            customer_invoice.intercompany_trade_account_invoice_id)
 
-#        self.assertNotEqual(
-#            supplier_invoice.id, False,
-#            "Create an In Invoice must create another Invoice.")
+        self.assertNotEqual(
+            supplier_invoice.id, False,
+            "Create an In Invoice must create another Invoice.")
 
-#        self.assertEqual(
-#            supplier_invoice.type, 'out_invoice',
-#            "Create an In Invoice must create an Out invoice.")
+        self.assertEqual(
+            supplier_invoice.type, 'out_invoice',
+            "Create an In Invoice must create an Out invoice.")
 
-#        # Create a Invoice Line
-#        vals = self.invoice_line_obj.sudo(self.customer_user).with_context(
-#            type='in_invoice', tracking_disable=True).default_get(
-#                ['account_id', 'quantity'])
-#        vals.update({
-#            'invoice_id': customer_invoice.id,
-#            'name': 'Invoice Line Test',
-#            'product_id': self.product_customer_service_10_excl.id,
-#            'uos_id': self.product_uom_unit.id,
-#        })
+        # Create a Invoice Line
+        vals = self.invoice_line_obj.sudo(self.customer_user).with_context(
+            type='in_invoice', tracking_disable=True).default_get(
+                ['account_id', 'quantity'])
+        vals.update({
+            'invoice_id': customer_invoice.id,
+            'name': 'Invoice Line Test',
+            'product_id': self.product_customer_service_10_excl.id,
+            'uos_id': self.product_uom_unit.id,
+        })
 
-#        customer_invoice_line = self.invoice_line_obj.sudo(
-#            self.customer_user).create(vals)
+        customer_invoice_line = self.invoice_line_obj.sudo(
+            self.customer_user).create(vals)
 
-#        # Checks creation of the according Invoice Line
-#        supplier_invoice_line = self.invoice_obj.sudo(
-#            self.supplier_user).browse(
-#                customer_invoice_line.
-#                intercompany_trade_account_invoice_line_id.id)
+        # Checks creation of the according Invoice Line
+        supplier_invoice_line = self.invoice_line_obj.sudo(
+            self.supplier_user).browse(
+                customer_invoice_line.
+                intercompany_trade_account_invoice_line_id)
 
 
-#        self.assertNotEqual(
-#            supplier_invoice_line.id, False,
-#            "Create a Invoice Line must create another invoice Line.")
+        self.assertNotEqual(
+            supplier_invoice_line.id, False,
+            "Create a Invoice Line must create another invoice Line.")
 
+
+        self.assertEqual(
+            supplier_invoice_line.price_unit, supplier_product.list_price,
+            "Create a In Invoice Line must automatically reset the"
+            " price_unit, using the sale price of the supplier.")
 
 ####        sup_pp = sup_pp
 ####        # self.assertEqual(

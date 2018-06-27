@@ -68,12 +68,12 @@ class IntercompanyTradeConfig(models.Model):
         * If type='out', partner_id is a customer in the supplier company;
           (sale workflow)
         """
-        if type == 'in':
+        if type in ['in', 'in_invoice']:
             domain = [
                 ('supplier_partner_id', '=', partner_id),
                 ('customer_company_id', '=', company_id),
             ]
-        else:
+        elif type in ['out', 'out_invoice']:
             domain = [
                 ('customer_partner_id', '=', partner_id),
                 ('supplier_company_id', '=', company_id),
