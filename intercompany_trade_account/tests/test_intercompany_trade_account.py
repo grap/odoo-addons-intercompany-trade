@@ -17,7 +17,7 @@ class Test(TransactionCase):
         # Get Registries
         self.invoice_obj = self.env['account.invoice']
         self.invoice_line_obj = self.env['account.invoice.line']
-        self.product_obj = self.env['product.product]
+        self.product_obj = self.env['product.product']
         self.catalog_obj = self.env['product.intercompany.trade.catalog']
         self.config_obj = self.env['intercompany.trade.config']
         self.link_obj = self.env['intercompany.trade.wizard.link.product']
@@ -60,27 +60,28 @@ class Test(TransactionCase):
 
         # Associate with bad VAT
         # (Customer Service VAT 10% EXCLUDED - Supplier Service VAT 25%)
-        active_id = self.pitc_obj.search(cr, uid, [(
+        catalog = self.catalog_obj.sudo(self.customer_user).search([(
             'supplier_product_id', '=',
-            self.product_supplier_service_25_incl.id)])[0]
+            self.product_supplier_service_25_incl.id)])
 
-        itwlp_id = self.itwlp_obj.create(cr, uid, {
-            'customer_product_id': self.product_customer_service_10_excl.id,
-        }, context={'active_id': active_id})
+        link = self.link_obj.with_context(active_id=catalog.id).sudo(
+            self.customer_user).create({
+                'customer_product_id':
+                self.product_customer_service_10_excl.id})
         with self.assertRaises(UserError):
-            self.itwlp_obj.link_product(cr, uid, [itwlp_id])
+            link.sudo(self.customer_user).link_product()
 
         # Associate with bad VAT
         # (Customer Product with no VAT -> Supplier Service VAT 25%)
-        active_id = self.pitc_obj.search(cr, uid, [(
+        catalog = self.catalog_obj.sudo(self.customer_user).search([(
             'supplier_product_id', '=',
-            self.product_supplier_service_25_incl.id)])[0]
+            self.product_supplier_service_25_incl.id)])
 
-        itwlp_id = self.itwlp_obj.create(cr, uid, {
-            'customer_product_id': self.product_customer_apple.id,
-        }, context={'active_id': active_id})
+        link = self.link_obj.with_context(active_id=catalog.id).sudo(
+            self.customer_user).create({
+                'customer_product_id': self.product_customer_apple.id})
         with self.assertRaises(UserError):
-            self.itwlp_obj.link_product(cr, uid, [itwlp_id])
+            link.sudo(self.customer_user).link_product()
 
 ####    def test_02_vat_association_good(self):
 ####        """
@@ -91,16 +92,16 @@ class Test(TransactionCase):
 ####        # Associate with good VAT
 ####        # (Customer Service VAT 10% EXCLUDED
 ####        # -> Supplier Service VAT 10% INCLUDE)
-####        active_id = self.pitc_obj.search(cr, uid, [(
+####        active_id = self.catalog_obj.search(cr, uid, [(
 ####            'supplier_product_id', '=',
 ####            self.product_supplier_service_10_incl.id)])[0]
 
-####        itwlp_id = self.itwlp_obj.create(cr, uid, {
+####        itwlp_id = self.link_obj.create(cr, uid, {
 ####            'customer_product_id': self.product_customer_service_10_excl.id,
 ####        }, context={'active_id': active_id})
 
 ####        try:
-####            self.itwlp_obj.link_product(cr, uid, [itwlp_id])
+####            self.link_obj.link_product(cr, uid, [itwlp_id])
 ####        except:
 ####            self.assertTrue(
 ####                """Associate a Customer Product with 10% Excl VAT to """
@@ -116,14 +117,14 @@ class Test(TransactionCase):
 ####            self.cr, self.customer_user.id, self.supplier_user.id
 
 ####        # Associate a product
-####        active_id = self.pitc_obj.search(cr, cus_uid, [(
+####        active_id = self.catalog_obj.search(cr, cus_uid, [(
 ####            'supplier_product_id', '=',
 ####            self.product_supplier_service_10_excl.id)])[0]
 
-####        itwlp_id = self.itwlp_obj.create(cr, cus_uid, {
+####        itwlp_id = self.link_obj.create(cr, cus_uid, {
 ####            'customer_product_id': self.product_customer_service_10_excl.id,
 ####        }, context={'active_id': active_id})
-####        self.itwlp_obj.link_product(cr, cus_uid, [itwlp_id])
+####        self.link_obj.link_product(cr, cus_uid, [itwlp_id])
 
 ####        sup_pp = self.pp_obj.browse(
 ####            cr, sup_uid, self.product_supplier_service_10_excl.id)
