@@ -9,8 +9,10 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
     <record id="integrated_supplier_invoice" model="account.invoice" context="{'tracking_disable': True}">
         <field name="company_id" ref="intercompany_trade_base.supplier_company"/>
+        <field name="currency_id" ref="base.EUR"/>
         <field name="partner_id" eval="obj(ref('intercompany_trade_base.intercompany_trade')).customer_partner_id.id" model="intercompany.trade.config"/>
         <field name="account_id" ref="supplier_account_receivable"/>
+        <field name="journal_id" ref="supplier_journal_sale"/>
     </record>
 
 </data></openerp>
