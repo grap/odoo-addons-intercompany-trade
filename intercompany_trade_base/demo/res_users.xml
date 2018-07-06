@@ -14,6 +14,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
     <record id="customer_user" model="res.users" context="{'no_reset_password': True}">
         <field name="name">Intercompany Trade Customer User</field>
         <field name="login">intercompany_trade_customer</field>
+        <field name="email">intercompany_trade_customer@odoo.test</field>
         <field name="password">demo</field>
         <field name="company_id" eval="customer_company" />
         <field name="company_ids" eval="[(4, [ref('customer_company')])]" />
@@ -22,6 +23,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
     <record id="supplier_user" model="res.users" context="{'no_reset_password': True}">
         <field name="name">Intercompany Trade Supplier User</field>
         <field name="login">intercompany_trade_supplier</field>
+        <field name="email">intercompany_trade_supplier@odoo.test</field>
         <field name="password">demo</field>
         <field name="company_id" eval="supplier_company" />
         <field name="company_ids" eval="[(4, [ref('supplier_company')])]" />

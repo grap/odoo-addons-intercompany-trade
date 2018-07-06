@@ -78,64 +78,73 @@ class AccountInvoice(models.Model):
     def write(self, vals):
         res = super(AccountInvoice, self).write(vals)
 
-        if 'intercompany_trade_do_not_propagate' not in self.env.context:
-            for invoice in self:
-                if invoice.intercompany_trade:
-                    config =\
-                        self._get_intercompany_trade_by_partner_company_type(
-                            invoice.partner_id.id, invoice.company_id.id,
-                            invoice.type)
-                    # Disable possibility to change the supplier
-                    if 'partner_id' in vals and\
-                            vals.get('partner_id') != invoice.partner_id.id:
+        if not self.env.context.get(
+                'intercompany_trade_do_not_propagate', False):
+
+            for invoice in self.filtered(lambda x: x.intercompany_trade):
+                config =\
+                    self._get_intercompany_trade_by_partner_company_type(
+                        invoice.partner_id.id, invoice.company_id.id,
+                        invoice.type)
+                # Disable possibility to change the supplier
+                if 'partner_id' in vals and\
+                        vals.get('partner_id') != invoice.partner_id.id:
+                    raise UserError(_(
+                        "Error!\nYou can not change the partner because of"
+                        " Intercompany Trade Rules. Please create"
+                        " a new Invoice."))
+
+                # Update changes for according invoice
+                invoice_vals, other_user =\
+                    invoice.prepare_intercompany_invoice(config, 'update')
+
+                invoice_other = invoice.sudo().browse(
+                    invoice.intercompany_trade_account_invoice_id)
+                invoice_other.with_context(
+                    intercompany_trade_do_not_propagate=True).write(
+                        invoice_vals)
+
+                if invoice.type == 'out_invoice' and\
+                        vals.get('state', False) == 'open':
+                    if invoice_other.amount_untaxed !=\
+                            invoice.amount_untaxed\
+                            or invoice_other.amount_tax !=\
+                            invoice.amount_tax:
                         raise UserError(_(
-                            "Error!\nYou can not change the partner because of"
-                            " Intercompany Trade Rules. Please create"
-                            " a new Invoice."))
+                            "Error!\nYou can not validate this invoice"
+                            " because the according customer invoice"
+                            " don't have the same total amount."
+                            " Please fix the problem first."))
+                    wf_service = netsvc.LocalService("workflow")
 
-                    # Update changes for according invoice
-                    invoice_vals, other_user =\
-                        invoice.prepare_intercompany_invoice(config, 'update')
+                    wf_service.trg_validate(
+                        other_user.id, 'account.invoice',
+                        invoice_other.id, 'invoice_verify', self.env.cr)
 
-                    invoice_other = invoice.sudo().browse(
-                        invoice.intercompany_trade_account_invoice_id)
-                    invoice_other.with_context(
-                        intercompany_trade_do_not_propagate=True).write(
-                            invoice_vals)
-
-                    if invoice.type == 'out_invoice' and\
-                            vals.get('state', False) == 'open':
-                        if invoice_other.amount_untaxed !=\
-                                invoice.amount_untaxed\
-                                or invoice_other.amount_tax !=\
-                                invoice.amount_tax:
-                            raise UserError(_(
-                                "Error!\nYou can not validate this invoice"
-                                " because the according customer invoice"
-                                " don't have the same total amount."
-                                " Please fix the problem first."))
-                        wf_service = netsvc.LocalService("workflow")
-
-                        wf_service.trg_validate(
-                            other_user.id, 'account.invoice',
-                            invoice_other.id, 'invoice_verify', self.env.cr)
-
-                        wf_service.trg_validate(
-                            other_user.id, 'account.invoice',
-                            invoice_other.id, 'invoice_open', self.env.cr)
+                    wf_service.trg_validate(
+                        other_user.id, 'account.invoice',
+                        invoice_other.id, 'invoice_open', self.env.cr)
 
         return res
 
     @api.multi
     def unlink(self):
-        """" Unlink the according Invoices"""
-        if 'intercompany_trade_do_not_propagate' not in self.env.context:
-            for invoice in self:
-                if invoice.intercompany_trade:
-                    invoice_other = invoice.sudo().browse(
-                        invoice.intercompany_trade_account_invoice_id)
-                    invoice_other.with_context(
-                        intercompany_trade_do_not_propagate=True).unlink()
+        if not self.env.context.get(
+                'intercompany_trade_do_not_propagate', False):
+
+            for invoice in self.filtered(lambda x: x.intercompany_trade):
+                # Block Customer Deletion
+                if invoice.type in ('in_invoice', 'in_refund'):
+                    raise UserError(_(
+                        "Error!\nYou can not delete invoices."
+                        " Please ask to your supplier to do it."))
+
+                # Delete according Invoice
+                invoice_other = invoice.sudo().browse(
+                    invoice.intercompany_trade_account_invoice_id)
+                invoice_other.with_context(
+                    intercompany_trade_do_not_propagate=True).unlink()
+
         return super(AccountInvoice, self).unlink()
 
     # Custom Section
