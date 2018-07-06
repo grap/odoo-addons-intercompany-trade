@@ -109,7 +109,7 @@ class IntercompanyTradeConfig(models.Model):
                     self.supplier_partner_id)['supplier_sale_price']
 
         else:
-            supplierinfos = supplierinfo_obj.search([
+            supplierinfos = supplierinfo_obj.sudo().search([
                 ('supplier_product_id', '=', product_id),
                 ('name', '=', self.supplier_partner_id.id),
                 ('company_id', '=', self.customer_company_id.id)])
