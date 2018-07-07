@@ -3,8 +3,12 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import logging
+
 from openerp.exceptions import Warning as UserError
 from openerp.tests.common import TransactionCase
+
+_logger = logging.getLogger(__name__)
 
 
 class Test(TransactionCase):
@@ -39,6 +43,17 @@ class Test(TransactionCase):
             'intercompany_trade_base.supplier_user')
         self.precision = self.env['decimal.precision'].precision_get(
             'Intercompany Trade Product Price')
+
+    def test_0_display_module(self):
+        # Temporaly log. log installed modules.
+        module_obj = self.env['ir.module.module']
+        modules = module_obj.search(
+            [('state', '=', 'installed')], order='name')
+        _logger.info("===SLG==================")
+        _logger.info("===SLG=== %d modules installed." % (len(modules)))
+        _logger.info("===SLG=== module list: %s" % (', '.join(
+            [x.name for x in modules])))
+        _logger.info("===SLG==================")
 
     # Test Section
     def test_01_product_association(self):
