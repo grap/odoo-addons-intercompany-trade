@@ -56,8 +56,7 @@ class AccountInvoice(models.Model):
                 invoice.prepare_intercompany_invoice(config, 'create')
 
             invoice_other = self.sudo().with_context(
-                intercompany_trade_do_not_propagate=True,
-                type=None, journal_type=None, default_type=None).create(
+                intercompany_trade_do_not_propagate=True).create(
                 invoice_other_vals)
 
             # Set other id
@@ -164,23 +163,15 @@ class AccountInvoice(models.Model):
     @api.multi
     def prepare_intercompany_invoice(self, config, operation):
         self.ensure_one()
+        other_user = config.customer_user_id
+        other_company_id = config.customer_company_id.id
+        other_partner_id = config.supplier_partner_id.id
         if self.type == 'out_invoice':
-            # A Purchase Invoice Create a Sale Invoice
-            other_type = 'in_invoice'
-            other_user = config.customer_user_id
-            other_company_id = config.customer_company_id.id
-            other_partner_id = config.supplier_partner_id.id
-        elif self.type == 'in_invoice':
             # A Sale Invoice Create a Purchase Invoice
-            other_type = 'out_invoice'
-            other_user = config.supplier_user_id
-            other_company_id = config.supplier_company_id.id
-            other_partner_id = config.customer_partner_id.id
-        else:
-            raise UserError(_(
-                "Unimplemented Feature!\n You can not create an invoice %s"
-                " with a partner flagged as Intercompany Trade." % (
-                    self.type)))
+            other_type = 'in_invoice'
+        elif self.type == 'out_refund':
+            # A Sale Refund Create a Purchase Refund
+            other_type = 'in_refund'
 
         account_info = self.sudo().onchange_partner_id(
             other_type, other_partner_id, company_id=other_company_id)['value']
@@ -197,9 +188,8 @@ class AccountInvoice(models.Model):
             'currency_id': self.currency_id.id,
             'comment': self.comment,
         }
-        if self.type == 'out_invoice':
-            values['supplier_invoice_number'] = self.number and self.number or\
-                _('Intercompany Trade')
+        values['supplier_invoice_number'] = self.number and self.number or\
+            _('Intercompany Trade')
         if operation == 'create':
             values.update({
                 'partner_id': other_partner_id,
