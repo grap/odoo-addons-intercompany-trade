@@ -12,19 +12,13 @@ class AccountInvoice(models.Model):
     @api.multi
     def prepare_intercompany_invoice(self, config, operation):
         self.ensure_one()
+        partner_obj = self.env['res.partner']
         values, other_user = super(
             AccountInvoice, self).prepare_intercompany_invoice(
                 config, operation)
-        if self.type == 'out_invoice':
-            # FIXME lazy dependency to purchase module
+        if 'property_product_pricelist_purchase' in partner_obj._fields:
             pricelist = config.sudo().with_context(
                 force_company=config.supplier_company_id.id
                 ).supplier_partner_id.property_product_pricelist_purchase
-        elif self.type == 'in_invoice':
-            pricelist =\
-                config.sudo().with_context(
-                    force_company=config.supplier_company_id.id
-                    ).customer_partner_id.property_product_pricelist
-
-        values['pricelist_id'] = pricelist.id
+            values['pricelist_id'] = pricelist.id
         return values, other_user
