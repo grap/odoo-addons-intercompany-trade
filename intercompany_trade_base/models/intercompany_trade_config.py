@@ -104,7 +104,7 @@ class IntercompanyTradeConfig(models.Model):
             'is_company': True,
             'image': company.logo,
             'intercompany_trade': True,
-            'company_id':  inner_company_id,
+            'company_id': inner_company_id,
         }
 
     # Overload Section
