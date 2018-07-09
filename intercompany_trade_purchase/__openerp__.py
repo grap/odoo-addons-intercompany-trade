@@ -14,9 +14,6 @@
         'intercompany_trade_base',
         'purchase',
     ],
-    'data': [
-        'views/view_intercompany_trade_config.xml',
-    ],
     'demo': [
         'demo/res_groups.xml',
     ],
