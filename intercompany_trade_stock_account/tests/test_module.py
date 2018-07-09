@@ -28,7 +28,7 @@ class TestModule(TransactionCase):
             'intercompany_trade_base.supplier_user')
         self.unit_uom = self.env.ref('product.product_uom_unit')
         self.warehouse = self.env.ref(
-            'intercompany_trade_stock_account.supplier_stock_warehouse')
+            'intercompany_trade_stock.supplier_stock_warehouse')
         self.pricelist = self.env.ref(
             'intercompany_trade_product.sale_pricelist')
         self.picking_type = self.warehouse.out_type_id

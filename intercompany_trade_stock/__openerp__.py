@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'Intercompany Trade - Stock Account',
+    'name': 'Intercompany Trade - Stock',
     'version': '8.0.1.0.0',
     'category': 'Intercompany Trade',
     'author': 'GRAP',
@@ -12,9 +12,12 @@
     'license': 'AGPL-3',
     'depends': [
         'intercompany_trade_base',
-        'intercompany_trade_stock',
-        'intercompany_trade_account',
-        'stock_account',
+        'intercompany_trade_product',
+        'stock',
+    ],
+    'demo': [
+        'demo/res_groups.xml',
+        'demo/stock_warehouse.xml',
     ],
     'auto_install': False,
     'installable': True,

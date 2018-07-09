@@ -24,6 +24,7 @@
     'demo': [
         'demo/res_company.xml',
         'demo/res_users.xml',
+        'demo/res_partner.xml',
         'demo/res_groups.xml',
         'demo/intercompany_trade_config.xml',
     ],

@@ -8,13 +8,13 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 <openerp><data>
 
     <record id="supplier_stock_warehouse" model="stock.warehouse">
-        <field name="name">Intercompany Trade - Supplier Warehouse</field>
+        <field name="name">Intercompany Trade - Supplier Warehouse </field>
         <field name="code">IT-SUPP-WH</field>
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
     </record>
 
     <record id="customer_stock_warehouse" model="stock.warehouse">
-        <field name="name">Intercompany Trade - Customer Warehouse</field>
+        <field name="name">Intercompany Trade - Customer Warehouse </field>
         <field name="code">IT-SUPP-WH</field>
         <field name="company_id" ref="intercompany_trade_base.customer_company" />
     </record>

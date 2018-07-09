@@ -23,8 +23,8 @@ class PurchaseOrder(models.Model):
         orders = self.filtered(lambda x: x.intercompany_trade)
         if orders:
             raise UserError(_(
-                "Intercompany Trade\n"
-                " The supplier invoices will be created by your supplier"))
+                "In Intercompany Trade context, The supplier invoices will"
+                " be created by your supplier"))
         return self.view_invoice()
 
     @api.model
