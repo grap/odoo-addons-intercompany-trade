@@ -7,11 +7,15 @@ from openerp.addons.intercompany_trade_product.tests.\
     test_intercompany_trade_product import\
     Test as TestIntercompanyTradeProduct
 
+from openerp.addons.intercompany_trade_stock_account.tests.\
+    test_module import\
+    TestModule as TestIntercompanyTradeStockAccount
 
-class TestModule(TestIntercompanyTradeProduct):
+
+class TestModuleProduct(TestIntercompanyTradeProduct):
 
     def setUp(self):
-        super(TestModule, self).setUp()
+        super(TestModuleProduct, self).setUp()
 
     def test_01_product_association(self):
         """[Functional Test] Check if associate a product create a
@@ -23,3 +27,14 @@ class TestModule(TestIntercompanyTradeProduct):
             - Get supplier product from customer product
             - Get Customer Product from supplier Product"""
         self._test_02_product_association_recovery()
+
+
+class TestModuleStockAccount(TestIntercompanyTradeStockAccount):
+
+    def setUp(self):
+        super(TestModuleStockAccount, self).setUp()
+
+    def test_01_invoice_stock_picking(self):
+        """[Functional Test] Check if invoicing stock picking
+        create correct intercompany trade invoice"""
+        self._test_01_invoice_stock_picking()
