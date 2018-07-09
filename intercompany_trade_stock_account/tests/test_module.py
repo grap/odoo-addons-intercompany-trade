@@ -80,4 +80,3 @@ class TestModule(TransactionCase):
             line.intercompany_trade_account_invoice_line_id, False,
             "Invoicing an Intercompany Trade stock picking should generate"
             " invoice lines with related invoice id.")
-        # TODO Test if journal is correct

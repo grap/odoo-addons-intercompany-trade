@@ -4,7 +4,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import api, fields, models
-from .custom_tools import _check_taxes
 from openerp.addons import decimal_precision as dp
 
 
@@ -31,6 +30,7 @@ class IntercompanyTradeWizardLinkProduct(models.TransientModel):
     @api.multi
     def link_product(self):
         self.ensure_one()
+        config_obj = self.env['intercompany.trade.config']
         product_obj = self.env['product.product']
 
         for wizard in self:
@@ -38,8 +38,6 @@ class IntercompanyTradeWizardLinkProduct(models.TransientModel):
                 wizard.supplier_product_id.id)
             cus_product = product_obj.sudo().browse(
                 wizard.customer_product_id.id)
-            _check_taxes(
-                self.pool, self.env.cr, self.env.uid, sup_product, cus_product,
-                context=self.env.context)
+            config_obj._check_taxes(sup_product, cus_product)
 
         return super(IntercompanyTradeWizardLinkProduct, self).link_product()
