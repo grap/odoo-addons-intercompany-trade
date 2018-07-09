@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2014 - Today GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<openerp><data>
+
+    <record id="normal_supplier" model="res.partner">
+        <field name="name">Normal Supplier in Customer Company</field>
+        <field name="company_id" eval="customer_company" />
+        <field name="customer" eval="False" />
+        <field name="supplier" eval="True" />
+    </record>
+
+</data></openerp>
