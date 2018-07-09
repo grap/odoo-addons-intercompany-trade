@@ -13,6 +13,7 @@ It will be set in the test.
         <field name="name">Intercompany Trade SO</field>
         <field name="partner_id" ref="base.res_partner_1"/>
         <field name="company_id" ref="intercompany_trade_base.supplier_company"/>
+        <field name="pricelist_id" ref="sale_pricelist"/>
     </record>
 
     <record id="sale_order_line_1" model="sale.order.line">

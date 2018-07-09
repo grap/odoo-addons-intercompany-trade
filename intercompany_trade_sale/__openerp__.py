@@ -17,6 +17,7 @@
         'sale',
     ],
     'demo': [
+        'demo/product_pricelist.xml',
         'demo/sale_order.xml',
     ],
     'auto_install': False,
