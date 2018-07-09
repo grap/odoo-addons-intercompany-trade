@@ -18,7 +18,7 @@ class AccountInvoice(models.Model):
                 config, operation)
         if 'property_product_pricelist_purchase' in partner_obj._fields:
             pricelist = config.sudo().with_context(
-                force_company=config.supplier_company_id.id
-                ).supplier_partner_id.property_product_pricelist_purchase
+                force_company=config.supplier_company_id.id,
+            ).supplier_partner_id.property_product_pricelist_purchase
             values['pricelist_id'] = pricelist.id
         return values, other_user

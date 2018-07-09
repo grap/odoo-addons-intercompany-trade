@@ -177,6 +177,6 @@ class AccountInvoiceLine(models.Model):
             'invoice_line_tax_id': (
                 values.get('invoice_line_tax_id', False) and
                 [[6, False, values['invoice_line_tax_id']]] or False),
-            })
+        })
 
         return values
