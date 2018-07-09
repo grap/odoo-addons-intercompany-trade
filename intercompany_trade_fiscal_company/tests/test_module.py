@@ -4,8 +4,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp.addons.intercompany_trade_product.tests.\
-    test_intercompany_trade_product import\
-    Test as TestIntercompanyTradeProduct
+    test_module import\
+    TestModule as TestIntercompanyTradeProduct
 
 from openerp.addons.intercompany_trade_stock_account.tests.\
     test_module import\
