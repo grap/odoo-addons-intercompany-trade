@@ -23,13 +23,12 @@ class SaleOrder(models.Model):
         res = super(SaleOrder, self).action_invoice_create(
             grouped=grouped, states=states, date_invoice=date_invoice)
         invoices = invoice_obj.browse(res)
-        for invoice in invoices:
-            if invoice.intercompany_trade:
-                lines = []
-                for line in invoice.invoice_line:
-                    if not line.intercompany_trade_account_invoice_line_id:
-                        lines.append(line)
-                for line in lines:
-                    line.copy()
-                    line.unlink()
+        for invoice in invoices.filtered(lambda x: x.intercompany_trade):
+            lines = []
+            for line in invoice.invoice_line:
+                if not line.intercompany_trade_account_invoice_line_id:
+                    lines.append(line)
+            for line in lines:
+                line.copy()
+                line.unlink()
         return res
