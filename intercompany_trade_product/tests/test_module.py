@@ -11,11 +11,11 @@ from openerp.tests.common import TransactionCase
 _logger = logging.getLogger(__name__)
 
 
-class Test(TransactionCase):
+class TestModule(TransactionCase):
 
     # Overload Section
     def setUp(self):
-        super(Test, self).setUp()
+        super(TestModule, self).setUp()
 
         # Get Registries
         self.module_obj = self.env['ir.module.module']
