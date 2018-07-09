@@ -66,4 +66,3 @@ class TestModule(TransactionCase):
             'date_planned': '1970-01-01',
         })
         return purchase_order
-
