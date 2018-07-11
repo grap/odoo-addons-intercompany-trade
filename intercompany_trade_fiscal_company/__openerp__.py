@@ -14,6 +14,7 @@
         'account_fiscal_company',
         'intercompany_trade_base',
         'intercompany_trade_product',
+        'intercompany_trade_stock',
         'intercompany_trade_purchase',  # TODO Remove me. (temporary)
         'purchase',
         'sale',
