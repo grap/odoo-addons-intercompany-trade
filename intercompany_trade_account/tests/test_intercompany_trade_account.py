@@ -187,10 +187,30 @@ class Test(TransactionCase):
         supplier_invoice.signal_workflow('invoice_open')
         customer_invoice = self.invoice_obj.sudo(self.customer_user).browse(
             supplier_invoice.intercompany_trade_account_invoice_id)
-
         self.assertEqual(
             customer_invoice.state, 'open',
             "Confirm an Out Invoice should confirm the according In Invoice.")
+
+    def test_05_unlink_invoice_out(self):
+        """
+            Unlink an Out Invoice (Customer Invoice) by the supplier
+            must unlink the In Invoice
+        """
+        supplier_invoice = self._create_supplier_invoice()
+        customer_invoice_id =\
+            supplier_invoice.intercompany_trade_account_invoice_id
+        customer_invoices = self.invoice_obj.sudo(self.customer_user).search(
+            [('id', '=', customer_invoice_id)])
+        self.assertEqual(
+            len(customer_invoices), 1,
+            "Create an Out Invoice should create the according In Invoice.")
+        supplier_invoice.unlink()
+        customer_invoices = self.invoice_obj.sudo(self.customer_user).search(
+            [('id', '=', customer_invoice_id)])
+        self.assertEqual(
+            len(customer_invoices), 0,
+            "Unlink an Out Invoice should unlink the according In Invoice.")
+
 
     # Private Function
     def _create_supplier_invoice(self):
@@ -203,7 +223,6 @@ class Test(TransactionCase):
         vals.update({
             'partner_id': self.config.customer_partner_id.id,
         })
-
         return self.invoice_obj.sudo(
             self.supplier_user).with_context(
                 type='out_invoice', tracking_disable=True).create(vals)
