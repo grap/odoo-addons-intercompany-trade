@@ -121,21 +121,8 @@ class Test(TransactionCase):
             Create an Out Invoice (Customer Invoice) by the supplier
             must create an In Invoice
         """
-        # Create a Out Invoice
-        vals = self.invoice_obj.sudo(self.supplier_user).with_context(
-            type='out_invoice', tracking_disable=True).default_get(
-                ['currency_id', 'journal_id'])
-        vals.update(self.invoice_obj.sudo(
-            self.supplier_user).onchange_partner_id(
-                'out_type', self.config.customer_partner_id.id)['value'])
-        vals.update({
-            'partner_id': self.config.customer_partner_id.id,
-        })
-
-        supplier_invoice = self.invoice_obj.sudo(
-            self.supplier_user).with_context(
-                type='out_invoice', tracking_disable=True).create(vals)
-
+        # check creation of the according Customer Invoice
+        supplier_invoice = self._create_supplier_invoice()
         customer_invoice = self.invoice_obj.sudo(self.customer_user).browse(
             supplier_invoice.intercompany_trade_account_invoice_id)
 
@@ -147,23 +134,9 @@ class Test(TransactionCase):
             customer_invoice.type, 'in_invoice',
             "Create an In Invoice must create an Out invoice.")
 
-        # Create a Invoice Line
-        vals = self.invoice_line_obj.sudo(self.supplier_user).with_context(
-            type='out_invoice', tracking_disable=True).default_get(
-                ['account_id', 'quantity'])
-        vals.update({
-            'invoice_id': supplier_invoice.id,
-            'name': 'Supplier Invoice Line Test',
-            'product_id': self.supplier_product.id,
-            'uos_id': self.product_uom_unit.id,
-            'price_unit': 50,
-            'quantity': 1,
-        })
-
-        supplier_invoice_line = self.invoice_line_obj.sudo(
-            self.supplier_user).create(vals)
-
-        # Checks creation of the according Invoice Line
+        # Checks creation of the according Customer Invoice Line
+        supplier_invoice_line = self._create_supplier_invoice_line(
+            supplier_invoice)
         customer_invoice_line = self.invoice_line_obj.sudo(
             self.customer_user).browse(
                 supplier_invoice_line.
@@ -176,7 +149,7 @@ class Test(TransactionCase):
         # Update Customer Invoice Line (change price = must fail)
         with self.assertRaises(UserError):
             customer_invoice_line.sudo(
-                self.customer_user).write({'price_unit': 10})
+                self.customer_user).write({'product_id': 10})
 
         # Update Supplier Invoice Line (change price should update other line)
         supplier_invoice_line.sudo(
@@ -202,3 +175,50 @@ class Test(TransactionCase):
             len(count), 0,
             "Delete supplier Invoice Line must delete according"
             " customer Invoice Line.")
+
+    def test_04_confirm_invoice_out(self):
+        """
+            Confirm an Out Invoice (Customer Invoice) by the supplier
+            must confirm the In Invoice
+        """
+        supplier_invoice = self._create_supplier_invoice()
+        self._create_supplier_invoice_line(
+            supplier_invoice)
+        supplier_invoice.signal_workflow('invoice_open')
+        customer_invoice = self.invoice_obj.sudo(self.customer_user).browse(
+            supplier_invoice.intercompany_trade_account_invoice_id)
+
+        self.assertEqual(
+            customer_invoice.state, 'open',
+            "Confirm an Out Invoice should confirm the according In Invoice.")
+
+    # Private Function
+    def _create_supplier_invoice(self):
+        vals = self.invoice_obj.sudo(self.supplier_user).with_context(
+            type='out_invoice', tracking_disable=True).default_get(
+                ['currency_id', 'journal_id'])
+        vals.update(self.invoice_obj.sudo(
+            self.supplier_user).onchange_partner_id(
+                'out_type', self.config.customer_partner_id.id)['value'])
+        vals.update({
+            'partner_id': self.config.customer_partner_id.id,
+        })
+
+        return self.invoice_obj.sudo(
+            self.supplier_user).with_context(
+                type='out_invoice', tracking_disable=True).create(vals)
+
+    def _create_supplier_invoice_line(self, supplier_invoice):
+        vals = self.invoice_line_obj.sudo(self.supplier_user).with_context(
+            type='out_invoice', tracking_disable=True).default_get(
+                ['account_id', 'quantity'])
+        vals.update({
+            'invoice_id': supplier_invoice.id,
+            'name': 'Supplier Invoice Line Test',
+            'product_id': self.supplier_product.id,
+            'uos_id': self.product_uom_unit.id,
+            'price_unit': 50,
+            'quantity': 1,
+        })
+        return self.invoice_line_obj.sudo(
+            self.supplier_user).create(vals)
