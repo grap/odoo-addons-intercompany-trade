@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2018 - Today: GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+
+<openerp><data>
+
+    <record id="purchase_pricelist" model="product.pricelist">
+        <field name="name">Purchase Pricelist Intercompany Trade</field>
+        <field name="type">purchase</field>
+        <field name="company_id" ref="intercompany_trade_base.customer_company"/>
+    </record>
+
+    <record id="purchase_pricelist_version" model="product.pricelist.version">
+        <field name="name">Purchase Pricelist Intercompany Trade</field>
+        <field name="pricelist_id" ref="purchase_pricelist"/>
+    </record>
+
+    <record id="purchase_pricelist_item" model="product.pricelist.item">
+        <field name="name">Purchase Pricelist Intercompany Trade</field>
+        <field name="price_version_id" ref="purchase_pricelist_version"/>
+        <field name="base" ref="product.list_price"/>
+    </record>
+
+</data></openerp>
