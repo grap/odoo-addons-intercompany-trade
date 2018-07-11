@@ -10,6 +10,14 @@ from openerp.exceptions import Warning as UserError
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
 
+    # Due to bad design, some field are written on computed function
+    # with account_invoice_triple_discount
+    # To avoid error, the following fields are allowed for the time being
+    # TODO V10. Check if it is required.
+    # Alternatively, we could add a check on the user. (Block if user != admin)
+    _CUSTOMER_ALLOWED_FIELDS = [
+        'discount', 'price_unit']
+
     # Columns Section
     intercompany_trade = fields.Boolean(
         string='Intercompany Trade',
@@ -76,10 +84,17 @@ class AccountInvoiceLine(models.Model):
             for line in self.filtered(lambda x: x.intercompany_trade):
 
                 # Block Customer Update
-                if line.invoice_id.type in ('in_invoice', 'in_refund'):
-                    raise UserError(_(
-                        "Error!\nYou can not edit invoice lines."
-                        " Please ask to your supplier to do it."))
+                if line.invoice_id.type in ['in_invoice', 'in_refund']:
+                    copy_vals = vals.copy()
+                    for key in self._CUSTOMER_ALLOWED_FIELDS:
+                        copy_vals.pop(key, False)
+                    if copy_vals:
+                        raise UserError(_(
+                            "You can not edit invoice lines."
+                            " Please ask to your supplier to do it."
+                            "\n\n %s") % ', '.join(
+                                [x for x in copy_vals.keys()]))
+                    continue
 
                 # Block supplier changes for some fields.
                 if 'product_id' in vals.keys():

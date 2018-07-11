@@ -3,12 +3,19 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import _, api, fields, models, netsvc
+from openerp import _, api, fields, models
 from openerp.exceptions import Warning as UserError
 
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
+
+    # TODO V10. Check if it is required with workflow removing
+    # Alternatively, we could add a check on the user. (Block if user != admin)
+    _CUSTOMER_ALLOWED_FIELDS = [
+        'state', 'date_due', 'period_id', 'move_id', 'move_name',
+        'internal_number',
+    ]
 
     # Columns Section
     intercompany_trade_account_invoice_id = fields.Integer(
@@ -18,11 +25,24 @@ class AccountInvoice(models.Model):
         string='Intercompany Trade', related='partner_id.intercompany_trade',
         store=True)
 
+    intercompany_trade_readonly = fields.Boolean(
+        string='Intercompany Trade Readonly',
+        compute='_compute_intercompany_trade_readonly')
+
     amount_total = fields.Float(compute_sudo=True)
 
     amount_tax = fields.Float(compute_sudo=True)
 
     amount_untaxed = fields.Float(compute_sudo=True)
+
+    # Compute Section
+    @api.multi
+    @api.depends('type', 'intercompany_trade')
+    def _compute_intercompany_trade_readonly(self):
+        for invoice in self.filtered(
+                lambda x: x.intercompany_trade and
+                x.type in ['in_invoice', 'in_refund']):
+            invoice.intercompany_trade_readonly = True
 
     # Overload Section
     @api.model
@@ -81,6 +101,22 @@ class AccountInvoice(models.Model):
                 'intercompany_trade_do_not_propagate', False):
 
             for invoice in self.filtered(lambda x: x.intercompany_trade):
+                if vals.get('state', False) == 'cancel':
+                    raise UserError(_(
+                        "You can not cancel intercompany Trade. Please make"
+                        " a Refund."))
+                if invoice.type in ['in_invoice', 'in_refund']:
+                    copy_vals = vals.copy()
+                    for key in self._CUSTOMER_ALLOWED_FIELDS:
+                        copy_vals.pop(key, False)
+                    if copy_vals:
+                        raise UserError(_(
+                            "You can not write a Purchase invoice or refund"
+                            " for intercompany trade. Ask to your supplier"
+                            " to create it.\n\n %s") % ', '.join(
+                                [x for x in copy_vals.keys()]))
+                    continue
+
                 config =\
                     self._get_intercompany_trade_by_partner_company_type(
                         invoice.partner_id.id, invoice.company_id.id,
@@ -103,26 +139,20 @@ class AccountInvoice(models.Model):
                     intercompany_trade_do_not_propagate=True).write(
                         invoice_vals)
 
-                if invoice.type == 'out_invoice' and\
-                        vals.get('state', False) == 'open':
+                # Check during State changes if amount are coherent
+                if vals.get('state', False):
                     if invoice_other.amount_untaxed !=\
                             invoice.amount_untaxed\
                             or invoice_other.amount_tax !=\
                             invoice.amount_tax:
                         raise UserError(_(
-                            "Error!\nYou can not validate this invoice"
-                            " because the according customer invoice"
-                            " don't have the same total amount."
+                            "Error!\nYou can not change the state of this"
+                            " invoice because the according customer invoice"
+                            " doesn't have the same total amount."
                             " Please fix the problem first."))
-                    wf_service = netsvc.LocalService("workflow")
 
-                    wf_service.trg_validate(
-                        other_user.id, 'account.invoice',
-                        invoice_other.id, 'invoice_verify', self.env.cr)
-
-                    wf_service.trg_validate(
-                        other_user.id, 'account.invoice',
-                        invoice_other.id, 'invoice_open', self.env.cr)
+                if vals.get('state', False) == 'open':
+                    invoice_other.sudo().signal_workflow('invoice_open')
 
         return res
 

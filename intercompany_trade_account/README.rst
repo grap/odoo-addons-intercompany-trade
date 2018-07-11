@@ -26,16 +26,16 @@ Features
 
 In intercompany trade context:
 
-* Purchase orders can not be invoice
+* Purchase orders can not be invoiced
 * Incoming Pickings can not be invoiced
 
 Roadmap / Issues
 ----------------
 
-* Some tests are disabled for the time being.
-* Could be great to rename this module into intercompany_trade_transaction
-  for generic, and depending officialy from purchase, sale, account and merging
-  with intercompany_trade_stock.
+* For the time being, invoices validation process is quite hard because
+  Odoo uses workflow, where context can not be passed easily.
+  To do in V10 : simplify this module, removing _CUSTOMER_ALLOWED_FIELDS
+  system.
 
 Contributors
 ------------
