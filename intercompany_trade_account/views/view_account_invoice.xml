@@ -16,14 +16,13 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         </field>
     </record>
 
-    <record id="view_account_invoice_form_customer" model="ir.ui.view">
+    <record id="view_account_invoice_form" model="ir.ui.view">
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account.invoice_form"/>
         <field name="arch" type="xml">
             <field name="account_id" position="after">
                 <field name="intercompany_trade"
-                    groups="intercompany_trade_base.intercompany_trade_user"
-                    />
+                    groups="intercompany_trade_base.intercompany_trade_user"/>
                 <field name="intercompany_trade_account_invoice_id"
                     groups="intercompany_trade_base.intercompany_trade_manager"/>
             </field>
@@ -40,7 +39,20 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                     />
                 <field name="intercompany_trade_account_invoice_id"
                     groups="intercompany_trade_base.intercompany_trade_manager"/>
+                <field name="intercompany_trade_readonly"/>
             </field>
+            <field name="invoice_line" position="attributes">
+                <attribute name="attrs">{'readonly': [('intercompany_trade', '=', True)]}</attribute>
+            </field>
+            <button name="invoice_cancel" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('intercompany_trade', '=', True), ('state', 'not in', ['draft','proforma2'])]}</attribute>
+            </button>
+            <button name="action_cancel_draft" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('intercompany_trade', '=', True), ('state', 'not in', ['cancel'])]}</attribute>
+            </button>
+            <button name="invoice_open" position="attributes">
+                <attribute name="attrs">{'invisible': [('intercompany_trade', '=', True)]}</attribute>
+            </button>
         </field>
     </record>
 
