@@ -25,7 +25,7 @@ class TestModule(TransactionCase):
         self.warehouse = self.env.ref(
             'intercompany_trade_stock.customer_stock_warehouse')
         self.pricelist = self.env.ref(
-            'intercompany_trade_product.purchase_pricelist')
+            'intercompany_trade_purchase.purchase_pricelist')
 
     def test_01_invoice_purchase_order_intercompany_trade(self):
         """[Functional Test] Test if invoicing is not done for
