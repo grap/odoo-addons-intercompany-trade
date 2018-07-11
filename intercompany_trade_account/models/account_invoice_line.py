@@ -151,20 +151,13 @@ class AccountInvoiceLine(models.Model):
                 invoice.partner_id.id,
                 invoice.company_id.id,
                 invoice.type)
-        if invoice.type == 'out_invoice':
-            # A Purchase Invoice Create a Sale Invoice
+        if invoice.type in ['out_invoice', 'out_refund']:
+            # A Purchase Invoice Line Create a Sale Invoice Line
             direction = 'out'
-            other_type = 'in_invoice'
+            other_type = invoice.type.replace('out_', 'in_')
             other_user = config.customer_user_id
             other_company_id = config.customer_company_id.id
             other_partner_id = config.supplier_partner_id.id
-        elif invoice.type == 'in_invoice':
-            # A Sale Invoice Create a Purchase Invoice
-            direction = 'in'
-            other_type = 'out_invoice'
-            other_user = config.supplier_user_id
-            other_company_id = config.supplier_company_id.id
-            other_partner_id = config.customer_partner_id.id
         else:
             raise UserError(_(
                 "Unimplemented Feature!\n"
