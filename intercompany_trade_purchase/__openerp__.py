@@ -12,6 +12,8 @@
     'license': 'AGPL-3',
     'depends': [
         'intercompany_trade_base',
+        'intercompany_trade_product',
+        'intercompany_trade_stock',
         'purchase',
     ],
     'demo': [
