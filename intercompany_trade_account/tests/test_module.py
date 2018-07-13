@@ -2,12 +2,22 @@
 # Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-# flake8: noqa
-# TODO FIXME
 
 
 from openerp.exceptions import Warning as UserError
 from openerp.tests.common import TransactionCase
+
+from openerp.addons.intercompany_trade_base.tests.\
+    test_module import\
+    TestModule as TestIntercompanyTradeBase
+
+
+class TestBase(TestIntercompanyTradeBase):
+    def setUp(self):
+        super(TestBase, self).setUp()
+
+    def test_super(self):
+        self.test_00_log_installed_modules()
 
 
 class Test(TransactionCase):
@@ -43,7 +53,6 @@ class Test(TransactionCase):
             'intercompany_trade_product.product_customer_ref')
         self.supplier_product = self.env.ref(
             'intercompany_trade_product.product_supplier_ref')
-
 
         self.product_supplier_service_25_incl = self.env.ref(
             'intercompany_trade_account.product_supplier_service_25_incl')
@@ -95,7 +104,6 @@ class Test(TransactionCase):
             [Functional Test] Associate products with compatible VAT
             must succeed (Incl / excl)
         """
-        cr, uid = self.cr, self.customer_user.id
         # Associate with good VAT
         # (Customer Service VAT 10% EXCLUDED
         # -> Supplier Service VAT 10% INCLUDE)
@@ -114,7 +122,6 @@ class Test(TransactionCase):
             self.assertTrue(
                 "Associate a Customer Product with 10% Excl VAT to  a supplier"
                 " Product with 10% Incl VAT must succeed.")
-
 
     def test_03_create_invoice_out(self):
         """
@@ -210,7 +217,6 @@ class Test(TransactionCase):
         self.assertEqual(
             len(customer_invoices), 0,
             "Unlink an Out Invoice should unlink the according In Invoice.")
-
 
     # Private Function
     def _create_supplier_invoice(self):
