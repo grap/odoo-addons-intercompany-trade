@@ -14,6 +14,7 @@
         'intercompany_trade_base',
         'intercompany_trade_product',
         'intercompany_trade_stock',
+        'intercompany_trade_account',
         'purchase',
     ],
     'demo': [
