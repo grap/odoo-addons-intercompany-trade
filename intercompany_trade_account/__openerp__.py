@@ -11,7 +11,7 @@
     'website': 'http://www.grap.coop',
     'license': 'AGPL-3',
     'depends': [
-        'intercompany_trade_product',
+        'intercompany_trade_base',
         'account',
     ],
     'demo': [
@@ -31,6 +31,6 @@
         'views/view_intercompany_trade_wizard_link_product.xml',
         'views/view_account_invoice.xml',
     ],
-    'auto_install': False,
+    'auto_install': True,
     'installable': True,
 }
