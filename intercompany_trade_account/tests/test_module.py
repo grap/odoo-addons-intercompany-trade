@@ -3,6 +3,7 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import logging
 
 from openerp.exceptions import Warning as UserError
 from openerp.tests.common import TransactionCase
@@ -10,6 +11,9 @@ from openerp.tests.common import TransactionCase
 from openerp.addons.intercompany_trade_base.tests.\
     test_module import\
     TestModule as TestIntercompanyTradeBase
+
+
+_logger = logging.getLogger(__name__)
 
 
 class TestBase(TestIntercompanyTradeBase):
@@ -33,6 +37,7 @@ class Test(TransactionCase):
         self.catalog_obj = self.env['product.intercompany.trade.catalog']
         self.config_obj = self.env['intercompany.trade.config']
         self.link_obj = self.env['intercompany.trade.wizard.link.product']
+        self.module_obj = self.env['ir.module.module']
 
         # Get ids from xml_ids
         self.config = self.env.ref(
@@ -199,10 +204,23 @@ class Test(TransactionCase):
             "Confirm an Out Invoice should confirm the according In Invoice.")
 
     def test_05_unlink_invoice_out(self):
-        """
-            Unlink an Out Invoice (Customer Invoice) by the supplier
+        """ Unlink an Out Invoice (Customer Invoice) by the supplier
             must unlink the In Invoice
         """
+        # This test fail if sale module is installed, because
+        # sale module inherit sale.order and mention that unlink()
+        # should call action_cancel() that will fail because this module
+        # prevent canceling intercompany_trade invoices.
+        if not self.module_obj.search([
+                ('name', '=', 'sale'),
+                ('state', '=', 'installed')]):
+            self._test_05_unlink_invoice_out()
+        else:
+            _logger.info(
+                "test skipped, will be run later in"
+                " intercompany_trade_sale")
+
+    def _test_05_unlink_invoice_out(self):
         supplier_invoice = self._create_supplier_invoice()
         customer_invoice_id =\
             supplier_invoice.intercompany_trade_account_invoice_id

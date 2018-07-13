@@ -12,15 +12,12 @@
     'license': 'AGPL-3',
     'depends': [
         'intercompany_trade_base',
-        'intercompany_trade_product',
-        'intercompany_trade_stock',
-        'intercompany_trade_account',
         'purchase',
     ],
     'demo': [
         'demo/res_groups.xml',
         'demo/product_pricelist.xml',
     ],
-    'auto_install': False,
+    'auto_install': True,
     'installable': True,
 }

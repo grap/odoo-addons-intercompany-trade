@@ -9,13 +9,13 @@
     'author': 'GRAP',
     'website': 'http://www.grap.coop',
     'license': 'AGPL-3',
+    'depends': [
+        'intercompany_trade_base',
+        'point_of_sale',
+    ],
     'data': [
         'views/templates.xml',
     ],
-    'depends': [
-        'point_of_sale',
-        'intercompany_trade_base',
-    ],
-    'auto_install': False,
+    'auto_install': True,
     'installable': True,
 }
