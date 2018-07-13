@@ -8,6 +8,16 @@ import logging
 from openerp.exceptions import Warning as UserError
 from openerp.tests.common import TransactionCase
 
+from openerp.addons.intercompany_trade_base.tests.\
+    test_module import\
+    TestModule as TestIntercompanyTradeBase
+
+
+class TestBase(TestIntercompanyTradeBase):
+    def setUp(self):
+        super(TestBase, self).setUp()
+        self.test_00_log_installed_modules()
+
 _logger = logging.getLogger(__name__)
 
 
@@ -58,7 +68,7 @@ class TestModule(TransactionCase):
         if not self.module_obj.search([
                 ('name', '=', 'product_fiscal_company'),
                 ('state', '=', 'installed')]):
-            self._test_1_account_invoice_rounding_method()
+            self._test_01_product_association()
         else:
             _logger.info(
                 "test skipped, will be run later in"

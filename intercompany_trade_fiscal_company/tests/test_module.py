@@ -11,6 +11,16 @@ from openerp.addons.intercompany_trade_stock_account.tests.\
     test_module import\
     TestModule as TestIntercompanyTradeStockAccount
 
+from openerp.addons.intercompany_trade_base.tests.\
+    test_module import\
+    TestModule as TestIntercompanyTradeBase
+
+
+class TestBase(TestIntercompanyTradeBase):
+    def setUp(self):
+        super(TestBase, self).setUp()
+        self.test_00_log_installed_modules()
+
 
 class TestModuleProduct(TestIntercompanyTradeProduct):
 

@@ -7,6 +7,16 @@ import logging
 
 from openerp.tests.common import TransactionCase
 
+from openerp.addons.intercompany_trade_base.tests.\
+    test_module import\
+    TestModule as TestIntercompanyTradeBase
+
+
+class TestBase(TestIntercompanyTradeBase):
+    def setUp(self):
+        super(TestBase, self).setUp()
+        self.test_00_log_installed_modules()
+
 _logger = logging.getLogger(__name__)
 
 
