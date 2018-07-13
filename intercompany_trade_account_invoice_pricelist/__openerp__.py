@@ -11,9 +11,9 @@
     'website': 'http://www.grap.coop',
     'license': 'AGPL-3',
     'depends': [
-        'intercompany_trade_account',
+        'intercompany_trade_base',
         'invoice_pricelist',
     ],
-    'auto_install': False,
-    'installable': False,
+    'auto_install': True,
+    'installable': True,
 }

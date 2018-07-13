@@ -11,7 +11,7 @@
     'website': 'http://www.grap.coop',
     'license': 'AGPL-3',
     'depends': [
-        'intercompany_trade_account',
+        'intercompany_trade_base',
         'simple_tax_account',
     ],
     'demo': [
@@ -20,6 +20,6 @@
     'data': [
         'data/init.xml',
     ],
-    'auto_install': False,
-    'installable': False,
+    'auto_install': True,
+    'installable': True,
 }
