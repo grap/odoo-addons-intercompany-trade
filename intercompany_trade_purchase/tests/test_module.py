@@ -42,8 +42,8 @@ class TestModule(TransactionCase):
         Intercompany Trade Purchases"""
         purchase_order = self._create_purchase_order(
             self.config.supplier_partner_id)
-        purchase_order.wkf_confirm_order()
-        res = purchase_order.action_invoice_create()
+        purchase_order.sudo(self.customer_user).wkf_confirm_order()
+        res = purchase_order.sudo(self.customer_user).action_invoice_create()
         self.assertEqual(
             res, False,
             "Invoicing an Intercompany Trade purchase order should not"
@@ -53,8 +53,8 @@ class TestModule(TransactionCase):
         """[Functional Test] Test if invoicing is done for
         Not Intercompany Trade Purchases"""
         purchase_order = self._create_purchase_order(self.normal_supplier)
-        purchase_order.wkf_confirm_order()
-        res = purchase_order.action_invoice_create()
+        purchase_order.sudo(self.customer_user).wkf_confirm_order()
+        res = purchase_order.sudo(self.customer_user).action_invoice_create()
         self.assertNotEqual(
             res, False,
             "Invoicing a non  Intercompany Trade purchase order should"

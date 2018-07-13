@@ -27,6 +27,8 @@ class TestModule(TransactionCase):
         module_obj = self.env['ir.module.module']
         modules = module_obj.search([('state', '=', 'installed')])
         _logger.info("============== Installed Modules ================")
+        _logger.info("%d modules installed." % len(modules))
+        _logger.info("============== ================= ================")
         _logger.info("==> " + ','.join(modules.mapped('name')))
         _logger.info("============== ================= ================")
 
