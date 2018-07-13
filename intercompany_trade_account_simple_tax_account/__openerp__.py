@@ -21,5 +21,5 @@
         'data/init.xml',
     ],
     'auto_install': False,
-    'installable': True,
+    'installable': False,
 }

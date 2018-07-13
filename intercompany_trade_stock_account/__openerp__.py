@@ -17,5 +17,5 @@
         'stock_account',
     ],
     'auto_install': False,
-    'installable': True,
+    'installable': False,
 }
