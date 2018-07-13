@@ -6,12 +6,22 @@
 from openerp.tests.common import TransactionCase
 from openerp.exceptions import ValidationError
 
+from openerp.addons.intercompany_trade_base.tests.\
+    test_module import\
+    TestModule as TestIntercompanyTradeBase
 
-class Test(TransactionCase):
+
+class TestBase(TestIntercompanyTradeBase):
+    def setUp(self):
+        super(TestBase, self).setUp()
+        self.test_00_log_installed_modules()
+
+
+class TestModule(TransactionCase):
 
     # Overload Section
     def setUp(self):
-        super(Test, self).setUp()
+        super(TestModule, self).setUp()
 
         self.session_obj = self.env['pos.session']
         self.order_obj = self.env['pos.order']
