@@ -18,6 +18,7 @@ class TestBase(TestIntercompanyTradeBase):
         super(TestBase, self).setUp()
         self.test_00_log_installed_modules()
 
+
 _logger = logging.getLogger(__name__)
 
 
