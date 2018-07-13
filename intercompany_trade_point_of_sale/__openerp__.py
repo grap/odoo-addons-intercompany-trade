@@ -17,5 +17,5 @@
         'intercompany_trade_base',
     ],
     'auto_install': False,
-    'installable': True,
+    'installable': False,
 }
