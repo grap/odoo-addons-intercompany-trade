@@ -4,5 +4,5 @@ web
 pos
 l10n-france
 odoo-addons-misc https://github.com/grap/odoo-addons-misc.git 7.0
-odoo-addons-cis https://github.com/grap/odoo-addons-cis.git 7.0
+odoo-addons-cae https://github.com/grap/odoo-addons-cae.git 7.0
 odoo-addons-cpo https://github.com/grap/odoo-addons-cpo.git 7.0
