@@ -3,7 +3,11 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import logging
+
 from openerp.tests.common import TransactionCase
+
+_logger = logging.getLogger(__name__)
 
 
 class Test(TransactionCase):
@@ -18,6 +22,13 @@ class Test(TransactionCase):
         # Get ids from xml_ids
         self.intercompany_trade_config = self.env.ref(
             'intercompany_trade_base.intercompany_trade')
+
+    def test_00_log_installed_modules(self):
+        module_obj = self.env['ir.module.module']
+        modules = module_obj.search([('state', '=', 'installed')])
+        _logger.info("============== Installed Modules ================")
+        _logger.info("==> " + ','.join(modules.mapped('name')))
+        _logger.info("============== ================= ================")
 
     # Test Section
     def test_01_create_reverse_intercompany_trade(self):
