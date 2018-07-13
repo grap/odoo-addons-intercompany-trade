@@ -12,10 +12,8 @@
     'license': 'AGPL-3',
     'depends': [
         'intercompany_trade_base',
-        'intercompany_trade_stock',
-        'intercompany_trade_account',
         'stock_account',
     ],
-    'auto_install': False,
-    'installable': False,
+    'auto_install': True,
+    'installable': True,
 }
