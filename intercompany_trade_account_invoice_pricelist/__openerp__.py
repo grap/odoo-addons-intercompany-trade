@@ -12,7 +12,7 @@
     'license': 'AGPL-3',
     'depends': [
         'intercompany_trade_base',
-        'invoice_pricelist',
+        'account_invoice_pricelist',
     ],
     'auto_install': True,
     'installable': True,
