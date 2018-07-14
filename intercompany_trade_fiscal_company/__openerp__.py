@@ -11,17 +11,10 @@
     'license': 'AGPL-3',
     'depends': [
         'base_fiscal_company',
-        'account_fiscal_company',
         'intercompany_trade_base',
-        'intercompany_trade_product',
-        'intercompany_trade_stock',
-        'intercompany_trade_stock_account',
-        'intercompany_trade_purchase',  # TODO Remove me. (temporary)
         'purchase',
         'sale',
-        'stock',
         'simple_tax_account',
-        'simple_tax_sale',
     ],
     'data': [
         'security/ir_rule.xml',
@@ -43,6 +36,6 @@
         'demo/intercompany_trade_config.xml',
         'demo/product_product.xml',
     ],
-    'auto_install': False,
-    'installable': False,
+    'auto_install': True,
+    'installable': True,
 }
