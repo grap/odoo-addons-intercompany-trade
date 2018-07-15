@@ -1,4 +1,4 @@
-account-invoicing
+account-invoicing       https://github.com/grap/account-invoicing.git           8.0_FIX_account_invoice_pricelist_purchase_pricelist
 purchase-workflow
 sale-workflow
 web
