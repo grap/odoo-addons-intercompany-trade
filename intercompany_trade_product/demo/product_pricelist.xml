@@ -42,4 +42,12 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="price_surcharge">-0.10</field>
     </record>
 
+    <!-- Properties -->
+    <record id="property_sale_product_pricelist" model="ir.property">
+        <field name="name">property_product_pricelist</field>
+        <field name="fields_id" search="[('model','=','res.partner'),('name','=','property_product_pricelist')]"/>
+        <field eval="'product.pricelist,'+str(ref('sale_pricelist'))" name="value"/>
+        <field name="company_id" ref="intercompany_trade_base.supplier_company"/>
+    </record>
+
 </data></openerp>
