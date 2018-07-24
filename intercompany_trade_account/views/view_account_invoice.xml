@@ -42,16 +42,20 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 <field name="intercompany_trade_readonly"/>
             </field>
             <field name="invoice_line" position="attributes">
-                <attribute name="attrs">{'readonly': [('intercompany_trade', '=', True)]}</attribute>
+                <attribute name="attrs">{'readonly': [('intercompany_trade_readonly', '=', True)]}</attribute>
+            </field>
+            <field name="tax_line" position="attributes">
+                <attribute name="attrs">{'readonly': [('intercompany_trade_readonly', '=', True)]}</attribute>
             </field>
             <button name="invoice_cancel" position="attributes">
-                <attribute name="attrs">{'invisible': ['|', ('intercompany_trade', '=', True), ('state', 'not in', ['draft','proforma2'])]}</attribute>
+                <attribute name="attrs">{'invisible': ['|', ('intercompany_trade_readonly', '=', True), ('state', 'not in', ['draft','proforma2'])]}</attribute>
             </button>
             <button name="action_cancel_draft" position="attributes">
-                <attribute name="attrs">{'invisible': ['|', ('intercompany_trade', '=', True), ('state', 'not in', ['cancel'])]}</attribute>
+                <attribute name="attrs">{'invisible': ['|', ('intercompany_trade_readonly', '=', True), ('state', 'not in', ['cancel'])]}</attribute>
             </button>
-            <button name="invoice_open" position="attributes">
-                <attribute name="attrs">{'invisible': [('intercompany_trade', '=', True)]}</attribute>
+            <button name="button_reset_taxes" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('intercompany_trade_readonly', '=', True), ('state', 'not in', ['draft','proforma2'])]}</attribute>
+                <attribute name="states" position="replace"/>
             </button>
         </field>
     </record>
@@ -61,6 +65,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="res_model">account.invoice</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form,calendar,graph</field>
+        <field name="view_id" ref="account.invoice_supplier_form"/>
         <field name="domain">[('type','=','in_invoice'), ('intercompany_trade', '=', True)]</field>
         <field name="context">{'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase'}</field>
     </record>
@@ -70,6 +75,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="res_model">account.invoice</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form,calendar,graph</field>
+        <field name="view_id" ref="account.invoice_form"/>
         <field name="domain">[('type','=','out_invoice'), ('intercompany_trade', '=', True)]</field>
         <field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>
     </record>
