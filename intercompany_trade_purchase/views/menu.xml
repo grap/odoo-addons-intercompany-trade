@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2014 - Today: GRAP (http://www.grap.coop)
+@author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<openerp><data>
+
+    <menuitem id="menu_intercompany_trade_purchase"
+        parent="base.menu_purchase_root"
+        name="Intercompany Trades" groups="intercompany_trade_base.intercompany_trade_user"
+        sequence="15"/>
+
+
+    <!-- Move menu Catalog in Purchase Section -->
+    <record id="intercompany_trade_product.menu_intercompany_trade_product_catalog" model="ir.ui.menu">
+        <field name="parent_id" ref="menu_intercompany_trade_purchase"/>
+    </record>
+
+</data></openerp>

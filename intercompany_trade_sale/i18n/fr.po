@@ -1,5 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
+#	* account_invoice_pricelist_sale
 #
 msgid ""
 msgstr ""
@@ -13,4 +14,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: account_invoice_pricelist_sale
+#: model:ir.model,name:account_invoice_pricelist_sale.model_sale_order
+msgid "Sales Order"
+msgstr "Bon de commande"
 

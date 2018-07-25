@@ -74,6 +74,10 @@ class Test(TransactionCase):
         self.supplier_account_receivable = self.env.ref(
             'intercompany_trade_account.supplier_account_receivable')
 
+        self.currency = self.env.ref('base.EUR')
+        self.out_journal = self.env.ref(
+            'intercompany_trade_account.supplier_journal_sale')
+
     def test_01_vat_association_bad(self):
         """
             [Functional Test] Associate products with incompatible VAT
@@ -130,58 +134,56 @@ class Test(TransactionCase):
 
     def test_03_create_invoice_out(self):
         """
-            Create an Out Invoice (Customer Invoice) by the supplier
-            must create an In Invoice
+            Create an Out Invoice by the supplier must create an In Invoice
         """
         # check creation of the according Customer Invoice
-        supplier_invoice = self._create_supplier_invoice()
-        customer_invoice = self.invoice_obj.sudo(self.customer_user).browse(
-            supplier_invoice.intercompany_trade_account_invoice_id)
+        out_invoice = self._create_out_invoice()
+        in_invoice = self.invoice_obj.sudo(self.customer_user).browse(
+            out_invoice.intercompany_trade_account_invoice_id)
 
         self.assertNotEqual(
-            customer_invoice.id, False,
+            in_invoice.id, False,
             "Create an Out Invoice must create another Invoice.")
 
         self.assertEqual(
-            customer_invoice.type, 'in_invoice',
+            in_invoice.type, 'in_invoice',
             "Create an In Invoice must create an Out invoice.")
 
         # Checks creation of the according Customer Invoice Line
-        supplier_invoice_line = self._create_supplier_invoice_line(
-            supplier_invoice)
-        customer_invoice_line = self.invoice_line_obj.sudo(
+        out_invoice_line = self._create_out_invoice_line(out_invoice)
+        in_invoice_line = self.invoice_line_obj.sudo(
             self.customer_user).browse(
-                supplier_invoice_line.
+                out_invoice_line.
                 intercompany_trade_account_invoice_line_id)
 
         self.assertNotEqual(
-            supplier_invoice_line.id, False,
+            out_invoice_line.id, False,
             "Create an Invoice Line must create another invoice Line.")
 
         # Update Customer Invoice Line (change price = must fail)
         with self.assertRaises(UserError):
-            customer_invoice_line.sudo(
+            in_invoice_line.sudo(
                 self.customer_user).write({'product_id': 10})
 
-        # Update Supplier Invoice Line (change price should update other line)
-        supplier_invoice_line.sudo(
+        # Update out Invoice Line (change price should update other line)
+        out_invoice_line.sudo(
             self.supplier_user).write({'price_unit': 200})
 
         self.assertNotEqual(
-            customer_invoice_line.price_unit, 100,
+            in_invoice_line.price_unit, 100,
             "Updating price unit on supplier invoice line should impact."
             " the according customer invoice line")
 
-        # Update Supplier Invoice Line (change product = must fail)
+        # Update Out Invoice Line (change product = must fail)
         with self.assertRaises(UserError):
-            supplier_invoice_line.sudo(
+            out_invoice_line.sudo(
                 self.supplier_user).write({
                     'product_id': self.product_supplier_service_25_incl.id})
 
-        # Unlink Supplier Invoice line (must unlink according customer line)
-        supplier_invoice_line.sudo(self.supplier_user).unlink()
+        # Unlink Out Invoice line (must unlink according customer line)
+        out_invoice_line.sudo(self.supplier_user).unlink()
         count = self.invoice_line_obj.search(
-            [('invoice_id', '=', customer_invoice.id)])
+            [('invoice_id', '=', in_invoice.id)])
 
         self.assertEqual(
             len(count), 0,
@@ -193,12 +195,12 @@ class Test(TransactionCase):
             Confirm an Out Invoice (Customer Invoice) by the supplier
             must confirm the In Invoice
         """
-        supplier_invoice = self._create_supplier_invoice()
-        self._create_supplier_invoice_line(
-            supplier_invoice)
-        supplier_invoice.signal_workflow('invoice_open')
+        out_invoice = self._create_out_invoice()
+        self._create_out_invoice_line(
+            out_invoice)
+        out_invoice.signal_workflow('invoice_open')
         customer_invoice = self.invoice_obj.sudo(self.customer_user).browse(
-            supplier_invoice.intercompany_trade_account_invoice_id)
+            out_invoice.intercompany_trade_account_invoice_id)
         self.assertEqual(
             customer_invoice.state, 'open',
             "Confirm an Out Invoice should confirm the according In Invoice.")
@@ -221,15 +223,15 @@ class Test(TransactionCase):
                 " intercompany_trade_sale")
 
     def _test_05_unlink_invoice_out(self):
-        supplier_invoice = self._create_supplier_invoice()
+        out_invoice = self._create_out_invoice()
         customer_invoice_id =\
-            supplier_invoice.intercompany_trade_account_invoice_id
+            out_invoice.intercompany_trade_account_invoice_id
         customer_invoices = self.invoice_obj.sudo(self.customer_user).search(
             [('id', '=', customer_invoice_id)])
         self.assertEqual(
             len(customer_invoices), 1,
             "Create an Out Invoice should create the according In Invoice.")
-        supplier_invoice.unlink()
+        out_invoice.unlink()
         customer_invoices = self.invoice_obj.sudo(self.customer_user).search(
             [('id', '=', customer_invoice_id)])
         self.assertEqual(
@@ -237,10 +239,11 @@ class Test(TransactionCase):
             "Unlink an Out Invoice should unlink the according In Invoice.")
 
     # Private Function
-    def _create_supplier_invoice(self):
-        vals = self.invoice_obj.sudo(self.supplier_user).with_context(
-            type='out_invoice', tracking_disable=True).default_get(
-                ['currency_id', 'journal_id'])
+    def _create_out_invoice(self):
+        vals = {
+            'currency_id': self.currency.id,
+            'journal_id': self.out_journal.id,
+        }
         vals.update(self.invoice_obj.sudo(
             self.supplier_user).onchange_partner_id(
                 'out_type', self.config.customer_partner_id.id)['value'])
@@ -251,12 +254,12 @@ class Test(TransactionCase):
             self.supplier_user).with_context(
                 type='out_invoice', tracking_disable=True).create(vals)
 
-    def _create_supplier_invoice_line(self, supplier_invoice):
+    def _create_out_invoice_line(self, out_invoice):
         vals = self.invoice_line_obj.sudo(self.supplier_user).with_context(
             type='out_invoice', tracking_disable=True).default_get(
                 ['account_id', 'quantity'])
         vals.update({
-            'invoice_id': supplier_invoice.id,
+            'invoice_id': out_invoice.id,
             'name': 'Supplier Invoice Line Test',
             'product_id': self.supplier_product.id,
             'uos_id': self.product_uom_unit.id,

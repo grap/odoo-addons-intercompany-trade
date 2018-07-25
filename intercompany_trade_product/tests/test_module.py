@@ -156,18 +156,10 @@ class TestModule(TransactionCase):
 
         link.sudo(self.customer_user).link_product()
 
-        res = self.config.sudo(self.customer_user)._get_other_product_info(
-            self.customer_apple.id, 'in')
+        res = self.config.sudo(self.supplier_user)._get_other_product_info(
+            self.supplier_apple.id, 'out')
         self.assertEqual(
-            self.supplier_apple.id,
+            self.customer_apple.id,
             res['product_id'],
-            "Function to recovery supplier product info from customer"
+            "Function to recovery customer product info from supplier"
             " product doesn't work.")
-
-#        res = self.config.sudo(self.supplier_user)._get_other_product_info(
-#            self.supplier_apple.id, 'out')
-#        self.assertEqual(
-#            self.customer_apple.id,
-#            res['product_id'],
-#            "Function to recovery customer product info from supplier"
-#            " product doesn't work.")

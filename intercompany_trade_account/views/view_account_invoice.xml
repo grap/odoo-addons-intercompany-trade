@@ -60,34 +60,4 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         </field>
     </record>
 
-    <record id="action_account_invoice_supplier" model="ir.actions.act_window">
-        <field name="name">Supplier Invoices</field>
-        <field name="res_model">account.invoice</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form,calendar,graph</field>
-        <field name="view_id" ref="account.invoice_supplier_form"/>
-        <field name="domain">[('type','=','in_invoice'), ('intercompany_trade', '=', True)]</field>
-        <field name="context">{'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase'}</field>
-    </record>
-
-    <record id="action_account_invoice_customer" model="ir.actions.act_window">
-        <field name="name">Customer Invoices</field>
-        <field name="res_model">account.invoice</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form,calendar,graph</field>
-        <field name="view_id" ref="account.invoice_form"/>
-        <field name="domain">[('type','=','out_invoice'), ('intercompany_trade', '=', True)]</field>
-        <field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>
-    </record>
-
-    <menuitem id="menu_account_invoice_supplier"
-        parent="intercompany_trade_base.menu_intercompany_trade_purchase"
-        action="action_account_invoice_supplier"
-        sequence="30"/>
-
-    <menuitem id="menu_account_invoice_customer"
-        parent="intercompany_trade_base.menu_intercompany_trade_sale"
-        action="action_account_invoice_customer"
-        sequence="30"/>
-
 </data></openerp>

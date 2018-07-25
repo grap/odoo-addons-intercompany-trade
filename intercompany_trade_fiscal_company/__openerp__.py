@@ -19,12 +19,10 @@
     'data': [
         'security/ir_rule.xml',
         'security/ir.model.access.csv',
-        'views/account_account_view.xml',
-        'views/fiscal_company_transcoding_account_view.xml',
-        'views/intercompany_trade_config_view.xml',
-        'views/res_company_view.xml',
-        'views/action.xml',
-        'views/menu.xml',
+        'views/view_account_account.xml',
+        'views/view_fiscal_company_transcoding_account.xml',
+        'views/view_intercompany_trade_config.xml',
+        'views/view_res_company.xml',
     ],
     'demo': [
         'demo/account_tax.xml',
