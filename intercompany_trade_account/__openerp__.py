@@ -5,7 +5,7 @@
 
 {
     'name': 'Intercompany Trade - Account',
-    'version': '1.0',
+    'version': '8.0.2.0.0',
     'category': 'Intercompany Trade',
     'author': 'GRAP',
     'website': 'http://www.grap.coop',
