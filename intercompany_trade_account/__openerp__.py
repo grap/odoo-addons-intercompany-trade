@@ -27,6 +27,7 @@
         'demo/wizard_link_product.xml',
     ],
     'data': [
+        'views/menu.xml',
         'views/view_product_intercompany_trade_catalog.xml',
         'views/view_intercompany_trade_wizard_link_product.xml',
         'views/view_account_invoice.xml',
