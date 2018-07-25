@@ -14,6 +14,9 @@
         'intercompany_trade_base',
         'purchase',
     ],
+    'data': [
+        'views/menu.xml',
+    ],
     'demo': [
         'demo/res_groups.xml',
         'demo/product_pricelist.xml',
