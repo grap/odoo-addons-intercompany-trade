@@ -16,33 +16,4 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         </field>
     </record>
 
-
-    <record id="action_res_partner_intercompany_trade_customer" model="ir.actions.act_window">
-        <field name="name">Customers</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">res.partner</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">kanban,tree,form</field>
-        <field name="domain" eval="[('customer', '=', True), ('intercompany_trade', '=', True)]"/>
-    </record>
-
-    <record id="action_res_partner_intercompany_trade_supplier" model="ir.actions.act_window">
-        <field name="name">Suppliers</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">res.partner</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">kanban,tree,form</field>
-        <field name="domain" eval="[('supplier', '=', True), ('intercompany_trade', '=', True)]"/>
-    </record>
-
-    <menuitem id="menu_intercompany_trade_partner_supplier"
-        parent="menu_intercompany_trade_purchase"
-        action="action_res_partner_intercompany_trade_supplier"
-        sequence="1"/>
-
-    <menuitem id="menu_intercompany_trade_partner_customer"
-        parent="menu_intercompany_trade_sale"
-        action="action_res_partner_intercompany_trade_customer"
-        sequence="1"/>
-
 </data></openerp>

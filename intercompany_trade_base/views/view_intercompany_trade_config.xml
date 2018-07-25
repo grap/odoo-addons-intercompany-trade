@@ -41,13 +41,14 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     </record>
 
     <record id="action_intercompany_trade_config" model="ir.actions.act_window">
-        <field name="name">Intercompany Trades</field>
+        <field name="name">Settings</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">intercompany.trade.config</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
+    <!-- This menu will move in accounting Part when account module will be installed -->
     <menuitem id="menu_intercompany_trade_config"
         parent="menu_intercompany_trade_setting"
         action="action_intercompany_trade_config"

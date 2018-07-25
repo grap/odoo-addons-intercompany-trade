@@ -6,28 +6,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 <openerp><data>
 
-<!-- New Root Menu -->
-    <menuitem id="menu_intercompany_trade_root"
-        name="Intercompany Trade"
-        groups="intercompany_trade_base.intercompany_trade_user"
-        sequence="21"/>
-
-<!-- Intercompany Trade: SubMenu Purchase (5) -->
-    <menuitem id="menu_intercompany_trade_purchase"
-        parent="menu_intercompany_trade_root"
-        name="Purchase"
-        sequence="5"/>
-
-<!-- Intercompany Trade: SubMenu Sale (10) -->
-    <menuitem id="menu_intercompany_trade_sale"
-        parent="menu_intercompany_trade_root"
-        name="Sale"
-        sequence="10"/>
-
-<!-- Intercompany Trade: SubMenu Setting (25)-->
     <menuitem id="menu_intercompany_trade_setting"
-        parent="menu_intercompany_trade_root"
-        name="Setting" groups="intercompany_trade_manager"
-        sequence="25"/>
+        parent="base.menu_administration"
+        name="Intercompany Trades" groups="intercompany_trade_manager"
+        sequence="3"/>
 
 </data></openerp>
