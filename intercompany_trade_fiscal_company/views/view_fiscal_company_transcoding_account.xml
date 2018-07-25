@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
+@author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<openerp><data>
+
+    <record id="view_fiscal_company_transcoding_account_tree" model="ir.ui.view">
+        <field name="model">fiscal.company.transcoding.account</field>
+        <field name="arch" type="xml">
+            <tree string="Transcoding Account for Fiscal Company">
+                <field name="from_account_id"/>
+                <field name="to_account_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_fiscal_company_transcoding_account_form" model="ir.ui.view">
+        <field name="model">fiscal.company.transcoding.account</field>
+        <field name="arch" type="xml">
+            <form string="Transcoding Account for Fiscal Company" version="7.0">
+                <sheet>
+                    <group col="4">
+                        <field name="from_account_id"/>
+                        <field name="to_account_id"/>
+                        <field name="company_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_fiscal_company_transcoding_account" model="ir.actions.act_window">
+        <field name="name">Transcoding Accounts for CAE</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fiscal.company.transcoding.account</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_fiscal_company_transcoding_account"
+        parent="intercompany_trade_base.menu_intercompany_trade_setting"
+        action="action_fiscal_company_transcoding_account"
+        sequence="5"/>
+
+</data></openerp>
