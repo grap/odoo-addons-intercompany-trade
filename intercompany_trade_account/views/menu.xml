@@ -7,7 +7,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 <openerp><data>
 
     <!-- Move menu Settings in Accounting Section -->
-    <record id="intercompany_trade_base.menu_intercompany_trade_setting" model="ir.ui.menu">
+    <record id="intercompany_trade_base.menu_setting_intercompany_trade" model="ir.ui.menu">
         <field name="parent_id" ref="account.menu_finance"/>
     </record>
 

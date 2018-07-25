@@ -50,7 +50,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
     <!-- This menu will move in accounting Part when account module will be installed -->
     <menuitem id="menu_intercompany_trade_config"
-        parent="menu_intercompany_trade_setting"
+        parent="menu_setting_intercompany_trade"
         action="action_intercompany_trade_config"
         sequence="1"/>
 

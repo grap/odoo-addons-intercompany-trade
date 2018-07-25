@@ -65,7 +65,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
     <!-- This menu will move in Purchase Part when purchase module will be installed -->
     <menuitem id="menu_intercompany_trade_product_catalog"
-        parent="intercompany_trade_base.menu_intercompany_trade_setting"
+        parent="intercompany_trade_base.menu_setting_intercompany_trade"
         action="action_product_intercompany_trade_catalog"
         sequence="5"/>
 

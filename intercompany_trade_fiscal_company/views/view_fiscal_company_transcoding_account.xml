@@ -41,7 +41,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     </record>
 
     <menuitem id="menu_fiscal_company_transcoding_account"
-        parent="intercompany_trade_base.menu_intercompany_trade_setting"
+        parent="intercompany_trade_base.menu_setting_intercompany_trade"
         action="action_fiscal_company_transcoding_account"
         sequence="5"/>
 

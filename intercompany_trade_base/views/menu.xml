@@ -6,7 +6,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 <openerp><data>
 
-    <menuitem id="menu_intercompany_trade_setting"
+    <menuitem id="menu_setting_intercompany_trade"
         parent="base.menu_administration"
         name="Intercompany Trades" groups="intercompany_trade_manager"
         sequence="3"/>
