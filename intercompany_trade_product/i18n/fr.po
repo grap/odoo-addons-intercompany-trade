@@ -1,13 +1,13 @@
-# Translation of OpenERP Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
 #	* intercompany_trade_product
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 7.0\n"
+"Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-21 15:33+0000\n"
-"PO-Revision-Date: 2016-01-21 15:33+0000\n"
+"POT-Creation-Date: 2018-07-25 08:03+0000\n"
+"PO-Revision-Date: 2018-07-25 08:03+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,9 +22,24 @@ msgid "Catalogs"
 msgstr "Catalogues Fournisseur"
 
 #. module: intercompany_trade_product
-#: view:product.intercompany.trade.catalog:0
+#: view:product.intercompany.trade.catalog:intercompany_trade_product.view_product_intercompany_trade_catalog_tree
 msgid "Code (Supp.)"
 msgstr "Code (Frs)"
+
+#. module: intercompany_trade_product
+#: field:intercompany.trade.wizard.link.product,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: intercompany_trade_product
+#: field:intercompany.trade.wizard.link.product,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: intercompany_trade_product
+#: model:product.template,name:intercompany_trade_product.product_customer_apple_product_template
+msgid "Customer Apple"
+msgstr "Customer Apple"
 
 #. module: intercompany_trade_product
 #: field:product.intercompany.trade.catalog,customer_company_id:0
@@ -44,126 +59,160 @@ msgid "Customer Purchase Price"
 msgstr "Prix d'achat chez le client"
 
 #. module: intercompany_trade_product
-#: code:addons/intercompany_trade_product/model/intercompany_trade_wizard_link_product.py:134
+#: model:product.template,name:intercompany_trade_product.product_customer_ref_product_template
+msgid "Customer Reference Service"
+msgstr "Customer Reference Service"
+
+#. module: intercompany_trade_product
+#: field:intercompany.trade.wizard.link.product,display_name:0
+#: field:product.intercompany.trade.catalog,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: intercompany_trade_product
+#: code:addons/intercompany_trade_product/models/intercompany_trade_wizard_link_product.py:116
 #, python-format
-msgid "Duplicated References!"
-msgstr "Références dupliquées !"
+msgid "Duplicated References !\n"
+"You can not link the Product %s because it is yet linked to another supplier product. Please unlink the Product and try again."
+msgstr "Référence dupliquée !\n"
+"Vous ne pouvez pas référencer le produit %s car il est déjà lié à un autre produit chez ce fournisseur. Veuillez déréférencer l'ancien produit et essayer de nouveau"
 
 #. module: intercompany_trade_product
-#: constraint:product.supplierinfo:0
+#: code:addons/intercompany_trade_product/models/product_supplierinfo.py:42
+#, python-format
 msgid "Error ! You can not link this product in this manner because the supplier is flagged as Inter Company Trade. Please use the dedicated interface in the Intercompany Trade menu."
-msgstr "Erreur ! Vous ne pouvez pas référencer ce produit de cette façon car le fournisseur est marqué comme 'transaction Inter Société'. Veuillez utiliser l'interface dédié dans le menu 'Transaction Inter Société'."
+msgstr "Erreurr ! Vous ne pouvez pas lier ce produit de cette façon car le fournisseur est marqué comme 'Transaction Inter Société'. Veuillez utiliser l'interface dédiée.'"
 
 #. module: intercompany_trade_product
-#: view:product.intercompany.trade.catalog:0
+#: view:product.intercompany.trade.catalog:intercompany_trade_product.view_product_intercompany_trade_catalog_search
 msgid "Group by..."
 msgstr "Regrouper par ..."
 
 #. module: intercompany_trade_product
-#: code:_description:0
+#: field:intercompany.trade.wizard.link.product,id:0
+#: field:product.intercompany.trade.catalog,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: intercompany_trade_product
 #: model:ir.model,name:intercompany_trade_product.model_product_supplierinfo
-#, python-format
 msgid "Information about a product supplier"
 msgstr "Information sur le fournisseur du produit"
 
 #. module: intercompany_trade_product
-#: code:_description:0
 #: field:intercompany.trade.wizard.link.product,intercompany_trade_id:0
-#: model:ir.model,name:intercompany_trade_product.model_intercompany_trade_config
 #: field:product.intercompany.trade.catalog,intercompany_trade_id:0
-#, python-format
 msgid "Intercompany Trade"
 msgstr "Transaction Inter Société"
 
 #. module: intercompany_trade_product
-#: view:intercompany.trade.wizard.link.product:0
-msgid "Intercompany Trade - Link Product"
-msgstr "Transaction Inter Société - Réferencer un article"
-
-#. module: intercompany_trade_product
-#: view:product.intercompany.trade.catalog:0
+#: view:product.intercompany.trade.catalog:intercompany_trade_product.view_product_intercompany_trade_catalog_search
 msgid "Intercompany Trade - Products Catalog"
 msgstr "Transaction Inter Société - Articles"
 
 #. module: intercompany_trade_product
-#: view:intercompany.trade.wizard.link.product:0
+#: model:product.pricelist,name:intercompany_trade_product.pricelist_discount
+msgid "Intercompany Trade - Sale Pricelist (Discount)"
+msgstr "Intercompany Trade - Sale Pricelist (Discount)"
+
+#. module: intercompany_trade_product
+#: model:product.pricelist.version,name:intercompany_trade_product.pricelist_version_discount
+msgid "Intercompany Trade - Sale Pricelist Version (Discount)"
+msgstr "Intercompany Trade - Sale Pricelist Version (Discount)"
+
+#. module: intercompany_trade_product
+#: field:intercompany.trade.wizard.link.product,__last_update:0
+#: field:product.intercompany.trade.catalog,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: intercompany_trade_product
+#: field:intercompany.trade.wizard.link.product,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: intercompany_trade_product
+#: field:intercompany.trade.wizard.link.product,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: intercompany_trade_product
+#: view:intercompany.trade.wizard.link.product:intercompany_trade_product.view_intercompany_trade_wizard_link_product_form
 msgid "Link Product"
 msgstr "Référencer un article"
 
 #. module: intercompany_trade_product
-#: view:product.intercompany.trade.catalog:0
+#: view:product.intercompany.trade.catalog:intercompany_trade_product.view_product_intercompany_trade_catalog_tree
 msgid "Link Product Windows"
 msgstr "Fenêtre de référencement d'un article"
 
 #. module: intercompany_trade_product
-#: view:product.intercompany.trade.catalog:0
+#: view:product.intercompany.trade.catalog:intercompany_trade_product.view_product_intercompany_trade_catalog_search
 msgid "Linked Products"
 msgstr "Produits référencés"
 
 #. module: intercompany_trade_product
-#: code:_description:0
 #: model:ir.model,name:intercompany_trade_product.model_res_partner
-#: view:product.intercompany.trade.catalog:0
-#, python-format
+#: view:product.intercompany.trade.catalog:intercompany_trade_product.view_product_intercompany_trade_catalog_search
 msgid "Partner"
 msgstr "Partenaire"
 
 #. module: intercompany_trade_product
-#: view:product.intercompany.trade.catalog:0
+#: view:product.intercompany.trade.catalog:intercompany_trade_product.view_product_intercompany_trade_catalog_tree
 msgid "Price (Supp.)"
 msgstr "Prix (Frs)"
 
 #. module: intercompany_trade_product
-#: code:_description:0
 #: model:ir.model,name:intercompany_trade_product.model_product_pricelist
-#, python-format
 msgid "Pricelist"
 msgstr "Liste de prix"
 
 #. module: intercompany_trade_product
-#: code:_description:0
 #: model:ir.model,name:intercompany_trade_product.model_product_product
-#, python-format
 msgid "Product"
 msgstr "Article"
 
 #. module: intercompany_trade_product
-#: view:product.intercompany.trade.catalog:0
+#: view:product.intercompany.trade.catalog:intercompany_trade_product.view_product_intercompany_trade_catalog_tree
 msgid "Product Name (Supp.)"
 msgstr "Nom du produit (Frs)"
 
 #. module: intercompany_trade_product
-#: code:addons/intercompany_trade_product/model/custom_tools.py:135
-#: code:addons/intercompany_trade_product/model/custom_tools.py:161
-#: code:addons/intercompany_trade_product/model/custom_tools.py:174
-#, python-format
-msgid "Product Selection Error!"
-msgstr "Erreur dans la sélection de l'article !"
-
-#. module: intercompany_trade_product
-#: field:product.supplierinfo,supplier_product_id:0
-msgid "Product in the Supplier Catalog"
-msgstr "Article dans le catalogue fournisseur"
-
-#. module: intercompany_trade_product
+#: field:intercompany.trade.config,sale_pricelist_id:0
 #: field:product.intercompany.trade.catalog,sale_pricelist_id:0
 msgid "Sale Pricelist"
 msgstr "Liste de prix de vente"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.config,sale_pricelist_id:0
-msgid "Sale Pricelist in the Supplier Company"
-msgstr "Liste de prix de vente dans la société fournisseur"
+#: model:product.pricelist,name:intercompany_trade_product.sale_pricelist
+#: model:product.pricelist.version,name:intercompany_trade_product.sale_pricelist_version
+msgid "Sale Pricelist Intercompany Trade"
+msgstr "Sale Pricelist Intercompany Trade"
 
 #. module: intercompany_trade_product
-#: view:product.intercompany.trade.catalog:0
+#: help:intercompany.trade.config,sale_pricelist_id:0
+msgid "Sale Pricelist in the Supplier Company"
+msgstr "Sale Pricelist in the Supplier Company"
+
+#. module: intercompany_trade_product
+#: view:product.intercompany.trade.catalog:intercompany_trade_product.view_product_intercompany_trade_catalog_tree
 msgid "See My Product"
 msgstr "Voir mon produit"
 
 #. module: intercompany_trade_product
-#: view:product.intercompany.trade.catalog:0
+#: view:product.intercompany.trade.catalog:intercompany_trade_product.view_product_intercompany_trade_catalog_tree
 msgid "Supplier"
 msgstr "Fournisseur"
+
+#. module: intercompany_trade_product
+#: model:product.template,name:intercompany_trade_product.product_supplier_apple_product_template
+msgid "Supplier Apple"
+msgstr "Supplier Apple"
+
+#. module: intercompany_trade_product
+#: model:product.template,name:intercompany_trade_product.product_supplier_banana_product_template
+msgid "Supplier Banana"
+msgstr "Supplier Banana"
 
 #. module: intercompany_trade_product
 #: field:product.intercompany.trade.catalog,supplier_partner_id:0
@@ -176,10 +225,11 @@ msgid "Supplier Partner Name"
 msgstr "Nom du fournisseur"
 
 #. module: intercompany_trade_product
-#: view:intercompany.trade.wizard.link.product:0
+#: view:intercompany.trade.wizard.link.product:intercompany_trade_product.view_intercompany_trade_wizard_link_product_form
 #: field:intercompany.trade.wizard.link.product,supplier_product_id:0
-#: view:product.intercompany.trade.catalog:0
+#: view:product.intercompany.trade.catalog:intercompany_trade_product.view_product_intercompany_trade_catalog_search
 #: field:product.intercompany.trade.catalog,supplier_product_id:0
+#: field:product.supplierinfo,supplier_product_id:0
 msgid "Supplier Product"
 msgstr "Article chez le fournisseur"
 
@@ -194,7 +244,7 @@ msgid "Supplier Product Can be sold"
 msgstr "Peut être vendu par le fournisseur"
 
 #. module: intercompany_trade_product
-#: view:product.intercompany.trade.catalog:0
+#: view:product.intercompany.trade.catalog:intercompany_trade_product.view_product_intercompany_trade_catalog_search
 #: field:product.intercompany.trade.catalog,supplier_category_id:0
 #: field:product.intercompany.trade.catalog,supplier_category_name:0
 msgid "Supplier Product Category"
@@ -223,34 +273,42 @@ msgid "Supplier Product UoM Name"
 msgstr "Nom de l'unité de Mesure fournisseur"
 
 #. module: intercompany_trade_product
+#: model:product.template,name:intercompany_trade_product.product_supplier_ref_product_template
+msgid "Supplier Reference Service"
+msgstr "Supplier Reference Service"
+
+#. module: intercompany_trade_product
 #: field:intercompany.trade.wizard.link.product,supplier_sale_price:0
 #: field:product.intercompany.trade.catalog,supplier_sale_price:0
 msgid "Supplier Sale Price"
 msgstr "Prix de vente fournisseur"
 
 #. module: intercompany_trade_product
-#: code:addons/intercompany_trade_product/model/intercompany_trade_wizard_link_product.py:145
+#: model:product.template,name:intercompany_trade_product.product_supplier_strawberry_product_template
+msgid "Supplier Strawberry (250 gr)"
+msgstr "Supplier Strawberry (250 gr)"
+
+#. module: intercompany_trade_product
+#: code:addons/intercompany_trade_product/models/intercompany_trade_wizard_link_product.py:104
 #, python-format
-msgid "The type of Unit of Mesure of your product is '%s'.\n"
+msgid "Too Many Variants for the Product !\n"
+"You can not link this product %s because there are %d Variants associated."
+msgstr "Trop de variantes pour ce produit !\n"
+"Vous ne pouvez pas lier le produit %s car il a %d variantes associées."
+
+#. module: intercompany_trade_product
+#: code:addons/intercompany_trade_product/models/intercompany_trade_wizard_link_product.py:127
+#, python-format
+msgid "Unit Mismatch !\n"
+" The type of Unit of Mesure of your product is '%s'.\n"
 "The type of Unit of Mesure of the supplier product is '%s'.\n"
 "\n"
 "The type must be the same."
-msgstr "Le type d'unité de mesure de votre article est '%s'.\n"
-"Le type d'unité de mesure de l'article de votre fournisseur est '%s'.\n"
+msgstr "Problème d'unité de mesure !\n"
+" The type of Unit of Mesure of your product is '%s'.\n"
+"Le type d'unité de mesure du produit fournisseur est '%s'.\n"
 "\n"
-"Les types doivent être les mêmes."
-
-#. module: intercompany_trade_product
-#: code:addons/intercompany_trade_product/model/intercompany_trade_wizard_link_product.py:121
-#, python-format
-msgid "Too Many Variants for the Product!"
-msgstr "Trop de variantes pour cet article !"
-
-#. module: intercompany_trade_product
-#: code:addons/intercompany_trade_product/model/intercompany_trade_wizard_link_product.py:144
-#, python-format
-msgid "Unit Mismatch!"
-msgstr "Problème d'unité !"
+"Le type d'unité de votre produit doit être le même."
 
 #. module: intercompany_trade_product
 #: field:product.supplierinfo,intercompany_trade_price:0
@@ -258,69 +316,31 @@ msgid "Unit Price"
 msgstr "Prix unitaire"
 
 #. module: intercompany_trade_product
-#: view:product.intercompany.trade.catalog:0
+#: view:product.intercompany.trade.catalog:intercompany_trade_product.view_product_intercompany_trade_catalog_tree
 msgid "Unlink Product"
 msgstr "Déréférencer un article"
 
 #. module: intercompany_trade_product
-#: view:product.intercompany.trade.catalog:0
+#: view:product.intercompany.trade.catalog:intercompany_trade_product.view_product_intercompany_trade_catalog_tree
 msgid "UoM (Supp.)"
 msgstr "UdM (Frs)"
 
 #. module: intercompany_trade_product
-#: code:addons/intercompany_trade_product/model/custom_tools.py:175
+#: code:addons/intercompany_trade_product/models/intercompany_trade_config.py:129
 #, python-format
-msgid "You can not add '%s' to the current Order or Invoice because the customer referenced many variants of  this template. Please contact him and say him to add  the product manually to his Order or Invoice ."
-msgstr "Vous ne pouvez pas ajouter l'article '%s' à la commande ou à la facture en cours car le client a référencé plusieurs variantes de ce template. Veuillez le contacter et lui dire d'ajouter le produit manuellement à la commande ou à la facture."
+msgid "You can not add '%s' to the current Order or Invoice because the customer referenced many variants of this template."
+msgstr "Vous ne pouvez pas ajouter '%s' au bon de commande ou à la facture en cours car le client a référencé plusieurs variantes de ce template."
+
 
 #. module: intercompany_trade_product
-#: code:addons/intercompany_trade_product/model/custom_tools.py:136
+#: code:addons/intercompany_trade_product/models/intercompany_trade_config.py:117
 #, python-format
-msgid "You can not add '%s' to the current Order or Invoice because you didn't linked the product to any Supplier Product. Please do it in the 'Intercompany Trade' menu."
-msgstr "Vous ne pouvez pas ajouter le produit '%s' à la commande ou à la facture en cours, car vous n'avez pas référencé le produit à un produit du fournisseur. Veuillez le faire dans le menu 'Transaction Inter Société'."
+msgid "You can not add the product '%s' to the current Order or Invoice because the customer didn't referenced your product. Please contact him and say him to do it"
+msgstr "Vous ne pouvez pas ajouter le produit '%s' au bon de commande ou à la facture en cours car le client n'a pas référencé le produit '%s'. Veuillez le contacter le lui dire de le faire."
 
 #. module: intercompany_trade_product
-#: code:addons/intercompany_trade_product/model/custom_tools.py:162
-#, python-format
-msgid "You can not add the product '%s' to the current Order or Invoice because the customer didn't referenced your product. Please contact him and say him to do it."
-msgstr "Vous ne pouvez pas ajouter l'article '%s' à la commande ou à la facture en cours car le client n'a pas référencé votre article. Merci de le contacter et de lui dire de le faire."
-
-#. module: intercompany_trade_product
-#: code:addons/intercompany_trade_product/model/intercompany_trade_wizard_link_product.py:135
-#, python-format
-msgid "You can not link the Product %s because it is yet linked to another supplier product. Please unlink the Product and try again."
-msgstr "Vous ne pouvez pas référencer cet article '%s' car il est déjà référencé à un autre article fournisseur. Merci de déréférencer votre article et d'essayer de nouveau."
-
-#. module: intercompany_trade_product
-#: code:addons/intercompany_trade_product/model/intercompany_trade_wizard_link_product.py:122
-#, python-format
-msgid "You can not link this product %s because there are %d Variants associated."
-msgstr "Vous ne pouvez pas référencer cet article '%s' car il y a '%d' variantes associées."
-
-#. module: intercompany_trade_product
-#: view:intercompany.trade.wizard.link.product:0
-#: view:product.intercompany.trade.catalog:0
+#: view:intercompany.trade.wizard.link.product:intercompany_trade_product.view_intercompany_trade_wizard_link_product_form
+#: view:product.intercompany.trade.catalog:intercompany_trade_product.view_product_intercompany_trade_catalog_tree
 msgid "Your Product"
 msgstr "Votre article"
-
-#. module: intercompany_trade_product
-#: code:_description:0
-#: model:ir.model,name:intercompany_trade_product.model_intercompany_trade_wizard_link_product
-#, python-format
-msgid "intercompany.trade.wizard.link.product"
-msgstr "intercompany.trade.wizard.link.product"
-
-#. module: intercompany_trade_product
-#: code:_description:0
-#: model:ir.model,name:intercompany_trade_product.model_pricelist_partnerinfo
-#, python-format
-msgid "pricelist.partnerinfo"
-msgstr "Informations sur le partenaire"
-
-#. module: intercompany_trade_product
-#: code:_description:0
-#: model:ir.model,name:intercompany_trade_product.model_product_intercompany_trade_catalog
-#, python-format
-msgid "product.intercompany.trade.catalog"
-msgstr "product.intercompany.trade.catalog"
 

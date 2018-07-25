@@ -85,30 +85,7 @@ class IntercompanyTradeConfig(models.Model):
 
         # Get current Product
         product = product_obj.sudo().browse(product_id)
-
-        if direction == 'in':
-            # Get product supplier info (if any)
-            supplierinfos = supplierinfo_obj.sudo().search([
-                ('product_tmpl_id', '=', product.product_tmpl_id.id),
-                ('name', '=', self.supplier_partner_id.id),
-                ('company_id', '=', self.customer_company_id.id)])
-            if len(supplierinfos) == 0:
-                raise UserError(_(
-                    "You can not add '%s' to the current Order or Invoice"
-                    " because you didn't linked the product to any Supplier"
-                    " Product. Please do it in the 'Intercompany Trade'"
-                    " menu.") % (product.name))
-
-            supplierinfo = supplierinfos[0]
-            res['product_id'] = supplierinfo.supplier_product_id.id
-
-            # Get Supplier Sale Price
-            res['price_unit'] =\
-                self.sale_pricelist_id._compute_intercompany_trade_prices(
-                    supplierinfo.supplier_product_id,
-                    self.supplier_partner_id)['supplier_sale_price']
-
-        else:
+        if direction == 'out':
             supplierinfos = supplierinfo_obj.sudo().search([
                 ('supplier_product_id', '=', product_id),
                 ('name', '=', self.supplier_partner_id.id),
@@ -129,8 +106,9 @@ class IntercompanyTradeConfig(models.Model):
                 raise UserError(_(
                     "You can not add '%s' to the current Order or Invoice"
                     " because the customer referenced many variants of"
-                    "  this template. Please contact him and say him to add"
-                    "  the product manually to his Order or Invoice .") % (
+                    " this template.") % (
                         product.name))
             res['product_id'] = customer_products[0].id
+        else:
+            raise UserError(_("Unimplemented Feature"))
         return res
