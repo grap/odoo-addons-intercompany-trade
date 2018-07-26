@@ -1,7 +1,6 @@
 # coding: utf-8
 from . import product_pricelist
 from . import res_partner
-from . import product_product
 from . import product_supplierinfo
 from . import intercompany_trade_config
 from . import product_intercompany_trade_catalog

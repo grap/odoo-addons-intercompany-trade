@@ -6,6 +6,7 @@
 import logging
 
 from openerp.exceptions import Warning as UserError
+from openerp.exceptions import ValidationError
 from openerp.tests.common import TransactionCase
 
 from openerp.addons.intercompany_trade_base.tests.\
@@ -39,6 +40,7 @@ class TestModule(TransactionCase):
         self.link_obj = self.env['intercompany.trade.wizard.link.product']
 
         # Get ids from xml_ids
+        self.supplier_normal = self.env.ref('base.res_partner_1')
         self.config = self.env.ref(
             'intercompany_trade_base.intercompany_trade')
         self.supplier_banana = self.env.ref(
@@ -84,6 +86,19 @@ class TestModule(TransactionCase):
                 ('name', '=', 'product_fiscal_company'),
                 ('state', '=', 'installed')]):
             self._test_02_product_association_recovery()
+        else:
+            _logger.info(
+                "test skipped, will be run later in"
+                " intercompany_trade_fiscal_company")
+
+    def test_03_create_manual_supplier_info(self):
+        """ Check if create manual supplierinfo fail if partner
+        is flagged as Intercompany Trade."""
+        # Same reason here.
+        if not self.module_obj.search([
+                ('name', '=', 'product_fiscal_company'),
+                ('state', '=', 'installed')]):
+            self._test_03_create_manual_supplier_info()
         else:
             _logger.info(
                 "test skipped, will be run later in"
@@ -163,3 +178,17 @@ class TestModule(TransactionCase):
             res['product_id'],
             "Function to recovery customer product info from supplier"
             " product doesn't work.")
+
+    def _test_03_create_manual_supplier_info(self):
+        # Associate the product with a Normal Supplier. Should success
+        self.supplierinfo_obj.create({
+            'name': self.supplier_normal.id,
+            'product_tmpl_id': self.supplier_apple.product_tmpl_id.id,
+        })
+
+        # Associate the product with a Intercompany Trade Supplier. Should fail
+        with self.assertRaises(ValidationError):
+            self.supplierinfo_obj.create({
+                'name': self.config.supplier_partner_id.id,
+                'product_tmpl_id': self.customer_apple.product_tmpl_id.id,
+            })
