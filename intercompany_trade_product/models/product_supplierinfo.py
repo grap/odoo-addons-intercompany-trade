@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import _, api, fields, models
-from openerp.exceptions import Warning as UserError
+from openerp.exceptions import ValidationError
 from openerp.addons import decimal_precision as dp
 
 
@@ -36,10 +36,10 @@ class ProductSupplierinfo(models.Model):
     @api.multi
     @api.constrains('supplier_product_id', 'name')
     def _check_supplier_product_id(self):
-        for supplierinfo in self.browse():
+        for supplierinfo in self:
             if not supplierinfo.supplier_product_id and\
                     supplierinfo.name.intercompany_trade:
-                raise UserError(_(
+                raise ValidationError(_(
                     "Error ! You can not link this product in this manner"
                     " because the supplier is flagged as Inter Company Trade."
                     " Please use the dedicated interface in the Intercompany"
