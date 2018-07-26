@@ -38,6 +38,11 @@ class TestModuleProduct(TestIntercompanyTradeProduct):
             - Get Customer Product from supplier Product"""
         self._test_02_product_association_recovery()
 
+    def test_03_create_manual_supplier_info(self):
+        """ Check if create manual supplierinfo fail if partner
+        is flagged as Intercompany Trade."""
+        self._test_03_create_manual_supplier_info()
+
 
 class TestModuleStockAccount(TestIntercompanyTradeStockAccount):
 
