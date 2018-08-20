@@ -15,6 +15,9 @@
         'purchase',
         'sale',
         'simple_tax_account',
+        # Force implicit dependency for the correct order of
+        # the call of the function product_id_change
+        'simple_tax_sale',
     ],
     'data': [
         'security/ir_rule.xml',
