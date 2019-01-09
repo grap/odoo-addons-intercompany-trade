@@ -153,7 +153,6 @@ class AccountInvoiceLine(models.Model):
                 invoice.type)
         if invoice.type in ['out_invoice', 'out_refund']:
             # A Purchase Invoice Line Create a Sale Invoice Line
-            direction = 'out'
             other_type = invoice.type.replace('out_', 'in_')
             other_user = config.customer_user_id
             other_company_id = config.customer_company_id.id
@@ -165,17 +164,17 @@ class AccountInvoiceLine(models.Model):
                 " partner flagged as Intercompany Trade." % (invoice.type)))
 
         # Create according account invoice line
-        other_product_info = config._get_other_product_info(
-            self.product_id.id, direction)
+        customer_product = config._get_product_in_customer_company(
+            self.product_id)
 
         values = self.sudo(user=other_user).product_id_change(
-            other_product_info['product_id'],
+            customer_product.id,
             False, type=other_type, company_id=other_company_id,
             partner_id=other_partner_id)['value']
 
         values.update({
             'invoice_id': invoice.intercompany_trade_account_invoice_id,
-            'product_id': other_product_info['product_id'],
+            'product_id': customer_product.id,
             'company_id': other_company_id,
             'partner_id': other_partner_id,
             'quantity': self.quantity,
