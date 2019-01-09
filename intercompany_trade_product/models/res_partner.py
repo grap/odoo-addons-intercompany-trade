@@ -9,8 +9,8 @@ from openerp import models
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    def _intercompany_tradefields_allowed(self):
+    def _intercompany_trade_allowed_fields(self):
         """allow basic user to change pricelist"""
-        res = super(ResPartner, self)._intercompany_tradefields_allowed()
+        res = super(ResPartner, self)._intercompany_trade_allowed_fields()
         res.append('property_product_pricelist')
         return res

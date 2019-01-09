@@ -34,7 +34,7 @@ class ResPartner(models.Model):
 
     # Custom Section
     @api.model
-    def _intercompany_tradefields_allowed(self):
+    def _intercompany_trade_allowed_fields(self):
         """Overload this function to allow basic users to change
         some fields for intercompany trade partner"""
         return []
@@ -46,7 +46,7 @@ class ResPartner(models.Model):
         if self.env.context.get('ignore_intercompany_trade_check', False):
             return
         unallowed_fields =\
-            set(fields) - set(self._intercompany_tradefields_allowed())
+            set(fields) - set(self._intercompany_trade_allowed_fields())
         if not self.env.user.has_group(
                 'intercompany_trade_base.intercompany_trade_manager'):
             for partner in self:
