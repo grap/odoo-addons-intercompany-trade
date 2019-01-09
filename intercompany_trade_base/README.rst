@@ -22,7 +22,7 @@ Intercompany Trade - Base
 This module extends the functionality of Odoo, to allow users for distinct
 companies to make purchases and sales between us.
 
-**Features**intercompany_trade_base/static/description/index.html
+**Features**
 
 * Add a New Model Intercompany Trade that define that two companies can
   realize purchases and sales between them with a supplier company and
