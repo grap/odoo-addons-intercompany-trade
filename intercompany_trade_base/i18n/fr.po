@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* intercompany_trade_base
+#   * intercompany_trade_base
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-25 07:50+0000\n"
-"PO-Revision-Date: 2018-07-25 07:50+0000\n"
+"POT-Creation-Date: 2019-01-09 13:42+0000\n"
+"PO-Revision-Date: 2019-01-09 13:42+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -67,27 +67,6 @@ msgid "Customer and Supplier company must be uniq !"
 msgstr "Les sociétés cliente et fournisseur doivent être uniques !"
 
 #. module: intercompany_trade_base
-#: model:res.company,overdue_msg:intercompany_trade_base.customer_company
-#: model:res.company,overdue_msg:intercompany_trade_base.supplier_company
-msgid "Dear Sir/Madam,\n"
-"\n"
-"Our records indicate that some payments on your account are still due. Please find details below.\n"
-"If the amount has already been paid, please disregard this notice. Otherwise, please forward us the total amount stated below.\n"
-"If you have any queries regarding your account, Please contact us.\n"
-"\n"
-"Thank you in advance for your cooperation.\n"
-"Best Regards,"
-msgstr "Madame, Monsieur,\n"
-"\n"
-"D'après nos relevés, il semble que nous sommes encore en attente à ce jour de paiements de votre part, dont les détails sont indiqués ci-dessous.\n"
-"Si ces sommes ont déjà été réglées, vous pouvez ignorer ce rappel. Dans le cas contraire, nous vous remercions de bien vouloir nous faire parvenir votre règlement.\n"
-"Si vous avez d'autres questions concernant votre compte, vous pouvez nous contacter directement.\n"
-"\n"
-"En vous remerciant par avance.\n"
-"\n"
-"Cordialement,"
-
-#. module: intercompany_trade_base
 #: field:intercompany.trade.config,display_name:0
 msgid "Display Name"
 msgstr "Nom affiché"
@@ -130,7 +109,7 @@ msgid "Intercompany Trade"
 msgstr "Transaction Inter Société"
 
 #. module: intercompany_trade_base
-#: model:ir.ui.menu,name:intercompany_trade_base.menu_intercompany_trade_setting
+#: model:ir.ui.menu,name:intercompany_trade_base.menu_setting_intercompany_trade
 msgid "Intercompany Trades"
 msgstr "Transactions Inter Société"
 
