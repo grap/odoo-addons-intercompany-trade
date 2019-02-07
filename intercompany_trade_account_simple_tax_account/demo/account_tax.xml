@@ -7,29 +7,16 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 <openerp><data>
 
-
     <record id="intercompany_trade_account.sale_vat_10_included" model="account.tax">
         <field name="simple_tax_id" ref="intercompany_trade_account.sale_vat_10_excluded" />
-    </record>
-
-    <record id="intercompany_trade_account.sale_vat_10_excluded" model="account.tax">
-        <field name="simple_tax_id" ref="intercompany_trade_account.sale_vat_10_included" />
     </record>
 
     <record id="intercompany_trade_account.sale_vat_25_included" model="account.tax">
         <field name="simple_tax_id" ref="intercompany_trade_account.sale_vat_25_excluded" />
     </record>
 
-    <record id="intercompany_trade_account.sale_vat_25_excluded" model="account.tax">
-        <field name="simple_tax_id" ref="intercompany_trade_account.sale_vat_25_included" />
-    </record>
-
     <record id="intercompany_trade_account.purchase_vat_10_included" model="account.tax">
         <field name="simple_tax_id" ref="intercompany_trade_account.purchase_vat_10_excluded" />
-    </record>
-
-    <record id="intercompany_trade_account.purchase_vat_10_excluded" model="account.tax">
-        <field name="simple_tax_id" ref="intercompany_trade_account.purchase_vat_10_included" />
     </record>
 
 </data></openerp>
