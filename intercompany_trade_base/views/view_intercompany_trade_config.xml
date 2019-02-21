@@ -26,16 +26,17 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                     <field name="name"/>
                     <field name="active"/>
                 </group>
-                <group col="4" string="Information in Supplier Company">
+                <group col="4" name="supplier_info" string="Information in Supplier Company">
                     <field name="supplier_company_id"/>
                     <field name="supplier_user_id"/>
                     <field name="customer_partner_id"/>
                 </group>
-                <group col="4" string="Information in Customer Company">
+                <group col="4" name="customer_info" string="Information in Customer Company">
                     <field name="customer_company_id"/>
                     <field name="customer_user_id"/>
                     <field name="supplier_partner_id"/>
                 </group>
+
             </form>
         </field>
     </record>
