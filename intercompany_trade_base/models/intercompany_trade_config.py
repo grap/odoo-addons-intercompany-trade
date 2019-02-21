@@ -165,3 +165,10 @@ class IntercompanyTradeConfig(models.Model):
                     " If you want to do so, please disable this"
                     " intercompany trade and create a new one."))
         return super(IntercompanyTradeConfig, self).write(vals)
+
+    @api.multi
+    def unlink(self):
+        """ Block possibility to unlink"""
+        raise UserError(_(
+            "You can not unlink an intercompany Trade."
+            " You can only disable it"))

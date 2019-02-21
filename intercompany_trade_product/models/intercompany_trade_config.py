@@ -16,6 +16,10 @@ class IntercompanyTradeConfig(models.Model):
         compute='_compute_sale_pricelist_id', store=True,
         help="Sale Pricelist in the Supplier Company")
 
+    line_ids = fields.One2many(
+        comodel_name='intercompany.trade.config.line',
+        inverse_name='config_id')
+
     # Compute Section
     @api.multi
     @api.depends(
