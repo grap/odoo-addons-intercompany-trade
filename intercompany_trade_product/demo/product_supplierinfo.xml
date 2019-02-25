@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2019 - Today: GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+
+<openerp><data>
+
+<!--     <record id="supplierinfo_banana" model="product.supplierinfo">
+        <field name="name"
+            eval="env.ref('intercompany_trade_base.intercompany_trade').supplier_partner_id.id" />
+        <field name="product_tmpl_id"
+            eval="ref('intercompany_trade_product.product_customer_ref').product_tmpl_id.id"/>
+        <field name="supplier_product_id" ref="product_supplier_ref"/>
+    </record> -->
+
+</data></openerp>

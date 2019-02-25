@@ -3,8 +3,7 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import _, api, fields, models
-from openerp.exceptions import ValidationError
+from openerp import api, fields, models
 
 
 class ProductSupplierinfo(models.Model):
@@ -49,7 +48,6 @@ class ProductSupplierinfo(models.Model):
     @api.multi
     @api.depends('intercompany_trade_id', 'supplier_product_id')
     def _compute_catalog_id(self):
-        print "_compute_catalog_id"
         for supplierinfo in self.filtered(
                 lambda x: x.intercompany_trade_id and x.supplier_product_id):
             supplierinfo.catalog_id = int(
@@ -59,36 +57,13 @@ class ProductSupplierinfo(models.Model):
 
     @api.multi
     def _set_catalog_id(self):
-        print "_set_catalog_id"
         for supplierinfo in self.filtered(lambda x: x.catalog_id):
             res =\
                 int(str(supplierinfo.catalog_id.id)[:-4])
-            print res
             supplierinfo.supplier_product_id = res
 
     @api.onchange('catalog_id')
     def _onchange_catalog_id(self):
-        print "_onchange_catalog_id"
         for supplierinfo in self.filtered(lambda x: x.catalog_id):
-            res =\
-                int(str(supplierinfo.catalog_id.id)[:-4])
-            print res
+            res = int(str(supplierinfo.catalog_id.id)[:-4])
             supplierinfo.supplier_product_id = res
-
-    # Constrains Section
-    @api.multi
-    @api.constrains('supplier_product_id', 'is_intercompany_trade')
-    def _check_supplier_product_id(self):
-        for supplierinfo in self.filtered(lambda x: x.supplier_product_id):
-            if not supplierinfo.is_intercompany_trade:
-                raise ValidationError(_(
-                    "You can only set Intercompany Trade product with"
-                    " customer that are flagged as Intercompany Trade"
-                    " Supplier"))
-
-        for supplierinfo in self.filtered(lambda x: not x.supplier_product_id):
-            if supplierinfo.is_intercompany_trade:
-                raise ValidationError(_(
-                    "You have selected a supplier flagged as Intercompany"
-                    " Trade. You should select a Intercompany Trade Product"
-                    " via the search field"))
