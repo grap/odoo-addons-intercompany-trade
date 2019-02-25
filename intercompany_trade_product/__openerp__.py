@@ -18,8 +18,8 @@
         'security/ir_rule.xml',
         'security/ir.model.access.csv',
         'views/view_intercompany_trade_config.xml',
-        'views/view_intercompany_trade_wizard_link_product.xml',
-        'views/view_product_intercompany_trade_catalog.xml',
+        # 'views/view_intercompany_trade_wizard_link_product.xml',
+        # 'views/view_product_intercompany_trade_catalog.xml',
         'views/view_product_supplierinfo.xml',
     ],
     'demo': [

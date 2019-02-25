@@ -1,5 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 ,,,,,,,
-product_intercompany_trade_catalog_user_access,Intercompany Trade Products Catalog - User,model_product_intercompany_trade_catalog,intercompany_trade_base.intercompany_trade_user,1,0,0,0
 product_supplierinfo_user_access,Product Supplier Info - Intercompany Trade User,product.model_product_supplierinfo,intercompany_trade_base.intercompany_trade_user,1,1,1,1
 pricelist_partnerinfo_user_access,Pricelist Partner Info - Intercompany Trade User,product.model_pricelist_partnerinfo,intercompany_trade_base.intercompany_trade_user,1,1,1,1
