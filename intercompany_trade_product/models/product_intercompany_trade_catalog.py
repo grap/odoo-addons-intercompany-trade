@@ -70,17 +70,8 @@ class ProductIntercompanyTradeCatalog(models.Model):
         string='Customer Product', readonly=True,
         comodel_name='product.template')
 
-    supplier_sale_price = fields.Float(
-        string='Supplier Sale Price', compute='_compute_sale_info',
-        multi='_compute_sale_info',
-        digits_compute=dp.get_precision('Intercompany Trade Product Price'))
-
     customer_purchase_price = fields.Float(
         string='Customer Purchase Price', readonly=True)
-
-    sale_pricelist_id = fields.Many2one(
-        string='Sale Pricelist', readonly=True,
-        comodel_name='product.pricelist')
 
     customer_company_id = fields.Many2one(
         string='Customer Company', readonly=True, comodel_name='res.company')
@@ -118,18 +109,6 @@ class ProductIntercompanyTradeCatalog(models.Model):
     supplier_product_sale_ok = fields.Boolean(
         string='Supplier Product Can be sold', readonly=True)
 
-    # Fields Function Section
-    @api.multi
-    def _compute_sale_info(self):
-        """Overload _compute_intercompany_trade_prices to add extra computed
-        values in this multi computation function"""
-        for catalog in self.sudo():
-            res = catalog.sale_pricelist_id.sudo().\
-                _compute_intercompany_trade_prices(
-                    catalog.supplier_product_id, catalog.supplier_partner_id)
-            for field_name, value in res.iteritems():
-                setattr(catalog, field_name, value)
-
     # View Section
     def init(self, cr):
         tools.drop_view_if_exists(cr, self._table)
@@ -140,7 +119,6 @@ CREATE OR REPLACE VIEW %s AS (
             rit.id as intercompany_trade_id,
             c_psi.product_tmpl_id as customer_product_tmpl_id,
             rit.customer_company_id,
-            rit.sale_pricelist_id as sale_pricelist_id,
             rit.customer_partner_id,
             s_pp.id as supplier_product_id,
             s_pp.default_code as supplier_product_default_code,
