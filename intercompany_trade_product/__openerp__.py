@@ -27,7 +27,7 @@
         'demo/product_product.xml',
         'demo/product_pricelist.xml',
         'demo/product_product.xml',
-        'demo/wizard_link_product.xml',
+        'demo/product_supplierinfo.xml',
     ],
     'auto_install': True,
     'installable': True,

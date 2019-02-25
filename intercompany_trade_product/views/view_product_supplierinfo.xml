@@ -10,14 +10,17 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="model">product.supplierinfo</field>
         <field name="inherit_id" ref="product.product_supplierinfo_form_view" />
         <field name="arch" type="xml">
-            <field name="product_name" position="after">
-                <field name="supplier_product_id" groups="intercompany_trade_base.intercompany_trade_user"/>
+            <field name="company_id" position="after">
+                <group name="group_intercompany_trade" string="Intercompany Trade" colspan="4">
+                    <group>
+                        <field name="is_intercompany_trade" invisible="1"/>
+                        <field name="intercompany_trade_id" />
+                        <field name="catalog_id" quick_create="false"/>
+                        <field name="supplier_product_id" readonly="1"/>
+                    </group>
+                </group>
             </field>
         </field>
     </record>
-
-<!--             <field name="product_code" position="after">
-                <field name="intercompany_trade_price" groups="intercompany_trade_base.intercompany_trade_manager"/>
-            </field> -->
 
 </data></openerp>
