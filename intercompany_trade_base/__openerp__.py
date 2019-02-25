@@ -12,6 +12,7 @@
     'license': 'AGPL-3',
     'depends': [
         'base',
+        'base_suspend_security',
     ],
     'data': [
         'security/ir_module_category.xml',
