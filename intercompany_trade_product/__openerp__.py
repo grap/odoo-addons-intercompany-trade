@@ -28,6 +28,8 @@
         'demo/product_pricelist.xml',
         'demo/product_product.xml',
         'demo/product_supplierinfo.xml',
+        'demo/intercompany_trade_config_line.xml',
+
     ],
     'auto_install': True,
     'installable': True,

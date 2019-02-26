@@ -11,10 +11,11 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="inherit_id" ref="intercompany_trade_base.view_intercompany_trade_config_form" />
         <field name="arch" type="xml">
             <xpath expr="group[@name='customer_info']" position="after">
-                <group col="4" name="line_info" string="Category links">
+                <group col="4" name="line_info" string="Rules">
                     <field name="line_ids" colspan="4" nolabel="1">
                         <tree editable="bottom">
-                            <field name="category_id"/>
+                            <field name="sequence" widget="handle"/>
+                            <field name="categ_id"/>
                             <field name="product_id"/>
                         </tree>
                     </field>
