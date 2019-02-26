@@ -30,7 +30,7 @@ class AccountInvoiceLine(models.Model):
         invoice = self.invoice_id
 
         # Create according account invoice line
-        customer_product = config._get_product_in_customer_company(
+        customer_product = config.get_customer_product(
             self.product_id)
 
         values = self.sudo(config.customer_user_id).product_id_change(
