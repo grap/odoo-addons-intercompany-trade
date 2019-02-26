@@ -23,6 +23,14 @@ class TestModule(TransactionCase):
         self.intercompany_trade_config = self.env.ref(
             'intercompany_trade_base.intercompany_trade')
 
+        self.supplier_user = self.env.ref(
+            'intercompany_trade_base.supplier_user')
+
+        self.customer_company = self.env.ref(
+            'intercompany_trade_base.customer_company')
+        self.supplier_company = self.env.ref(
+            'intercompany_trade_base.supplier_company')
+
     def test_00_log_installed_modules(self):
         module_obj = self.env['ir.module.module']
         modules = module_obj.search([('state', '=', 'installed')])
@@ -38,14 +46,9 @@ class TestModule(TransactionCase):
         inverse of an existing intercompany trade affect correctly partners"""
         config = self.config_obj.create({
             'name': 'Reverse Intercompany Trade',
-            'customer_company_id':
-            self.intercompany_trade_config.supplier_company_id.id,
-            'supplier_company_id':
-            self.intercompany_trade_config.customer_company_id.id,
-            'customer_user_id':
-            self.intercompany_trade_config.supplier_user_id.id,
-            'supplier_user_id':
-            self.intercompany_trade_config.customer_user_id.id,
+            'customer_company_id': self.supplier_company.id,
+            'supplier_company_id': self.customer_company.id,
+            'customer_user_id': self.supplier_user.id,
         })
         old_config = self.config_obj.browse(self.intercompany_trade_config.id)
 
