@@ -98,14 +98,6 @@ class ProductSupplierinfo(models.Model):
     #     product_obj = self.env['product.product']
     #     catalog_obj = self.env['product.intercompany.trade.catalog']
 
-    #     self.ensure_one()
-    #     # Prepare Product Supplierinfo
-    #     supplierinfo_vals =\
-    #         self.intercompany_trade_id._prepare_product_supplierinfo(
-    #             self.supplier_product_id.id, self.customer_product_id.id)
-    #     supplierinfo_vals['product_tmpl_id'] =\
-    #       self.customer_product_tmpl_id.id
-
     #     cus_template = template_obj.browse(
     #         supplierinfo_vals['product_tmpl_id'])
     #     sup_product = product_obj.sudo().browse(
