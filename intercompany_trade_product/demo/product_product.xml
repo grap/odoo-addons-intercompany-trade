@@ -55,9 +55,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="company_id" ref="intercompany_trade_base.customer_company" />
     </record>
 
-    <record id="product_supplier_ref" model="product.product">
-        <field name="name">Supplier Reference Service</field>
-        <field name="default_code">SUPPLIER-REF-SERV</field>
+    <record id="product_supplier_service" model="product.product">
+        <field name="name">Supplier Service</field>
+        <field name="default_code">SUPPLIER-SERVICE</field>
         <field name="standard_price">80.00</field>
         <field name="list_price">100.00</field>
         <field name="type">service</field>
@@ -65,11 +65,11 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     </record>
 
     <function model="product.product" name="write"
-        eval="([ref('product_supplier_ref')], {'standard_price': 80.00}, {'force_company': ref('intercompany_trade_base.supplier_company')})" />
+        eval="([ref('product_supplier_service')], {'standard_price': 80.00}, {'force_company': ref('intercompany_trade_base.supplier_company')})" />
 
-    <record id="product_customer_ref" model="product.product">
-        <field name="name">Customer Reference Service</field>
-        <field name="default_code">CUSTOMER-REF-SERV</field>
+    <record id="product_customer_service" model="product.product">
+        <field name="name">Customer Service</field>
+        <field name="default_code">CUSTOMER-SERVICE</field>
         <field name="standard_price">100.00</field>
         <field name="list_price">120.00</field>
         <field name="type">service</field>
@@ -77,6 +77,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     </record>
 
     <function model="product.product" name="write"
-        eval="([ref('product_customer_ref')], {'standard_price': 100.00}, {'force_company': ref('intercompany_trade_base.customer_company')})" />
+        eval="([ref('product_customer_service')], {'standard_price': 100.00}, {'force_company': ref('intercompany_trade_base.customer_company')})" />
 
 </data></openerp>
