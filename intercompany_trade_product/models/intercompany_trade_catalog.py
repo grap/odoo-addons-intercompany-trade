@@ -16,10 +16,6 @@ class IntercompanyTradeCatalog(models.Model):
         string='Intercompany Trade', readonly=True,
         comodel_name='intercompany.trade.config')
 
-    # customer_product_tmpl_id = fields.Many2one(
-    #     string='Customer Product', readonly=True,
-    #     comodel_name='product.template')
-
     customer_company_id = fields.Many2one(
         string='Customer Company', readonly=True, comodel_name='res.company')
 

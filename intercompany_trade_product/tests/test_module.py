@@ -119,6 +119,10 @@ class TestModule(TransactionCase):
         }
         self.ProductSupplierinfo.sudo(self.customer_user).create(vals)
 
+        # Test if the get recovery works
+
+        # Try to link to the same customer product to another
+        # supplier product, should fail
         vals['product_tmpl_id'] = self.customer_service.product_tmpl_id.id
 
         with self.assertRaises(ValidationError):
