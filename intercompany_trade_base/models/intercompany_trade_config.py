@@ -30,14 +30,6 @@ class IntercompanyTradeConfig(models.Model):
         string='Customer Company', required=True, comodel_name='res.company',
         help="Select the company that could purchase to the other.")
 
-    supplier_user_id = fields.Many2one(
-        string='Supplier User', required=True, comodel_name='res.users',
-        domain="[('company_id', '=', supplier_company_id)]",
-        help="This user will be used to create supplier data when"
-        " customer users update datas.\n"
-        " Please take that this user must have good access right on the"
-        " supplier company.")
-
     supplier_company_id = fields.Many2one(
         string='Supplier Company', required=True, comodel_name='res.company',
         help="Select the company that could sale to the other.")

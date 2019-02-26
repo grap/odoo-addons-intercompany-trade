@@ -17,31 +17,24 @@ class IntercompanyTradeConfig(models.Model):
 
     # Custom Section
     @api.multi
-    def _get_product_in_customer_company(self, product):
+    def get_customer_product(self, product):
         """
             Return the product in the customer company from a product in the
             supplier company
-            Realize correct check if the product is not referenced.
 
             :param @product: product in the supplier company
             :return : product, in the customer company
         """
         self.ensure_one()
-        customer_product = self._get_product_in_customer_company_strict(
+        customer_product = self._get_customer_product_by_product(
             product)
         if not customer_product:
             customer_product =\
-                self._get_product_in_customer_company_approximate(product)
-        if not customer_product:
-            raise UserError(_(
-                "You can not add the product '%s' to the"
-                " current Order or Invoice because the customer didn't"
-                " referenced your product. Please contact him and"
-                " say him to do it.") % (product.name))
+                self._get_customer_product_by_rule(product)
         return customer_product
 
     @api.multi
-    def _get_product_in_customer_company_strict(self, product):
+    def _get_customer_product_by_product(self, product):
         self.ensure_one()
 
         product_obj = self.env['product.product']
@@ -70,8 +63,12 @@ class IntercompanyTradeConfig(models.Model):
         return customer_products[0]
 
     @api.multi
-    def _get_product_in_customer_company_approximate(self, product):
+    def _get_customer_product_by_rule(self, product):
         """Overloadable function, allow to return a product if the
         customer did'nt referenced the supplier product, by category,
         or other rules."""
+        self.ensure_one()
+        for line in self.line_ids:
+            if line.match_rule(product):
+                return line.product_id
         return False

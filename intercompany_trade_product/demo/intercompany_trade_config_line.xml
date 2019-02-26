@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2019 - Today: GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+
+<openerp><data>
+
+    <record id="it_line" model="intercompany.trade.config.line">
+        <field name="config_id" ref="intercompany_trade_base.intercompany_trade"/>
+        <field name="sequence">1</field>
+        <field name="categ_id" ref="product.imac"/>
+        <field name="product_id" ref="product_customer_it_raws"/>
+    </record>
+
+</data></openerp>

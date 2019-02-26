@@ -30,20 +30,17 @@ class TestModule(TransactionCase):
         super(TestModule, self).setUp()
 
         # Get Registries
-
         self.IrModuleModule = self.env['ir.module.module']
-        # self.config_obj = self.env['intercompany.trade.config']
-        # self.product_obj = self.env['product.product']
         self.ProductSupplierinfo = self.env['product.supplierinfo']
-        # self.partner_obj = self.env['res.partner']
 
-        # Get ids from xml_ids
-
-        # self.supplier_normal = self.env.ref('base.res_partner_1')
+        # Get objects from xml_ids
         self.config = self.env.ref(
             'intercompany_trade_base.intercompany_trade')
-        # self.supplier_banana = self.env.ref(
-        #     'intercompany_trade_product.product_supplier_banana')
+        self.config_line_category = self.env.ref(
+            'intercompany_trade_product.it_line')
+
+        self.apple_category = self.env.ref('product.apple')
+
         self.supplier_apple = self.env.ref(
             'intercompany_trade_product.product_supplier_apple')
         self.customer_apple = self.env.ref(
@@ -54,18 +51,17 @@ class TestModule(TransactionCase):
         self.customer_service = self.env.ref(
             'intercompany_trade_product.product_customer_service')
 
-        # self.pricelist_discount = self.env.ref(
-        #     'intercompany_trade_product.pricelist_discount')
+        self.supplier_imac = self.env.ref(
+            'intercompany_trade_product.product_supplier_imac_computer')
+        self.customer_it_raws = self.env.ref(
+            'intercompany_trade_product.product_customer_it_raws')
+
         self.customer_user = self.env.ref(
             'intercompany_trade_base.customer_user')
-        # self.supplier_user = self.env.ref(
-        #     'intercompany_trade_base.supplier_user')
-        # self.precision = self.env['decimal.precision'].precision_get(
-        #     'Intercompany Trade Product Price')
+        self.supplier_user = self.env.ref(
+            'intercompany_trade_base.supplier_user')
 
-    def test_01_product_association(self):
-        """[Functional Test] Check if associate a product create a
-        product supplierinfo"""
+    def test_01_product_association_by_product(self):
         # this test creates pricelist.partnerinfo
         # if product_fiscal_company is installed, company_id is added
         # and so ir.rule contains company_id, but at this step
@@ -76,41 +72,25 @@ class TestModule(TransactionCase):
         if not self.IrModuleModule.search([
                 ('name', '=', 'product_fiscal_company'),
                 ('state', '=', 'installed')]):
-            self._test_01_product_association()
+            self._test_01_product_association_by_product()
         else:
             _logger.info(
                 "test skipped, will be run later in"
                 " intercompany_trade_fiscal_company")
 
-    # def test_02_product_association_recovery(self):
-    #     """
-    #         - Get supplier product from customer product
-    #         - Get Customer Product from supplier Product"""
-    #     # Same reason here.
-    #     if not self.module_obj.search([
-    #             ('name', '=', 'product_fiscal_company'),
-    #             ('state', '=', 'installed')]):
-    #         self._test_02_product_association_recovery()
-    #     else:
-    #         _logger.info(
-    #             "test skipped, will be run later in"
-    #             " intercompany_trade_fiscal_company")
-
-    # def test_03_create_manual_supplier_info(self):
-    #     """ Check if create manual supplierinfo fail if partner
-    #     is flagged as Intercompany Trade."""
-    #     # Same reason here.
-    #     if not self.module_obj.search([
-    #             ('name', '=', 'product_fiscal_company'),
-    #             ('state', '=', 'installed')]):
-    #         self._test_03_create_manual_supplier_info()
-    #     else:
-    #         _logger.info(
-    #             "test skipped, will be run later in"
-    #             " intercompany_trade_fiscal_company")
+    def test_02_product_association_by_rule(self):
+        # Same reason here.
+        if not self.IrModuleModule.search([
+                ('name', '=', 'product_fiscal_company'),
+                ('state', '=', 'installed')]):
+            self._test_02_product_association_by_rule()
+        else:
+            _logger.info(
+                "test skipped, will be run later in"
+                " intercompany_trade_fiscal_company")
 
     # Test Section
-    def _test_01_product_association(self):
+    def _test_01_product_association_by_product(self):
         # Associate Customer Apple to Supplier Apple should success
         vals = {
             'name': self.config.supplier_partner_id.id,
@@ -119,7 +99,13 @@ class TestModule(TransactionCase):
         }
         self.ProductSupplierinfo.sudo(self.customer_user).create(vals)
 
-        # Test if the get recovery works
+        # Test if getting the product in the supplier context works.
+        customer_product = self.config.sudo(
+            self.supplier_user).get_customer_product(self.supplier_apple)
+
+        self.assertEqual(
+            customer_product, self.customer_apple,
+            "Recovering product in the supplier context failed")
 
         # Try to link to the same customer product to another
         # supplier product, should fail
@@ -132,98 +118,29 @@ class TestModule(TransactionCase):
         vals['supplier_product_id'] = self.supplier_service.id
         self.ProductSupplierinfo.sudo(self.customer_user).create(vals)
 
-        # Link to another product (should fail)
+        customer_product = self.config.sudo(
+            self.supplier_user).get_customer_product(self.supplier_service)
 
-    # Test Section
-    # def _test_01_product_association(self):
-    #     # Associate with bad product (customer apple - supplier banana)
-    #     catalog = self.catalog_obj.sudo(self.customer_user).search([
-    #         ('supplier_product_id', '=', self.supplier_banana.id)])
+        self.assertEqual(
+            customer_product, self.customer_service,
+            "Recovering product in the supplier context failed")
 
-    #     link = self.link_obj.with_context(active_id=catalog.id).sudo(
-    #         self.customer_user).create({
-    #             'customer_product_id': self.customer_apple.id})
-    #     link.sudo(self.customer_user).link_product()
+    def _test_02_product_association_by_rule(self):
+        # Test if getting the product in the supplier context works.
+        # by rule
+        customer_product = self.config.sudo(
+            self.supplier_user).get_customer_product(self.supplier_imac)
 
-    #     supplierinfos = self.supplierinfo_obj.search([
-    #         ('product_tmpl_id', '=', self.
-    # customer_apple.product_tmpl_id.id)])
+        self.assertEqual(
+            customer_product, self.customer_it_raws,
+            "Recovering by category rule should succeed. (exact category)")
 
-    #     self.assertEqual(
-    #         len(supplierinfos), 1,
-    #         "Associate a Customer Product to a Supplier Product must"
-    #         " create a Product Supplierinfo.")
+        # Change the rule category for a parent product
+        self.config_line_category.categ_id = self.apple_category
 
-    #     self.assertEqual(
-    #         supplierinfos[0].intercompany_trade_price,
-    #         round(self.supplier_banana.list_price, self.precision),
-    #         "Associate a Customer Product to a Supplier Product must"
-    #         " set as intercompany trade price in customer database the"
-    #         " sale price of the supplier product.")
+        customer_product = self.config.sudo(
+            self.supplier_user).get_customer_product(self.supplier_imac)
 
-    #     self.assertEqual(
-    #         supplierinfos[0].pricelist_ids[0].price,
-    #         round(self.supplier_banana.list_price, self.precision),
-    #         "Associate a Customer Product to a Supplier Product must"
-    #         " set as intercompany trade price in customer database the"
-    #         " sale price of the supplier product in items list.")
-
-    #     # Reassociate with correct product (customer apple - supplier apple)
-    #     # Must Fail
-    #     catalog_2 = self.catalog_obj.sudo(self.customer_user).search([
-    #         ('supplier_product_id', '=', self.supplier_apple.id)])
-
-    #     link = self.link_obj.with_context(active_id=catalog_2.id).sudo(
-    #         self.customer_user).create({
-    #             'customer_product_id': self.customer_apple.id})
-
-    #     with self.assertRaises(UserError):
-    #         # this must fail
-    #         link.sudo(self.customer_user).link_product()
-
-    #     # Remove association
-    #     catalog.sudo(self.customer_user).button_unlink_product()
-
-    #     supplierinfos = self.supplierinfo_obj.search([
-    #         ('product_tmpl_id', '=', self.customer_apple
-    # .product_tmpl_id.id)])
-
-    #     self.assertEqual(
-    #         len(supplierinfos), 0,
-    #         "Unlink a Customer Product must delete The
-    #  Product Supplierinfo.")
-
-    # def _test_02_product_association_recovery(self):
-    #     # Associate a product
-    #     catalog = self.catalog_obj.sudo(self.customer_user).search([
-    #         ('supplier_product_id', '=', self.supplier_apple.id)])
-
-    #     link = self.link_obj.with_context(active_id=catalog.id).sudo(
-    #         self.customer_user).create({
-    #             'customer_product_id': self.customer_apple.id})
-
-    #     link.sudo(self.customer_user).link_product()
-
-    #     customer_product = self.config.sudo(
-    #         self.supplier_user)._get_product_in_customer_company(
-    #             self.supplier_apple)
-    #     self.assertEqual(
-    #         self.customer_apple,
-    #         customer_product,
-    #         "Function to recovery customer product info from supplier"
-    #         " product doesn't work.")
-
-    # def _test_03_create_manual_supplier_info(self):
-    #     # Associate the product with a Normal Supplier. Should success
-    #     self.supplierinfo_obj.create({
-    #         'name': self.supplier_normal.id,
-    #         'product_tmpl_id': self.supplier_apple.product_tmpl_id.id,
-    #     })
-
-    #     # Associate the product with a Intercompany Trade
-    # Supplier. Should fail
-    #     with self.assertRaises(ValidationError):
-    #         self.supplierinfo_obj.create({
-    #             'name': self.config.supplier_partner_id.id,
-    #             'product_tmpl_id': self.customer_apple.product_tmpl_id.id,
-    #         })
+        self.assertEqual(
+            customer_product, self.customer_it_raws,
+            "Recovering by category rule should succeed. (parent category)")
