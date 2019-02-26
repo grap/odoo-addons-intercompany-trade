@@ -15,7 +15,6 @@
         'purchase',
     ],
     'data': [
-        'views/menu.xml',
     ],
     'demo': [
         'demo/res_groups.xml',
