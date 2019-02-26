@@ -41,6 +41,9 @@ class TestModule(TransactionCase):
 
         self.apple_category = self.env.ref('product.apple')
 
+        self.supplier_banana = self.env.ref(
+            'intercompany_trade_product.product_supplier_banana')
+
         self.supplier_apple = self.env.ref(
             'intercompany_trade_product.product_supplier_apple')
         self.customer_apple = self.env.ref(
@@ -144,3 +147,17 @@ class TestModule(TransactionCase):
         self.assertEqual(
             customer_product, self.customer_it_raws,
             "Recovering by category rule should succeed. (parent category)")
+
+        customer_product = self.config.sudo(
+            self.supplier_user).get_customer_product(self.supplier_banana)
+
+        self.assertEqual(
+            customer_product, False,
+            "Recovering by incorrect category rule should not return product")
+
+        # Set no category for the rule
+        self.config_line_category.categ_id = False
+        self.config_line_category.categ_id = self.apple_category
+
+        customer_product = self.config.sudo(
+            self.supplier_user).get_customer_product(self.supplier_imac)
