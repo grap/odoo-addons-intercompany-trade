@@ -65,14 +65,20 @@ class ProductSupplierinfo(models.Model):
 
     @api.onchange('catalog_id')
     def _onchange_catalog_id(self):
+        ProductProduct = self.env['product.product']
         for supplierinfo in self.filtered(lambda x: x.catalog_id):
-            res = int(str(supplierinfo.catalog_id.id)[:-4])
-            supplierinfo.supplier_product_id = res
+            product_id = int(str(supplierinfo.catalog_id.id)[:-4])
+            supplierinfo.supplier_product_id = product_id
+            product = ProductProduct.sudo().browse(product_id)
+            supplierinfo.product_name = product.name
+            supplierinfo.product_code = product.code
 
     @api.constrains(
         'supplier_product_id', 'is_intercompany_trade', 'product_tmpl_id')
     def _check_intercompany_trade(self):
-        for supplierinfo in self.filtered(lambda x: x.is_intercompany_trade):
+        for supplierinfo in self.filtered(
+                lambda x: x.is_intercompany_trade and
+                x.supplier_product_id):
             # Check if the supplier product has been linked to other
             # product
             res = self.search([
@@ -88,56 +94,3 @@ class ProductSupplierinfo(models.Model):
                         ', '.join(res.mapped('product_tmpl_id.name')),
                         supplierinfo.product_tmpl_id.name,
                 ))
-
-    # TODO TODO TODO
-    # ADD CHECK
-    # @api.multi
-    # def link_product(self):
-    #     supplierinfo_obj = self.env['product.supplierinfo']
-    #     template_obj = self.env['product.template']
-    #     product_obj = self.env['product.product']
-    #     catalog_obj = self.env['product.intercompany.trade.catalog']
-
-    #     cus_template = template_obj.browse(
-    #         supplierinfo_vals['product_tmpl_id'])
-    #     sup_product = product_obj.sudo().browse(
-    #         supplierinfo_vals['supplier_product_id'])
-
-    #     # Raise error if there is many products associated to the template
-    #     product_qty = product_obj.search([
-    #         ('product_tmpl_id', '=', self.customer_product_tmpl_id.id)])
-    #     if len(product_qty) != 1:
-    #         raise UserError(_(
-    #             "Too Many Variants for the Product !\nYou can not link this"
-    #             " product %s because there are %d Variants associated.") % (
-    #                 cus_template.name, len(product_qty)))
-
-    #     # raise error if there is a product linked
-    #     catalogs = catalog_obj.search([
-    #         ('customer_product_tmpl_id', '=',
-    #             supplierinfo_vals['product_tmpl_id']),
-    #         ('customer_company_id', '=', supplierinfo_vals['company_id'])])
-    #     if len(catalogs) != 0:
-    #         if not self.env.context.get('demo_integrated', False):
-    #             raise UserError(_(
-    #                 "Duplicated References !\nYou can not link the Product"
-    #                 " %s because it is yet linked to another supplier"
-    # "product."
-    #                 " Please unlink the Product and try again.") % (
-    #                     cus_template.name))
-    #         else:
-    #             return
-
-    #     # Raise an error if Unit doesn't match
-    #     if cus_template.uom_id.category_id.id !=\
-    #             sup_product.uom_id.category_id.id:
-    #         raise UserError(_(
-    #             "Unit Mismatch !\n The type of Unit of Mesure of your"
-    # "" product"
-    #             " is '%s'.\nThe type of Unit of Mesure of the supplier"
-    # "" product"
-    #             " is '%s'.\n\nThe type must be the same.") % (
-    #                 cus_template.uom_id.category_id.name,
-    #                 sup_product.uom_id.category_id.name))
-
-    #     supplierinfo_obj.create(supplierinfo_vals)

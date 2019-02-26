@@ -7,12 +7,26 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 <openerp><data>
 
-<!--     <record id="supplierinfo_banana" model="product.supplierinfo">
+    <record id="supplierinfo_product_service" model="product.supplierinfo">
+        <field name="company_id" ref="intercompany_trade_base.customer_company"/>
         <field name="name"
-            eval="env.ref('intercompany_trade_base.intercompany_trade').supplier_partner_id.id" />
+            eval="obj(ref('intercompany_trade_base.intercompany_trade')).supplier_partner_id.id"
+            model="intercompany.trade.config"/>
         <field name="product_tmpl_id"
-            eval="ref('intercompany_trade_product.product_customer_ref').product_tmpl_id.id"/>
-        <field name="supplier_product_id" ref="product_supplier_ref"/>
-    </record> -->
+            eval="obj(ref('intercompany_trade_product.product_customer_service')).product_tmpl_id.id"
+            model="product.product"/>
+        <field name="supplier_product_id" ref="product_supplier_service"/>
+    </record>
+
+    <record id="supplierinfo_product_apple" model="product.supplierinfo">
+        <field name="company_id" ref="intercompany_trade_base.customer_company"/>
+        <field name="name"
+            eval="obj(ref('intercompany_trade_base.intercompany_trade')).supplier_partner_id.id"
+            model="intercompany.trade.config"/>
+        <field name="product_tmpl_id"
+            eval="obj(ref('intercompany_trade_product.product_customer_apple')).product_tmpl_id.id"
+            model="product.product"/>
+        <field name="supplier_product_id" ref="product_supplier_apple"/>
+    </record>
 
 </data></openerp>

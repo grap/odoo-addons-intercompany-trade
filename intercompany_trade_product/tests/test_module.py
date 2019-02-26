@@ -94,14 +94,6 @@ class TestModule(TransactionCase):
 
     # Test Section
     def _test_01_product_association_by_product(self):
-        # Associate Customer Apple to Supplier Apple should success
-        vals = {
-            'name': self.config.supplier_partner_id.id,
-            'product_tmpl_id': self.customer_apple.product_tmpl_id.id,
-            'supplier_product_id': self.supplier_apple.id,
-        }
-        self.ProductSupplierinfo.sudo(self.customer_user).create(vals)
-
         # Test if getting the product in the supplier context works.
         customer_product = self.config.sudo(
             self.supplier_user).get_customer_product(self.supplier_apple)
@@ -112,15 +104,17 @@ class TestModule(TransactionCase):
 
         # Try to link to the same customer product to another
         # supplier product, should fail
-        vals['product_tmpl_id'] = self.customer_service.product_tmpl_id.id
+        vals = {
+            'name': self.config.supplier_partner_id.id,
+            'product_tmpl_id': self.customer_service.product_tmpl_id.id,
+            'supplier_product_id': self.supplier_apple.id,
+        }
 
         with self.assertRaises(ValidationError):
             # this must fail
             self.ProductSupplierinfo.sudo(self.customer_user).create(vals)
 
-        vals['supplier_product_id'] = self.supplier_service.id
-        self.ProductSupplierinfo.sudo(self.customer_user).create(vals)
-
+        # Test with another product
         customer_product = self.config.sudo(
             self.supplier_user).get_customer_product(self.supplier_service)
 
