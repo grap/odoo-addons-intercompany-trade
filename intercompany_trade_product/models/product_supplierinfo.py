@@ -25,7 +25,7 @@ class ProductSupplierinfo(models.Model):
 
     catalog_id = fields.Many2one(
         comodel_name='intercompany.trade.catalog', string='Catalog',
-        compute='_compute_catalog_id', inverse='_set_catalog_id',
+        compute='_compute_catalog_id', inverse='_inverse_catalog_id',
         domain="[('intercompany_trade_id', '=', intercompany_trade_id)]")
 
     # Compute Section
@@ -57,7 +57,7 @@ class ProductSupplierinfo(models.Model):
                     str(supplierinfo.intercompany_trade_id.id).rjust(4, '0')))
 
     @api.multi
-    def _set_catalog_id(self):
+    def _inverse_catalog_id(self):
         for supplierinfo in self.filtered(lambda x: x.catalog_id):
             res =\
                 int(str(supplierinfo.catalog_id.id)[:-4])
