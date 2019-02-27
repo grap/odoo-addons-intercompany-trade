@@ -16,4 +16,13 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="journal_id" ref="supplier_journal_sale"/>
     </record>
 
+    <record id="supplier_invoice_line_1" model="account.invoice.line">
+        <field name="name">Supplier Apple</field>
+        <field name="quantity">10</field>
+        <field name="price_unit">4</field>
+        <field name="invoice_id" ref="integrated_supplier_invoice"/>
+        <field name="product_id" ref="intercompany_trade_product.product_supplier_apple"/>
+        <field name="account_id" ref="intercompany_trade_account.supplier_account_income"/>
+    </record>
+
 </data></openerp>
