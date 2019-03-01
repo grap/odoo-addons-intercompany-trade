@@ -12,6 +12,7 @@
     'license': 'AGPL-3',
     'depends': [
         'intercompany_trade_base',
+        'base_suspend_security',
         'account',
     ],
     'demo': [
@@ -23,6 +24,7 @@
         'demo/ir_property.xml',
         'demo/account_tax.xml',
         'demo/product_product.xml',
+        'demo/product_supplierinfo.xml',
         'demo/account_invoice.xml',
     ],
     'data': [

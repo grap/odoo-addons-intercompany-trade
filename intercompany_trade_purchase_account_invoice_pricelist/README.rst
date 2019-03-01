@@ -2,12 +2,12 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-==============================================================
-Intercompany Trade - Glue Module For Account Invoice Pricelist
-==============================================================
+===========================================================================
+Intercompany Trade - Glue Module For Account Invoice Pricelist and Purchase
+===========================================================================
 
 This module extends the functionality of Intercompany Trade, with the module
-Account Invoice Pricelist.
+Account Invoice Pricelist for purchase pricelist.
 
 Contributors
 ------------

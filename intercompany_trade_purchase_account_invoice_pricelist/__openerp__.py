@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'Intercompany Trade - Account Invoice Pricelist',
+    'name': 'Intercompany Trade - Purchase / Account Invoice Pricelist',
     'version': '8.0.1.0.0',
     'category': 'Intercompany Trade',
     'author': 'GRAP',
@@ -12,6 +12,7 @@
     'license': 'AGPL-3',
     'depends': [
         'intercompany_trade_base',
+        'purchase',
         'account_invoice_pricelist',
     ],
     'auto_install': True,

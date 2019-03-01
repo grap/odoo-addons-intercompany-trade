@@ -7,6 +7,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 <openerp><data>
 
+    <!-- Supplier Products -->
     <record id="product_supplier_banana" model="product.product">
         <field name="name">Supplier Banana</field>
         <field name="default_code">SUPPLIER-BANA</field>
@@ -64,10 +65,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
     </record>
 
-
-<!--     <function model="product.product" name="write"
-        eval="([ref('product_supplier_service')], {'standard_price': 80.00}, {'force_company': ref('intercompany_trade_base.supplier_company')})" /> -->
-
+    <!-- Customer Products -->
     <record id="product_customer_apple" model="product.product">
         <field name="name">Customer Apple</field>
         <field name="default_code">CUSTOMER-APPL</field>
@@ -96,9 +94,5 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="type">service</field>
         <field name="company_id" ref="intercompany_trade_base.customer_company" />
     </record>
-
-
-<!--     <function model="product.product" name="write"
-        eval="([ref('product_customer_service')], {'standard_price': 100.00}, {'force_company': ref('intercompany_trade_base.customer_company')})" /> -->
 
 </data></openerp>
