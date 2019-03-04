@@ -1,9 +1,5 @@
-* Give the possibility to customer to link a product to a supplier product
-* Change the pricelist on customer change the pricelist on
-  intercompany.trade.config object
+This module gives the possibility to customer to link a product to a supplier
+product. This link will be used later, when supplier create a sale invoice,
+to generate automatically the purchase invoice in the customer context.
 
-TODO : Still True ?
-
-* Change product information changes supplierinfo
-* Change price information changes supplierinfo
-* Change pricelist on partner changes supplierinfo
+Two links are possible : by product, and by rule.
