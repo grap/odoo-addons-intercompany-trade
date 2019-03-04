@@ -12,7 +12,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
         <field name="customer_company_id" ref="customer_company" />
         <field name="customer_user_id" ref="customer_user" />
         <field name="supplier_company_id" ref="supplier_company" />
-        <field name="supplier_user_id" ref="supplier_user" />
     </record>
 
 </data></openerp>
