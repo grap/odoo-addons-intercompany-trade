@@ -17,6 +17,15 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
     </record>
 
+    <record id="sale_vat_10_included" model="account.tax">
+        <field name="name">SALE VAT 10% Included</field>
+        <field name="type_tax_use">sale</field>
+        <field name="type">percent</field>
+        <field name="amount">0.1</field>
+        <field name="price_include" eval="True"/>
+        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+    </record>
+
     <!-- Purchase 10% -->
     <record id="purchase_vat_10_excluded" model="account.tax">
         <field name="name">PURCHASE VAT 10% Excluded</field>
