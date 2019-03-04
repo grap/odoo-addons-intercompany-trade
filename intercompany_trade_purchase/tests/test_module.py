@@ -31,7 +31,7 @@ class TestModule(TransactionCase):
         self.customer_company = self.env.ref(
             'intercompany_trade_base.customer_company')
         self.customer_product = self.env.ref(
-            'intercompany_trade_product.product_customer_ref')
+            'intercompany_trade_product.product_customer_service')
         self.warehouse = self.env.ref(
             'intercompany_trade_stock.customer_stock_warehouse')
         self.pricelist = self.env.ref(
