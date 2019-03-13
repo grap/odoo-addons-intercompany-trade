@@ -37,7 +37,8 @@ class AccountInvoiceLine(models.Model):
             customer_product.id,
             False, type=invoice.type.replace('out_', 'in_'),
             company_id=config.customer_company_id.id,
-            partner_id=config.supplier_partner_id.id)['value']
+            partner_id=config.supplier_partner_id.id,
+            fposition_id=invoice.fiscal_position.id)['value']
 
         values.update({
             'invoice_id': customer_invoice.id,

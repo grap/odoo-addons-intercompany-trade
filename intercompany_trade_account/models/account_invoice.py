@@ -157,12 +157,15 @@ class AccountInvoice(models.Model):
         account_info = self.sudo(customer_user).onchange_partner_id(
             other_type, other_partner_id, company_id=other_company_id)['value']
 
+        print account_info
+
         account_journal = self.sudo(customer_user).with_context(
             type=other_type, company_id=other_company_id)._default_journal()
 
         return {
             'type': other_type,
             'company_id': other_company_id,
+            'fiscal_position': account_info['fiscal_position'],
             'date_invoice': self.date_invoice,
             'date_due': self.date_due,
             'currency_id': self.currency_id.id,
