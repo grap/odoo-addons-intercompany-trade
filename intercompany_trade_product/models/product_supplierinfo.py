@@ -17,6 +17,7 @@ class ProductSupplierinfo(models.Model):
     intercompany_trade_id = fields.Many2one(
         string='Intercompany Trade', store=True,
         compute='_compute_intercompany_trade_id',
+        compute_sudo=True,
         comodel_name='intercompany.trade.config')
 
     supplier_product_id = fields.Many2one(
@@ -39,7 +40,7 @@ class ProductSupplierinfo(models.Model):
     @api.multi
     @api.depends('name')
     def _compute_intercompany_trade_id(self):
-        IntercompanyTradeConfig = self.env['intercompany.trade.config']
+        IntercompanyTradeConfig = self.sudo().env['intercompany.trade.config']
         for supplierinfo in self.filtered(lambda x: x.name):
             supplierinfo.intercompany_trade_id =\
                 IntercompanyTradeConfig.search([
