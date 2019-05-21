@@ -56,6 +56,28 @@ class AccountInvoice(models.Model):
             invoice._create_intercompany_invoice()
         return super(AccountInvoice, self).invoice_validate()
 
+    # Action Section
+    @api.multi
+    def check_intercompany_trade_links(self):
+        self.ensure_one()
+        product_list = []
+        config = self._get_intercompany_trade_config_by_partner_company_type()
+        for invoice_line in self.invoice_line:
+            customer_product = config.get_customer_product(
+                invoice_line.product_id)
+            if not customer_product:
+                product_list.append(invoice_line.product_id)
+        if product_list:
+            raise UserError(_(
+                "Your customer should reference the following"
+                " products: \n\n- %s") % (
+                    "\n- ".join(
+                        ["[%s] %s" % (x.code, x.name) for x in product_list])))
+        else:
+            raise UserError(_(
+                "Your customer did the job.\n\n"
+                " All the products are correctly referenced."))
+
     # Custom Section
     @api.multi
     def _check_intercompany_trade_write(self, vals):

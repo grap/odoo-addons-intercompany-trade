@@ -23,6 +23,10 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             <field name="account_id" position="after">
                 <field name="intercompany_trade"
                     groups="intercompany_trade_base.intercompany_trade_user"/>
+                <button name="check_intercompany_trade_links" colspan="2" type="object"
+                    string="Check Links"
+                    groups="intercompany_trade_base.intercompany_trade_user"
+                    attrs="{'invisible': [('intercompany_trade', '=', False), ('type', 'in', ('in_invoice', 'in_refund'))]}"/>
             </field>
         </field>
     </record>
