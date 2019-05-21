@@ -70,8 +70,9 @@ class IntercompanyTradeConfig(models.Model):
                 ('customer_partner_id', '=', partner_id),
                 ('supplier_company_id', '=', company_id),
             ]
-        res = self.search(domain)[0]
-        return res and res or False
+
+        res = self.search(domain)
+        return res and res[0] or False
 
     @api.model
     def _prepare_partner_from_company(self, company_id, inner_company_id):
