@@ -3,8 +3,8 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import api, fields, models
-# from openerp.exceptions import Warning as UserError
+from openerp import _, api, fields, models
+from openerp.exceptions import Warning as UserError
 
 
 class AccountInvoiceLine(models.Model):
@@ -32,6 +32,12 @@ class AccountInvoiceLine(models.Model):
         # Create according account invoice line
         customer_product = config.get_customer_product(
             self.product_id)
+
+        if not customer_product:
+            raise UserError(_(
+                "It is not possible to confirm this invoice, because"
+                " your customer didn't referenced your product %s-%s") % (
+                self.product_id.code, self.product_id.name))
 
         values = self.sudo(config.customer_user_id).product_id_change(
             customer_product.id,
