@@ -54,7 +54,9 @@ class IntercompanyTradeConfig(models.Model):
                 config.supplier_company_id.fiscal_company.id)
 
     # Constraints Section
-    @api.constrains('customer_company_id', 'supplier_company_id')
+    @api.constrains(
+        'customer_company_id', 'supplier_company_id',
+        'same_fiscal_mother_company')
     def _check_account_settings_fiscal_company(self):
         for config in self:
             if config.same_fiscal_mother_company:
@@ -81,38 +83,38 @@ class IntercompanyTradeConfig(models.Model):
             })
         return res
 
-    @api.multi
-    def transcode_account_id(self, from_account_id, product_id):
-        self.ensure_one()
-        transcoding_obj = self.env['fiscal.company.transcoding.account']
-        account_obj = self.env['account.account']
-        product_obj = self.env['product.product']
-        if not from_account_id:
-            return False
-        if not self.same_fiscal_mother_company:
-            return from_account_id
-        transcoding = transcoding_obj.search([
-            ('company_id', '=', self.customer_company_id.fiscal_company.id),
-            ('from_account_id', '=', from_account_id)])
-        if transcoding:
-            return transcoding.to_account_id.id
-        else:
-            account = account_obj.browse(from_account_id)
-            product = product_obj.browse(product_id)
-            raise UserError(_(
-                "Unable to sell or purchase a product because the"
-                " following account is not transcoded for the"
-                " company %s. \n\n %s - %s\n\n.Please ask to your"
-                " accountant to add a setting for this account."
-                " \n\n Product Name : %s - %s" % (
-                    self.customer_company_id.fiscal_company.name,
-                    account.code, account.name, product.default_code,
-                    product.name)))
+    # @api.multi
+    # def transcode_account_id(self, from_account_id, product_id):
+    #     self.ensure_one()
+    #     transcoding_obj = self.env['fiscal.company.transcoding.account']
+    #     account_obj = self.env['account.account']
+    #     product_obj = self.env['product.product']
+    #     if not from_account_id:
+    #         return False
+    #     if not self.same_fiscal_mother_company:
+    #         return from_account_id
+    #     transcoding = transcoding_obj.search([
+    #         ('company_id', '=', self.customer_company_id.fiscal_company.id),
+    #         ('from_account_id', '=', from_account_id)])
+    #     if transcoding:
+    #         return transcoding.to_account_id.id
+    #     else:
+    #         account = account_obj.browse(from_account_id)
+    #         product = product_obj.browse(product_id)
+    #         raise UserError(_(
+    #             "Unable to sell or purchase a product because the"
+    #             " following account is not transcoded for the"
+    #             " company %s. \n\n %s - %s\n\n.Please ask to your"
+    #             " accountant to add a setting for this account."
+    #             " \n\n Product Name : %s - %s" % (
+    #                 self.customer_company_id.fiscal_company.name,
+    #                 account.code, account.name, product.default_code,
+    #                 product.name)))
 
-    @api.multi
-    def transcode_tax_ids(self, from_tax_ids):
-        self.ensure_one()
-        if not self.same_fiscal_mother_company:
-            return from_tax_ids
-        else:
-            return False
+    # @api.multi
+    # def transcode_tax_ids(self, from_tax_ids):
+    #     self.ensure_one()
+    #     if not self.same_fiscal_mother_company:
+    #         return from_tax_ids
+    #     else:
+    #         return False

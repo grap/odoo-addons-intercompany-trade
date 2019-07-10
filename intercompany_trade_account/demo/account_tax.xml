@@ -22,25 +22,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="type_tax_use">sale</field>
         <field name="type">percent</field>
         <field name="amount">0.1</field>
-        <field name="price_include" eval="True" />
-        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
-    </record>
-
-    <!-- Sale 25% -->
-    <record id="sale_vat_25_excluded" model="account.tax">
-        <field name="name">SALE VAT 25% Excluded</field>
-        <field name="type_tax_use">sale</field>
-        <field name="type">percent</field>
-        <field name="amount">0.25</field>
-        <field name="price_include" eval="False" />
-        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
-    </record>
-
-    <record id="sale_vat_25_included" model="account.tax">
-        <field name="name">SALE VAT 25% Included</field>
-        <field name="type_tax_use">sale</field>
-        <field name="type">percent</field>
-        <field name="amount">0.25</field>
         <field name="price_include" eval="True"/>
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
     </record>
@@ -50,18 +31,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="name">PURCHASE VAT 10% Excluded</field>
         <field name="type_tax_use">purchase</field>
         <field name="type">percent</field>
-        <field name="amount">0.10</field>
-        <field name="price_include" eval="False"/>
-        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
-    </record>
-
-    <record id="purchase_vat_10_included" model="account.tax">
-        <field name="name">PURCHASE VAT 10% Included</field>
-        <field name="type_tax_use">purchase</field>
-        <field name="type">percent</field>
         <field name="amount">0.1</field>
-        <field name="price_include" eval="True"/>
-        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="price_include" eval="False"/>
+        <field name="company_id" ref="intercompany_trade_base.customer_company" />
     </record>
 
 </data></openerp>

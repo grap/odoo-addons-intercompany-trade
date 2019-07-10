@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* intercompany_trade_base
+#   * intercompany_trade_base
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-25 07:50+0000\n"
-"PO-Revision-Date: 2018-07-25 07:50+0000\n"
+"POT-Creation-Date: 2019-05-21 15:02+0000\n"
+"PO-Revision-Date: 2019-05-21 15:02+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: intercompany_trade_base
-#: code:addons/intercompany_trade_base/models/intercompany_trade_config.py:92
+#: code:addons/intercompany_trade_base/models/intercompany_trade_config.py:85
 #, python-format
 msgid "(Intercompany Trade)"
 msgstr "(Transaction Inter Société)"
@@ -130,7 +130,7 @@ msgid "Intercompany Trade"
 msgstr "Transaction Inter Société"
 
 #. module: intercompany_trade_base
-#: model:ir.ui.menu,name:intercompany_trade_base.menu_intercompany_trade_setting
+#: model:ir.ui.menu,name:intercompany_trade_base.menu_setting_intercompany_trade
 msgid "Intercompany Trades"
 msgstr "Transactions Inter Société"
 
@@ -201,23 +201,11 @@ msgid "Supplier Partner in the Customer Company"
 msgstr "Fournisseur dans la société cliente"
 
 #. module: intercompany_trade_base
-#: field:intercompany.trade.config,supplier_user_id:0
-msgid "Supplier User"
-msgstr "Utilisateur Fournisseur"
-
-#. module: intercompany_trade_base
 #: help:intercompany.trade.config,customer_user_id:0
 msgid "This user will be used to create customer data when supplier users update datas.\n"
 " Please take that this user must have good access right on the customer company."
 msgstr "Cet utilisateur sera utilisé pour créer les informations chez le client quand le fournisseur mettra à jour les données.\n"
 " Veuillez faire en sorte que cet utilisateur ait les bons drois d'accès dans la société cliente."
-
-#. module: intercompany_trade_base
-#: help:intercompany.trade.config,supplier_user_id:0
-msgid "This user will be used to create supplier data when customer users update datas.\n"
-" Please take that this user must have good access right on the supplier company."
-msgstr "Cet utilisateur sera utilisé pour créer les informations chez le fournisseur quand le client mettra à jour les données.\n"
-" Veuillez faire en sorte que cet utilisateur ait les bons drois d'accès dans la société fournisseur."
 
 #. module: intercompany_trade_base
 #: model:res.groups,comment:intercompany_trade_base.intercompany_trade_user
@@ -230,8 +218,14 @@ msgid "User"
 msgstr "Utilisateur"
 
 #. module: intercompany_trade_base
-#: code:addons/intercompany_trade_base/models/intercompany_trade_config.py:163
+#: code:addons/intercompany_trade_base/models/intercompany_trade_config.py:156
 #, python-format
 msgid "You can not change customer or supplier company. If you want to do so, please disable this intercompany trade and create a new one."
 msgstr "Vous ne pouvez pas changer la société client ou fournisseur. Si vous voulez le faire, veuillez désactiver cet élément et en créer un nouveau"
+
+#. module: intercompany_trade_base
+#: code:addons/intercompany_trade_base/models/intercompany_trade_config.py:165
+#, python-format
+msgid "You can not unlink an intercompany Trade. You can only disable it"
+msgstr "Vous ne pouvez pas supprimer une transaction intersociété. Vous pouvez seulement la désactiver."
 

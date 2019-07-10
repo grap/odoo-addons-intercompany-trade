@@ -13,6 +13,7 @@ class ResCompany(models.Model):
     intercompany_trade_account_id = fields.Many2one(
         comodel_name='account.account', domain="["
         "('company_id', '=', fiscal_company),"
+        "('type', '=', 'receivable'),"
         "('is_intercompany_trade_fiscal_company', '=', True)]",
         string='Account for Intercompany Trade',
         help="Set an account if there"

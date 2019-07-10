@@ -18,8 +18,8 @@
         'security/ir_rule.xml',
         'security/ir.model.access.csv',
         'views/view_intercompany_trade_config.xml',
-        'views/view_intercompany_trade_wizard_link_product.xml',
-        'views/view_product_intercompany_trade_catalog.xml',
+        # 'views/view_intercompany_trade_wizard_link_product.xml',
+        # 'views/view_product_intercompany_trade_catalog.xml',
         'views/view_product_supplierinfo.xml',
     ],
     'demo': [
@@ -27,7 +27,9 @@
         'demo/product_product.xml',
         'demo/product_pricelist.xml',
         'demo/product_product.xml',
-        'demo/wizard_link_product.xml',
+        'demo/product_supplierinfo.xml',
+        'demo/intercompany_trade_config_line.xml',
+
     ],
     'auto_install': True,
     'installable': True,

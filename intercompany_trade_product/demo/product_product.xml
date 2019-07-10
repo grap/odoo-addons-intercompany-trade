@@ -7,6 +7,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 <openerp><data>
 
+    <!-- Supplier Products -->
     <record id="product_supplier_banana" model="product.product">
         <field name="name">Supplier Banana</field>
         <field name="default_code">SUPPLIER-BANA</field>
@@ -43,6 +44,28 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
     </record>
 
+    <record id="product_supplier_imac_computer" model="product.product">
+        <field name="name">Imac Computer</field>
+        <field name="default_code">SUPPLIER-COMPUTER</field>
+        <field name="categ_id" ref="product.imac"/>
+        <field name="list_price">2000</field>
+        <field name="sale_ok">True</field>
+        <field name="uom_id" ref="product.product_uom_unit"/>
+        <field name="uom_po_id" ref="product.product_uom_unit"/>
+        <field name="uos_id" ref="product.product_uom_unit"/>
+        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+    </record>
+
+    <record id="product_supplier_service" model="product.product">
+        <field name="name">Supplier Service</field>
+        <field name="default_code">SUPPLIER-SERVICE</field>
+        <field name="standard_price">80.00</field>
+        <field name="list_price">100.00</field>
+        <field name="type">service</field>
+        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+    </record>
+
+    <!-- Customer Products -->
     <record id="product_customer_apple" model="product.product">
         <field name="name">Customer Apple</field>
         <field name="default_code">CUSTOMER-APPL</field>
@@ -55,28 +78,21 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="company_id" ref="intercompany_trade_base.customer_company" />
     </record>
 
-    <record id="product_supplier_ref" model="product.product">
-        <field name="name">Supplier Reference Service</field>
-        <field name="default_code">SUPPLIER-REF-SERV</field>
-        <field name="standard_price">80.00</field>
-        <field name="list_price">100.00</field>
-        <field name="type">service</field>
-        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+    <record id="product_customer_it_raws" model="product.product">
+        <field name="name">Customer IT Raws</field>
+        <field name="default_code">CUSTOMER-IT-RAWS</field>
+        <field name="categ_id" ref="product.product_category_4"/>
+        <field name="type">consu</field>
+        <field name="company_id" ref="intercompany_trade_base.customer_company" />
     </record>
 
-    <function model="product.product" name="write"
-        eval="([ref('product_supplier_ref')], {'standard_price': 80.00}, {'force_company': ref('intercompany_trade_base.supplier_company')})" />
-
-    <record id="product_customer_ref" model="product.product">
-        <field name="name">Customer Reference Service</field>
-        <field name="default_code">CUSTOMER-REF-SERV</field>
+    <record id="product_customer_service" model="product.product">
+        <field name="name">Customer Service</field>
+        <field name="default_code">CUSTOMER-SERVICE</field>
         <field name="standard_price">100.00</field>
         <field name="list_price">120.00</field>
         <field name="type">service</field>
         <field name="company_id" ref="intercompany_trade_base.customer_company" />
     </record>
-
-    <function model="product.product" name="write"
-        eval="([ref('product_customer_ref')], {'standard_price': 100.00}, {'force_company': ref('intercompany_trade_base.customer_company')})" />
 
 </data></openerp>

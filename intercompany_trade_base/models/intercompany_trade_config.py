@@ -30,14 +30,6 @@ class IntercompanyTradeConfig(models.Model):
         string='Customer Company', required=True, comodel_name='res.company',
         help="Select the company that could purchase to the other.")
 
-    supplier_user_id = fields.Many2one(
-        string='Supplier User', required=True, comodel_name='res.users',
-        domain="[('company_id', '=', supplier_company_id)]",
-        help="This user will be used to create supplier data when"
-        " customer users update datas.\n"
-        " Please take that this user must have good access right on the"
-        " supplier company.")
-
     supplier_company_id = fields.Many2one(
         string='Supplier Company', required=True, comodel_name='res.company',
         help="Select the company that could sale to the other.")
@@ -78,8 +70,9 @@ class IntercompanyTradeConfig(models.Model):
                 ('customer_partner_id', '=', partner_id),
                 ('supplier_company_id', '=', company_id),
             ]
-        res = self.search(domain)[0]
-        return res and res or False
+
+        res = self.search(domain)
+        return res and res[0] or False
 
     @api.model
     def _prepare_partner_from_company(self, company_id, inner_company_id):
@@ -165,3 +158,10 @@ class IntercompanyTradeConfig(models.Model):
                     " If you want to do so, please disable this"
                     " intercompany trade and create a new one."))
         return super(IntercompanyTradeConfig, self).write(vals)
+
+    @api.multi
+    def unlink(self):
+        """ Block possibility to unlink"""
+        raise UserError(_(
+            "You can not unlink an intercompany Trade."
+            " You can only disable it"))
