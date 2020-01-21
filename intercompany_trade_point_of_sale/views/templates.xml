@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp><data>
+<odoo>
 
     <template
         id="assets_backend" name="intercompany_trade_point_of_sale assets" inherit_id="web.assets_backend"
@@ -13,4 +13,4 @@
         </xpath>
     </template>
 
-</data></openerp>
+</odoo>
