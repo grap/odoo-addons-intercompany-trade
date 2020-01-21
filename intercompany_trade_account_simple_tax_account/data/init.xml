@@ -17,8 +17,6 @@
 <!--You should have received a copy of the GNU Affero General Public License-->
 <!--along with this program.  If not, see <http://www.gnu.org/licenses/>.   -->
 <!-- ********************************************************************** -->
-<openerp>
-    <data>
+<odoo>
         <function model="res.partner" name="_set_existing_simple_tax_type"/>
-    </data>
-</openerp>
+</odoo>

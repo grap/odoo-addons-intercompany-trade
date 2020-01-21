@@ -5,10 +5,10 @@ Copyright (C) 2017 - Today: GRAP (http://www.grap.coop)
 License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 
-<openerp><data>
+<odoo>
 
     <record id="purchase.group_purchase_manager" model="res.groups">
         <field name="users" eval="[(4, ref('intercompany_trade_base.customer_user'))]" />
     </record>
 
-</data></openerp>
+</odoo>

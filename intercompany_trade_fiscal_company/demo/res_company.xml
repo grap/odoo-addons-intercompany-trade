@@ -5,7 +5,7 @@ Copyright (C) 2016 - Today: GRAP (http://www.grap.coop)
 License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 
-<openerp><data>
+<odoo>
 
     <record id="intercompany_trade_base.customer_company" model="res.company">
         <field name="fiscal_company" ref="intercompany_trade_base.customer_company" />
@@ -25,4 +25,4 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="intercompany_trade_account_id" ref="a_receivable_payable_cis_service" />
     </record>
 
-</data></openerp>
+</odoo>
