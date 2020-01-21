@@ -8,6 +8,7 @@ from odoo.exceptions import Warning as UserError
 
 class IntercompanyTradeConfig(models.Model):
     _name = "intercompany.trade.config"
+    _description = "Intercompany Trade Configuration"
     _order = "customer_company_id, supplier_company_id"
 
     name = fields.Char(string="Name", required=True, default="/")
@@ -108,7 +109,7 @@ class IntercompanyTradeConfig(models.Model):
             "country_id": company.country_id.id,
             "website": company.website,
             "phone": company.phone,
-            "fax": company.fax,
+            # "fax": company.fax,
             "email": company.email,
             "vat": company.vat,
             "is_company": True,
@@ -121,7 +122,7 @@ class IntercompanyTradeConfig(models.Model):
     @api.model
     def create(self, vals):
         """Create or update associated partner in each company"""
-        partner_obj = self.env["res.partner"]
+        ResPartner = self.env["res.partner"]
         config = super(IntercompanyTradeConfig, self).create(vals)
         other_config = self.search(
             [
@@ -136,7 +137,7 @@ class IntercompanyTradeConfig(models.Model):
             )
             partner_vals.update({"customer": False, "supplier": True})
             supplier_partner_id = (
-                partner_obj.with_context(
+                ResPartner.with_context(
                     force_company=vals["customer_company_id"],
                     ignore_intercompany_trade_check=True,
                 )
@@ -150,7 +151,7 @@ class IntercompanyTradeConfig(models.Model):
             )
             partner_vals.update({"customer": True, "supplier": False})
             customer_partner_id = (
-                partner_obj.with_context(
+                ResPartner.with_context(
                     force_company=vals["supplier_company_id"],
                     ignore_intercompany_trade_check=True,
                 )

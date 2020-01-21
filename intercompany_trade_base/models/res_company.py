@@ -15,31 +15,31 @@ class ResCompany(models.Model):
            are associated to the companies
            TODO : check if sudo is necessary.
            """
-        config_obj = self.env["intercompany.trade.config"]
+        IntercompanyTradeConfig = self.env["intercompany.trade.config"]
 
         res = super(ResCompany, self).write(vals)
 
         for company in self:
             # Get customer partner created for this company
-            configs = config_obj.search(
+            configs = IntercompanyTradeConfig.search(
                 [("supplier_company_id", "=", company.id)]
             )
 
             for config in configs:
                 # Update all the partner with updated information
-                data = config_obj._prepare_partner_from_company(
+                data = IntercompanyTradeConfig._prepare_partner_from_company(
                     company.id, config.customer_company_id.id
                 )
                 config.supplier_partner_id.write(data)
 
             # Get supplier partner created for this company
-            configs = config_obj.search(
+            configs = IntercompanyTradeConfig.search(
                 [("customer_company_id", "=", company.id)]
             )
 
             for config in configs:
                 # Update all the partner with updated information
-                data = config_obj._prepare_partner_from_company(
+                data = IntercompanyTradeConfig._prepare_partner_from_company(
                     company.id, config.supplier_company_id.id
                 )
                 config.customer_partner_id.write(data)
