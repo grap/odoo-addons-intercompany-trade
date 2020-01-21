@@ -9,9 +9,8 @@
     "author": "GRAP",
     "website": "http://www.grap.coop",
     "license": "AGPL-3",
-    "depends": ["intercompany_trade_base", "purchase",],
-    "data": [],
-    "demo": ["demo/res_groups.xml", "demo/product_pricelist.xml",],
+    "depends": ["intercompany_trade_base", "purchase"],
+    "demo": ["demo/res_groups.xml"],
     "auto_install": True,
-    "installable": False,
+    "installable": False,  # WIP
 }
