@@ -5,7 +5,7 @@ Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
 License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 
-<openerp><data>
+<odoo>
 
     <record id="intercompany_trade_base.intercompany_trade_user" model="res.groups">
         <field name="users" eval="[
@@ -24,9 +24,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             (4, ref('fiscal_supplier_user'))]" />
     </record>
 
-    <record id="base.group_sale_manager" model="res.groups">
+    <record id="sales_team.group_sale_manager" model="res.groups">
         <field name="users" eval="[
             (4, ref('fiscal_supplier_user'))]" />
     </record>
 
-</data></openerp>
+</odoo>
