@@ -27,5 +27,5 @@
         "demo/intercompany_trade_config_line.xml",
     ],
     "auto_install": True,
-    "installable": True,
+    "installable": False,
 }
