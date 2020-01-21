@@ -19,13 +19,4 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             (4, ref('intercompany_trade_base.supplier_user'))]" />
     </record>
 
-<!--     
-
-    <record id="product.group_uom" model="res.groups">
-        <field name="users" eval="[
-            (4, ref('base.user_admin')),
-            (4, ref('intercompany_trade_base.supplier_user')),
-            (4, ref('intercompany_trade_base.customer_user'))]" />
-    </record> -->
-
 </odoo>
