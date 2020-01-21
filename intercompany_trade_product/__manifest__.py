@@ -9,17 +9,15 @@
     "author": "GRAP",
     "website": "http://www.grap.coop",
     "license": "AGPL-3",
-    "depends": ["intercompany_trade_base", "product",],
+    "depends": ["intercompany_trade_base", "product"],
     "data": [
-        "security/ir_rule.xml",
         "security/ir.model.access.csv",
         "views/view_intercompany_trade_config.xml",
-        # 'views/view_intercompany_trade_wizard_link_product.xml',
-        # 'views/view_product_intercompany_trade_catalog.xml',
         "views/view_product_supplierinfo.xml",
     ],
     "demo": [
         "demo/res_groups.xml",
+        "demo/product_category.xml",
         "demo/product_product.xml",
         "demo/product_pricelist.xml",
         "demo/product_product.xml",
@@ -27,5 +25,5 @@
         "demo/intercompany_trade_config_line.xml",
     ],
     "auto_install": True,
-    "installable": False,
+    "installable": True,
 }

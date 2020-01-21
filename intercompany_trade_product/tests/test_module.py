@@ -15,7 +15,7 @@ from odoo.addons.intercompany_trade_base.tests.test_module import (
 
 class TestBase(TestIntercompanyTradeBase):
     def setUp(self):
-        super(TestBase, self).setUp()
+        super().setUp()
         self.test_00_log_installed_modules()
 
 
@@ -40,7 +40,8 @@ class TestModule(TransactionCase):
             "intercompany_trade_product.it_line"
         )
 
-        self.apple_category = self.env.ref("product.apple")
+        self.category_it_raws = self.env.ref(
+            "intercompany_trade_product.category_it_raws")
 
         self.supplier_banana = self.env.ref(
             "intercompany_trade_product.product_supplier_banana"
@@ -74,6 +75,7 @@ class TestModule(TransactionCase):
             "intercompany_trade_base.supplier_user"
         )
 
+    # Test Section
     def test_01_product_association_by_product(self):
         # this test creates pricelist.partnerinfo
         # if product_fiscal_company is installed, company_id is added
@@ -110,7 +112,6 @@ class TestModule(TransactionCase):
                 " intercompany_trade_fiscal_company"
             )
 
-    # Test Section
     def _test_01_product_association_by_product(self):
         # Test if getting the product in the supplier context works.
         customer_product = self.config.sudo(
@@ -160,7 +161,7 @@ class TestModule(TransactionCase):
         )
 
         # Change the rule category for a parent product
-        self.config_line_category.categ_id = self.apple_category
+        self.config_line_category.categ_id = self.category_it_raws
 
         customer_product = self.config.sudo(
             self.supplier_user
@@ -184,7 +185,7 @@ class TestModule(TransactionCase):
 
         # Set no category for the rule
         self.config_line_category.categ_id = False
-        self.config_line_category.categ_id = self.apple_category
+        self.config_line_category.categ_id = self.category_it_raws
 
         customer_product = self.config.sudo(
             self.supplier_user

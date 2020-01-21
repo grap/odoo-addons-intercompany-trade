@@ -9,28 +9,23 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
     <record id="product.group_sale_pricelist" model="res.groups">
         <field name="users" eval="[
-            (4, ref('base.user_root')),
+            (4, ref('base.user_admin')),
             (4, ref('intercompany_trade_base.supplier_user'))]" />
     </record>
 
-    <record id="product.group_purchase_pricelist" model="res.groups">
+    <record id="product.group_pricelist_item" model="res.groups">
         <field name="users" eval="[
-            (4, ref('base.user_root')),
-            (4, ref('intercompany_trade_base.customer_user'))]" />
+            (4, ref('base.user_admin')),
+            (4, ref('intercompany_trade_base.supplier_user'))]" />
     </record>
+
+<!--     
 
     <record id="product.group_uom" model="res.groups">
         <field name="users" eval="[
-            (4, ref('base.user_root')),
+            (4, ref('base.user_admin')),
             (4, ref('intercompany_trade_base.supplier_user')),
             (4, ref('intercompany_trade_base.customer_user'))]" />
-    </record>
-
-    <record id="product.group_uos" model="res.groups">
-        <field name="users" eval="[
-            (4, ref('base.user_root')),
-            (4, ref('intercompany_trade_base.supplier_user')),
-            (4, ref('intercompany_trade_base.customer_user'))]" />
-    </record>
+    </record> -->
 
 </odoo>

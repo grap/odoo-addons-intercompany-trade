@@ -7,6 +7,7 @@ from odoo import api, fields, models
 
 class IntercompanyTradeConfigLine(models.Model):
     _name = "intercompany.trade.config.line"
+    _description = "Intercompany Trade Configuration Line"
     _order = "sequence,categ_id"
 
     # Columns section
