@@ -9,7 +9,7 @@
     "website": "http://www.grap.coop",
     "license": "AGPL-3",
     "depends": [
-        "base_fiscal_company",
+        # "base_fiscal_company",
         "intercompany_trade_base",
         "account",
         ##        'purchase',
@@ -38,5 +38,5 @@
         "demo/product_product.xml",
     ],
     "auto_install": True,
-    "installable": True,
+    "installable": False,
 }

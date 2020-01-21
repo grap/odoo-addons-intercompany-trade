@@ -13,5 +13,5 @@
     "data": [],
     "demo": ["demo/res_groups.xml", "demo/product_pricelist.xml",],
     "auto_install": True,
-    "installable": True,
+    "installable": False,
 }

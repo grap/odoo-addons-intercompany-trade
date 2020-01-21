@@ -9,7 +9,7 @@
     "author": "GRAP",
     "website": "http://www.grap.coop",
     "license": "AGPL-3",
-    "depends": ["base", "base_suspend_security",],
+    "depends": ["base", "base_suspend_security"],
     "data": [
         "security/ir_module_category.xml",
         "security/res_groups.xml",
@@ -19,10 +19,11 @@
         "views/view_intercompany_trade_config.xml",
     ],
     "demo": [
-        "demo/res_company.xml",
-        "demo/res_users.xml",
-        "demo/res_partner.xml",
+        "demo/res_users_1.xml",
         "demo/res_groups.xml",
+        "demo/res_company.xml",
+        "demo/res_users_2.xml",
+        "demo/res_partner.xml",
         "demo/intercompany_trade_config.xml",
     ],
     "installable": True,

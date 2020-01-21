@@ -15,5 +15,5 @@
         "account_invoice_pricelist",
     ],
     "auto_install": True,
-    "installable": True,
+    "installable": False,
 }

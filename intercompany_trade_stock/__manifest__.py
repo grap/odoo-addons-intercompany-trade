@@ -12,5 +12,5 @@
     "depends": ["intercompany_trade_base", "stock",],
     "demo": ["demo/res_groups.xml", "demo/stock_warehouse.xml",],
     "auto_install": True,
-    "installable": True,
+    "installable": False,
 }

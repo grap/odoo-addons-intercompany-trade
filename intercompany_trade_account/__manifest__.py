@@ -28,5 +28,5 @@
     ],
     "data": ["views/menu.xml", "views/view_account_invoice.xml",],
     "auto_install": True,
-    "installable": True,
+    "installable": False,
 }
