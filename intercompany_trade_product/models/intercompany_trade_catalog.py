@@ -2,11 +2,12 @@
 # @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models, tools
+from odoo import api, fields, models, tools
 
 
 class IntercompanyTradeCatalog(models.Model):
     _name = "intercompany.trade.catalog"
+    _description = "Intercompany Trade Catalog"
     _auto = False
     _rec_name = "supplier_product_default_code"
 
@@ -28,7 +29,7 @@ class IntercompanyTradeCatalog(models.Model):
     supplier_product_uom = fields.Many2one(
         string="Supplier Product UoM",
         readonly=True,
-        comodel_name="product.uom",
+        comodel_name="uom.uom",
     )
 
     supplier_product_default_code = fields.Char(
@@ -58,9 +59,10 @@ class IntercompanyTradeCatalog(models.Model):
     )
 
     # View Section
-    def init(self, cr):
-        tools.drop_view_if_exists(cr, self._table)
-        cr.execute(
+    @api.model_cr
+    def init(self):
+        tools.drop_view_if_exists(self._cr, self._table)
+        self._cr.execute(
             """
 CREATE OR REPLACE VIEW %s AS (
         SELECT

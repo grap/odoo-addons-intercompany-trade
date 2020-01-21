@@ -9,37 +9,19 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
     <!-- Sale Pricelists -->
     <record id="sale_pricelist" model="product.pricelist">
-        <field name="name">Sale Pricelist Intercompany Trade</field>
-        <field name="type">sale</field>
+        <field name="name">Intercompany Trade - Sale Pricelist</field>
         <field name="company_id" ref="intercompany_trade_base.supplier_company"/>
     </record>
 
-    <record id="sale_pricelist_version" model="product.pricelist.version">
-        <field name="name">Sale Pricelist Intercompany Trade</field>
-        <field name="pricelist_id" ref="sale_pricelist"/>
-    </record>
-
-    <record id="sale_pricelist_item" model="product.pricelist.item">
-        <field name="name">Sale Pricelist Intercompany Trade</field>
-        <field name="price_version_id" ref="sale_pricelist_version"/>
-        <field name="base" ref="product.list_price"/>
-    </record>
-
     <record id="pricelist_discount" model="product.pricelist">
-        <field name="name">Intercompany Trade - Sale Pricelist (Discount)</field>
-        <field name="type">sale</field>
-    </record>
-
-    <record id="pricelist_version_discount" model="product.pricelist.version">
-        <field name="name">Intercompany Trade - Sale Pricelist Version (Discount)</field>
-        <field name="pricelist_id" ref="pricelist_discount"/>
-    </record>
-
-    <record id="pricelist_item_discount" model="product.pricelist.item">
-        <field name="name">Intercompany Trade - Sale Pricelist Item (Discount)</field>
-        <field name="price_version_id" ref="pricelist_version_discount"/>
-        <field name="base" eval="1" />
-        <field name="price_surcharge">-0.10</field>
+        <field name="name">Intercompany Trade - Sale Pricelist (Discount -10%)</field>
+        <field name="item_ids" eval="[(0, 0, {
+            'applied_on': '3_global',
+            'compute_price': 'formula',
+            'base': 'list_price',
+            'price_discount': 10,
+        })]"></field>
+        <field name="company_id" ref="intercompany_trade_base.supplier_company"/>
     </record>
 
     <!-- Properties -->

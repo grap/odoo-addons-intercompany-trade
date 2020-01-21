@@ -14,9 +14,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="categ_id" ref="product.product_category_all"/>
         <field name="list_price">3.05</field>
         <field name="sale_ok">True</field>
-        <field name="uom_id" ref="product.product_uom_kgm"/>
-        <field name="uom_po_id" ref="product.product_uom_kgm"/>
-        <field name="uos_id" ref="product.product_uom_kgm"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="uom_po_id" ref="uom.product_uom_kgm"/>
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
     </record>
 
@@ -26,9 +25,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="categ_id" ref="product.product_category_all"/>
         <field name="list_price">4.95</field>
         <field name="sale_ok">True</field>
-        <field name="uom_id" ref="product.product_uom_unit"/>
-        <field name="uom_po_id" ref="product.product_uom_unit"/>
-        <field name="uos_id" ref="product.product_uom_unit"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="uom_po_id" ref="uom.product_uom_unit"/>
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
     </record>
 
@@ -38,21 +36,19 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="categ_id" ref="product.product_category_all"/>
         <field name="list_price">2.45</field>
         <field name="sale_ok">True</field>
-        <field name="uom_id" ref="product.product_uom_kgm"/>
-        <field name="uom_po_id" ref="product.product_uom_kgm"/>
-        <field name="uos_id" ref="product.product_uom_kgm"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="uom_po_id" ref="uom.product_uom_kgm"/>
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
     </record>
 
     <record id="product_supplier_imac_computer" model="product.product">
         <field name="name">Imac Computer</field>
         <field name="default_code">SUPPLIER-COMPUTER</field>
-        <field name="categ_id" ref="product.imac"/>
+        <field name="categ_id" ref="category_computer"/>
         <field name="list_price">2000</field>
         <field name="sale_ok">True</field>
-        <field name="uom_id" ref="product.product_uom_unit"/>
-        <field name="uom_po_id" ref="product.product_uom_unit"/>
-        <field name="uos_id" ref="product.product_uom_unit"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="uom_po_id" ref="uom.product_uom_unit"/>
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
     </record>
 
@@ -72,16 +68,15 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="categ_id" ref="product.product_category_all"/>
         <field name="list_price">2.80</field>
         <field name="sale_ok">True</field>
-        <field name="uom_id" ref="product.product_uom_kgm"/>
-        <field name="uom_po_id" ref="product.product_uom_kgm"/>
-        <field name="uos_id" ref="product.product_uom_kgm"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="uom_po_id" ref="uom.product_uom_kgm"/>
         <field name="company_id" ref="intercompany_trade_base.customer_company" />
     </record>
 
     <record id="product_customer_it_raws" model="product.product">
         <field name="name">Customer IT Raws</field>
         <field name="default_code">CUSTOMER-IT-RAWS</field>
-        <field name="categ_id" ref="product.product_category_4"/>
+        <field name="categ_id" ref="category_it_raws"/>
         <field name="type">consu</field>
         <field name="company_id" ref="intercompany_trade_base.customer_company" />
     </record>
