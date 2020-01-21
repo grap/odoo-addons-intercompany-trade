@@ -5,7 +5,7 @@ Copyright (C) 2017 - Today: GRAP (http://www.grap.coop)
 License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 
-<openerp><data>
+<odoo>
 
     <!-- Supplier Products -->
     <record id="product_supplier_service_10_excl" model="product.product">
@@ -34,4 +34,4 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="supplier_taxes_id" eval="[(4, ref('purchase_vat_10_excluded'))]" />
     </record>
 
-</data></openerp>
+</odoo>
