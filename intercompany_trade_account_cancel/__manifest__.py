@@ -12,5 +12,5 @@
     "depends": ["intercompany_trade_base", "account_cancel",],
     "demo": ["demo/account_journal.xml",],
     "auto_install": True,
-    "installable": True,
+    "installable": False,
 }
