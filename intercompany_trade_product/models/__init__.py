@@ -1,4 +1,3 @@
-# coding: utf-8
 from . import intercompany_trade_catalog
 from . import intercompany_trade_config
 from . import intercompany_trade_config_line
