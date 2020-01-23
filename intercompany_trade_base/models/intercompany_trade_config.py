@@ -69,21 +69,21 @@ class IntercompanyTradeConfig(models.Model):
     # Custom Section
     @api.model
     def _get_intercompany_trade_by_partner_company(
-        self, partner_id, company_id, type
+        self, partner_id, company_id, wkf_type
     ):
         """
         Return a intercompany.trade.config.
-        * If type='in', partner_id is a supplier in the customer company;
+        * If wkf_type='in', partner_id is a supplier in the customer company;
           (purchase workflow)
-        * If type='out', partner_id is a customer in the supplier company;
+        * If wkf_type='out', partner_id is a customer in the supplier company;
           (sale workflow)
         """
-        if type in ["in", "in_invoice"]:
+        if wkf_type in ["in", "in_invoice"]:
             domain = [
                 ("supplier_partner_id", "=", partner_id),
                 ("customer_company_id", "=", company_id),
             ]
-        elif type in ["out", "out_invoice"]:
+        elif wkf_type in ["out", "out_invoice"]:
             domain = [
                 ("customer_partner_id", "=", partner_id),
                 ("supplier_company_id", "=", company_id),
@@ -198,13 +198,3 @@ class IntercompanyTradeConfig(models.Model):
                     )
                 )
         return super(IntercompanyTradeConfig, self).write(vals)
-
-    @api.multi
-    def unlink(self):
-        """ Block possibility to unlink"""
-        raise UserError(
-            _(
-                "You can not unlink an intercompany Trade."
-                " You can only disable it"
-            )
-        )
