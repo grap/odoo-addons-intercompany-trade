@@ -9,8 +9,8 @@
     "author": "GRAP",
     "website": "http://www.grap.coop",
     "license": "AGPL-3",
-    "depends": ["intercompany_trade_base", "account_cancel",],
-    "demo": ["demo/account_journal.xml",],
+    "depends": ["intercompany_trade_base", "account_cancel"],
+    "demo": ["demo/account_journal.xml"],
     "auto_install": True,
-    "installable": False,
+    "installable": True,
 }
