@@ -70,7 +70,7 @@ class AccountInvoice(models.Model):
         self.ensure_one()
         product_list = []
         config = self._get_intercompany_trade_config_by_partner_company_type()
-        for invoice_line in self.invoice_line:
+        for invoice_line in self.invoice_line_ids:
             customer_product = config.get_customer_product(
                 invoice_line.product_id
             )
@@ -135,7 +135,7 @@ class AccountInvoice(models.Model):
         )
 
         # Create lines
-        for invoice_line in self.invoice_line:
+        for invoice_line in self.invoice_line_ids:
             line_vals = invoice_line._prepare_intercompany_vals(
                 config, customer_invoice
             )
@@ -143,23 +143,17 @@ class AccountInvoice(models.Model):
             # TODO: V10, check if suspend_security() is better implemented
             # for the time being, doesn't work in test part.
             if tools_config.get("test_enable", False):
-                AccountInvoiceLine.sudo().with_context(
+                line = AccountInvoiceLine.sudo().with_context(
                     force_company=config.customer_company_id.id,
                     intercompany_trade_create=True,
                 ).create(line_vals)
             else:
-                AccountInvoiceLine.sudo(
+                line = AccountInvoiceLine.sudo(
                     config.customer_user_id
                 ).suspend_security().with_context(
                     intercompany_trade_create=True
-                ).create(
-                    line_vals
-                )
-
-        # Reset Taxes
-        customer_invoice.sudo(config.customer_user_id).with_context(
-            intercompany_trade_create=True
-        ).button_reset_taxes()
+                ).create(line_vals)
+            line._onchange_product_id()
 
         for field_name in ["amount_untaxed", "amount_tax", "amount_total"]:
             supplier_value = getattr(self, field_name)
@@ -178,7 +172,7 @@ class AccountInvoice(models.Model):
         # Confirm Customer invoice
         customer_invoice.sudo(config.customer_user_id).with_context(
             intercompany_trade_create=True
-        ).signal_workflow("invoice_open")
+        ).action_invoice_open()
 
     @api.multi
     def _get_intercompany_trade_config_by_partner_company_type(self):
@@ -207,12 +201,6 @@ class AccountInvoice(models.Model):
             # A Sale Refund Create a Purchase Refund
             other_type = "in_refund"
 
-        account_info = self.sudo(customer_user).onchange_partner_id(
-            other_type, other_partner_id, company_id=other_company_id
-        )["value"]
-
-        print account_info
-
         account_journal = (
             self.sudo(customer_user)
             .with_context(type=other_type, company_id=other_company_id)
@@ -222,13 +210,11 @@ class AccountInvoice(models.Model):
         return {
             "type": other_type,
             "company_id": other_company_id,
-            "fiscal_position": account_info["fiscal_position"],
             "date_invoice": self.date_invoice,
             "date_due": self.date_due,
             "currency_id": self.currency_id.id,
             "comment": self.comment,
-            "supplier_invoice_number": self.number,
+            "reference": self.number,
             "partner_id": other_partner_id,
-            "account_id": account_info["account_id"],
             "journal_id": account_journal.id,
         }

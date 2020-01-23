@@ -11,12 +11,9 @@
     "license": "AGPL-3",
     "depends": [
         "intercompany_trade_base",
-        "base_suspend_security",
         "account",
     ],
     "demo": [
-        "demo/account_fiscalyear.xml",
-        "demo/account_period.xml",
         "demo/res_groups.xml",
         "demo/account_account.xml",
         "demo/account_journal.xml",
@@ -26,7 +23,7 @@
         "demo/product_supplierinfo.xml",
         "demo/account_invoice.xml",
     ],
-    "data": ["views/menu.xml", "views/view_account_invoice.xml",],
+    "data": ["views/menu.xml", "views/view_account_invoice.xml"],
     "auto_install": True,
-    "installable": False,
+    "installable": True,
 }

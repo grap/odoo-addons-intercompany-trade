@@ -38,7 +38,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="name">Supplier Service (Strict Link - With Tax)</field>
         <field name="quantity">20</field>
         <field name="price_unit">10</field>
-        <field name="invoice_line_tax_id" eval="[(6, 0, [ref('sale_vat_10_excluded')])]"/>
+        <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('sale_vat_10_excluded')])]"/>
         <field name="invoice_id" ref="intercompany_invoice"/>
         <field name="product_id" ref="product_supplier_service_10_excl"/>
         <field name="account_id" ref="supplier_account_income"/>

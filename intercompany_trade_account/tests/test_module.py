@@ -46,12 +46,11 @@ class Test(TransactionCase):
         # Confirm supplier invoice and get it's name
         self.intercompany_invoice.sudo(self.supplier_user).with_context(
             demo_intercompany=True
-        ).signal_workflow("invoice_open")
-        supplier_invoice_number = self.intercompany_invoice.number
+        ).action_invoice_open()
 
         # Try to get the customer invoice
         invoices = self.AccountInvoice.search(
-            [("supplier_invoice_number", "=", supplier_invoice_number)]
+            [("reference", "=", self.intercompany_invoice.reference)]
         )
 
         self.assertEqual(

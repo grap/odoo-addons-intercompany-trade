@@ -28,7 +28,6 @@ class AccountInvoiceLine(models.Model):
     @api.multi
     def _prepare_intercompany_vals(self, config, customer_invoice):
         self.ensure_one()
-        invoice = self.invoice_id
 
         # Create according account invoice line
         customer_product = config.get_customer_product(self.product_id)
@@ -42,30 +41,18 @@ class AccountInvoiceLine(models.Model):
                 % (self.product_id.code, self.product_id.name)
             )
 
-        values = self.sudo(config.customer_user_id).product_id_change(
-            customer_product.id,
-            False,
-            type=invoice.type.replace("out_", "in_"),
-            company_id=config.customer_company_id.id,
-            partner_id=config.supplier_partner_id.id,
-            fposition_id=invoice.fiscal_position.id,
-        )["value"]
-
-        values.update(
-            {
-                "invoice_id": customer_invoice.id,
-                "product_id": customer_product.id,
-                "company_id": customer_invoice.company_id.id,
-                "partner_id": customer_invoice.partner_id.id,
-                "quantity": self.quantity,
-                "price_unit": self.price_unit,
-                "discount": self.discount,
-                "uos_id": self.uos_id.id,
-                "invoice_line_tax_id": (
-                    values.get("invoice_line_tax_id", False)
-                    and [[6, False, values["invoice_line_tax_id"]]]
-                    or False
-                ),
-            }
-        )
-        return values
+        vals = {
+            "invoice_id": customer_invoice.id,
+            "name": customer_product.name,
+            "account_id": customer_product.product_tmpl_id
+            .sudo(config.customer_user_id)
+            ._get_product_accounts()["expense"].id,
+            "product_id": customer_product.id,
+            "company_id": customer_invoice.company_id.id,
+            "partner_id": customer_invoice.partner_id.id,
+            "quantity": self.quantity,
+            "price_unit": self.price_unit,
+            "discount": self.discount,
+            "display_type": self.display_type,
+        }
+        return vals
