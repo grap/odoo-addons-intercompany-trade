@@ -12,7 +12,7 @@ from odoo.addons.intercompany_trade_base.tests.test_module import (
 
 class TestBase(TestIntercompanyTradeBase):
     def setUp(self):
-        super(TestBase, self).setUp()
+        super().setUp()
         self.test_00_log_installed_modules()
 
 
@@ -20,7 +20,7 @@ class TestModule(TransactionCase):
 
     # Overload Section
     def setUp(self):
-        super(TestModule, self).setUp()
+        super().setUp()
 
         self.session_obj = self.env["pos.session"]
         self.order_obj = self.env["pos.order"]
