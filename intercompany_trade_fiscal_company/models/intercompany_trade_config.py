@@ -86,9 +86,8 @@ class IntercompanyTradeConfig(models.Model):
 
     # Custom Section
     def _prepare_partner_from_company(self, company_id, inner_company_id):
-        res = super(
-            IntercompanyTradeConfig, self
-        )._prepare_partner_from_company(company_id, inner_company_id)
+        res = super()._prepare_partner_from_company(
+            company_id, inner_company_id)
         company_obj = self.env["res.company"]
         company = company_obj.browse(inner_company_id)
         if company.intercompany_trade_account_id:

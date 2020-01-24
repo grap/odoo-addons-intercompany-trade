@@ -13,13 +13,13 @@ from odoo.addons.intercompany_trade_base.tests.test_module import (
 
 class TestBase(TestIntercompanyTradeBase):
     def setUp(self):
-        super(TestBase, self).setUp()
+        super().setUp()
         self.test_00_log_installed_modules()
 
 
 class TestModuleProduct(TestIntercompanyTradeProduct):
     def setUp(self):
-        super(TestModuleProduct, self).setUp()
+        super().setUp()
 
     def test_01_product_association_by_product(self):
         self._test_01_product_association_by_product()
