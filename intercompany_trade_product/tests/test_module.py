@@ -26,7 +26,7 @@ class TestModule(TransactionCase):
 
     # Overload Section
     def setUp(self):
-        super(TestModule, self).setUp()
+        super().setUp()
 
         # Get Registries
         self.IrModuleModule = self.env["ir.module.module"]
