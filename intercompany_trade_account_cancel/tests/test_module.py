@@ -8,20 +8,20 @@ from odoo.exceptions import Warning as UserError
 
 from odoo.tests.common import TransactionCase
 
-from odoo.addons.intercompany_trade_base.tests.test_module import (
-    TestModule as TestIntercompanyTradeBase,
-)
+# from odoo.addons.intercompany_trade_base.tests.test_module import (
+#     TestModule as TestIntercompanyTradeBase,
+# )
 
 
 _logger = logging.getLogger(__name__)
 
 
-class TestBase(TestIntercompanyTradeBase):
-    def setUp(self):
-        super().setUp()
+# class TestBase(TestIntercompanyTradeBase):
+#     def setUp(self):
+#         super().setUp()
 
-    def test_super(self):
-        self.test_00_log_installed_modules()
+#     def test_super(self):
+#         self.test_00_log_installed_modules()
 
 
 class Test(TransactionCase):
@@ -45,23 +45,31 @@ class Test(TransactionCase):
             "intercompany_trade_account.intercompany_invoice"
         )
 
-    def test_01_cancel_invoice(self):
-        """Cancel an Out invoice should fail"""
+    def test_01_cancel_invoice_confirmed(self):
+        """Cancel an Out or In confirmed invoice should fail"""
 
         self.intercompany_invoice.sudo(self.supplier_user).with_context(
             demo_intercompany=True
-        ).signal_workflow("invoice_open")
+        ).action_invoice_open()
 
         with self.assertRaises(UserError):
             # Try to cancel 'out invoice' should fail
-            self.intercompany_invoice.sudo(self.supplier_user).action_cancel()
+            self.intercompany_invoice.sudo(
+                self.supplier_user).action_invoice_cancel()
 
         # Try to get the customer invoice
-        supplier_invoice_number = self.intercompany_invoice.number
         invoices = self.AccountInvoice.search(
-            [("supplier_invoice_number", "=", supplier_invoice_number)]
+            [("reference", "=", self.intercompany_invoice.number)]
         )
 
         with self.assertRaises(UserError):
             # Try to cancel 'in invoice' should fail
-            invoices.sudo(self.customer_user).action_cancel()
+            invoices.sudo(self.customer_user).action_invoice_cancel()
+
+    def test_02_cancel_invoice_draft(self):
+        """Cancel a draft invoice should success"""
+
+        invoice = self.intercompany_invoice.sudo(
+            self.supplier_user).with_context(
+            demo_intercompany=True)
+        invoice.action_invoice_cancel()
