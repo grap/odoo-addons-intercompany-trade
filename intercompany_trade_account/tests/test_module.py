@@ -36,6 +36,10 @@ class Test(TransactionCase):
             "intercompany_trade_base.supplier_user"
         )
 
+        self.customer_company = self.env.ref(
+            "intercompany_trade_base.customer_company"
+        )
+
         self.intercompany_invoice = self.env.ref(
             "intercompany_trade_account.intercompany_invoice"
         )
@@ -50,7 +54,7 @@ class Test(TransactionCase):
 
         # Try to get the customer invoice
         invoices = self.AccountInvoice.search(
-            [("reference", "=", self.intercompany_invoice.reference)]
+            [("reference", "=", self.intercompany_invoice.number)]
         )
 
         self.assertEqual(
@@ -60,6 +64,13 @@ class Test(TransactionCase):
         )
 
         customer_invoice = invoices[0]
+        # Check the company of the created invoice
+        self.assertEqual(
+            customer_invoice.company_id.id,
+            self.customer_company.id,
+            "The generated customer invoice should be linked to the"
+            " customer company.")
+
         # Check the state of the customer invoice
         self.assertEqual(
             customer_invoice.state,
