@@ -10,6 +10,6 @@ class ResPartner(models.Model):
 
     def _intercompany_trade_allowed_fields(self):
         """allow basic user to change pricelist"""
-        res = super(ResPartner, self)._intercompany_trade_allowed_fields()
+        res = super()._intercompany_trade_allowed_fields()
         res.append("property_product_pricelist")
         return res

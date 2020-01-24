@@ -17,7 +17,7 @@ class ResCompany(models.Model):
            """
         IntercompanyTradeConfig = self.env["intercompany.trade.config"]
 
-        res = super(ResCompany, self).write(vals)
+        res = super().write(vals)
 
         for company in self:
             # Get customer partner created for this company

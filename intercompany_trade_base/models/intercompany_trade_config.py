@@ -123,7 +123,7 @@ class IntercompanyTradeConfig(models.Model):
     def create(self, vals):
         """Create or update associated partner in each company"""
         ResPartner = self.env["res.partner"]
-        config = super(IntercompanyTradeConfig, self).create(vals)
+        config = super().create(vals)
         other_config = self.search(
             [
                 ("customer_company_id", "=", vals["supplier_company_id"]),
@@ -197,4 +197,4 @@ class IntercompanyTradeConfig(models.Model):
                         " intercompany trade and create a new one."
                     )
                 )
-        return super(IntercompanyTradeConfig, self).write(vals)
+        return super().write(vals)

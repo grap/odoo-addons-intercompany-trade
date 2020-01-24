@@ -11,7 +11,7 @@ class AccountInvoice(models.Model):
     @api.multi
     def _prepare_intercompany_vals(self, config):
         self.ensure_one()
-        res = super(AccountInvoice, self)._prepare_intercompany_vals(config)
+        res = super()._prepare_intercompany_vals(config)
         pricelist = (
             config.sudo()
             .with_context(force_company=config.supplier_company_id.id,)

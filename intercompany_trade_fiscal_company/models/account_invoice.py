@@ -19,7 +19,7 @@ class AccountInvoice(models.Model):
             )
             if config.same_fiscal_mother_company:
                 invoice._check_intercompany_trade_fiscal_company()
-        return super(AccountInvoice, self).invoice_validate()
+        return super().invoice_validate()
 
     @api.model
     def create(self, vals):
@@ -48,7 +48,7 @@ class AccountInvoice(models.Model):
                 elif journal.type in ("purchase"):
                     vals["journal_id"] = config.purchase_journal_id.id
 
-        return super(AccountInvoice, self).create(vals)
+        return super().create(vals)
 
     @api.multi
     def write(self, vals):
@@ -67,7 +67,7 @@ class AccountInvoice(models.Model):
                     if config.same_fiscal_mother_company:
                         vals.pop("journal_id")
 
-        return super(AccountInvoice, self).write(vals)
+        return super().write(vals)
 
     # Custom Section
     @api.multi

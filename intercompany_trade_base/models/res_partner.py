@@ -19,19 +19,19 @@ class ResPartner(models.Model):
     # Overload Section
     @api.model
     def create(self, vals):
-        res = super(ResPartner, self).create(vals)
+        res = super().create(vals)
         res._check_intercompany_trade_access(vals.keys())
         return res
 
     @api.multi
     def write(self, vals):
         self._check_intercompany_trade_access(vals.keys())
-        return super(ResPartner, self).write(vals)
+        return super().write(vals)
 
     @api.multi
     def unlink(self):
         self._check_intercompany_trade_access([0])
-        return super(ResPartner, self).unlink()
+        return super().unlink()
 
     # Custom Section
     @api.model

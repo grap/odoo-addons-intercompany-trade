@@ -16,7 +16,7 @@ class PurchaseOrder(models.Model):
     @api.multi
     def action_invoice_create(self):
         orders = self.filtered(lambda x: not x.intercompany_trade)
-        return super(PurchaseOrder, orders).action_invoice_create()
+        return super().action_invoice_create()
 
     @api.multi
     def view_invoice(self):
@@ -34,7 +34,7 @@ class PurchaseOrder(models.Model):
     def _prepare_order_line_move(
         self, order, order_line, picking_id, group_id
     ):
-        res = super(PurchaseOrder, self)._prepare_order_line_move(
+        res = super()._prepare_order_line_move(
             order, order_line, picking_id, group_id
         )
         if order.intercompany_trade:
