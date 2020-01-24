@@ -11,13 +11,13 @@ from odoo.addons.intercompany_trade_base.tests.test_module import (
 
 class TestBase(TestIntercompanyTradeBase):
     def setUp(self):
-        super(TestBase, self).setUp()
+        super().setUp()
         self.test_00_log_installed_modules()
 
 
 class TestModule(TransactionCase):
     def setUp(self):
-        super(TestModule, self).setUp()
+        ssuper().setUp()
         self.PurchaseOrder = self.env["purchase.order"]
         self.PurchaseOrderLine = self.env["purchase.order.line"]
         self.normal_supplier = self.env.ref(
