@@ -11,5 +11,5 @@
     "depends": ["intercompany_trade_base", "point_of_sale"],
     "data": ["views/templates.xml"],
     "auto_install": True,
-    "installable": False,
+    "installable": True,
 }
