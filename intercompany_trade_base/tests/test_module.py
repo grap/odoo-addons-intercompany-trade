@@ -13,7 +13,7 @@ class TestModule(TransactionCase):
 
     # Overload Section
     def setUp(self):
-        super(TestModule, self).setUp()
+        super().setUp()
 
         # Get Registries
         self.IntercompanyTradeConfig = self.env["intercompany.trade.config"]
