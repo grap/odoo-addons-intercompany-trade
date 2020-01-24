@@ -16,7 +16,7 @@ _logger = logging.getLogger(__name__)
 
 class TestBase(TestIntercompanyTradeBase):
     def setUp(self):
-        super(TestBase, self).setUp()
+        super().setUp()
 
     def test_super(self):
         self.test_00_log_installed_modules()
@@ -26,7 +26,7 @@ class Test(TransactionCase):
 
     # Overload Section
     def setUp(self):
-        super(Test, self).setUp()
+        super().setUp()
 
         # Get Registries
         self.AccountInvoice = self.env["account.invoice"]

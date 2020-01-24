@@ -46,13 +46,13 @@ class AccountInvoice(models.Model):
     # Overload Section
     @api.model
     def create(self, vals):
-        invoice = super(AccountInvoice, self).create(vals)
+        invoice = super().create(vals)
         invoice._check_intercompany_trade_write(vals)
         return invoice
 
     @api.multi
     def write(self, vals):
-        res = super(AccountInvoice, self).write(vals)
+        res = super().write(vals)
         self._check_intercompany_trade_write(vals)
         return res
 
@@ -62,7 +62,7 @@ class AccountInvoice(models.Model):
             lambda x: x.intercompany_trade and "out_" in x.type
         ):
             invoice._create_intercompany_invoice()
-        return super(AccountInvoice, self).invoice_validate()
+        return super().invoice_validate()
 
     # Action Section
     @api.multi
