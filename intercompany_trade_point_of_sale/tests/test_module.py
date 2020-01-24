@@ -22,8 +22,8 @@ class TestModule(TransactionCase):
     def setUp(self):
         super().setUp()
 
-        self.session_obj = self.env["pos.session"]
-        self.order_obj = self.env["pos.order"]
+        self.PosSession = self.env["pos.session"]
+        self.PosOrder = self.env["pos.order"]
         self.intercompany_trade = self.env.ref(
             "intercompany_trade_base.intercompany_trade"
         )
@@ -33,12 +33,12 @@ class TestModule(TransactionCase):
     def test_01_pos_order_constrains(self):
         """[Functional Test] Check if creating a pos order with integrated
         Trade is blocked"""
-        self.session = self.session_obj.create(
+        self.session = self.PosSession.create(
             {"config_id": self.main_config.id}
         )
         self.session.open_cb()
         self.partner = self.intercompany_trade.customer_partner_id
         with self.assertRaises(ValidationError):
-            self.order_obj.create(
+            self.PosOrder.create(
                 {"session_id": self.session.id, "partner_id": self.partner.id,}
             )

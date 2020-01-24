@@ -34,12 +34,12 @@ class IntercompanyTradeConfig(models.Model):
     def _get_customer_product_by_product(self, product):
         self.ensure_one()
 
-        product_obj = self.env["product.product"]
-        supplierinfo_obj = self.env["product.supplierinfo"]
+        ProductProduct = self.env["product.product"]
+        ProductSupplierinfo = self.env["product.supplierinfo"]
 
         # Get current Product
-        product = product_obj.sudo().browse(product.id)
-        supplierinfos = supplierinfo_obj.sudo().search(
+        product = ProductProduct.sudo().browse(product.id)
+        supplierinfos = ProductSupplierinfo.sudo().search(
             [
                 ("supplier_product_id", "=", product.id),
                 ("name", "=", self.supplier_partner_id.id),
@@ -50,7 +50,7 @@ class IntercompanyTradeConfig(models.Model):
             return False
         supplierinfo = supplierinfos[0]
         customer_products = (
-            product_obj.sudo(self.customer_user_id)
+            ProductProduct.sudo(self.customer_user_id)
             .with_context(active_test=False)
             .search(
                 [

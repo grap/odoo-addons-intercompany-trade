@@ -19,10 +19,9 @@
         "views/view_intercompany_trade_config.xml",
     ],
     "demo": [
-        "demo/res_users_1.xml",
-        "demo/res_groups.xml",
         "demo/res_company.xml",
-        "demo/res_users_2.xml",
+        "demo/res_users.xml",
+        "demo/res_groups.xml",
         "demo/res_partner.xml",
         "demo/intercompany_trade_config.xml",
     ],

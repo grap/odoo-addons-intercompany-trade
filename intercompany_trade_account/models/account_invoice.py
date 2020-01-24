@@ -176,7 +176,7 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def _get_intercompany_trade_config_by_partner_company_type(self):
-        config_obj = self.env["intercompany.trade.config"]
+        Config = self.env["intercompany.trade.config"]
 
         self.ensure_one()
         if self.type in ("in", "in_invoice", "in_refund"):
@@ -184,7 +184,7 @@ class AccountInvoice(models.Model):
         else:
             regular_type = "out"
 
-        return config_obj._get_intercompany_trade_by_partner_company(
+        return Config._get_intercompany_trade_by_partner_company(
             self.partner_id.id, self.company_id.id, regular_type
         )
 
