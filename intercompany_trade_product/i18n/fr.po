@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-21 15:04+0000\n"
-"PO-Revision-Date: 2019-05-21 15:04+0000\n"
+"POT-Creation-Date: 2020-02-01 13:45+0000\n"
+"PO-Revision-Date: 2020-02-01 13:45+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,211 +16,277 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: intercompany_trade_product
-#: field:product.supplierinfo,catalog_id:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_product_supplierinfo__catalog_id
 msgid "Catalog"
 msgstr "Catalogue"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.config.line,categ_id:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_config_line__categ_id
 msgid "Category"
 msgstr "Catégorie"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.config.line,config_id:0
-msgid "Config id"
-msgstr "Config id"
+#: model:product.category,name:intercompany_trade_product.category_computer
+msgid "Computer"
+msgstr "Ordinateur"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.config.line,create_uid:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_config_line__config_id
+msgid "Config"
+msgstr "Configuration"
+
+#. module: intercompany_trade_product
+#: model:ir.model,name:intercompany_trade_product.model_res_partner
+msgid "Contact"
+msgstr "Contact"
+
+#. module: intercompany_trade_product
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_config_line__create_uid
 msgid "Created by"
-msgstr "Created by"
+msgstr "Créé par"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.config.line,create_date:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_config_line__create_date
 msgid "Created on"
-msgstr "Created on"
+msgstr "Créé le"
 
 #. module: intercompany_trade_product
+#: model:product.product,name:intercompany_trade_product.product_customer_apple
 #: model:product.template,name:intercompany_trade_product.product_customer_apple_product_template
 msgid "Customer Apple"
-msgstr "Customer Apple"
+msgstr "Pomme Client"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.catalog,customer_company_id:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_catalog__customer_company_id
 msgid "Customer Company"
 msgstr "Société cliente"
 
 #. module: intercompany_trade_product
+#: model:product.product,name:intercompany_trade_product.product_customer_it_raws
 #: model:product.template,name:intercompany_trade_product.product_customer_it_raws_product_template
 msgid "Customer IT Raws"
-msgstr "Customer IT Raws"
+msgstr "Matériel Informatique Client"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.config.line,product_id:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_config_line__product_id
 msgid "Customer Product"
-msgstr "Produit client"
+msgstr "Article Client"
 
 #. module: intercompany_trade_product
+#: model:product.product,name:intercompany_trade_product.product_customer_service
 #: model:product.template,name:intercompany_trade_product.product_customer_service_product_template
 msgid "Customer Service"
-msgstr "Customer Service"
+msgstr "Service Client"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.catalog,display_name:0
-#: field:intercompany.trade.config.line,display_name:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_catalog__display_name
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_config_line__display_name
 msgid "Display Name"
-msgstr "Display Name"
+msgstr "Nom affiché"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.catalog,id:0
-#: field:intercompany.trade.config.line,id:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_catalog__id
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_config_line__id
 msgid "ID"
 msgstr "ID"
 
 #. module: intercompany_trade_product
+#: model:product.category,name:intercompany_trade_product.category_it_raws
+msgid "IT Raws"
+msgstr "Matériel informatique"
+
+#. module: intercompany_trade_product
+#: model:product.product,name:intercompany_trade_product.product_supplier_imac_computer
 #: model:product.template,name:intercompany_trade_product.product_supplier_imac_computer_product_template
 msgid "Imac Computer"
-msgstr "Imac Computer"
+msgstr "Ordinateur Imac"
 
 #. module: intercompany_trade_product
-#: model:ir.model,name:intercompany_trade_product.model_product_supplierinfo
-msgid "Information about a product supplier"
-msgstr "Information sur le fournisseur de l'article"
-
-#. module: intercompany_trade_product
-#: field:intercompany.trade.catalog,intercompany_trade_id:0
-#: view:product.supplierinfo:intercompany_trade_product.view_product_supplierinfo_form
-#: field:product.supplierinfo,intercompany_trade_id:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_catalog__intercompany_trade_id
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_product_supplierinfo__intercompany_trade_id
+#: model_terms:ir.ui.view,arch_db:intercompany_trade_product.view_product_supplierinfo_form
 msgid "Intercompany Trade"
 msgstr "Transaction intersociété"
 
 #. module: intercompany_trade_product
+#: model:product.pricelist,name:intercompany_trade_product.sale_pricelist
+msgid "Intercompany Trade - Sale Pricelist"
+msgstr "Transaction intersociété - Prix catalogue (-10%)"
+
+#. module: intercompany_trade_product
 #: model:product.pricelist,name:intercompany_trade_product.pricelist_discount
-msgid "Intercompany Trade - Sale Pricelist (Discount)"
-msgstr "Intercompany Trade - Sale Pricelist (Discount)"
+msgid "Intercompany Trade - Sale Pricelist (Discount -10%)"
+msgstr "Transaction intersociété - Prix catalogue (-10%)"
 
 #. module: intercompany_trade_product
-#: model:product.pricelist.version,name:intercompany_trade_product.pricelist_version_discount
-msgid "Intercompany Trade - Sale Pricelist Version (Discount)"
-msgstr "Intercompany Trade - Sale Pricelist Version (Discount)"
+#: model:ir.model,name:intercompany_trade_product.model_intercompany_trade_catalog
+msgid "Intercompany Trade Catalog"
+msgstr "Catalogue de transaction intersociété"
 
 #. module: intercompany_trade_product
-#: field:product.supplierinfo,is_intercompany_trade:0
-msgid "Is intercompany trade"
+#: model:ir.model,name:intercompany_trade_product.model_intercompany_trade_config
+msgid "Intercompany Trade Configuration"
+msgstr "Configuration de transaction intersociété"
+
+#. module: intercompany_trade_product
+#: model:ir.model,name:intercompany_trade_product.model_intercompany_trade_config_line
+msgid "Intercompany Trade Configuration Line"
+msgstr "Ligne de configuration de transaction intersociété"
+
+#. module: intercompany_trade_product
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_product_supplierinfo__is_intercompany_trade
+msgid "Is Intercompany Trade"
 msgstr "Est une transaction intersociété"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.catalog,__last_update:0
-#: field:intercompany.trade.config.line,__last_update:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_catalog____last_update
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_config_line____last_update
 msgid "Last Modified on"
-msgstr "Last Modified on"
+msgstr "Dernière modification le"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.config.line,write_uid:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_config_line__write_uid
 msgid "Last Updated by"
-msgstr "Last Updated by"
+msgstr "Dernière mise à jour par"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.config.line,write_date:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_config_line__write_date
 msgid "Last Updated on"
-msgstr "Last Updated on"
+msgstr "Dernière mise à jour le"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.config,line_ids:0
-msgid "Line ids"
-msgstr "Line ids"
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_config__line_ids
+msgid "Line"
+msgstr "Ligne"
 
 #. module: intercompany_trade_product
-#: model:ir.model,name:intercompany_trade_product.model_res_partner
-msgid "Partner"
-msgstr "Partenaire"
-
-#. module: intercompany_trade_product
-#: view:intercompany.trade.config:intercompany_trade_product.view_intercompany_trade_config_form
+#: model_terms:ir.ui.view,arch_db:intercompany_trade_product.view_intercompany_trade_config_form
 msgid "Rules"
 msgstr "Règles"
 
 #. module: intercompany_trade_product
-#: model:product.pricelist,name:intercompany_trade_product.sale_pricelist
-#: model:product.pricelist.version,name:intercompany_trade_product.sale_pricelist_version
-msgid "Sale Pricelist Intercompany Trade"
-msgstr "Sale Pricelist Intercompany Trade"
-
-#. module: intercompany_trade_product
-#: field:intercompany.trade.config.line,sequence:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_config_line__sequence
 msgid "Sequence"
-msgstr "Sequence"
+msgstr "Séquence"
 
 #. module: intercompany_trade_product
+#: model:product.product,name:intercompany_trade_product.product_supplier_apple
 #: model:product.template,name:intercompany_trade_product.product_supplier_apple_product_template
 msgid "Supplier Apple"
-msgstr "Supplier Apple"
+msgstr "Pomme fournisseur"
 
 #. module: intercompany_trade_product
+#: model:product.product,name:intercompany_trade_product.product_supplier_banana
 #: model:product.template,name:intercompany_trade_product.product_supplier_banana_product_template
 msgid "Supplier Banana"
-msgstr "Supplier Banana"
+msgstr "Banane fournisseur"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.catalog,supplier_partner_id:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_catalog__supplier_partner_id
 msgid "Supplier Partner"
-msgstr "Supplier Partner"
+msgstr "Partenaire fournisseur"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.catalog,supplier_partner_name:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_catalog__supplier_partner_name
 msgid "Supplier Partner Name"
-msgstr "Supplier Partner Name"
+msgstr "Nom du partenaire fournisseur"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.catalog,supplier_product_id:0
-#: field:product.supplierinfo,supplier_product_id:0
+#: model:ir.model,name:intercompany_trade_product.model_product_supplierinfo
+msgid "Supplier Pricelist"
+msgstr "Liste de prix du fournisseur"
+
+#. module: intercompany_trade_product
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_catalog__supplier_product_id
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_product_supplierinfo__supplier_product_id
 msgid "Supplier Product"
 msgstr "Article chez le fournisseur"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.catalog,supplier_product_active:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_catalog__supplier_product_active
 msgid "Supplier Product Active"
-msgstr "Supplier Product Active"
+msgstr "Article actif chez le fournisseur"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.catalog,supplier_product_sale_ok:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_catalog__supplier_product_sale_ok
 msgid "Supplier Product Can be sold"
-msgstr "Supplier Product Can be sold"
+msgstr "Article vendable chez le fournisseur"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.catalog,supplier_product_default_code:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_catalog__supplier_product_default_code
 msgid "Supplier Product Code"
-msgstr "Supplier Product Code"
+msgstr "Code de l'article chez le fournisseur"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.catalog,supplier_product_name:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_catalog__supplier_product_name
 msgid "Supplier Product Name"
-msgstr "Supplier Product Name"
+msgstr "Nom de l'aticle chez le fournisseur"
 
 #. module: intercompany_trade_product
-#: field:intercompany.trade.catalog,supplier_product_uom:0
+#: model:ir.model.fields,field_description:intercompany_trade_product.field_intercompany_trade_catalog__supplier_product_uom
 msgid "Supplier Product UoM"
-msgstr "Supplier Product UoM"
+msgstr "UdM de l'article Fournisseur"
 
 #. module: intercompany_trade_product
+#: model:product.product,name:intercompany_trade_product.product_supplier_service
 #: model:product.template,name:intercompany_trade_product.product_supplier_service_product_template
 msgid "Supplier Service"
-msgstr "Supplier Service"
+msgstr "Service Fournisseur"
 
 #. module: intercompany_trade_product
+#: model:product.product,name:intercompany_trade_product.product_supplier_strawberry
 #: model:product.template,name:intercompany_trade_product.product_supplier_strawberry_product_template
 msgid "Supplier Strawberry (250 gr)"
-msgstr "Supplier Strawberry (250 gr)"
+msgstr "Fraise fournisseur (250 gr)"
 
 #. module: intercompany_trade_product
-#: code:addons/intercompany_trade_product/models/product_supplierinfo.py:91
+#: code:addons/intercompany_trade_product/models/product_supplierinfo.py:112
 #, python-format
 msgid "The product(s) %s  are still linked to the the supplier product. You can not link the product %s."
 msgstr "Le(s) produit(s) %s sont déjà lié au produit fournisseur. vous ne pouvez pas référencer le produit %s."
 
 #. module: intercompany_trade_product
-#: code:addons/intercompany_trade_product/models/intercompany_trade_config.py:58
+#: model:product.product,uom_name:intercompany_trade_product.product_customer_it_raws
+#: model:product.product,uom_name:intercompany_trade_product.product_customer_service
+#: model:product.product,uom_name:intercompany_trade_product.product_supplier_imac_computer
+#: model:product.product,uom_name:intercompany_trade_product.product_supplier_service
+#: model:product.product,uom_name:intercompany_trade_product.product_supplier_strawberry
+#: model:product.template,uom_name:intercompany_trade_product.product_customer_it_raws_product_template
+#: model:product.template,uom_name:intercompany_trade_product.product_customer_service_product_template
+#: model:product.template,uom_name:intercompany_trade_product.product_supplier_imac_computer_product_template
+#: model:product.template,uom_name:intercompany_trade_product.product_supplier_service_product_template
+#: model:product.template,uom_name:intercompany_trade_product.product_supplier_strawberry_product_template
+msgid "Unit(s)"
+msgstr "Unité(s)"
+
+#. module: intercompany_trade_product
+#: code:addons/intercompany_trade_product/models/intercompany_trade_config.py:64
 #, python-format
 msgid "You can not add '%s' to the current Order or Invoice because the customer referenced many variants of this template."
 msgstr "Vous ne pouvez pas ajouter '%s' au bon de commande ou à la facture en cours car le client a référencé plusieurs variantes de ce template."
 
+#. module: intercompany_trade_product
+#: model:product.product,uom_name:intercompany_trade_product.product_customer_apple
+#: model:product.product,uom_name:intercompany_trade_product.product_supplier_apple
+#: model:product.product,uom_name:intercompany_trade_product.product_supplier_banana
+#: model:product.product,weight_uom_name:intercompany_trade_product.product_customer_apple
+#: model:product.product,weight_uom_name:intercompany_trade_product.product_customer_it_raws
+#: model:product.product,weight_uom_name:intercompany_trade_product.product_customer_service
+#: model:product.product,weight_uom_name:intercompany_trade_product.product_supplier_apple
+#: model:product.product,weight_uom_name:intercompany_trade_product.product_supplier_banana
+#: model:product.product,weight_uom_name:intercompany_trade_product.product_supplier_imac_computer
+#: model:product.product,weight_uom_name:intercompany_trade_product.product_supplier_service
+#: model:product.product,weight_uom_name:intercompany_trade_product.product_supplier_strawberry
+#: model:product.template,uom_name:intercompany_trade_product.product_customer_apple_product_template
+#: model:product.template,uom_name:intercompany_trade_product.product_supplier_apple_product_template
+#: model:product.template,uom_name:intercompany_trade_product.product_supplier_banana_product_template
+#: model:product.template,weight_uom_name:intercompany_trade_product.product_customer_apple_product_template
+#: model:product.template,weight_uom_name:intercompany_trade_product.product_customer_it_raws_product_template
+#: model:product.template,weight_uom_name:intercompany_trade_product.product_customer_service_product_template
+#: model:product.template,weight_uom_name:intercompany_trade_product.product_supplier_apple_product_template
+#: model:product.template,weight_uom_name:intercompany_trade_product.product_supplier_banana_product_template
+#: model:product.template,weight_uom_name:intercompany_trade_product.product_supplier_imac_computer_product_template
+#: model:product.template,weight_uom_name:intercompany_trade_product.product_supplier_service_product_template
+#: model:product.template,weight_uom_name:intercompany_trade_product.product_supplier_strawberry_product_template
+msgid "kg"
+msgstr "kg"
