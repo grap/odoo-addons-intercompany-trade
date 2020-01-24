@@ -14,4 +14,4 @@ class AccountInvoice(models.Model):
         invoices = self.filtered(lambda x: x.intercompany_trade)
         if invoices:
             raise UserError(_("Unable to cancel intercompany trade Invoices"))
-        return super(AccountInvoice, self).action_cancel()
+        return super().action_cancel()
