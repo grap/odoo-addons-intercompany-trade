@@ -9,7 +9,7 @@
     "website": "http://www.grap.coop",
     "license": "AGPL-3",
     "depends": ["intercompany_trade_base", "point_of_sale"],
-    "data": ["views/templates.xml"],
+    "data": ["views/assets.xml"],
     "auto_install": True,
     "installable": True,
 }
