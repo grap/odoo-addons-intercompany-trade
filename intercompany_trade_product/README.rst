@@ -13,47 +13,30 @@ Intercompany Trade - Product
 .. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-legalsylvain%2Fodoo--addons--intercompany--trade-lightgray.png?logo=github
-    :target: https://github.com/legalsylvain/odoo-addons-intercompany-trade/tree/8.0_make_ti_great_again/intercompany_trade_product
-    :alt: legalsylvain/odoo-addons-intercompany-trade
+.. |badge3| image:: https://img.shields.io/badge/github-grap%2Fodoo--addons--intercompany--trade-lightgray.png?logo=github
+    :target: https://github.com/grap/odoo-addons-intercompany-trade/tree/8.0/intercompany_trade_product
+    :alt: grap/odoo-addons-intercompany-trade
 
 |badge1| |badge2| |badge3| 
 
-* Give the possibility to customer to link a product to a supplier product
-* Change the pricelist on customer change the pricelist on
-  intercompany.trade.config object
+This module gives the possibility to customer to link a product to a supplier
+product. This link will be used later, when supplier create a sale invoice,
+to generate automatically the purchase invoice in the customer context.
 
-TODO : Still True ?
-
-* Change product information changes supplierinfo
-* Change price information changes supplierinfo
-* Change pricelist on partner changes supplierinfo
+Two links are possible : by product, and by rule.
 
 **Table of contents**
 
 .. contents::
    :local:
 
-Known issues / Roadmap
-======================
-
-* Round sale price to make it compatible with purchase prices.
-
-* add an extra ratio to have the possibility to link a supplier product
-  'pack of 6 bottles' to a customer product 'bottle'. Link a product should
-  divide prices by 6. (or use Purchase UoM)
-
-* Supplierinfo should be readonly in intercompany trade for customer, for
-  consistency reason. (not a big deal, because only supplier can now
-  create invoices)
-
 Bug Tracker
 ===========
 
-Bugs are tracked on `GitHub Issues <https://github.com/legalsylvain/odoo-addons-intercompany-trade/issues>`_.
+Bugs are tracked on `GitHub Issues <https://github.com/grap/odoo-addons-intercompany-trade/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed
-`feedback <https://github.com/legalsylvain/odoo-addons-intercompany-trade/issues/new?body=module:%20intercompany_trade_product%0Aversion:%208.0_make_ti_great_again%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/grap/odoo-addons-intercompany-trade/issues/new?body=module:%20intercompany_trade_product%0Aversion:%208.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -73,9 +56,6 @@ Contributors
 Maintainers
 ~~~~~~~~~~~
 
-
-
-This module is part of the `legalsylvain/odoo-addons-intercompany-trade <https://github.com/legalsylvain/odoo-addons-intercompany-trade/tree/8.0_make_ti_great_again/intercompany_trade_product>`_ project on GitHub.
-
+This module is part of the `grap/odoo-addons-intercompany-trade <https://github.com/grap/odoo-addons-intercompany-trade/tree/8.0/intercompany_trade_product>`_ project on GitHub.
 
 You are welcome to contribute.
