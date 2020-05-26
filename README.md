@@ -18,16 +18,20 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
-[intercompany_trade_account](intercompany_trade_account/) | 8.0.2.0.0 | Intercompany Trade - Account
-[intercompany_trade_account_cancel](intercompany_trade_account_cancel/) | 8.0.2.0.0 | Intercompany Trade - Account Cancel
-[intercompany_trade_account_simple_tax_account](intercompany_trade_account_simple_tax_account/) | 8.0.1.0.0 | Intercompany Trade - Simple Tax Account
-[intercompany_trade_base](intercompany_trade_base/) | 8.0.2.0.0 | Intercompany Trade - Base
-[intercompany_trade_fiscal_company](intercompany_trade_fiscal_company/) | 8.0.1.0.0 | Intercompany Trade - Fiscal Company
-[intercompany_trade_point_of_sale](intercompany_trade_point_of_sale/) | 8.0.1.0.0 | Intercompany Trade - Point Of Sale
-[intercompany_trade_product](intercompany_trade_product/) | 8.0.2.0.0 | Intercompany Trade - Product
-[intercompany_trade_purchase](intercompany_trade_purchase/) | 8.0.1.0.0 | Intercompany Trade - Purchase
-[intercompany_trade_purchase_account_invoice_pricelist](intercompany_trade_purchase_account_invoice_pricelist/) | 8.0.1.0.0 | Intercompany Trade - Purchase / Account Invoice Pricelist
-[intercompany_trade_stock](intercompany_trade_stock/) | 8.0.1.0.0 | Intercompany Trade - Stock
+[intercompany_trade_account](intercompany_trade_account/) | 12.0.1.0.0 | Intercompany Trade - Account
+[intercompany_trade_account_cancel](intercompany_trade_account_cancel/) | 12.0.1.0.0 | Intercompany Trade - Account Cancel
+[intercompany_trade_base](intercompany_trade_base/) | 12.0.1.0.0 | Intercompany Trade - Base
+[intercompany_trade_point_of_sale](intercompany_trade_point_of_sale/) | 12.0.1.0.0 | Intercompany Trade - Point Of Sale
+[intercompany_trade_product](intercompany_trade_product/) | 12.0.1.0.0 | Intercompany Trade - Product
+[intercompany_trade_stock](intercompany_trade_stock/) | 12.0.1.0.0 | Intercompany Trade - Stock
+
+
+Unported addons
+---------------
+addon | version | summary
+--- | --- | ---
+[intercompany_trade_fiscal_company](intercompany_trade_fiscal_company/) | 12.0.1.0.0 (unported) | Intercompany Trade - Fiscal Company
+[intercompany_trade_purchase_account_invoice_pricelist](intercompany_trade_purchase_account_invoice_pricelist/) | 12.0.1.0.0 (unported) | Intercompany Trade - Purchase / Account Invoice Pricelist
 
 [//]: # (end addons)
 
