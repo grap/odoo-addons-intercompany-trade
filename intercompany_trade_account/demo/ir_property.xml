@@ -5,55 +5,48 @@ Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
 License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 
-<openerp><data>
+<odoo>
 
     <record id="supplier_property_account_income" model="ir.property">
         <field name="name">property_account_income_categ</field>
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
-        <field name="fields_id" ref="account.field_product_category_property_account_income_categ" />
+        <field name="fields_id" ref="account.field_product_category__property_account_income_categ_id" />
         <field name="value" eval="'account.account,'+str(ref('supplier_account_income'))"/>
-    </record>
-
-    <record id="property_account_expense_categ" model="ir.property">
-        <field name="name">property_account_expense_categ</field>
-        <field name="company_id" ref="intercompany_trade_base.customer_company"/>
-        <field name="fields_id" ref="account.field_product_category_property_account_expense_categ" />
-        <field name="value" eval="'account.account,'+str(ref('customer_account_expense'))"/>
     </record>
 
     <record id="supplier_property_account_payable" model="ir.property">
         <field name="name">property_account_payable</field>
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
-        <field name="fields_id" ref="account.field_res_partner_property_account_payable" />
+        <field name="fields_id" ref="account.field_res_partner__property_account_payable_id" />
         <field name="value" eval="'account.account,'+str(ref('supplier_account_payable'))"/>
     </record>
 
     <record id="supplier_property_account_receivable" model="ir.property">
         <field name="name">property_account_receivable</field>
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
-        <field name="fields_id" ref="account.field_res_partner_property_account_receivable" />
+        <field name="fields_id" ref="account.field_res_partner__property_account_receivable_id" />
         <field name="value" eval="'account.account,'+str(ref('supplier_account_receivable'))"/>
     </record>
 
     <record id="customer_property_account_expense" model="ir.property">
         <field name="name">property_account_expense_categ</field>
-        <field name="company_id" ref="intercompany_trade_base.customer_company" />
-        <field name="fields_id" ref="account.field_product_category_property_account_expense_categ" />
+        <field name="company_id" ref="intercompany_trade_base.customer_company"/>
+        <field name="fields_id" ref="account.field_product_category__property_account_expense_categ_id" />
         <field name="value" eval="'account.account,'+str(ref('customer_account_expense'))"/>
     </record>
 
     <record id="customer_property_account_payable" model="ir.property">
         <field name="name">property_account_payable</field>
         <field name="company_id" ref="intercompany_trade_base.customer_company" />
-        <field name="fields_id" ref="account.field_res_partner_property_account_payable" />
+        <field name="fields_id" ref="account.field_res_partner__property_account_payable_id" />
         <field name="value" eval="'account.account,'+str(ref('customer_account_payable'))"/>
     </record>
 
     <record id="customer_property_account_receivable" model="ir.property">
         <field name="name">property_account_receivable</field>
         <field name="company_id" ref="intercompany_trade_base.customer_company" />
-        <field name="fields_id" ref="account.field_res_partner_property_account_receivable" />
+        <field name="fields_id" ref="account.field_res_partner__property_account_receivable_id" />
         <field name="value" eval="'account.account,'+str(ref('customer_account_receivable'))"/>
     </record>
 
-</data></openerp>
+</odoo>

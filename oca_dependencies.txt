@@ -1,12 +1,6 @@
-account-invoicing       https://github.com/grap/account-invoicing.git           8.0_FIX_account_invoice_pricelist_purchase_pricelist
 l10n-france
 purchase-workflow
 pos
 sale-workflow
 server-tools
 web
-
-odoo-addons-cae         https://github.com/grap/odoo-addons-cae.git             8.0
-
-grap-odoo-incubator     https://github.com/grap/grap-odoo-incubator.git         8.0
-grap-odoo-business      https://github.com/grap/grap-odoo-business.git          8.0
