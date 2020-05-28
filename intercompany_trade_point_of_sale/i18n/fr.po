@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* intercompany_trade_point_of_sale
+#   * intercompany_trade_point_of_sale
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-25 08:02+0000\n"
-"PO-Revision-Date: 2018-07-25 08:02+0000\n"
+"POT-Creation-Date: 2020-02-01 15:40+0000\n"
+"PO-Revision-Date: 2020-02-01 15:40+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,9 +16,23 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: intercompany_trade_point_of_sale
+#. openerp-web
+#: code:addons/intercompany_trade_point_of_sale/static/src/js/screens.js:19
+#, python-format
+msgid "An order cannot be done for Intercompany Trade"
+msgstr "Vous ne pouvez pas vendre en transaction inter société"
+
+#. module: intercompany_trade_point_of_sale
+#. openerp-web
+#: code:addons/intercompany_trade_point_of_sale/static/src/js/screens.js:20
+#, python-format
+msgid "Please create a delivered order instead"
+msgstr "Veuillez créer un bon de livraison à la place"
+
+#. module: intercompany_trade_point_of_sale
 #: model:ir.model,name:intercompany_trade_point_of_sale.model_pos_order
-msgid "Point of Sale"
-msgstr "Point de Vente"
+msgid "Point of Sale Orders"
+msgstr "Commandes du point de vente"
 
 #. module: intercompany_trade_point_of_sale
 #: code:addons/intercompany_trade_point_of_sale/models/pos_order.py:18

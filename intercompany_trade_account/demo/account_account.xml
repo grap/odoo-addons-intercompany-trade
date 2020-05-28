@@ -5,78 +5,52 @@ Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
 License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 
-<openerp><data>
-
-    <!-- Supplier Company -->
-    <record id="supplier_account_root" model="account.account">
-        <field name="name">Intercompany Trade - Supplier Root Account</field>
-        <field name="code">SUP_ROOT</field>
-        <field name="type">view</field>
-        <field name="user_type" ref="account.data_account_type_view" />
-        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
-    </record>
+<odoo>
 
     <record id="supplier_account_income" model="account.account">
         <field name="name">Intercompany Trade - Supplier Incomes</field>
         <field name="code">CUS_7</field>
-        <field name="type">other</field>
-        <field name="parent_id" ref="supplier_account_root" />
-        <field name="user_type" ref="account.data_account_type_income" />
+        <field name="user_type_id" ref="account.data_account_type_revenue" />
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
     </record>
 
     <record id="supplier_account_receivable" model="account.account">
         <field name="name">Intercompany Trade - Supplier Debtors</field>
         <field name="code">SUP_411</field>
-        <field name="type">receivable</field>
-        <field name="parent_id" ref="supplier_account_root" />
-        <field name="user_type" ref="account.data_account_type_receivable" />
+        <field name="user_type_id" ref="account.data_account_type_receivable" />
+        <field name="reconcile" eval="True"/>
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
     </record>
 
     <record id="supplier_account_payable" model="account.account">
         <field name="name">Intercompany Trade - Supplier Creditors</field>
         <field name="code">SUP_401</field>
-        <field name="type">payable</field>
-        <field name="parent_id" ref="supplier_account_root" />
-        <field name="user_type" ref="account.data_account_type_payable" />
+        <field name="user_type_id" ref="account.data_account_type_payable" />
+        <field name="reconcile" eval="True"/>
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
-    </record>
-
-    <!-- Customer Company -->
-    <record id="customer_account_root" model="account.account">
-        <field name="name">Intercompany Trade - Customer Root Account</field>
-        <field name="code">CUS_ROOT</field>
-        <field name="type">view</field>
-        <field name="user_type" ref="account.data_account_type_view" />
-        <field name="company_id" ref="intercompany_trade_base.customer_company" />
     </record>
 
     <record id="customer_account_expense" model="account.account">
         <field name="name">Intercompany Trade - Customer Expenses</field>
         <field name="code">CUS_6</field>
-        <field name="type">other</field>
-        <field name="parent_id" ref="customer_account_root" />
-        <field name="user_type" ref="account.data_account_type_expense" />
+        <field name="user_type_id" ref="account.data_account_type_expenses" />
         <field name="company_id" ref="intercompany_trade_base.customer_company" />
     </record>
 
     <record id="customer_account_receivable" model="account.account">
         <field name="name">Intercompany Trade - Customer Debtors</field>
         <field name="code">CUS_411</field>
-        <field name="type">receivable</field>
-        <field name="parent_id" ref="customer_account_root" />
-        <field name="user_type" ref="account.data_account_type_receivable" />
+        <field name="reconcile" eval="True"/>
+        <field name="user_type_id" ref="account.data_account_type_receivable" />
         <field name="company_id" ref="intercompany_trade_base.customer_company" />
     </record>
 
     <record id="customer_account_payable" model="account.account">
         <field name="name">Intercompany Trade - Customer Creditors</field>
         <field name="code">CUS_401</field>
-        <field name="type">payable</field>
-        <field name="parent_id" ref="customer_account_root" />
-        <field name="user_type" ref="account.data_account_type_payable" />
+        <field name="reconcile" eval="True"/>
+        <field name="user_type_id" ref="account.data_account_type_payable" />
         <field name="company_id" ref="intercompany_trade_base.customer_company" />
     </record>
 
-</data></openerp>
+</odoo>
