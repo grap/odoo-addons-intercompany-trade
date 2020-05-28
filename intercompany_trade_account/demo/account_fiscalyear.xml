@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+
+<openerp><data>
+
+    <record id="customer_account_fiscal_year" model="account.fiscalyear">
+        <field eval="'Customer Fiscal Year X '+time.strftime('%Y')" name="name"/>
+        <field eval="'CU'+time.strftime('%Y')" name="code"/>
+        <field eval="time.strftime('%Y')+'-01-01'" name="date_start"/>
+        <field eval="time.strftime('%Y')+'-12-31'" name="date_stop"/>
+        <field name="company_id" ref="intercompany_trade_base.customer_company" />
+    </record>
+
+    <record id="supplier_account_fiscal_year" model="account.fiscalyear">
+        <field eval="'Supplier Fiscal Year X '+time.strftime('%Y')" name="name"/>
+        <field eval="'SU'+time.strftime('%Y')" name="code"/>
+        <field eval="time.strftime('%Y')+'-01-01'" name="date_start"/>
+        <field eval="time.strftime('%Y')+'-12-31'" name="date_stop"/>
+        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+    </record>
+
+</data></openerp>

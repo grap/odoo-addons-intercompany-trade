@@ -1,3 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 intercompany_trade_config_user_access,Intercompany Trade - User,model_intercompany_trade_config,intercompany_trade_user,1,0,0,0
-intercompany_trade_config_manager_access,Intercompany Trade - Manager,model_intercompany_trade_config,intercompany_trade_manager,1,1,1,0
+intercompany_trade_config_manager_access,Intercompany Trade - Manager,model_intercompany_trade_config,intercompany_trade_manager,1,1,1,1
