@@ -5,7 +5,7 @@ Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
 License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 
-<odoo>
+<openerp><data>
 
     <record id="transcoding_sale" model="fiscal.company.transcoding.account">
         <field name="from_account_id" ref="account_fiscal_company.a_sale" />
@@ -19,4 +19,4 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="company_id" ref="base_fiscal_company.company_fiscal_mother" />
     </record>
 
-</odoo>
+</data></openerp>

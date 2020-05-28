@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-01 13:53+0000\n"
-"PO-Revision-Date: 2020-02-01 13:53+0000\n"
+"POT-Creation-Date: 2019-05-21 14:58+0000\n"
+"PO-Revision-Date: 2019-05-21 14:58+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,33 +16,32 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: intercompany_trade_account
-#: model_terms:ir.ui.view,arch_db:intercompany_trade_account.view_account_invoice_form
+#: view:account.invoice:intercompany_trade_account.view_account_invoice_form
 msgid "Check Links"
 msgstr "Vérifier les liens"
 
 #. module: intercompany_trade_account
-#: model:product.product,name:intercompany_trade_account.product_customer_service_10_excl
 #: model:product.template,name:intercompany_trade_account.product_customer_service_10_excl_product_template
 msgid "Customer Service VAT 10% EXCLUDED"
 msgstr "Customer Service VAT 10% EXCLUDED"
 
 #. module: intercompany_trade_account
-#: model:ir.model.fields,help:intercompany_trade_account.field_account_invoice__intercompany_trade
-#: model:ir.model.fields,help:intercompany_trade_account.field_account_invoice_line__intercompany_trade
+#: help:account.invoice,intercompany_trade:0
+#: help:account.invoice.line,intercompany_trade:0
 msgid "Indicate that this partner is a company in Odoo."
 msgstr "Indique que le partenaire est une société dans Odoo."
 
 #. module: intercompany_trade_account
-#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_invoice__intercompany_trade
-#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_invoice_line__intercompany_trade
-#: model_terms:ir.ui.view,arch_db:intercompany_trade_account.view_account_invoice_search
+#: view:account.invoice:intercompany_trade_account.view_account_invoice_search
+#: field:account.invoice,intercompany_trade:0
+#: field:account.invoice.line,intercompany_trade:0
 msgid "Intercompany Trade"
-msgstr "Transaction inter société"
+msgstr "Transaction Inter Société"
 
 #. module: intercompany_trade_account
-#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_invoice__intercompany_trade_readonly
+#: field:account.invoice,intercompany_trade_readonly:0
 msgid "Intercompany Trade Readonly"
-msgstr "Lecture seule Transaction inter société"
+msgstr "Intercompany Trade Readonly"
 
 #. module: intercompany_trade_account
 #: model:ir.model,name:intercompany_trade_account.model_account_invoice
@@ -52,7 +51,7 @@ msgstr "Facture"
 #. module: intercompany_trade_account
 #: model:ir.model,name:intercompany_trade_account.model_account_invoice_line
 msgid "Invoice Line"
-msgstr "Ligne de facture"
+msgstr "Lignes de facture"
 
 #. module: intercompany_trade_account
 #: code:addons/intercompany_trade_account/models/account_invoice_line.py:37
@@ -61,13 +60,27 @@ msgid "It is not possible to confirm this invoice, because your customer didn't 
 msgstr "Il n'est pas possible de confirmer cette facture, car votre client n'a pas référencé votre produit %s-%s"
 
 #. module: intercompany_trade_account
-#: model:product.product,name:intercompany_trade_account.product_supplier_service_10_excl
-#: model:product.template,name:intercompany_trade_account.product_supplier_service_10_excl_product_template
-msgid "Supplier Service VAT 10% EXCLUDED"
-msgstr ""
+#: model:account.tax,name:intercompany_trade_account.purchase_vat_10_excluded
+msgid "PURCHASE VAT 10% Excluded"
+msgstr "PURCHASE VAT 10% Excluded"
 
 #. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/models/account_invoice.py:163
+#: model:account.tax,name:intercompany_trade_account.sale_vat_10_excluded
+msgid "SALE VAT 10% Excluded"
+msgstr "SALE VAT 10% Excluded"
+
+#. module: intercompany_trade_account
+#: model:account.tax,name:intercompany_trade_account.sale_vat_10_included
+msgid "SALE VAT 10% Included"
+msgstr "SALE VAT 10% Included"
+
+#. module: intercompany_trade_account
+#: model:product.template,name:intercompany_trade_account.product_supplier_service_10_excl_product_template
+msgid "Supplier Service VAT 10% EXCLUDED"
+msgstr "Supplier Service VAT 10% EXCLUDED"
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/models/account_invoice.py:141
 #, python-format
 msgid "Unable to confirm this intercompany Trade invoice (or refund) because the field '%s' is not the same: \n"
 " - customer value : %s\n"
@@ -77,21 +90,13 @@ msgstr "Impossible de confirmer cette facture (ou avoir) Intersociété car le c
 " - Valeur chez le fournisseur : %s"
 
 #. module: intercompany_trade_account
-#: model:product.product,uom_name:intercompany_trade_account.product_customer_service_10_excl
-#: model:product.product,uom_name:intercompany_trade_account.product_supplier_service_10_excl
-#: model:product.template,uom_name:intercompany_trade_account.product_customer_service_10_excl_product_template
-#: model:product.template,uom_name:intercompany_trade_account.product_supplier_service_10_excl_product_template
-msgid "Unit(s)"
-msgstr "Unité(s)"
-
-#. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/models/account_invoice.py:117
+#: code:addons/intercompany_trade_account/models/account_invoice.py:98
 #, python-format
 msgid "You can not create a supplier invoice or refund for intercompany trade supplier. Please ask to your supplier to create or update it"
 msgstr "Vous ne pouvez pas créer une facture ou un avoir fournisseur pour les transactions intersociété. Veuillez contacter votre fournisseur pour lui dire de créer ou de modifier sa facture client."
 
 #. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/models/account_invoice.py:93
+#: code:addons/intercompany_trade_account/models/account_invoice.py:77
 #, python-format
 msgid "Your customer did the job.\n"
 "\n"
@@ -101,7 +106,7 @@ msgstr "Votre client a fait la job.\n"
 " Tous les produits sont correctement référencés."
 
 #. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/models/account_invoice.py:81
+#: code:addons/intercompany_trade_account/models/account_invoice.py:71
 #, python-format
 msgid "Your customer should reference the following products: \n"
 "\n"
@@ -111,9 +116,17 @@ msgstr "Votre client doit référencer les produits suivants: \n"
 "- %s"
 
 #. module: intercompany_trade_account
-#: model:product.product,weight_uom_name:intercompany_trade_account.product_customer_service_10_excl
-#: model:product.product,weight_uom_name:intercompany_trade_account.product_supplier_service_10_excl
-#: model:product.template,weight_uom_name:intercompany_trade_account.product_customer_service_10_excl_product_template
-#: model:product.template,weight_uom_name:intercompany_trade_account.product_supplier_service_10_excl_product_template
-msgid "kg"
-msgstr "kg"
+#: view:account.invoice:intercompany_trade_account.view_account_invoice_form_supplier
+msgid "{'invisible': ['|', ('intercompany_trade_readonly', '=', True), ('state', 'not in', ['cancel'])]}"
+msgstr "{'invisible': ['|', ('intercompany_trade_readonly', '=', True), ('state', 'not in', ['cancel'])]}"
+
+#. module: intercompany_trade_account
+#: view:account.invoice:intercompany_trade_account.view_account_invoice_form_supplier
+msgid "{'invisible': ['|', ('intercompany_trade_readonly', '=', True), ('state', 'not in', ['draft','proforma2'])]}"
+msgstr "{'invisible': ['|', ('intercompany_trade_readonly', '=', True), ('state', 'not in', ['draft','proforma2'])]}"
+
+#. module: intercompany_trade_account
+#: view:account.invoice:intercompany_trade_account.view_account_invoice_form_supplier
+msgid "{'readonly': [('intercompany_trade_readonly', '=', True)]}"
+msgstr "{'readonly': [('intercompany_trade_readonly', '=', True)]}"
+

@@ -5,7 +5,7 @@ Copyright (C) 2014 - Today: GRAP (http://www.grap.coop)
 License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 
-<odoo>
+<openerp><data>
 
     <record id="intercompany_trade" model="intercompany.trade.config">
         <field name="name">Intercompany Trade between Fiscal company (Service) -> Fiscal company (Production)</field>
@@ -14,4 +14,4 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="supplier_company_id" ref="base_fiscal_company.company_fiscal_child_1" />
     </record>
 
-</odoo>
+</data></openerp>

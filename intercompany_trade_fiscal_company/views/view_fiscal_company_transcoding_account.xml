@@ -4,7 +4,7 @@ Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
 @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
-<odoo>
+<openerp><data>
 
     <record id="view_fiscal_company_transcoding_account_tree" model="ir.ui.view">
         <field name="model">fiscal.company.transcoding.account</field>
@@ -45,4 +45,4 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         action="action_fiscal_company_transcoding_account"
         sequence="5"/>
 
-</odoo>
+</data></openerp>

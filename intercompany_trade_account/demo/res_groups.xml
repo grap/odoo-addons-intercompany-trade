@@ -5,16 +5,16 @@ Copyright (C) 2017 - Today: GRAP (http://www.grap.coop)
 License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 
-<odoo>
+<openerp><data>
 
-    <record id="account.group_account_invoice" model="res.groups">
+    <record id="account.group_account_user" model="res.groups">
         <field name="users" eval="[
             (4, ref('intercompany_trade_base.supplier_user')),
             (4, ref('intercompany_trade_base.customer_user'))]" />
     </record>
 
     <record id="account.group_account_manager" model="res.groups">
-        <field name="users" eval="[(4, ref('base.user_admin'))]" />
+        <field name="users" eval="[(4, ref('base.user_root'))]" />
     </record>
 
-</odoo>
+</data></openerp>

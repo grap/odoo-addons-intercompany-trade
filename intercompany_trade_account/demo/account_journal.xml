@@ -5,8 +5,7 @@ Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
 License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 
-<odoo>
-    <data noupdate="1">
+<openerp><data>
 
     <record id="customer_journal_purchase" model="account.journal">
         <field name="name">Intercompany Trade - Customer Purchase Journal</field>
@@ -21,5 +20,5 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="type">sale</field>
         <field name="company_id" ref="intercompany_trade_base.supplier_company" />
     </record>
-</data>
-</odoo>
+
+</data></openerp>
