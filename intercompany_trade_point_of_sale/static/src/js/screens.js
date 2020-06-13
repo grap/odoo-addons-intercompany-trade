@@ -14,7 +14,8 @@ odoo.define('intercompany_trade_point_of_sale.screens', function (require) {
 
     screens.PaymentScreenWidget.include({
         validate_order: function(options) {
-            if(this.pos.get_order().get_client().intercompany_trade){
+            var client = this.pos.get_order().get_client();
+            if (client && client.intercompany_trade){
                 this.gui.show_popup('error',{
                     'title': _t('An order cannot be done for Intercompany Trade'),
                     'body':  _t('Please create a delivered order instead'),
