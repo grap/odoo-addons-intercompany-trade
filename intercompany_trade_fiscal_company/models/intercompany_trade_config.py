@@ -59,8 +59,8 @@ class IntercompanyTradeConfig(models.Model):
     def _compute_same_fiscal_mother_company(self):
         for config in self:
             config.same_fiscal_mother_company = (
-                config.customer_company_id.fiscal_company.id
-                == config.supplier_company_id.fiscal_company.id
+                config.customer_company_id.fiscal_company_id.id
+                == config.supplier_company_id.fiscal_company_id.id
             )
 
     # Constraints Section
@@ -93,8 +93,10 @@ class IntercompanyTradeConfig(models.Model):
         if company.intercompany_trade_account_id:
             res.update(
                 {
-                    "property_account_receivable": company.intercompany_trade_account_id.id,
-                    "property_account_payable": company.intercompany_trade_account_id.id,
+                    "property_account_receivable_id":
+                    company.intercompany_trade_account_id.id,
+                    "property_account_payable_id":
+                    company.intercompany_trade_account_id.id,
                 }
             )
         return res
