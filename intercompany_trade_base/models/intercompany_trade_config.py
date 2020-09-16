@@ -93,10 +93,24 @@ class IntercompanyTradeConfig(models.Model):
         return res and res[0] or False
 
     @api.model
+    def _partner_from_company_fields(self):
+        """
+            Return the list of the fields, used for the function
+            _prepare_partner_from_company()
+        """
+        return [
+            "name", "street", "street2", "city", "zip", "state_id",
+            "country_id", "website", "phone", "email", "vat",
+            "logo"
+        ]
+
+    @api.model
     def _prepare_partner_from_company(self, company_id, inner_company_id):
         """
             Return vals for the creation of a partner, depending of
             a company_id.
+            Note: if you change this function, please update also
+            the function _prepare_partner_from_company()
         """
         company = self.env["res.company"].browse(company_id)
         return {
@@ -109,7 +123,6 @@ class IntercompanyTradeConfig(models.Model):
             "country_id": company.country_id.id,
             "website": company.website,
             "phone": company.phone,
-            # "fax": company.fax,
             "email": company.email,
             "vat": company.vat,
             "is_company": True,
