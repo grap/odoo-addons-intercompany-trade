@@ -19,6 +19,14 @@ class ResCompany(models.Model):
 
         res = super().write(vals)
 
+        # Do not rewrite all related partners, if interesting data
+        # didn't changed.
+        if not list(
+                set(vals.keys()) &
+                set(IntercompanyTradeConfig._partner_from_company_fields())
+        ):
+            return res
+
         for company in self:
             # Get customer partner created for this company
             configs = IntercompanyTradeConfig.search(
@@ -30,7 +38,9 @@ class ResCompany(models.Model):
                 data = IntercompanyTradeConfig._prepare_partner_from_company(
                     company.id, config.customer_company_id.id
                 )
-                config.supplier_partner_id.write(data)
+                config.supplier_partner_id.with_context(
+                    force_company=config.customer_company_id.id,
+                ).sudo().write(data)
 
             # Get supplier partner created for this company
             configs = IntercompanyTradeConfig.search(
@@ -42,6 +52,8 @@ class ResCompany(models.Model):
                 data = IntercompanyTradeConfig._prepare_partner_from_company(
                     company.id, config.supplier_company_id.id
                 )
-                config.customer_partner_id.write(data)
+                config.customer_partner_id.with_context(
+                    force_company=config.supplier_company_id.id,
+                ).sudo().write(data)
 
         return res
