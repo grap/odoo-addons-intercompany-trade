@@ -8,19 +8,19 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 <odoo>
 
     <record id="intercompany_trade_base.customer_company" model="res.company">
-        <field name="fiscal_company" ref="intercompany_trade_base.customer_company" />
+        <field name="fiscal_company_id" ref="intercompany_trade_base.customer_company" />
     </record>
 
     <record id="intercompany_trade_base.supplier_company" model="res.company">
-        <field name="fiscal_company" ref="intercompany_trade_base.supplier_company" />
+        <field name="fiscal_company_id" ref="intercompany_trade_base.supplier_company" />
     </record>
 
-    <record id="base_fiscal_company.company_fiscal_child_1" model="res.company">
+    <record id="fiscal_company_base.company_fiscal_child_1" model="res.company">
         <field name="fiscal_type">fiscal_child</field>
         <field name="intercompany_trade_account_id" ref="a_receivable_payable_cis_production" />
     </record>
 
-    <record id="base_fiscal_company.company_fiscal_child_2" model="res.company">
+    <record id="fiscal_company_base.company_fiscal_child_2" model="res.company">
         <field name="fiscal_type">fiscal_child</field>
         <field name="intercompany_trade_account_id" ref="a_receivable_payable_cis_service" />
     </record>

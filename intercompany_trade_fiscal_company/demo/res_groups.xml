@@ -15,7 +15,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
     <record id="intercompany_trade_base.intercompany_trade_manager" model="res.groups">
         <field name="users" eval="[
-            (4, ref('base_fiscal_company.user_accountant'))]" />
+            (4, ref('fiscal_company_base.user_accountant'))]" />
     </record>
 
     <record id="account.group_account_user" model="res.groups">
