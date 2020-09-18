@@ -14,9 +14,9 @@
         "account"
     ],
     "data": [
-       "views/view_account_account.xml",
-       "views/view_intercompany_trade_config.xml",
-       "views/view_res_company.xml",
+        "views/view_account_account.xml",
+        "views/view_intercompany_trade_config.xml",
+        "views/view_res_company.xml",
     ],
     "auto_install": True,
     "installable": True,
