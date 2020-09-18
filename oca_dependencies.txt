@@ -4,3 +4,5 @@ pos
 sale-workflow
 server-tools
 web
+
+odoo-addons-cae     https://github.com/odoo-cae/odoo-addons-cae.git      12.0
