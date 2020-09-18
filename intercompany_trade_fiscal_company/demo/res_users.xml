@@ -12,9 +12,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="login">fiscal_intercompany_trade_customer</field>
         <field name="email">fiscal_intercompany_trade_customer@odoo.test</field>
         <field name="password">demo</field>
-        <field name="company_id" ref="base_fiscal_company.company_fiscal_child_2" />
+        <field name="company_id" ref="fiscal_company_base.company_fiscal_child_2" />
         <field name="company_ids" eval="[
-            (4, ref('base_fiscal_company.company_fiscal_child_2'))]" />
+            (4, ref('fiscal_company_base.company_fiscal_child_2'))]" />
     </record>
 
     <record id="fiscal_supplier_user" model="res.users" context="{'no_reset_password': True}">
@@ -22,9 +22,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="login">fiscal_intercompany_trade_supplier</field>
         <field name="email">fiscal_intercompany_trade_supplier@odoo.test</field>
         <field name="password">demo</field>
-        <field name="company_id" ref="base_fiscal_company.company_fiscal_child_1" />
+        <field name="company_id" ref="fiscal_company_base.company_fiscal_child_1" />
         <field name="company_ids" eval="[
-            (4, ref('base_fiscal_company.company_fiscal_child_1'))]" />
+            (4, ref('fiscal_company_base.company_fiscal_child_1'))]" />
     </record>
 
 </odoo>

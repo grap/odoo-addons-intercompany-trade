@@ -8,7 +8,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 <odoo>
 
     <record model="account.account" id="a_intercompany_trade">
-        <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
+        <field name="company_id" ref="fiscal_company_base.company_fiscal_mother"/>
         <field name="code">CIS_18</field>
         <field name="name">CIS - Intercompany Trade - (test) </field>
         <field name="parent_id" ref="account_fiscal_company.assets_view"/>
@@ -18,7 +18,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
     <!-- Receivable / Payable Part-->
     <record model="account.account" id="a_receivable_payable_cis_production">
-        <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
+        <field name="company_id" ref="fiscal_company_base.company_fiscal_mother"/>
         <field name="code">CIS_185_PROD</field>
         <field name="name">CIS - Receivable / Payable (Intercompany Trade) - (test) PRODUCTION</field>
         <field name="parent_id" ref="a_intercompany_trade"/>
@@ -27,7 +27,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     </record>
 
     <record model="account.account" id="a_receivable_payable_cis_service">
-        <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
+        <field name="company_id" ref="fiscal_company_base.company_fiscal_mother"/>
         <field name="code">CIS_185_SERV</field>
         <field name="name">CIS - Receivable / Payable (Intercompany Trade) - (test) SERVICE</field>
         <field name="parent_id" ref="a_intercompany_trade"/>
@@ -38,7 +38,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
     <!-- Income Part-->
     <record model="account.account" id="a_sale_cis">
-        <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
+        <field name="company_id" ref="fiscal_company_base.company_fiscal_mother"/>
         <field name="code">CIS_1871</field>
         <field name="name">CIS - Product Sales (Intercompany Trade) - (test)</field>
         <field name="parent_id" ref="a_intercompany_trade"/>
@@ -48,7 +48,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
     <!-- Expense Part-->
     <record model="account.account" id="a_expense_cis">
-        <field name="company_id" ref="base_fiscal_company.company_fiscal_mother"/>
+        <field name="company_id" ref="fiscal_company_base.company_fiscal_mother"/>
         <field name="code">CIS_1861</field>
         <field name="name">CIS - Expenses (Intercompany Trade) - (test)</field>
         <field name="parent_id" ref="a_intercompany_trade"/>
