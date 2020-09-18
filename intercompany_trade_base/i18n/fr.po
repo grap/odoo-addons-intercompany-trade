@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-21 15:02+0000\n"
-"PO-Revision-Date: 2019-05-21 15:02+0000\n"
+"POT-Creation-Date: 2020-09-18 13:28+0000\n"
+"PO-Revision-Date: 2020-09-18 13:28+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,18 +16,18 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: intercompany_trade_base
-#: code:addons/intercompany_trade_base/models/intercompany_trade_config.py:85
+#: code:addons/intercompany_trade_base/models/intercompany_trade_config.py:117
 #, python-format
 msgid "(Intercompany Trade)"
 msgstr "(Transaction Inter Société)"
 
 #. module: intercompany_trade_base
-#: field:intercompany.trade.config,active:0
+#: model:ir.model.fields,field_description:intercompany_trade_base.field_intercompany_trade_config__active
 msgid "Active"
 msgstr "Actif"
 
 #. module: intercompany_trade_base
-#: help:intercompany.trade.config,active:0
+#: model:ir.model.fields,help:intercompany_trade_base.field_intercompany_trade_config__active
 msgid "By unchecking the active field you can disable the trading between the two company without deleting it."
 msgstr "En décochant cette case, vous pouvez désactiver la transaction entre ces deux sociétés sans la supprimer."
 
@@ -37,27 +37,32 @@ msgid "Companies"
 msgstr "Sociétés"
 
 #. module: intercompany_trade_base
-#: field:intercompany.trade.config,create_uid:0
+#: model:ir.model,name:intercompany_trade_base.model_res_partner
+msgid "Contact"
+msgstr "Contact"
+
+#. module: intercompany_trade_base
+#: model:ir.model.fields,field_description:intercompany_trade_base.field_intercompany_trade_config__create_uid
 msgid "Created by"
-msgstr "Created by"
+msgstr "Créé par"
 
 #. module: intercompany_trade_base
-#: field:intercompany.trade.config,create_date:0
+#: model:ir.model.fields,field_description:intercompany_trade_base.field_intercompany_trade_config__create_date
 msgid "Created on"
-msgstr "Created on"
+msgstr "Créé le"
 
 #. module: intercompany_trade_base
-#: field:intercompany.trade.config,customer_company_id:0
+#: model:ir.model.fields,field_description:intercompany_trade_base.field_intercompany_trade_config__customer_company_id
 msgid "Customer Company"
 msgstr "Société Cliente"
 
 #. module: intercompany_trade_base
-#: field:intercompany.trade.config,customer_partner_id:0
+#: model:ir.model.fields,field_description:intercompany_trade_base.field_intercompany_trade_config__customer_partner_id
 msgid "Customer Partner in the Supplier Company"
 msgstr "Client dans la société Fournisseur"
 
 #. module: intercompany_trade_base
-#: field:intercompany.trade.config,customer_user_id:0
+#: model:ir.model.fields,field_description:intercompany_trade_base.field_intercompany_trade_config__customer_user_id
 msgid "Customer User"
 msgstr "Utilisateur Client"
 
@@ -67,67 +72,53 @@ msgid "Customer and Supplier company must be uniq !"
 msgstr "Les sociétés cliente et fournisseur doivent être uniques !"
 
 #. module: intercompany_trade_base
-#: model:res.company,overdue_msg:intercompany_trade_base.customer_company
-#: model:res.company,overdue_msg:intercompany_trade_base.supplier_company
-msgid "Dear Sir/Madam,\n"
-"\n"
-"Our records indicate that some payments on your account are still due. Please find details below.\n"
-"If the amount has already been paid, please disregard this notice. Otherwise, please forward us the total amount stated below.\n"
-"If you have any queries regarding your account, Please contact us.\n"
-"\n"
-"Thank you in advance for your cooperation.\n"
-"Best Regards,"
-msgstr "Madame, Monsieur,\n"
-"\n"
-"D'après nos relevés, il semble que nous sommes encore en attente à ce jour de paiements de votre part, dont les détails sont indiqués ci-dessous.\n"
-"Si ces sommes ont déjà été réglées, vous pouvez ignorer ce rappel. Dans le cas contraire, nous vous remercions de bien vouloir nous faire parvenir votre règlement.\n"
-"Si vous avez d'autres questions concernant votre compte, vous pouvez nous contacter directement.\n"
-"\n"
-"En vous remerciant par avance.\n"
-"\n"
-"Cordialement,"
-
-#. module: intercompany_trade_base
-#: field:intercompany.trade.config,display_name:0
+#: model:ir.model.fields,field_description:intercompany_trade_base.field_intercompany_trade_config__display_name
 msgid "Display Name"
 msgstr "Nom affiché"
 
 #. module: intercompany_trade_base
-#: code:addons/intercompany_trade_base/models/res_partner.py:54
+#: code:addons/intercompany_trade_base/models/res_partner.py:58
 #, python-format
 msgid "Error: You have no right to create or update a partner that is set as 'Intercompany Trade'"
 msgstr "Erreur: Vous n'avez pas le droit de créer ou de modifier un partenaire marqué comme 'Transaction Inter Société'"
 
 #. module: intercompany_trade_base
-#: view:intercompany.trade.config:intercompany_trade_base.view_intercompany_trade_config_form
+#: model_terms:ir.ui.view,arch_db:intercompany_trade_base.view_intercompany_trade_config_form
 msgid "General Information"
 msgstr "Information Générale"
 
 #. module: intercompany_trade_base
-#: field:intercompany.trade.config,id:0
+#: model:ir.model.fields,field_description:intercompany_trade_base.field_intercompany_trade_config__id
 msgid "ID"
 msgstr "ID"
 
 #. module: intercompany_trade_base
-#: help:res.partner,intercompany_trade:0
+#: model:ir.model.fields,help:intercompany_trade_base.field_res_partner__intercompany_trade
+#: model:ir.model.fields,help:intercompany_trade_base.field_res_users__intercompany_trade
 msgid "Indicate that this partner is a company in Odoo."
 msgstr "Indique que ce partenaire est une société dans Odoo."
 
 #. module: intercompany_trade_base
-#: view:intercompany.trade.config:intercompany_trade_base.view_intercompany_trade_config_form
+#: model_terms:ir.ui.view,arch_db:intercompany_trade_base.view_intercompany_trade_config_form
 msgid "Information in Customer Company"
 msgstr "Information dans la société cliente"
 
 #. module: intercompany_trade_base
-#: view:intercompany.trade.config:intercompany_trade_base.view_intercompany_trade_config_form
+#: model_terms:ir.ui.view,arch_db:intercompany_trade_base.view_intercompany_trade_config_form
 msgid "Information in Supplier Company"
 msgstr "Information dans la société fournisseur"
 
 #. module: intercompany_trade_base
+#: model:ir.model.fields,field_description:intercompany_trade_base.field_res_partner__intercompany_trade
+#: model:ir.model.fields,field_description:intercompany_trade_base.field_res_users__intercompany_trade
 #: model:ir.module.category,name:intercompany_trade_base.intercompany_trade_category
-#: field:res.partner,intercompany_trade:0
 msgid "Intercompany Trade"
 msgstr "Transaction Inter Société"
+
+#. module: intercompany_trade_base
+#: model:ir.model,name:intercompany_trade_base.model_intercompany_trade_config
+msgid "Intercompany Trade Configuration"
+msgstr "Configuration de transaction inter société"
 
 #. module: intercompany_trade_base
 #: model:ir.ui.menu,name:intercompany_trade_base.menu_setting_intercompany_trade
@@ -135,19 +126,19 @@ msgid "Intercompany Trades"
 msgstr "Transactions Inter Société"
 
 #. module: intercompany_trade_base
-#: field:intercompany.trade.config,__last_update:0
+#: model:ir.model.fields,field_description:intercompany_trade_base.field_intercompany_trade_config____last_update
 msgid "Last Modified on"
-msgstr "Last Modified on"
+msgstr "Dernière modification le"
 
 #. module: intercompany_trade_base
-#: field:intercompany.trade.config,write_uid:0
+#: model:ir.model.fields,field_description:intercompany_trade_base.field_intercompany_trade_config__write_uid
 msgid "Last Updated by"
-msgstr "Last Updated by"
+msgstr "Dernière mise à jour par"
 
 #. module: intercompany_trade_base
-#: field:intercompany.trade.config,write_date:0
+#: model:ir.model.fields,field_description:intercompany_trade_base.field_intercompany_trade_config__write_date
 msgid "Last Updated on"
-msgstr "Last Updated on"
+msgstr "Dernière mise à jour le"
 
 #. module: intercompany_trade_base
 #: model:res.groups,comment:intercompany_trade_base.intercompany_trade_manager
@@ -160,22 +151,17 @@ msgid "Manager"
 msgstr "Responsable"
 
 #. module: intercompany_trade_base
-#: field:intercompany.trade.config,name:0
+#: model:ir.model.fields,field_description:intercompany_trade_base.field_intercompany_trade_config__name
 msgid "Name"
 msgstr "Nom"
 
 #. module: intercompany_trade_base
-#: model:ir.model,name:intercompany_trade_base.model_res_partner
-msgid "Partner"
-msgstr "Partenaire"
-
-#. module: intercompany_trade_base
-#: help:intercompany.trade.config,customer_company_id:0
+#: model:ir.model.fields,help:intercompany_trade_base.field_intercompany_trade_config__customer_company_id
 msgid "Select the company that could purchase to the other."
 msgstr "Sélectionner la société qui peut acheter à l'autre."
 
 #. module: intercompany_trade_base
-#: help:intercompany.trade.config,supplier_company_id:0
+#: model:ir.model.fields,help:intercompany_trade_base.field_intercompany_trade_config__supplier_company_id
 msgid "Select the company that could sale to the other."
 msgstr "Selectionner la société qui peut vendre à l'autre."
 
@@ -191,17 +177,17 @@ msgid "Settings"
 msgstr "Configuration"
 
 #. module: intercompany_trade_base
-#: field:intercompany.trade.config,supplier_company_id:0
+#: model:ir.model.fields,field_description:intercompany_trade_base.field_intercompany_trade_config__supplier_company_id
 msgid "Supplier Company"
 msgstr "Société Fournisseur"
 
 #. module: intercompany_trade_base
-#: field:intercompany.trade.config,supplier_partner_id:0
+#: model:ir.model.fields,field_description:intercompany_trade_base.field_intercompany_trade_config__supplier_partner_id
 msgid "Supplier Partner in the Customer Company"
 msgstr "Fournisseur dans la société cliente"
 
 #. module: intercompany_trade_base
-#: help:intercompany.trade.config,customer_user_id:0
+#: model:ir.model.fields,help:intercompany_trade_base.field_intercompany_trade_config__customer_user_id
 msgid "This user will be used to create customer data when supplier users update datas.\n"
 " Please take that this user must have good access right on the customer company."
 msgstr "Cet utilisateur sera utilisé pour créer les informations chez le client quand le fournisseur mettra à jour les données.\n"
@@ -218,14 +204,8 @@ msgid "User"
 msgstr "Utilisateur"
 
 #. module: intercompany_trade_base
-#: code:addons/intercompany_trade_base/models/intercompany_trade_config.py:156
+#: code:addons/intercompany_trade_base/models/intercompany_trade_config.py:207
 #, python-format
 msgid "You can not change customer or supplier company. If you want to do so, please disable this intercompany trade and create a new one."
 msgstr "Vous ne pouvez pas changer la société client ou fournisseur. Si vous voulez le faire, veuillez désactiver cet élément et en créer un nouveau"
-
-#. module: intercompany_trade_base
-#: code:addons/intercompany_trade_base/models/intercompany_trade_config.py:165
-#, python-format
-msgid "You can not unlink an intercompany Trade. You can only disable it"
-msgstr "Vous ne pouvez pas supprimer une transaction intersociété. Vous pouvez seulement la désactiver."
 
