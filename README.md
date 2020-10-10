@@ -31,7 +31,6 @@ Unported addons
 addon | version | summary
 --- | --- | ---
 [intercompany_trade_fiscal_company](intercompany_trade_fiscal_company/) | 12.0.1.0.0 (unported) | Intercompany Trade - Fiscal Company
-[intercompany_trade_purchase_account_invoice_pricelist](intercompany_trade_purchase_account_invoice_pricelist/) | 12.0.1.0.0 (unported) | Intercompany Trade - Purchase / Account Invoice Pricelist
 
 [//]: # (end addons)
 
