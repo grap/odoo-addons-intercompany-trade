@@ -29,24 +29,25 @@ class AccountInvoice(models.Model):
         journal_obj = self.env["account.journal"]
         config_obj = self.env["intercompany.trade.config"]
 
-        partner = partner_obj.browse(vals["partner_id"])
+        if vals.get("partner_id", False):
+            partner = partner_obj.browse(vals["partner_id"])
 
-        if partner.intercompany_trade:
-            transaction_type = False
-            journal = journal_obj.browse(int(vals["journal_id"]))
-            if journal.type in ("sale"):
-                transaction_type = "out"
-            elif journal.type in ("purchase"):
-                transaction_type = "in"
-            config = config_obj._get_intercompany_trade_by_partner_company(
-                partner.id, partner.company_id.id, transaction_type
-            )
-            if config.same_fiscal_mother_company:
-
+            if partner.intercompany_trade:
+                transaction_type = False
+                journal = journal_obj.browse(int(vals["journal_id"]))
                 if journal.type in ("sale"):
-                    vals["journal_id"] = config.sale_journal_id.id
+                    transaction_type = "out"
                 elif journal.type in ("purchase"):
-                    vals["journal_id"] = config.purchase_journal_id.id
+                    transaction_type = "in"
+                config = config_obj._get_intercompany_trade_by_partner_company(
+                    partner.id, partner.company_id.id, transaction_type
+                )
+                if config.same_fiscal_mother_company:
+
+                    if journal.type in ("sale"):
+                        vals["journal_id"] = config.sale_journal_id.id
+                    elif journal.type in ("purchase"):
+                        vals["journal_id"] = config.purchase_journal_id.id
 
         return super().create(vals)
 
