@@ -24,8 +24,8 @@ env:
   # seems to be incompatible
   # testing separately...
   - TESTS="1" ODOO_REPO="OCA/OCB" EXCLUDE="intercompany_trade_account,intercompany_trade_fiscal_company"
-  - TESTS="1" ODOO_REPO="OCA/OCB" INCLUDE="intercompany_trade_account"
-  - TESTS="1" ODOO_REPO="OCA/OCB" INCLUDE="intercompany_trade_fiscal_company"
+  - TESTS="1" ODOO_REPO="OCA/OCB" INCLUDE="intercompany_trade_account" EXCLUDE="intercompany_trade_fiscal_company"
+  - TESTS="1" ODOO_REPO="OCA/OCB" INCLUDE="intercompany_trade_fiscal_company" EXCLUDE="intercompany_trade_account"
 
   # - TESTS="1" ODOO_REPO="OCA/OCB"
   # - TESTS="1" ODOO_REPO="OCA/OCB" UNIT_TEST="1"
