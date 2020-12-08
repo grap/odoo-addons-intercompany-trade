@@ -18,11 +18,11 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
-[intercompany_trade_account](intercompany_trade_account/) | 12.0.1.0.1 | Intercompany Trade - Account
-[intercompany_trade_account_cancel](intercompany_trade_account_cancel/) | 12.0.1.0.1 | Intercompany Trade - Account Cancel
-[intercompany_trade_account_invoice_supplier_ref_unique](intercompany_trade_account_invoice_supplier_ref_unique/) | 12.0.1.0.1 | Intercompany Trade - Account Invoice Supplier Ref Unique
+[intercompany_trade_account](intercompany_trade_account/) | 12.0.1.0.2 | Intercompany Trade - Account
+[intercompany_trade_account_cancel](intercompany_trade_account_cancel/) | 12.0.1.0.2 | Intercompany Trade - Account Cancel
+[intercompany_trade_account_invoice_supplier_ref_unique](intercompany_trade_account_invoice_supplier_ref_unique/) | 12.0.1.0.2 | Intercompany Trade - Account Invoice Supplier Ref Unique
 [intercompany_trade_base](intercompany_trade_base/) | 12.0.1.0.3 | Intercompany Trade - Base
-[intercompany_trade_fiscal_company](intercompany_trade_fiscal_company/) | 12.0.1.0.0 | Intercompany Trade - Fiscal Company
+[intercompany_trade_fiscal_company](intercompany_trade_fiscal_company/) | 12.0.1.0.1 | Intercompany Trade - Fiscal Company
 [intercompany_trade_point_of_sale](intercompany_trade_point_of_sale/) | 12.0.1.0.2 | Intercompany Trade - Point Of Sale
 [intercompany_trade_product](intercompany_trade_product/) | 12.0.1.0.1 | Intercompany Trade - Product
 [intercompany_trade_stock](intercompany_trade_stock/) | 12.0.1.0.1 | Intercompany Trade - Stock
