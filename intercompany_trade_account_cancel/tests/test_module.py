@@ -48,9 +48,8 @@ class Test(TransactionCase):
     def test_01_cancel_invoice_confirmed(self):
         """Cancel an Out or In confirmed invoice should fail"""
 
-        self.intercompany_invoice.sudo(self.supplier_user).with_context(
-            demo_intercompany=True
-        ).action_invoice_open()
+        self.intercompany_invoice.sudo(
+            self.supplier_user).action_invoice_open()
 
         with self.assertRaises(UserError):
             # Try to cancel 'out invoice' should fail
@@ -70,6 +69,5 @@ class Test(TransactionCase):
         """Cancel a draft invoice should success"""
 
         invoice = self.intercompany_invoice.sudo(
-            self.supplier_user).with_context(
-            demo_intercompany=True)
+            self.supplier_user)
         invoice.action_invoice_cancel()

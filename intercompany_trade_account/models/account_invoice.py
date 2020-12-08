@@ -173,6 +173,7 @@ class AccountInvoice(models.Model):
         customer_invoice.sudo(config.customer_user_id).with_context(
             intercompany_trade_create=True
         ).action_invoice_open()
+        self.name = customer_invoice.number
 
     @api.multi
     def _get_intercompany_trade_config_by_partner_company_type(self):
@@ -207,7 +208,7 @@ class AccountInvoice(models.Model):
             ._default_journal()
         )
 
-        return {
+        vals = {
             "type": other_type,
             "company_id": other_company_id,
             "date_invoice": self.date_invoice,
@@ -218,3 +219,4 @@ class AccountInvoice(models.Model):
             "partner_id": other_partner_id,
             "journal_id": account_journal.id,
         }
+        return vals

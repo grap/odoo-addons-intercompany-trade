@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-,,,,,,,
-ir_model_access_fiscal_company_transcoding_account_reader,Transcoding Account for Fiscal Company User,intercompany_trade_fiscal_company.model_fiscal_company_transcoding_account,,1,0,0,0
-ir_model_access_fiscal_company_transcoding_account_manager,Transcoding Account for Fiscal Company Manager,intercompany_trade_fiscal_company.model_fiscal_company_transcoding_account,intercompany_trade_base.intercompany_trade_manager,1,1,1,1
