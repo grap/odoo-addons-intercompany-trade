@@ -55,7 +55,10 @@ class AccountInvoiceLine(models.Model):
                     " the produict of your customer doesn't have a correct"
                     " accounting setting %s - %s"
                 )
-                % (customer_template_product.code, customer_template_product.name)
+                % (
+                    customer_template_product.code,
+                    customer_template_product.name
+                )
             )
 
         vals = {
