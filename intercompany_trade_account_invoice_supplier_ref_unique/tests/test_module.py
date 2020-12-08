@@ -48,32 +48,17 @@ class Test(TransactionCase):
         """Confirm an Out Invoice by the supplier must create an In Invoice"""
 
         # Confirm supplier invoice and get it's name
-        self.intercompany_invoice.sudo(
-            self.supplier_user).action_invoice_open()
+        self.intercompany_invoice.sudo(self.supplier_user).with_context(
+        ).action_invoice_open()
 
         # Try to get the customer invoice
         invoices = self.AccountInvoice.search(
-            [("reference", "=", self.intercompany_invoice.number)]
+            [("supplier_invoice_number", "=", self.intercompany_invoice.number)]
         )
 
         self.assertEqual(
             len(invoices),
             1,
-            "Confirming a supplier invoice should create a customer invoice.",
-        )
-
-        customer_invoice = invoices[0]
-        # Check the company of the created invoice
-        self.assertEqual(
-            customer_invoice.company_id.id,
-            self.customer_company.id,
-            "The generated customer invoice should be linked to the"
-            " customer company.")
-
-        # Check the state of the customer invoice
-        self.assertEqual(
-            customer_invoice.state,
-            "open",
-            "Confirming a supplier invoice should create a confirmed"
-            " customer invoice",
+            "Confirming a supplier invoice should create a customer invoice with"
+            " the field supplier_invoice_number defined."
         )
