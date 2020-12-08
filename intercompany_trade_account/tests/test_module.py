@@ -44,13 +44,12 @@ class Test(TransactionCase):
             "intercompany_trade_account.intercompany_invoice"
         )
 
-    def _DISABLED_test_01_confirm_invoice_out(self):
+    def test_01_confirm_invoice_out(self):
         """Confirm an Out Invoice by the supplier must create an In Invoice"""
 
         # Confirm supplier invoice and get it's name
-        self.intercompany_invoice.sudo(self.supplier_user).with_context(
-            demo_intercompany=True
-        ).action_invoice_open()
+        self.intercompany_invoice.sudo(
+            self.supplier_user).action_invoice_open()
 
         # Try to get the customer invoice
         invoices = self.AccountInvoice.search(

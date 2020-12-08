@@ -213,7 +213,6 @@ class AccountInvoice(models.Model):
             "company_id": other_company_id,
             "date_invoice": self.date_invoice,
             "date_due": self.date_due,
-            "supplier_invoice_number": self.number,
             "currency_id": self.currency_id.id,
             "comment": self.comment,
             "reference": self.number,
