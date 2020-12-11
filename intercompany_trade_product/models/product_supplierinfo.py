@@ -53,7 +53,7 @@ class ProductSupplierinfo(models.Model):
         for supplierinfo in self.filtered(lambda x: x.name):
             supplierinfo.intercompany_trade_id = IntercompanyTradeConfig.search(
                 [
-                    ("customer_company_id", "=", supplierinfo.company_id.id),
+                    ("customer_company_id", "=", supplierinfo.name.company_id.id),
                     ("supplier_partner_id", "=", supplierinfo.name.id),
                 ]
             ).id
