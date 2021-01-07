@@ -32,7 +32,7 @@ class AccountInvoiceLine(models.Model):
         # Create according account invoice line
         customer_product = config.get_customer_product(
             self.product_id
-        ).sudo(config.customer_user_id)
+        )
 
         if not customer_product:
             raise UserError(
