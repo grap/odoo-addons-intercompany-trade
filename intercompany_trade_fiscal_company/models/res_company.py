@@ -13,7 +13,7 @@ class ResCompany(models.Model):
         comodel_name="account.account",
         domain="["
         "('company_id', '=', fiscal_company_id),"
-        "('type', '=', 'receivable'),"
+        "('internal_type', '=', 'receivable'),"
         "('is_intercompany_trade_fiscal_company', '=', True)]",
         string="Account for Intercompany Trade",
         help="Set an account if there"
