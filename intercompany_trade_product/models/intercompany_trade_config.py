@@ -28,7 +28,9 @@ class IntercompanyTradeConfig(models.Model):
         customer_product = self._get_customer_product_by_product(product)
         if not customer_product:
             customer_product = self._get_customer_product_by_rule(product)
-        return customer_product
+        if customer_product:
+            return customer_product.sudo(self.customer_user_id)
+        return False
 
     @api.multi
     def _get_customer_product_by_product(self, product):
