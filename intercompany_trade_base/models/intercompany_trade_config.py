@@ -78,12 +78,12 @@ class IntercompanyTradeConfig(models.Model):
         * If wkf_type='out', partner_id is a customer in the supplier company;
           (sale workflow)
         """
-        if wkf_type in ["in", "in_invoice"]:
+        if wkf_type in ["in", "in_invoice", "in_refund"]:
             domain = [
                 ("supplier_partner_id", "=", partner_id),
                 ("customer_company_id", "=", company_id),
             ]
-        elif wkf_type in ["out", "out_invoice"]:
+        elif wkf_type in ["out", "out_invoice", "out_refund"]:
             domain = [
                 ("customer_partner_id", "=", partner_id),
                 ("supplier_company_id", "=", company_id),
