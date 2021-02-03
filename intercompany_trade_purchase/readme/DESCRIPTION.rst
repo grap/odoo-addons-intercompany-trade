@@ -1,6 +1,6 @@
-This module implements intercompany trade features for account module.
+This module implements intercompany trade features for purchase module.
 
 Features
 --------
 
-Confirm an customer account invoice create a supplier account invoice
+Hide button "Create invoice" in purchase order, as invoices are created from seller company
