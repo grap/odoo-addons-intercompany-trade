@@ -43,7 +43,6 @@ class AccountInvoiceLine(models.Model):
                 % (self.product_id.default_code, self.product_id.name)
             )
 
-        customer_product = customer_product.sudo(config.customer_user_id)
         customer_template_product = customer_product.product_tmpl_id
 
         account_id =\
