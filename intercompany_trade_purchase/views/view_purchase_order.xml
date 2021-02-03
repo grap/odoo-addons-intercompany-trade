@@ -11,7 +11,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
-                <field name="intercompany_trade"/>
+                <field name="intercompany_trade" invisible="1"/>
             </field>
             <button name="action_view_invoice" position="attributes">
                 <attribute name="attrs">{'invisible': [('intercompany_trade', '=', True)]}</attribute>
