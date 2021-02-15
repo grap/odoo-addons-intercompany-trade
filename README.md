@@ -25,6 +25,7 @@ addon | version | summary
 [intercompany_trade_fiscal_company](intercompany_trade_fiscal_company/) | 12.0.1.0.2 | Intercompany Trade - Fiscal Company
 [intercompany_trade_point_of_sale](intercompany_trade_point_of_sale/) | 12.0.1.0.2 | Intercompany Trade - Point Of Sale
 [intercompany_trade_product](intercompany_trade_product/) | 12.0.1.0.3 | Intercompany Trade - Product
+[intercompany_trade_purchase](intercompany_trade_purchase/) | 12.0.1.0.2 | Intercompany Trade - Purchase
 [intercompany_trade_stock](intercompany_trade_stock/) | 12.0.1.0.1 | Intercompany Trade - Stock
 
 [//]: # (end addons)
