@@ -4,7 +4,7 @@
 
 {
     "name": "Intercompany Trade - Product",
-    "version": "12.0.1.0.2",
+    "version": "12.0.1.0.3",
     "category": "Intercompany Trade",
     "author": "GRAP",
     "website": "http://www.grap.coop",
