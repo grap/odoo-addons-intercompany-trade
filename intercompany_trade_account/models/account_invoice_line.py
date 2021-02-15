@@ -32,7 +32,7 @@ class AccountInvoiceLine(models.Model):
         # Create according account invoice line
         customer_product = config.get_customer_product(
             self.product_id
-        ).sudo(config.customer_user_id)
+        )
 
         if not customer_product:
             raise UserError(
@@ -40,7 +40,7 @@ class AccountInvoiceLine(models.Model):
                     "It is not possible to confirm this invoice, because"
                     " your customer didn't referenced your product %s-%s"
                 )
-                % (self.product_id.code, self.product_id.name)
+                % (self.product_id.default_code, self.product_id.name)
             )
 
         customer_template_product = customer_product.product_tmpl_id
@@ -52,11 +52,11 @@ class AccountInvoiceLine(models.Model):
             raise UserError(
                 _(
                     "It is not possible to confirm this invoice, because"
-                    " the produict of your customer doesn't have a correct"
+                    " the product of your customer doesn't have a correct"
                     " accounting setting %s - %s"
                 )
                 % (
-                    customer_template_product.code,
+                    customer_template_product.default_code,
                     customer_template_product.name
                 )
             )
