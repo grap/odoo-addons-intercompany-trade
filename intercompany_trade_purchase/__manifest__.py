@@ -13,8 +13,7 @@
     "data": [
         "views/view_purchase_order.xml",
     ],
-    "demo": [
-    ],
+    "demo": [],
     "auto_install": True,
     "installable": True,
 }

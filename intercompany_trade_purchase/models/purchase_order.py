@@ -6,7 +6,8 @@ from odoo import fields, models
 
 
 class PurchaseOrder(models.Model):
-    _inherit = 'purchase.order'
+    _inherit = "purchase.order"
 
     intercompany_trade = fields.Boolean(
-        string='Intercompany Trade', related='partner_id.intercompany_trade')
+        string="Intercompany Trade", related="partner_id.intercompany_trade"
+    )

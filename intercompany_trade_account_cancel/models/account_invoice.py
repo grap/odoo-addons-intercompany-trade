@@ -11,8 +11,7 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def action_invoice_cancel(self):
-        invoices = self.filtered(
-            lambda x: x.intercompany_trade and x.state != 'draft')
+        invoices = self.filtered(lambda x: x.intercompany_trade and x.state != "draft")
         if invoices:
             raise UserError(_("Unable to cancel intercompany trade Invoices"))
         return super().action_invoice_cancel()

@@ -30,9 +30,7 @@ class AccountInvoiceLine(models.Model):
         self.ensure_one()
 
         # Create according account invoice line
-        customer_product = config.get_customer_product(
-            self.product_id
-        )
+        customer_product = config.get_customer_product(self.product_id)
 
         if not customer_product:
             raise UserError(
@@ -45,8 +43,7 @@ class AccountInvoiceLine(models.Model):
 
         customer_template_product = customer_product.product_tmpl_id
 
-        account_id =\
-            customer_template_product._get_product_accounts()["expense"].id
+        account_id = customer_template_product._get_product_accounts()["expense"].id
 
         if not account_id:
             raise UserError(
@@ -57,7 +54,7 @@ class AccountInvoiceLine(models.Model):
                 )
                 % (
                     customer_template_product.default_code,
-                    customer_template_product.name
+                    customer_template_product.name,
                 )
             )
 
