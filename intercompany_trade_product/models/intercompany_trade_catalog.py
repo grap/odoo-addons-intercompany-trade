@@ -22,9 +22,7 @@ class IntercompanyTradeCatalog(models.Model):
         string="Customer Company", readonly=True, comodel_name="res.company"
     )
 
-    supplier_product_name = fields.Char(
-        string="Supplier Product Name", readonly=True
-    )
+    supplier_product_name = fields.Char(string="Supplier Product Name", readonly=True)
 
     supplier_product_uom = fields.Many2one(
         string="Supplier Product UoM",
@@ -40,9 +38,7 @@ class IntercompanyTradeCatalog(models.Model):
         string="Supplier Partner", readonly=True, comodel_name="res.partner"
     )
 
-    supplier_partner_name = fields.Char(
-        string="Supplier Partner Name", readonly=True
-    )
+    supplier_partner_name = fields.Char(string="Supplier Partner Name", readonly=True)
 
     supplier_product_id = fields.Many2one(
         string="Supplier Product",

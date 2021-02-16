@@ -19,9 +19,7 @@ class IntercompanyTradeConfigLine(models.Model):
 
     sequence = fields.Integer()
 
-    categ_id = fields.Many2one(
-        string="Category", comodel_name="product.category"
-    )
+    categ_id = fields.Many2one(string="Category", comodel_name="product.category")
 
     product_id = fields.Many2one(
         string="Customer Product",

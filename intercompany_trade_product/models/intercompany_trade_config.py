@@ -18,11 +18,11 @@ class IntercompanyTradeConfig(models.Model):
     @api.multi
     def get_customer_product(self, product):
         """
-            Return the product in the customer company from a product in the
-            supplier company
+        Return the product in the customer company from a product in the
+        supplier company
 
-            :param @product: product in the supplier company
-            :return : product, in the customer company
+        :param @product: product in the supplier company
+        :return : product, in the customer company
         """
         self.ensure_one()
         customer_product = self._get_customer_product_by_product(product)

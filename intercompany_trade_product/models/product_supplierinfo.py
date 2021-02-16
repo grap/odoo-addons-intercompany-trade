@@ -42,9 +42,7 @@ class ProductSupplierinfo(models.Model):
     @api.depends("name")
     def _compute_is_intercompany_trade(self):
         for supplierinfo in self.filtered(lambda x: x.name):
-            supplierinfo.is_intercompany_trade = (
-                supplierinfo.name.intercompany_trade
-            )
+            supplierinfo.is_intercompany_trade = supplierinfo.name.intercompany_trade
 
     @api.multi
     @api.depends("name")
@@ -88,9 +86,7 @@ class ProductSupplierinfo(models.Model):
             supplierinfo.product_name = product.name
             supplierinfo.product_code = product.code
 
-    @api.constrains(
-        "supplier_product_id", "is_intercompany_trade", "product_tmpl_id"
-    )
+    @api.constrains("supplier_product_id", "is_intercompany_trade", "product_tmpl_id")
     def _check_intercompany_trade(self):
         for supplierinfo in self.filtered(
             lambda x: x.is_intercompany_trade and x.supplier_product_id
