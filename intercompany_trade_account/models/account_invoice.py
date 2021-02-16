@@ -38,8 +38,7 @@ class AccountInvoice(models.Model):
     @api.depends("type", "intercompany_trade")
     def _compute_intercompany_trade_readonly(self):
         for invoice in self.filtered(
-            lambda x: x.intercompany_trade
-            and x.type in ["in_invoice", "in_refund"]
+            lambda x: x.intercompany_trade and x.type in ["in_invoice", "in_refund"]
         ):
             invoice.intercompany_trade_readonly = True
 
@@ -71,17 +70,12 @@ class AccountInvoice(models.Model):
         product_list = []
         config = self._get_intercompany_trade_config_by_partner_company_type()
         for invoice_line in self.invoice_line_ids:
-            customer_product = config.get_customer_product(
-                invoice_line.product_id
-            )
+            customer_product = config.get_customer_product(invoice_line.product_id)
             if not customer_product:
                 product_list.append(invoice_line.product_id)
         if product_list:
             raise UserError(
-                _(
-                    "Your customer should reference the following"
-                    " products: \n\n- %s"
-                )
+                _("Your customer should reference the following" " products: \n\n- %s")
                 % (
                     "\n- ".join(
                         ["[{}] {}".format(x.code, x.name) for x in product_list]
@@ -143,16 +137,21 @@ class AccountInvoice(models.Model):
             # TODO: V10, check if suspend_security() is better implemented
             # for the time being, doesn't work in test part.
             if tools_config.get("test_enable", False):
-                line = AccountInvoiceLine.sudo().with_context(
-                    force_company=config.customer_company_id.id,
-                    intercompany_trade_create=True,
-                ).create(line_vals)
+                line = (
+                    AccountInvoiceLine.sudo()
+                    .with_context(
+                        force_company=config.customer_company_id.id,
+                        intercompany_trade_create=True,
+                    )
+                    .create(line_vals)
+                )
             else:
-                line = AccountInvoiceLine.sudo(
-                    config.customer_user_id
-                ).suspend_security().with_context(
-                    intercompany_trade_create=True
-                ).create(line_vals)
+                line = (
+                    AccountInvoiceLine.sudo(config.customer_user_id)
+                    .suspend_security()
+                    .with_context(intercompany_trade_create=True)
+                    .create(line_vals)
+                )
             line._onchange_product_id()
 
         for field_name in ["amount_untaxed", "amount_tax", "amount_total"]:
