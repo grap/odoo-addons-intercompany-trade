@@ -2,12 +2,11 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.addons.intercompany_trade_product.tests.test_module import (
-    TestModule as TestIntercompanyTradeProduct,
-)
-
 from odoo.addons.intercompany_trade_base.tests.test_module import (
     TestModule as TestIntercompanyTradeBase,
+)
+from odoo.addons.intercompany_trade_product.tests.test_module import (
+    TestModule as TestIntercompanyTradeProduct,
 )
 
 

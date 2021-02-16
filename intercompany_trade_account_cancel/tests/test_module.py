@@ -5,7 +5,6 @@
 import logging
 
 from odoo.exceptions import Warning as UserError
-
 from odoo.tests.common import TransactionCase
 
 # from odoo.addons.intercompany_trade_base.tests.test_module import (

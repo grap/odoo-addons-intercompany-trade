@@ -10,7 +10,6 @@ from odoo.addons.intercompany_trade_base.tests.test_module import (
     TestModule as TestIntercompanyTradeBase,
 )
 
-
 _logger = logging.getLogger(__name__)
 
 
