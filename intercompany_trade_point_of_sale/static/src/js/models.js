@@ -10,6 +10,6 @@ odoo.define('intercompany_trade_point_of_sale.models', function (require) {
 
     var models = require('point_of_sale.models');
 
-    // load new field 'has_image' for 'res.partner' model
+    // Load new field 'has_image' for 'res.partner' model
     models.load_fields("res.partner", ['intercompany_trade']);
 });
