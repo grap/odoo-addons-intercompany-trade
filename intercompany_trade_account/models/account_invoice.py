@@ -3,8 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import _, api, fields, models
-from odoo.tools import config as tools_config
 from odoo.exceptions import Warning as UserError
+from odoo.tools import config as tools_config
 
 
 class AccountInvoice(models.Model):
@@ -84,7 +84,7 @@ class AccountInvoice(models.Model):
                 )
                 % (
                     "\n- ".join(
-                        ["[%s] %s" % (x.code, x.name) for x in product_list]
+                        ["[{}] {}".format(x.code, x.name) for x in product_list]
                     )
                 )
             )

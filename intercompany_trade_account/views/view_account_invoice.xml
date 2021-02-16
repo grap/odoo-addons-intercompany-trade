@@ -26,7 +26,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 <field name="intercompany_trade"/>
             </field>
             <xpath expr="//header" position="inside">
-                <button name="check_intercompany_trade_links" 
+                <button name="check_intercompany_trade_links"
                     type="object"
                     string="Check Links"
                     attrs="{'invisible': [('intercompany_trade', '=', False)]}"/>
