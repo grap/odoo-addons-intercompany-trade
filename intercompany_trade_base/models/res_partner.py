@@ -46,9 +46,7 @@ class ResPartner(models.Model):
         'intercompany_trade_manager' users."""
         if self.env.context.get("ignore_intercompany_trade_check", False):
             return
-        unallowed_fields = set(fields) - set(
-            self._intercompany_trade_allowed_fields()
-        )
+        unallowed_fields = set(fields) - set(self._intercompany_trade_allowed_fields())
         if not self.env.user.has_group(
             "intercompany_trade_base.intercompany_trade_manager"
         ):

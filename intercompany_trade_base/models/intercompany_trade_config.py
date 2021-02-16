@@ -95,22 +95,31 @@ class IntercompanyTradeConfig(models.Model):
     @api.model
     def _partner_from_company_fields(self):
         """
-            Return the list of the fields, used for the function
-            _prepare_partner_from_company()
+        Return the list of the fields, used for the function
+        _prepare_partner_from_company()
         """
         return [
-            "name", "street", "street2", "city", "zip", "state_id",
-            "country_id", "website", "phone", "email", "vat",
-            "logo"
+            "name",
+            "street",
+            "street2",
+            "city",
+            "zip",
+            "state_id",
+            "country_id",
+            "website",
+            "phone",
+            "email",
+            "vat",
+            "logo",
         ]
 
     @api.model
     def _prepare_partner_from_company(self, company_id, inner_company_id):
         """
-            Return vals for the creation of a partner, depending of
-            a company_id.
-            Note: if you change this function, please update also
-            the function _prepare_partner_from_company()
+        Return vals for the creation of a partner, depending of
+        a company_id.
+        Note: if you change this function, please update also
+        the function _prepare_partner_from_company()
         """
         company = self.env["res.company"].browse(company_id)
         return {
@@ -195,10 +204,7 @@ class IntercompanyTradeConfig(models.Model):
     @api.multi
     def write(self, vals):
         """ Block possibility to change customer or supplier company"""
-        if (
-            "customer_company_id" in vals.keys()
-            or "supplier_company_id" in vals.keys()
-        ):
+        if "customer_company_id" in vals.keys() or "supplier_company_id" in vals.keys():
             if self.env.context.get("install_mode", False):
                 vals.pop("customer_company_id")
                 vals.pop("supplier_company_id")
