@@ -36,11 +36,13 @@ class TestModule(TransactionCase):
         self.pos_config.open_session_cb()
         self.partner = self.intercompany_trade.customer_partner_id
         with self.assertRaises(ValidationError):
-            self.PosOrder.create({
-                "session_id": self.pos_config.current_session_id.id,
-                "partner_id": self.partner.id,
-                "amount_tax": 0.0,
-                "amount_total": 0.0,
-                "amount_paid": 0.0,
-                "amount_return": 0.0,
-            })
+            self.PosOrder.create(
+                {
+                    "session_id": self.pos_config.current_session_id.id,
+                    "partner_id": self.partner.id,
+                    "amount_tax": 0.0,
+                    "amount_total": 0.0,
+                    "amount_paid": 0.0,
+                    "amount_return": 0.0,
+                }
+            )
