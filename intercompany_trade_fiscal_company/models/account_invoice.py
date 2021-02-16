@@ -74,10 +74,7 @@ class AccountInvoice(models.Model):
     @api.multi
     def _check_intercompany_trade_fiscal_company(self):
         for invoice in self:
-            if (
-                invoice.account_id
-                != invoice.company_id.intercompany_trade_account_id
-            ):
+            if invoice.account_id != invoice.company_id.intercompany_trade_account_id:
                 raise UserError(
                     _(
                         "the account %s-%s is not the correct one in the"

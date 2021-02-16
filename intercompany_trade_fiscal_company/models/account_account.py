@@ -19,9 +19,7 @@ class AccountAccount(models.Model):
     # Constraints Section
     @api.constrains("is_intercompany_trade_fiscal_company", "user_type_id")
     def _check_is_intercompany_trade_fiscal_company(self):
-        for account in self.filtered(
-            lambda x: x.is_intercompany_trade_fiscal_company
-        ):
+        for account in self.filtered(lambda x: x.is_intercompany_trade_fiscal_company):
             if account.user_type_id.type not in ("receivable", "other"):
                 raise UserError(
                     _(
