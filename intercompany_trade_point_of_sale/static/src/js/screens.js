@@ -8,7 +8,6 @@ odoo.define('intercompany_trade_point_of_sale.screens', function (require) {
     "use strict";
 
     var screens = require('point_of_sale.screens');
-    var gui = require('point_of_sale.gui');
     var core = require('web.core');
     var _t = core._t;
 

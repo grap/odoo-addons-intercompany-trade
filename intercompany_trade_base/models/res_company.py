@@ -22,8 +22,8 @@ class ResCompany(models.Model):
         # Do not rewrite all related partners, if interesting data
         # didn't changed.
         if not list(
-                set(vals.keys()) &
-                set(IntercompanyTradeConfig._partner_from_company_fields())
+                set(vals.keys())
+                & set(IntercompanyTradeConfig._partner_from_company_fields())
         ):
             return res
 

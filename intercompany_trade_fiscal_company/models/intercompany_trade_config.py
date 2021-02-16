@@ -60,7 +60,7 @@ class IntercompanyTradeConfig(models.Model):
         for config in self:
             config.same_fiscal_mother_company = (
                 config.customer_company_id.fiscal_company_id.id is not False
-                ) and (
+            ) and (
                 config.customer_company_id.fiscal_company_id.id
                 == config.supplier_company_id.fiscal_company_id.id
             )
