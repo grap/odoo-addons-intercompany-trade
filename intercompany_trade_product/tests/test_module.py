@@ -33,15 +33,12 @@ class TestModule(TransactionCase):
         self.ProductSupplierinfo = self.env["product.supplierinfo"]
 
         # Get objects from xml_ids
-        self.config = self.env.ref(
-            "intercompany_trade_base.intercompany_trade"
-        )
-        self.config_line_category = self.env.ref(
-            "intercompany_trade_product.it_line"
-        )
+        self.config = self.env.ref("intercompany_trade_base.intercompany_trade")
+        self.config_line_category = self.env.ref("intercompany_trade_product.it_line")
 
         self.category_it_raws = self.env.ref(
-            "intercompany_trade_product.category_it_raws")
+            "intercompany_trade_product.category_it_raws"
+        )
 
         self.supplier_banana = self.env.ref(
             "intercompany_trade_product.product_supplier_banana"
@@ -68,12 +65,8 @@ class TestModule(TransactionCase):
             "intercompany_trade_product.product_customer_it_raws"
         )
 
-        self.customer_user = self.env.ref(
-            "intercompany_trade_base.customer_user"
-        )
-        self.supplier_user = self.env.ref(
-            "intercompany_trade_base.supplier_user"
-        )
+        self.customer_user = self.env.ref("intercompany_trade_base.customer_user")
+        self.supplier_user = self.env.ref("intercompany_trade_base.supplier_user")
 
     # Test Section
     def test_01_product_association_by_product(self):
@@ -114,9 +107,9 @@ class TestModule(TransactionCase):
 
     def _test_01_product_association_by_product(self):
         # Test if getting the product in the supplier context works.
-        customer_product = self.config.sudo(
-            self.supplier_user
-        ).get_customer_product(self.supplier_apple)
+        customer_product = self.config.sudo(self.supplier_user).get_customer_product(
+            self.supplier_apple
+        )
 
         self.assertEqual(
             customer_product,
@@ -137,9 +130,9 @@ class TestModule(TransactionCase):
             self.ProductSupplierinfo.sudo(self.customer_user).create(vals)
 
         # Test with another product
-        customer_product = self.config.sudo(
-            self.supplier_user
-        ).get_customer_product(self.supplier_service)
+        customer_product = self.config.sudo(self.supplier_user).get_customer_product(
+            self.supplier_service
+        )
 
         self.assertEqual(
             customer_product,
@@ -150,9 +143,9 @@ class TestModule(TransactionCase):
     def _test_02_product_association_by_rule(self):
         # Test if getting the product in the supplier context works.
         # by rule
-        customer_product = self.config.sudo(
-            self.supplier_user
-        ).get_customer_product(self.supplier_imac)
+        customer_product = self.config.sudo(self.supplier_user).get_customer_product(
+            self.supplier_imac
+        )
 
         self.assertEqual(
             customer_product,
@@ -163,9 +156,9 @@ class TestModule(TransactionCase):
         # Change the rule category for a parent product
         self.config_line_category.categ_id = self.category_it_raws
 
-        customer_product = self.config.sudo(
-            self.supplier_user
-        ).get_customer_product(self.supplier_imac)
+        customer_product = self.config.sudo(self.supplier_user).get_customer_product(
+            self.supplier_imac
+        )
 
         self.assertEqual(
             customer_product,
@@ -173,9 +166,9 @@ class TestModule(TransactionCase):
             "Recovering by category rule should succeed. (parent category)",
         )
 
-        customer_product = self.config.sudo(
-            self.supplier_user
-        ).get_customer_product(self.supplier_banana)
+        customer_product = self.config.sudo(self.supplier_user).get_customer_product(
+            self.supplier_banana
+        )
 
         self.assertEqual(
             customer_product,
@@ -187,6 +180,6 @@ class TestModule(TransactionCase):
         self.config_line_category.categ_id = False
         self.config_line_category.categ_id = self.category_it_raws
 
-        customer_product = self.config.sudo(
-            self.supplier_user
-        ).get_customer_product(self.supplier_imac)
+        customer_product = self.config.sudo(self.supplier_user).get_customer_product(
+            self.supplier_imac
+        )

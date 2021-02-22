@@ -5,7 +5,6 @@
 import logging
 
 from odoo.exceptions import Warning as UserError
-
 from odoo.tests.common import TransactionCase
 
 # from odoo.addons.intercompany_trade_base.tests.test_module import (
@@ -34,12 +33,8 @@ class Test(TransactionCase):
         self.AccountInvoice = self.env["account.invoice"]
 
         # Get object from xml_ids
-        self.customer_user = self.env.ref(
-            "intercompany_trade_base.customer_user"
-        )
-        self.supplier_user = self.env.ref(
-            "intercompany_trade_base.supplier_user"
-        )
+        self.customer_user = self.env.ref("intercompany_trade_base.customer_user")
+        self.supplier_user = self.env.ref("intercompany_trade_base.supplier_user")
 
         self.intercompany_invoice = self.env.ref(
             "intercompany_trade_account.intercompany_invoice"
@@ -48,13 +43,11 @@ class Test(TransactionCase):
     def test_01_cancel_invoice_confirmed(self):
         """Cancel an Out or In confirmed invoice should fail"""
 
-        self.intercompany_invoice.sudo(
-            self.supplier_user).action_invoice_open()
+        self.intercompany_invoice.sudo(self.supplier_user).action_invoice_open()
 
         with self.assertRaises(UserError):
             # Try to cancel 'out invoice' should fail
-            self.intercompany_invoice.sudo(
-                self.supplier_user).action_invoice_cancel()
+            self.intercompany_invoice.sudo(self.supplier_user).action_invoice_cancel()
 
         # Try to get the customer invoice
         invoices = self.AccountInvoice.search(
@@ -68,6 +61,5 @@ class Test(TransactionCase):
     def test_02_cancel_invoice_draft(self):
         """Cancel a draft invoice should success"""
 
-        invoice = self.intercompany_invoice.sudo(
-            self.supplier_user)
+        invoice = self.intercompany_invoice.sudo(self.supplier_user)
         invoice.action_invoice_cancel()

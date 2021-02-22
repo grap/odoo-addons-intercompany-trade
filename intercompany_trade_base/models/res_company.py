@@ -12,9 +12,9 @@ class ResCompany(models.Model):
     @api.multi
     def write(self, vals):
         """update partners that are flagged as 'intercompany_trade' and
-           are associated to the companies
-           TODO : check if sudo is necessary.
-           """
+        are associated to the companies
+        TODO : check if sudo is necessary.
+        """
         IntercompanyTradeConfig = self.env["intercompany.trade.config"]
 
         res = super().write(vals)
@@ -22,8 +22,8 @@ class ResCompany(models.Model):
         # Do not rewrite all related partners, if interesting data
         # didn't changed.
         if not list(
-                set(vals.keys()) &
-                set(IntercompanyTradeConfig._partner_from_company_fields())
+            set(vals.keys())
+            & set(IntercompanyTradeConfig._partner_from_company_fields())
         ):
             return res
 

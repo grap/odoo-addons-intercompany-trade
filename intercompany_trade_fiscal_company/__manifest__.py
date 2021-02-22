@@ -8,11 +8,7 @@
     "author": "GRAP",
     "website": "http://www.grap.coop",
     "license": "AGPL-3",
-    "depends": [
-        "fiscal_company_base",
-        "intercompany_trade_base",
-        "account"
-    ],
+    "depends": ["fiscal_company_base", "intercompany_trade_base", "account"],
     "data": [
         "views/view_account_account.xml",
         "views/view_intercompany_trade_config.xml",

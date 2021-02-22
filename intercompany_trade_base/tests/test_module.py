@@ -23,16 +23,10 @@ class TestModule(TransactionCase):
             "intercompany_trade_base.intercompany_trade"
         )
 
-        self.supplier_user = self.env.ref(
-            "intercompany_trade_base.supplier_user"
-        )
+        self.supplier_user = self.env.ref("intercompany_trade_base.supplier_user")
 
-        self.customer_company = self.env.ref(
-            "intercompany_trade_base.customer_company"
-        )
-        self.supplier_company = self.env.ref(
-            "intercompany_trade_base.supplier_company"
-        )
+        self.customer_company = self.env.ref("intercompany_trade_base.customer_company")
+        self.supplier_company = self.env.ref("intercompany_trade_base.supplier_company")
 
     def test_00_log_installed_modules(self):
         IrModuleModule = self.env["ir.module.module"]
@@ -56,7 +50,8 @@ class TestModule(TransactionCase):
             }
         )
         old_config = self.IntercompanyTradeConfig.browse(
-            self.intercompany_trade_config.id)
+            self.intercompany_trade_config.id
+        )
 
         self.assertEqual(
             old_config.customer_partner_id.id,
@@ -75,8 +70,7 @@ class TestModule(TransactionCase):
         of the partner associated"""
         new_val = "NEW STREET"
         self.intercompany_trade_config.customer_company_id.street = new_val
-        config = self.IntercompanyTradeConfig.browse(
-            self.intercompany_trade_config.id)
+        config = self.IntercompanyTradeConfig.browse(self.intercompany_trade_config.id)
 
         self.assertEqual(
             config.customer_partner_id.street,

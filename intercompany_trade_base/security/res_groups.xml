@@ -18,7 +18,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="category_id" ref="intercompany_trade_category" />
         <field name="comment">Manage and set new Intercompany Trades</field>
         <field name="implied_ids" eval="[(4, ref('intercompany_trade_user'))]"/>
-        
+
     </record>
 
 </odoo>
