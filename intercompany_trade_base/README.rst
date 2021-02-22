@@ -46,7 +46,7 @@ companies to make purchases and sales between us.
 
 In demo mode, the module creates two new companies, and two users:
 
-Login // password are the following : 
+Login // password are the following :
 
 * Supplier User: ``intercompany_trade_supplier`` // ``demo``
 * Customer User: ``intercompany_trade_customer`` // ``demo``
