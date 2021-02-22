@@ -4,7 +4,7 @@
 
 {
     "name": "Intercompany Trade - Account",
-    "version": "12.0.1.0.3",
+    "version": "12.0.1.1.0",
     "category": "Intercompany Trade",
     "author": "GRAP",
     "website": "http://www.grap.coop",
