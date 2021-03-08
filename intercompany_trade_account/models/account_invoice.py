@@ -153,6 +153,12 @@ class AccountInvoice(models.Model):
                     .create(line_vals)
                 )
             line._onchange_product_id()
+            # weirdly onchange is getting client price_unit instead of supplier
+            # price_unit
+            line.write({
+                'price_unit': line_vals['price_unit'],
+                'discount': line_vals['discount']
+                })
 
         for field_name in ["amount_untaxed", "amount_tax", "amount_total"]:
             supplier_value = getattr(self, field_name)
