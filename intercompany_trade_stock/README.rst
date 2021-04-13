@@ -25,6 +25,8 @@ Stock.
 For instance, this module only create demo data if both modules are installed
 to make tests easier.
 
+Set the purchase order not to be invoiced.
+
 **Table of contents**
 
 .. contents::
@@ -52,6 +54,7 @@ Contributors
 ~~~~~~~~~~~~
 
 * Sylvain LE GAL (https://twitter.com/legalsylvain)
+* Quentin DUPONT <quentin.dupont@grap.coop>
 
 Maintainers
 ~~~~~~~~~~~
