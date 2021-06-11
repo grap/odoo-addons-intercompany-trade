@@ -10,13 +10,9 @@ class Picking(models.Model):
 
     @api.multi
     def button_validate(self):
-        if self.purchase_id:
-            order_obj = self.env["purchase.order"]
-            order = order_obj.browse(self.purchase_id.id)
-            res = super(Picking, self).button_validate()
-            if order.intercompany_trade:
-                order.button_done()
-                order.invoice_status = "no"
-        else:
-            res = super(Picking, self).button_validate()
+        res = super().button_validate()
+        for picking in self:
+            if picking.purchase_id and picking.purchase_id.intercompany_trade:
+                picking.purchase_id.button_done()
+                picking.purchase_id.invoice_status = "no"
         return res
