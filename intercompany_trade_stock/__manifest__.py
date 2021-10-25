@@ -4,7 +4,7 @@
 
 {
     "name": "Intercompany Trade - Stock",
-    "version": "12.0.1.0.3",
+    "version": "12.0.1.0.4",
     "category": "Intercompany Trade",
     "author": "GRAP",
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
