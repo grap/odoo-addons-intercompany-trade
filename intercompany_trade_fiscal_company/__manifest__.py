@@ -6,7 +6,7 @@
     "version": "12.0.1.1.0",
     "category": "Intercompany Trade",
     "author": "GRAP",
-    "website": "http://www.grap.coop",
+    "website": "https://github.com/grap/odoo-addons-intercompany-trade",
     "license": "AGPL-3",
     "depends": ["fiscal_company_base", "intercompany_trade_base", "account"],
     "data": [
