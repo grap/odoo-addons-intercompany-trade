@@ -6,7 +6,7 @@ from odoo import api, models
 
 
 class Picking(models.Model):
-    _inherit = 'stock.picking'
+    _inherit = "stock.picking"
 
     @api.multi
     def button_validate(self):
