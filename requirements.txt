@@ -1,2 +1,1 @@
-viivakoodi
-cairosvg
+# generated from manifests external_dependencies
