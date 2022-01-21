@@ -1,3 +1,5 @@
 git+https://github.com/grap/odoo-addons-cae@12.0#subdirectory=setup/fiscal_company_base
 # +1 dependency of fiscal_company_base
 git+https://github.com/grap/grap-odoo-business@12.0#subdirectory=setup/technical_partner_access
+# +1 dependency of technical_partner_access
+git+https://github.com/grap/grap-odoo-business@12.0#subdirectory=setup/name_search_reset_res_partner
