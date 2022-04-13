@@ -203,7 +203,7 @@ class IntercompanyTradeConfig(models.Model):
 
     @api.multi
     def write(self, vals):
-        """ Block possibility to change customer or supplier company"""
+        """Block possibility to change customer or supplier company"""
         if "customer_company_id" in vals.keys() or "supplier_company_id" in vals.keys():
             if self.env.context.get("install_mode", False):
                 vals.pop("customer_company_id")
