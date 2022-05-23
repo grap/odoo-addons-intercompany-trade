@@ -113,7 +113,7 @@ class IntercompanyTradeConfig(models.Model):
             "logo",
         ]
 
-    @api.model
+    @api.multi
     def _prepare_partner_from_company(self, company_id, inner_company_id):
         """
         Return vals for the creation of a partner, depending of
@@ -121,6 +121,7 @@ class IntercompanyTradeConfig(models.Model):
         Note: if you change this function, please update also
         the function _prepare_partner_from_company()
         """
+        self.ensure_one()
         company = self.env["res.company"].browse(company_id)
         return {
             "name": company.name + " " + _("(Intercompany Trade)"),
@@ -154,7 +155,7 @@ class IntercompanyTradeConfig(models.Model):
         )
         if not other_config:
             # create supplier in customer company
-            partner_vals = self._prepare_partner_from_company(
+            partner_vals = config._prepare_partner_from_company(
                 vals["supplier_company_id"], vals["customer_company_id"]
             )
             partner_vals.update({"customer": False, "supplier": True})
@@ -168,7 +169,7 @@ class IntercompanyTradeConfig(models.Model):
             )
 
             # create customer in supplier company
-            partner_vals = self._prepare_partner_from_company(
+            partner_vals = config._prepare_partner_from_company(
                 vals["customer_company_id"], vals["supplier_company_id"]
             )
             partner_vals.update({"customer": True, "supplier": False})

@@ -11,7 +11,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="inherit_id" ref="fiscal_company_base.view_res_company_form" />
         <field name="arch" type="xml">
             <field name="fiscal_company_id" position="after">
-                <field name="intercompany_trade_account_id" attrs="{'visible': [('fiscal_type', '=', 'fiscal_child')]}"/>
+                <field name="intercompany_trade_account_id" attrs="{'invisible': [('fiscal_type', '!=', 'fiscal_child')]}"/>
+                <field name="intercompany_trade_fiscal_position_id" attrs="{'invisible': [('fiscal_type', '!=', 'fiscal_mother')]}"/>
             </field>
         </field>
     </record>

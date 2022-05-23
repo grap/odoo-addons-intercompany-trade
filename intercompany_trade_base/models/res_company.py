@@ -35,7 +35,7 @@ class ResCompany(models.Model):
 
             for config in configs:
                 # Update all the partner with updated information
-                data = IntercompanyTradeConfig._prepare_partner_from_company(
+                data = config._prepare_partner_from_company(
                     company.id, config.customer_company_id.id
                 )
                 config.supplier_partner_id.with_context(
@@ -49,7 +49,7 @@ class ResCompany(models.Model):
 
             for config in configs:
                 # Update all the partner with updated information
-                data = IntercompanyTradeConfig._prepare_partner_from_company(
+                data = config._prepare_partner_from_company(
                     company.id, config.supplier_company_id.id
                 )
                 config.customer_partner_id.with_context(
