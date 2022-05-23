@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Intercompany Trade - Fiscal Company",
-    "version": "12.0.1.1.1",
+    "version": "12.0.2.0.1",
     "category": "Intercompany Trade",
     "author": "GRAP",
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
@@ -11,6 +11,7 @@
     "depends": ["fiscal_company_base", "intercompany_trade_base", "account"],
     "data": [
         "views/view_account_account.xml",
+        "views/view_account_fiscal_position.xml",
         "views/view_intercompany_trade_config.xml",
         "views/view_res_company.xml",
     ],
