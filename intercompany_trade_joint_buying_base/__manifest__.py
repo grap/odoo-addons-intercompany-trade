@@ -4,7 +4,7 @@
 
 {
     "name": "Intercompany Trade - Joint Buying Base",
-    "version": "12.0.1.0.1",
+    "version": "12.0.1.0.2",
     "category": "Intercompany Trade",
     "author": "GRAP",
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
