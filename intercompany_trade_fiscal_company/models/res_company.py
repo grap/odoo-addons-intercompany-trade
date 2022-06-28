@@ -21,3 +21,8 @@ class ResCompany(models.Model):
         " an effect only in trade between two companies of the same"
         " cooperative",
     )
+
+    intercompany_trade_fiscal_position_id = fields.Many2one(
+        comodel_name="account.fiscal.position",
+        domain="[" "('is_intercompany_trade_fiscal_company', '=', True)]",
+    )

@@ -92,11 +92,15 @@ class IntercompanyTradeConfig(models.Model):
         company_obj = self.env["res.company"]
         company = company_obj.browse(inner_company_id)
         account_id = company.intercompany_trade_account_id
-        if account_id:
+        fiscal_position = (
+            company.fiscal_company_id.intercompany_trade_fiscal_position_id
+        )
+        if self.same_fiscal_mother_company:
             res.update(
                 {
                     "property_account_receivable_id": account_id.id,
                     "property_account_payable_id": account_id.id,
+                    "property_account_position_id": fiscal_position.id,
                 }
             )
         return res
