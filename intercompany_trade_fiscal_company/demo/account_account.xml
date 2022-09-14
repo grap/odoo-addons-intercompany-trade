@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2022 - Today GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+    <record id="intercompany_trade_account_same_fiscal_company" model="account.account">
+        <field name="code">181</field>
+        <field name="name">Intercompany Trade Account for supplier / customer</field>
+        <field name="is_intercompany_trade_fiscal_company" eval="True"/>
+        <field name="internal_type">receivable</field>
+        <field name="reconcile" eval="True"/>
+        <field name="user_type_id" ref="account.data_account_type_receivable"/>
+        <field name="company_id" ref="fiscal_company_base.company_fiscal_mother"/>
+    </record>
+
+</odoo>
