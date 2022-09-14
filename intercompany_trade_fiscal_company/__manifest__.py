@@ -15,6 +15,11 @@
         "views/view_intercompany_trade_config.xml",
         "views/view_res_company.xml",
     ],
+    "demo": [
+        "demo/account_account.xml",
+        "demo/res_company.xml",
+        "demo/intercompany_trade_config.xml",
+    ],
     "auto_install": True,
     "installable": True,
 }
