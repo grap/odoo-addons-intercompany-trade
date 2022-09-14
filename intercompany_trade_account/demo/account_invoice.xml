@@ -16,7 +16,19 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="journal_id" ref="supplier_journal_sale"/>
     </record>
 
-    <record id="supplier_invoice_line_1" model="account.invoice.line">
+    <record id="supplier_invoice_line_1_section" model="account.invoice.line">
+        <field name="name">My Section</field>
+        <field name="display_type">line_section</field>
+        <field name="invoice_id" ref="intercompany_invoice"/>
+    </record>
+
+    <record id="supplier_invoice_line_2_note" model="account.invoice.line">
+        <field name="name">My Note</field>
+        <field name="display_type">line_note</field>
+        <field name="invoice_id" ref="intercompany_invoice"/>
+    </record>
+
+    <record id="supplier_invoice_line_3_product" model="account.invoice.line">
         <field name="name">Supplier Apple (Strict Link - No Tax)</field>
         <field name="quantity">10</field>
         <field name="price_unit">4</field>
@@ -25,7 +37,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="account_id" ref="supplier_account_income"/>
     </record>
 
-    <record id="supplier_invoice_line_2" model="account.invoice.line">
+    <record id="supplier_invoice_line_4_product" model="account.invoice.line">
         <field name="name">Supplier Imac Computer (Approximate Link - No Tax)</field>
         <field name="quantity">100</field>
         <field name="price_unit">100</field>
@@ -34,7 +46,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="account_id" ref="supplier_account_income"/>
     </record>
 
-    <record id="supplier_invoice_line_3" model="account.invoice.line">
+    <record id="supplier_invoice_line_5_product" model="account.invoice.line">
         <field name="name">Supplier Service (Strict Link - With Tax)</field>
         <field name="quantity">20</field>
         <field name="price_unit">10</field>
