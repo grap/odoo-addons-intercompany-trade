@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2022 - Today GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+    <record model="res.company" id="fiscal_company_base.company_fiscal_child_1">
+        <field name="name">Your Child Company 1 (Service)</field>
+        <field name="intercompany_trade_account_id" ref="intercompany_trade_account_same_fiscal_company"/>
+    </record>
+
+    <record model="res.company" id="fiscal_company_base.company_fiscal_child_2">
+        <field name="name">Your Child Company 2 (Production)</field>
+        <field name="intercompany_trade_account_id" ref="intercompany_trade_account_same_fiscal_company"/>
+    </record>
+
+</odoo>

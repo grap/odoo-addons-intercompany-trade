@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2022 - Today GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+    <record id="intercompany_trade_same_fiscal_company" model="intercompany.trade.config" context="{'tracking_disable': True}">
+        <field name="name">Intercompany Trade with same fiscal company (Production -> Service)</field>
+        <field name="supplier_company_id" ref="fiscal_company_base.company_fiscal_child_2" />
+        <field name="customer_company_id" ref="fiscal_company_base.company_fiscal_child_1" />
+        <field name="customer_user_id" ref="fiscal_company_base.user_worker" />
+    </record>
+
+</odoo>
