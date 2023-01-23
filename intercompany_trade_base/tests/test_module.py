@@ -4,6 +4,7 @@
 
 import logging
 
+from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 _logger = logging.getLogger(__name__)
@@ -27,6 +28,8 @@ class TestModule(TransactionCase):
 
         self.customer_company = self.env.ref("intercompany_trade_base.customer_company")
         self.supplier_company = self.env.ref("intercompany_trade_base.supplier_company")
+
+        self.random_partner = self.env.ref("base.res_partner_address_15")
 
     def test_00_log_installed_modules(self):
         IrModuleModule = self.env["ir.module.module"]
@@ -77,3 +80,17 @@ class TestModule(TransactionCase):
             new_val,
             "Update a company must change the associated partner.",
         )
+
+    def test_10_check_parent_partner(self):
+        """[Constrains Test] Check if set a parent to a intercompany trade partner
+        is blocked."""
+        config = self.IntercompanyTradeConfig.browse(self.intercompany_trade_config.id)
+        with self.assertRaises(ValidationError):
+            config.customer_partner_id.write({"parent_id": self.random_partner.id})
+
+    def test_11_check_child_partner(self):
+        """[Constrains Test] Check if set a child to a intercompany trade partner
+        is blocked."""
+        config = self.IntercompanyTradeConfig.browse(self.intercompany_trade_config.id)
+        with self.assertRaises(ValidationError):
+            self.random_partner.write({"parent_id": config.customer_partner_id.id})

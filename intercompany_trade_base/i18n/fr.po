@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-18 13:28+0000\n"
-"PO-Revision-Date: 2020-09-18 13:28+0000\n"
+"POT-Creation-Date: 2023-01-24 14:48+0000\n"
+"PO-Revision-Date: 2023-01-24 14:48+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: intercompany_trade_base
-#: code:addons/intercompany_trade_base/models/intercompany_trade_config.py:117
+#: code:addons/intercompany_trade_base/models/intercompany_trade_config.py:127
 #, python-format
 msgid "(Intercompany Trade)"
 msgstr "(Transaction Inter Société)"
@@ -39,7 +39,7 @@ msgstr "Sociétés"
 #. module: intercompany_trade_base
 #: model:ir.model,name:intercompany_trade_base.model_res_partner
 msgid "Contact"
-msgstr "Contact"
+msgstr ""
 
 #. module: intercompany_trade_base
 #: model:ir.model.fields,field_description:intercompany_trade_base.field_intercompany_trade_config__create_uid
@@ -77,7 +77,7 @@ msgid "Display Name"
 msgstr "Nom affiché"
 
 #. module: intercompany_trade_base
-#: code:addons/intercompany_trade_base/models/res_partner.py:58
+#: code:addons/intercompany_trade_base/models/res_partner.py:74
 #, python-format
 msgid "Error: You have no right to create or update a partner that is set as 'Intercompany Trade'"
 msgstr "Erreur: Vous n'avez pas le droit de créer ou de modifier un partenaire marqué comme 'Transaction Inter Société'"
@@ -90,7 +90,7 @@ msgstr "Information Générale"
 #. module: intercompany_trade_base
 #: model:ir.model.fields,field_description:intercompany_trade_base.field_intercompany_trade_config__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: intercompany_trade_base
 #: model:ir.model.fields,help:intercompany_trade_base.field_res_partner__intercompany_trade
@@ -148,7 +148,7 @@ msgstr "Géer et créer de nouvelles transactions Inter Société"
 #. module: intercompany_trade_base
 #: model:res.groups,name:intercompany_trade_base.intercompany_trade_manager
 msgid "Manager"
-msgstr "Responsable"
+msgstr "Gestionnaire"
 
 #. module: intercompany_trade_base
 #: model:ir.model.fields,field_description:intercompany_trade_base.field_intercompany_trade_config__name
@@ -204,8 +204,20 @@ msgid "User"
 msgstr "Utilisateur"
 
 #. module: intercompany_trade_base
-#: code:addons/intercompany_trade_base/models/intercompany_trade_config.py:207
+#: code:addons/intercompany_trade_base/models/intercompany_trade_config.py:214
 #, python-format
 msgid "You can not change customer or supplier company. If you want to do so, please disable this intercompany trade and create a new one."
 msgstr "Vous ne pouvez pas changer la société client ou fournisseur. Si vous voulez le faire, veuillez désactiver cet élément et en créer un nouveau"
+
+#. module: intercompany_trade_base
+#: code:addons/intercompany_trade_base/models/res_partner.py:51
+#, python-format
+msgid "You can not set Child Partner to an Intercompany Trade Partner"
+msgstr "Vous ne pouvez pas définir de contact enfant pour un partenaire intersociété"
+
+#. module: intercompany_trade_base
+#: code:addons/intercompany_trade_base/models/res_partner.py:41
+#, python-format
+msgid "You can not set Parent Company to an Intercompany Trade Partner"
+msgstr "Vous ne pouvez pas définir de société parente pour un partenaire intersociété"
 

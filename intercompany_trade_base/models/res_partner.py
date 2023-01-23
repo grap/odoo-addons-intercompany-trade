@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import _, api, fields, models
-from odoo.exceptions import Warning as UserError
+from odoo.exceptions import ValidationError, Warning as UserError
 
 
 class ResPartner(models.Model):
@@ -32,6 +32,24 @@ class ResPartner(models.Model):
     def unlink(self):
         self._check_intercompany_trade_access([0])
         return super().unlink()
+
+    @api.constrains("intercompany_trade", "parent_id")
+    def _check_intercompany_trade_parent(self):
+        bad_partners = self.filtered(lambda x: x.intercompany_trade and x.parent_id)
+        if bad_partners:
+            raise ValidationError(
+                _("You can not set Parent Company to an Intercompany Trade Partner")
+            )
+
+    @api.constrains("parent_id")
+    def _check_intercompany_trade_child(self):
+        bad_partners = self.filtered(
+            lambda x: x.parent_id and x.parent_id.intercompany_trade
+        )
+        if bad_partners:
+            raise ValidationError(
+                _("You can not set Child Partner to an Intercompany Trade Partner")
+            )
 
     # Custom Section
     @api.model
