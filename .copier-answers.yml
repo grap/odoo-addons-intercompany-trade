@@ -1,5 +1,5 @@
 # Do NOT update manually; changes here will be overwritten by Copier
-_commit: 7de0cb5
+_commit: 5a39237
 _src_path: https://github.com/grap/oca-addons-repo-template-new.git
 ci: GitHub
 dependency_installation_mode: PIP
@@ -16,8 +16,9 @@ odoo_version: 16.0
 org_name: GRAP
 org_slug: grap
 rebel_module_groups: []
-repo_description: This project contains extra-addons modules for the project Odoo, to manage Intercompany Trade into Odoo.
-repo_name:  Integrated Trade Modules For Odoo 
+repo_description: This project contains extra-addons modules for the project Odoo,
+    to manage Intercompany Trade into Odoo.
+repo_name: Integrated Trade Modules For Odoo
 repo_slug: odoo-addons-intercompany-trade
 repo_website: https://github.com/grap/odoo-addons-intercompany-trade
 travis_apt_packages: []
