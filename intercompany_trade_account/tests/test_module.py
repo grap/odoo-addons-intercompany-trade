@@ -48,6 +48,7 @@ class Test(TransactionCase):
         """Confirm an Out Invoice by the supplier must create an In Invoice"""
 
         # Confirm supplier invoice and get it's name
+        self.intercompany_invoice.sudo(self.supplier_user)._onchange_invoice_line_ids()
         self.intercompany_invoice.sudo(self.supplier_user).action_invoice_open()
 
         # Try to get the customer invoice
@@ -87,7 +88,7 @@ class Test(TransactionCase):
         customer_invoice_products = customer_invoice.invoice_line_ids.filtered(
             lambda x: not x.display_type
         )
-
+        # Check that notes and sections are not propagated
         self.assertEqual(
             len(customer_invoice_notes),
             0,
@@ -103,6 +104,18 @@ class Test(TransactionCase):
             3,
             "Intercompany Trade In invoice should contain 3 product lines.",
         )
+        # Check that name is the same
+        for (
+            supplier_line
+        ) in self.intercompany_invoice._get_intercompany_trade_invoiceable_lines():
+            customer_line = customer_invoice_products.filtered(
+                lambda x: x.name == supplier_line.name
+            )
+            self.assertEqual(
+                len(customer_line),
+                1,
+                "The line %s has not been found" % supplier_line.name,
+            )
 
     def test_02_check_intercompany_trade_links(self):
         # Check correct invoice lines should not raise error
