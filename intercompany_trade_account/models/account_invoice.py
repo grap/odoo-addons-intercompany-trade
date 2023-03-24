@@ -83,11 +83,12 @@ class AccountInvoice(models.Model):
                 )
             )
         else:
-            raise UserError(
-                _(
+            self.env.user.notify_success(
+                message=_(
                     "Your customer did the job.\n\n"
                     " All the products are correctly referenced."
-                )
+                ),
+                sticky=True,
             )
 
     # Custom Section
