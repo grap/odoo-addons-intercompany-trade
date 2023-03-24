@@ -4,6 +4,7 @@
 
 import logging
 
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.intercompany_trade_base.tests.test_module import (
@@ -38,6 +39,10 @@ class Test(TransactionCase):
         self.intercompany_invoice = self.env.ref(
             "intercompany_trade_account.intercompany_invoice"
         )
+        self.supplier_invoice_line_3_product = self.env.ref(
+            "intercompany_trade_account.supplier_invoice_line_3_product"
+        )
+        self.random_product = self.env.ref("product.product_product_4d")
 
     def test_01_confirm_invoice_out(self):
         """Confirm an Out Invoice by the supplier must create an In Invoice"""
@@ -98,3 +103,12 @@ class Test(TransactionCase):
             3,
             "Intercompany Trade In invoice should contain 3 product lines.",
         )
+
+    def test_02_check_intercompany_trade_links(self):
+        # Check correct invoice lines should not raise error
+        self.intercompany_invoice.check_intercompany_trade_links()
+
+        # set a product that is not referenced in the customer environment
+        self.supplier_invoice_line_3_product.product_id = self.random_product
+        with self.assertRaises(UserError):
+            self.intercompany_invoice.check_intercompany_trade_links()
