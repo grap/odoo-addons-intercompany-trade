@@ -4,7 +4,6 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import Warning as UserError
-from odoo.tools import config as tools_config
 
 
 class AccountInvoice(models.Model):
@@ -139,24 +138,12 @@ class AccountInvoice(models.Model):
                 config, customer_invoice
             )
             # TODO: V10 Check if it is mandatory to use suspend_security()
-            # TODO: V10, check if suspend_security() is better implemented
-            # for the time being, doesn't work in test part.
-            if tools_config.get("test_enable", False):
-                line = (
-                    AccountInvoiceLine.sudo()
-                    .with_context(
-                        force_company=config.customer_company_id.id,
-                        intercompany_trade_create=True,
-                    )
-                    .create(line_vals)
-                )
-            else:
-                line = (
-                    AccountInvoiceLine.sudo(config.customer_user_id)
-                    .suspend_security()
-                    .with_context(intercompany_trade_create=True)
-                    .create(line_vals)
-                )
+            line = (
+                AccountInvoiceLine.sudo(config.customer_user_id)
+                .suspend_security()
+                .with_context(intercompany_trade_create=True)
+                .create(line_vals)
+            )
             line._onchange_product_id()
 
         for field_name in ["amount_untaxed", "amount_tax", "amount_total"]:
