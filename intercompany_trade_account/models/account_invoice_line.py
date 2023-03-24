@@ -58,7 +58,7 @@ class AccountInvoiceLine(models.Model):
                 )
             )
         return {
-            "name": customer_product.name,
+            "name": self.name,
             "account_id": account_id,
             "product_id": customer_product.id,
             "invoice_id": customer_invoice.id,

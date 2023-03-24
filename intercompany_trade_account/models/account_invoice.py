@@ -144,7 +144,9 @@ class AccountInvoice(models.Model):
                 .with_context(intercompany_trade_create=True)
                 .create(line_vals)
             )
-            line._onchange_product_id()
+            line._set_taxes()
+            line._get_price_tax()
+        customer_invoice._onchange_invoice_line_ids()
 
         for field_name in ["amount_untaxed", "amount_tax", "amount_total"]:
             supplier_value = getattr(self, field_name)
