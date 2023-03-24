@@ -84,7 +84,7 @@ class AccountInvoice(models.Model):
                     )
                     % (invoice.account_id.code, invoice.account_id.name)
                 )
-            for line in invoice.invoice_line_ids:
+            for line in invoice._get_intercompany_trade_invoiceable_lines():
                 if not line.account_id.is_intercompany_trade_fiscal_company:
                     raise UserError(
                         _(
