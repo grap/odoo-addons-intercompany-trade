@@ -72,3 +72,29 @@ class Test(TransactionCase):
             "Confirming a supplier invoice should create a confirmed"
             " customer invoice",
         )
+
+        customer_invoice_notes = customer_invoice.invoice_line_ids.filtered(
+            lambda x: x.display_type == "line_note"
+        )
+        customer_invoice_sections = customer_invoice.invoice_line_ids.filtered(
+            lambda x: x.display_type == "line_section"
+        )
+        customer_invoice_products = customer_invoice.invoice_line_ids.filtered(
+            lambda x: not x.display_type
+        )
+
+        self.assertEqual(
+            len(customer_invoice_notes),
+            0,
+            "Intercompany Trade In invoice should not contain notes.",
+        )
+        self.assertEqual(
+            len(customer_invoice_sections),
+            0,
+            "Intercompany Trade In invoice should not contain sections.",
+        )
+        self.assertEqual(
+            len(customer_invoice_products),
+            3,
+            "Intercompany Trade In invoice should contain 3 product lines.",
+        )
