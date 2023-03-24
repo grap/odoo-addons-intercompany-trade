@@ -69,7 +69,7 @@ class AccountInvoice(models.Model):
         self.ensure_one()
         product_list = []
         config = self._get_intercompany_trade_config_by_partner_company_type()
-        for invoice_line in self.invoice_line_ids:
+        for invoice_line in self._get_intercompany_trade_invoiceable_lines():
             customer_product = config.get_customer_product(invoice_line.product_id)
             if not customer_product:
                 product_list.append(invoice_line.product_id)
@@ -91,6 +91,10 @@ class AccountInvoice(models.Model):
             )
 
     # Custom Section
+    @api.multi
+    def _get_intercompany_trade_invoiceable_lines(self):
+        return self.mapped("invoice_line_ids").filtered(lambda x: not x.display_type)
+
     @api.multi
     def _check_intercompany_trade_write(self, vals):
         # check if the operation is done in by a intercompany trade
@@ -129,7 +133,7 @@ class AccountInvoice(models.Model):
         )
 
         # Create lines
-        for invoice_line in self.invoice_line_ids:
+        for invoice_line in self._get_intercompany_trade_invoiceable_lines():
             line_vals = invoice_line._prepare_intercompany_vals(
                 config, customer_invoice
             )
