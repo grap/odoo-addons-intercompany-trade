@@ -26,7 +26,7 @@ class ProductSupplierinfo(models.Model):
         comodel_name="product.product",
         string="Supplier Product",
         selected=True,
-        _prefetch=False,
+        prefetch=False,
     )
 
     catalog_id = fields.Many2one(
