@@ -4,6 +4,7 @@
 
 import logging
 
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.intercompany_trade_base.tests.test_module import (
@@ -38,11 +39,16 @@ class Test(TransactionCase):
         self.intercompany_invoice = self.env.ref(
             "intercompany_trade_account.intercompany_invoice"
         )
+        self.supplier_invoice_line_3_product = self.env.ref(
+            "intercompany_trade_account.supplier_invoice_line_3_product"
+        )
+        self.random_product = self.env.ref("product.product_product_4d")
 
     def test_01_confirm_invoice_out(self):
         """Confirm an Out Invoice by the supplier must create an In Invoice"""
 
         # Confirm supplier invoice and get it's name
+        self.intercompany_invoice.sudo(self.supplier_user)._onchange_invoice_line_ids()
         self.intercompany_invoice.sudo(self.supplier_user).action_invoice_open()
 
         # Try to get the customer invoice
@@ -72,3 +78,50 @@ class Test(TransactionCase):
             "Confirming a supplier invoice should create a confirmed"
             " customer invoice",
         )
+
+        customer_invoice_notes = customer_invoice.invoice_line_ids.filtered(
+            lambda x: x.display_type == "line_note"
+        )
+        customer_invoice_sections = customer_invoice.invoice_line_ids.filtered(
+            lambda x: x.display_type == "line_section"
+        )
+        customer_invoice_products = customer_invoice.invoice_line_ids.filtered(
+            lambda x: not x.display_type
+        )
+        # Check that notes and sections are not propagated
+        self.assertEqual(
+            len(customer_invoice_notes),
+            0,
+            "Intercompany Trade In invoice should not contain notes.",
+        )
+        self.assertEqual(
+            len(customer_invoice_sections),
+            0,
+            "Intercompany Trade In invoice should not contain sections.",
+        )
+        self.assertEqual(
+            len(customer_invoice_products),
+            3,
+            "Intercompany Trade In invoice should contain 3 product lines.",
+        )
+        # Check that name is the same
+        for (
+            supplier_line
+        ) in self.intercompany_invoice._get_intercompany_trade_invoiceable_lines():
+            customer_line = customer_invoice_products.filtered(
+                lambda x: x.name == supplier_line.name
+            )
+            self.assertEqual(
+                len(customer_line),
+                1,
+                "The line %s has not been found" % supplier_line.name,
+            )
+
+    def test_02_check_intercompany_trade_links(self):
+        # Check correct invoice lines should not raise error
+        self.intercompany_invoice.check_intercompany_trade_links()
+
+        # set a product that is not referenced in the customer environment
+        self.supplier_invoice_line_3_product.product_id = self.random_product
+        with self.assertRaises(UserError):
+            self.intercompany_invoice.check_intercompany_trade_links()

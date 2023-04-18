@@ -4,7 +4,6 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import Warning as UserError
-from odoo.tools import config as tools_config
 
 
 class AccountInvoice(models.Model):
@@ -69,7 +68,7 @@ class AccountInvoice(models.Model):
         self.ensure_one()
         product_list = []
         config = self._get_intercompany_trade_config_by_partner_company_type()
-        for invoice_line in self.invoice_line_ids:
+        for invoice_line in self._get_intercompany_trade_invoiceable_lines():
             customer_product = config.get_customer_product(invoice_line.product_id)
             if not customer_product:
                 product_list.append(invoice_line.product_id)
@@ -83,14 +82,19 @@ class AccountInvoice(models.Model):
                 )
             )
         else:
-            raise UserError(
-                _(
+            self.env.user.notify_success(
+                message=_(
                     "Your customer did the job.\n\n"
                     " All the products are correctly referenced."
-                )
+                ),
+                sticky=True,
             )
 
     # Custom Section
+    @api.multi
+    def _get_intercompany_trade_invoiceable_lines(self):
+        return self.mapped("invoice_line_ids").filtered(lambda x: not x.display_type)
+
     @api.multi
     def _check_intercompany_trade_write(self, vals):
         # check if the operation is done in by a intercompany trade
@@ -129,30 +133,20 @@ class AccountInvoice(models.Model):
         )
 
         # Create lines
-        for invoice_line in self.invoice_line_ids:
+        for invoice_line in self._get_intercompany_trade_invoiceable_lines():
             line_vals = invoice_line._prepare_intercompany_vals(
                 config, customer_invoice
             )
             # TODO: V10 Check if it is mandatory to use suspend_security()
-            # TODO: V10, check if suspend_security() is better implemented
-            # for the time being, doesn't work in test part.
-            if tools_config.get("test_enable", False):
-                line = (
-                    AccountInvoiceLine.sudo()
-                    .with_context(
-                        force_company=config.customer_company_id.id,
-                        intercompany_trade_create=True,
-                    )
-                    .create(line_vals)
-                )
-            else:
-                line = (
-                    AccountInvoiceLine.sudo(config.customer_user_id)
-                    .suspend_security()
-                    .with_context(intercompany_trade_create=True)
-                    .create(line_vals)
-                )
-            line._onchange_product_id()
+            line = (
+                AccountInvoiceLine.sudo(config.customer_user_id)
+                .suspend_security()
+                .with_context(intercompany_trade_create=True)
+                .create(line_vals)
+            )
+            line._set_taxes()
+            line._get_price_tax()
+        customer_invoice._onchange_invoice_line_ids()
 
         for field_name in ["amount_untaxed", "amount_tax", "amount_total"]:
             supplier_value = getattr(self, field_name)

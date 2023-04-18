@@ -32,50 +32,40 @@ class AccountInvoiceLine(models.Model):
         # Create according account invoice line
         customer_product = config.get_customer_product(self.product_id)
 
-        if not self.display_type:
-            if not customer_product:
-                raise UserError(
-                    _(
-                        "It is not possible to confirm this invoice, because"
-                        " your customer didn't referenced your product %s-%s"
-                    )
-                    % (self.product_id.default_code, self.product_id.name)
+        if not customer_product:
+            raise UserError(
+                _(
+                    "It is not possible to confirm this invoice, because"
+                    " your customer didn't referenced your product %s-%s"
                 )
+                % (self.product_id.default_code, self.product_id.name)
+            )
 
-            customer_template_product = customer_product.product_tmpl_id
+        customer_template_product = customer_product.product_tmpl_id
 
-            account_id = customer_template_product._get_product_accounts()["expense"].id
+        account_id = customer_template_product._get_product_accounts()["expense"].id
 
-            if not account_id:
-                raise UserError(
-                    _(
-                        "It is not possible to confirm this invoice, because"
-                        " the product of your customer doesn't have a correct"
-                        " accounting setting %s - %s"
-                    )
-                    % (
-                        customer_template_product.default_code,
-                        customer_template_product.name,
-                    )
+        if not account_id:
+            raise UserError(
+                _(
+                    "It is not possible to confirm this invoice, because"
+                    " the product of your customer doesn't have a correct"
+                    " accounting setting %s - %s"
                 )
-            vals = {
-                "name": customer_product.name,
-                "account_id": account_id,
-                "product_id": customer_product.id,
-            }
-        else:
-            vals = {
-                "name": self.name,
-            }
-        vals.update(
-            {
-                "invoice_id": customer_invoice.id,
-                "company_id": customer_invoice.company_id.id,
-                "partner_id": customer_invoice.partner_id.id,
-                "quantity": self.quantity,
-                "price_unit": self.price_unit,
-                "discount": self.discount,
-                "display_type": self.display_type,
-            }
-        )
-        return vals
+                % (
+                    customer_template_product.default_code,
+                    customer_template_product.name,
+                )
+            )
+        return {
+            "name": self.name,
+            "account_id": account_id,
+            "product_id": customer_product.id,
+            "invoice_id": customer_invoice.id,
+            "company_id": customer_invoice.company_id.id,
+            "partner_id": customer_invoice.partner_id.id,
+            "quantity": self.quantity,
+            "price_unit": self.price_unit,
+            "discount": self.discount,
+            "display_type": self.display_type,
+        }

@@ -43,6 +43,7 @@ class Test(TransactionCase):
     def test_01_cancel_invoice_confirmed(self):
         """Cancel an Out or In confirmed invoice should fail"""
 
+        self.intercompany_invoice.sudo(self.supplier_user)._onchange_invoice_line_ids()
         self.intercompany_invoice.sudo(self.supplier_user).action_invoice_open()
 
         with self.assertRaises(UserError):

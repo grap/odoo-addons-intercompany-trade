@@ -10,8 +10,11 @@
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
     "license": "AGPL-3",
     "depends": [
-        "intercompany_trade_base",
         "account",
+        # OCA
+        "web_notify",
+        # Custom
+        "intercompany_trade_base",
     ],
     "demo": [
         "demo/res_groups.xml",
