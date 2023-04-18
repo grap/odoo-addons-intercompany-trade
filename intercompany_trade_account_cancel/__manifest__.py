@@ -4,7 +4,7 @@
 
 {
     "name": "Intercompany Trade - Account Cancel",
-    "version": "12.0.1.1.1",
+    "version": "12.0.1.1.2",
     "category": "Intercompany Trade",
     "author": "GRAP",
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
