@@ -16,35 +16,37 @@ class ResPartner(models.Model):
         "property_account_position_id",
     )
     def _check_intercompany_trade_same_fiscal_company_fiscal_position(self):
-        if (
-            not self.intercompany_trade
-            and self.property_account_position_id.is_intercompany_trade_fiscal_company
-        ):
-            raise UserError(
-                _(
-                    "It's not possible to set the fiscal position '%s' to this partner.\n\n"
-                    " You should not use a fiscal position for intercompany trade"
-                    " between same fiscal companies."
+        for partner in self:
+            fiscal_position = partner.property_account_position_id
+            if (
+                not partner.intercompany_trade
+                and fiscal_position.is_intercompany_trade_fiscal_company
+            ):
+                raise UserError(
+                    _(
+                        "It's not possible to set the fiscal position '%s' to this partner.\n\n"
+                        " You should not use a fiscal position for intercompany trade"
+                        " between same fiscal companies."
+                    )
+                    % (fiscal_position.name)
                 )
-                % (self.property_account_position_id.name)
-            )
 
-        # ref "and self.property_account_position_id"
-        # Ugly Hack do not check when creating partners from
-        # the creation of intercompany.trade.config
-        # this problem should come from the other problem with
-        # property_account_position_id / no_property_account_position_id
-        # TODO: Check in V16, if we can remove all the sudo() things.
-        if (
-            self.intercompany_trade
-            and self.property_account_position_id
-            and not self.property_account_position_id.is_intercompany_trade_fiscal_company
-        ):
-            raise UserError(
-                _(
-                    "It's not possible to set the fiscal position '%s' to this partner.\n\n"
-                    " You should use a fiscal position for intercompany trade"
-                    " between same fiscal companies."
+            # ref "and self.property_account_position_id"
+            # Ugly Hack do not check when creating partners from
+            # the creation of intercompany.trade.config
+            # this problem should come from the other problem with
+            # property_account_position_id / no_property_account_position_id
+            # TODO: Check in V16, if we can remove all the sudo() things.
+            if (
+                partner.intercompany_trade
+                and fiscal_position
+                and not fiscal_position.is_intercompany_trade_fiscal_company
+            ):
+                raise UserError(
+                    _(
+                        "It's not possible to set the fiscal position '%s' to this partner.\n\n"
+                        " You should use a fiscal position for intercompany trade"
+                        " between same fiscal companies."
+                    )
+                    % (fiscal_position.name)
                 )
-                % (self.property_account_position_id.name)
-            )
