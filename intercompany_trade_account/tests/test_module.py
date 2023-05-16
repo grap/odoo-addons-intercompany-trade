@@ -48,7 +48,6 @@ class Test(TransactionCase):
         """Confirm an Out Invoice by the supplier must create an In Invoice"""
 
         # Confirm supplier invoice and get it's name
-        self.intercompany_invoice.sudo(self.supplier_user)._onchange_invoice_line_ids()
         self.intercompany_invoice.sudo(self.supplier_user).action_invoice_open()
 
         # Try to get the customer invoice
