@@ -45,9 +45,6 @@ class Test(TransactionCase):
         # Confirm supplier invoice and get it's name
         self.intercompany_invoice.sudo(
             self.supplier_user
-        ).with_context()._onchange_invoice_line_ids()
-        self.intercompany_invoice.sudo(
-            self.supplier_user
         ).with_context().action_invoice_open()
 
         # Try to get the customer invoice

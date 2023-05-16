@@ -144,9 +144,14 @@ class AccountInvoice(models.Model):
                 .with_context(intercompany_trade_create=True)
                 .create(line_vals)
             )
-            line._set_taxes()
-            line._get_price_tax()
-        customer_invoice._onchange_invoice_line_ids()
+            # 1) We execute _onchange_product_id
+            #    to have correct taxes, account, etc... depending
+            #    on the fiscal position and the product settings.
+            # 2) rollback name changes, as we want to set
+            #    the name of the supplier invoice line, for traceability.
+            backup_name = line.name
+            line._onchange_product_id()
+            line.name = backup_name
 
         for field_name in ["amount_untaxed", "amount_tax", "amount_total"]:
             supplier_value = getattr(self, field_name)
