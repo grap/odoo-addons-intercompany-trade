@@ -43,9 +43,9 @@ class AccountInvoiceLine(models.Model):
 
         customer_template_product = customer_product.product_tmpl_id
 
-        account_id = customer_template_product._get_product_accounts()["expense"].id
+        account = customer_template_product._get_product_accounts()["expense"]
 
-        if not account_id:
+        if not account:
             raise UserError(
                 _(
                     "It is not possible to confirm this invoice, because"
@@ -59,7 +59,7 @@ class AccountInvoiceLine(models.Model):
             )
         return {
             "name": self.name,
-            "account_id": account_id,
+            "account_id": account.id,
             "product_id": customer_product.id,
             "invoice_id": customer_invoice.id,
             "company_id": customer_invoice.company_id.id,
