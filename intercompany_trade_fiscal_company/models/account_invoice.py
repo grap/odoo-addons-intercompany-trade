@@ -12,79 +12,50 @@ class AccountInvoice(models.Model):
     # Overload Section
     @api.multi
     def invoice_validate(self):
-        config_obj = self.env["intercompany.trade.config"]
-        for invoice in self.filtered(lambda x: x.intercompany_trade):
-            config = config_obj._get_intercompany_trade_by_partner_company(
-                invoice.partner_id.id, invoice.company_id.id, invoice.type
-            )
-            if config.same_fiscal_mother_company:
-                invoice._check_intercompany_trade_fiscal_company()
+        for invoice in self:
+            invoice._check_intercompany_trade_same_fiscal_company()
         return super().invoice_validate()
-
-    @api.model
-    def create(self, vals):
-        """Change Journal if it is trade between two company of the same
-        cooperative"""
-        partner_obj = self.env["res.partner"]
-        journal_obj = self.env["account.journal"]
-        config_obj = self.env["intercompany.trade.config"]
-
-        if vals.get("partner_id", False):
-            partner = partner_obj.browse(vals["partner_id"])
-
-            if partner.intercompany_trade:
-                transaction_type = False
-                journal = journal_obj.browse(int(vals["journal_id"]))
-                if journal.type in ("sale"):
-                    transaction_type = "out"
-                elif journal.type in ("purchase"):
-                    transaction_type = "in"
-                config = config_obj._get_intercompany_trade_by_partner_company(
-                    partner.id, partner.company_id.id, transaction_type
-                )
-                if config.same_fiscal_mother_company:
-
-                    if journal.type in ("sale"):
-                        vals["journal_id"] = config.sale_journal_id.id
-                    elif journal.type in ("purchase"):
-                        vals["journal_id"] = config.purchase_journal_id.id
-
-        return super().create(vals)
-
-    @api.multi
-    def write(self, vals):
-        config_obj = self.env["intercompany.trade.config"]
-        if vals.get("journal_id", False):
-            for invoice in self:
-                if (
-                    invoice.intercompany_trade
-                    and invoice.journal_id.id != vals["journal_id"]
-                ):
-                    config = config_obj._get_intercompany_trade_by_partner_company(
-                        invoice.partner_id.id,
-                        invoice.company_id.id,
-                        invoice.type,
-                    )
-                    if config.same_fiscal_mother_company:
-                        vals.pop("journal_id")
-
-        return super().write(vals)
 
     # Custom Section
     @api.multi
-    def _check_intercompany_trade_fiscal_company(self):
-        for invoice in self:
-            if invoice.account_id != invoice.company_id.intercompany_trade_account_id:
+    def _check_intercompany_trade_same_fiscal_company(self):
+        config_obj = self.env["intercompany.trade.config"]
+        self.ensure_one()
+
+        same_fiscal_mother_company = False
+        if self.partner_id.intercompany_trade:
+            config = config_obj._get_intercompany_trade_by_partner_company(
+                self.partner_id.id, self.company_id.id, self.type
+            )
+            same_fiscal_mother_company = config.same_fiscal_mother_company
+
+        if same_fiscal_mother_company:
+
+            # Check that Journal is OK for intercompany trade
+            if not self.journal_id.is_intercompany_trade_fiscal_company:
+                raise UserError(
+                    _("You can not use the journal '%s'" " for Intercompany Trade.")
+                    % (self.journal_id.name)
+                )
+
+            # Check that Fiscal Position is defined for intercompany trade
+            if not self.fiscal_position_id:
+                raise UserError(
+                    _("You have to set a Fiscal position for Intercompany Trade.")
+                )
+
+            # Check that Fiscal Position is OK for intercompany trade
+            if not self.fiscal_position_id.is_intercompany_trade_fiscal_company:
                 raise UserError(
                     _(
-                        "the account %s-%s is not the correct one in the"
-                        " case of intercompany trade invoice between two companies"
-                        " that belong the same fiscal company (CAE).\n"
-                        " Please contact your accountant."
+                        "You can not use the fiscal position '%s'"
+                        " for Intercompany Trade."
                     )
-                    % (invoice.account_id.code, invoice.account_id.name)
+                    % (self.fiscal_position_id.name)
                 )
-            for line in invoice._get_intercompany_trade_invoiceable_lines():
+
+            # check that expense / income account lines are OK for intercompany trade
+            for line in self._get_intercompany_trade_invoiceable_lines():
                 if not line.account_id.is_intercompany_trade_fiscal_company:
                     raise UserError(
                         _(
@@ -96,3 +67,67 @@ class AccountInvoice(models.Model):
                         )
                         % (line.account_id.code, line.account_id.name)
                     )
+
+            # Check that main account is for intercompany trade
+            if self.account_id != self.company_id.intercompany_trade_account_id:
+                raise UserError(
+                    _(
+                        "the account %s-%s is not the correct one in the"
+                        " case of intercompany trade invoice between two companies"
+                        " that belong the same fiscal company (CAE).\n"
+                        " Please contact your accountant."
+                    )
+                    % (self.account_id.code, self.account_id.name)
+                )
+
+        else:
+            # Check that Journal is OK for NON intercompany trade
+            if self.journal_id.is_intercompany_trade_fiscal_company:
+                raise UserError(
+                    _("You can not use the journal '%s'" " for Non Intercompany Trade.")
+                    % (self.journal_id.name)
+                )
+
+            # Check that Fiscal Position is OK for NON intercompany trade
+            if (
+                self.fiscal_position_id
+                and self.fiscal_position_id.is_intercompany_trade_fiscal_company
+            ):
+                raise UserError(
+                    _(
+                        "You can not use the fiscal position '%s'"
+                        " for Non Intercompany Trade."
+                    )
+                    % (self.fiscal_position_id.name)
+                )
+
+    @api.multi
+    def _prepare_intercompany_vals(self, config):
+        vals = super()._prepare_intercompany_vals(config)
+        if self.type == "out_invoice":
+            vals["journal_id"] = config.purchase_journal_id.id
+        elif self.type == "out_refund":
+            vals["journal_id"] = config.sale_journal_id
+        return vals
+
+    @api.onchange("partner_id", "company_id", "type", "journal_id")
+    def onchange_partner_id_intercompany_trade_fiscal_company(self):
+        config_obj = self.env["intercompany.trade.config"].sudo()
+        if not (self.partner_id and self.company_id and self.type):
+            return
+
+        config = config_obj._get_intercompany_trade_by_partner_company(
+            self.partner_id.id, self.company_id.id, self.type
+        )
+        if not config or not config.same_fiscal_mother_company:
+            if self.journal_id and self.journal_id.is_intercompany_trade_fiscal_company:
+                # Reset to a classical journal
+                self.journal_id = self._default_journal()
+            return
+
+        if config:
+            if self.type in ["in_invoice", "in_refund"] and config.purchase_journal_id:
+                self.journal_id = config.purchase_journal_id
+
+            if self.type in ["out_invoice", "out_refund"] and config.sale_journal_id:
+                self.journal_id = config.sale_journal_id
