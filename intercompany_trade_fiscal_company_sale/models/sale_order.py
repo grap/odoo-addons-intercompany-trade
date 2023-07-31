@@ -11,10 +11,12 @@ class SaleOrder(models.Model):
     @api.multi
     def _prepare_invoice(self):
         vals = super()._prepare_invoice()
-        config = self.env[
-            "intercompany.trade.config"
-        ]._get_intercompany_trade_by_partner_company(
-            vals["partner_id"], vals["company_id"], "out"
+        config = (
+            self.env["intercompany.trade.config"]
+            .sudo()
+            ._get_intercompany_trade_by_partner_company(
+                vals["partner_id"], vals["company_id"], "out"
+            )
         )
         if config:
             vals["journal_id"] = config.sale_journal_id.id
