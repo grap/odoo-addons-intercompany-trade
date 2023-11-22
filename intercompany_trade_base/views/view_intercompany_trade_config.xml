@@ -9,7 +9,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     <record id="view_intercompany_trade_config_tree" model="ir.ui.view">
         <field name="model">intercompany.trade.config</field>
         <field name="arch" type="xml">
-            <tree colors="gray:active == False;">
+            <tree decoration-muted="active == False">
                 <field name="name"/>
                 <field name="customer_company_id"/>
                 <field name="supplier_company_id"/>
