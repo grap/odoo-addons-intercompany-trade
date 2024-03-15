@@ -107,7 +107,7 @@ class AccountInvoice(models.Model):
         if self.type == "out_invoice":
             vals["journal_id"] = config.purchase_journal_id.id
         elif self.type == "out_refund":
-            vals["journal_id"] = config.sale_journal_id
+            vals["journal_id"] = config.sale_journal_id.id
         return vals
 
     @api.onchange("partner_id", "company_id", "type", "journal_id")
