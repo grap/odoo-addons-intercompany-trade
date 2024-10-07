@@ -9,7 +9,13 @@
     "author": "GRAP",
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
     "license": "AGPL-3",
-    "depends": ["base", "base_suspend_security"],
+    "depends": [
+        # Odoo
+        "base",
+        # OCA
+        "base_suspend_security",
+        "web_notify",  # used by account glue module
+    ],
     "data": [
         "security/ir_module_category.xml",
         "security/res_groups.xml",
