@@ -11,8 +11,6 @@
     "license": "AGPL-3",
     "depends": [
         "account",
-        # OCA
-        "web_notify",
         # Custom
         "intercompany_trade_base",
     ],
