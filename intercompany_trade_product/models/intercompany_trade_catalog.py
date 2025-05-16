@@ -62,7 +62,7 @@ class IntercompanyTradeCatalog(models.Model):
             """
 CREATE OR REPLACE VIEW %s AS (
         SELECT
-            (to_char(s_pp.id, 'FM099999') || to_char(rit.id, 'FM0000'))::int
+            (to_char(s_pp.id, 'FM099999') || to_char(rit.id, 'FM0000'))::bigint
                 as id,
             rit.id as intercompany_trade_id,
             rit.customer_company_id,
