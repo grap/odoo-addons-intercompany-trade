@@ -23,7 +23,6 @@ _logger = logging.getLogger(__name__)
 
 
 class TestModule(TransactionCase):
-
     # Overload Section
     def setUp(self):
         super().setUp()
