@@ -42,7 +42,7 @@ class Test(TransactionCase):
         """Confirm an Out Invoice by the supplier must create an In Invoice"""
 
         # Confirm supplier invoice and get it's name
-        self.intercompany_invoice.sudo(
+        self.intercompany_invoice.with_user(
             self.supplier_user
         ).with_context().action_invoice_open()
 

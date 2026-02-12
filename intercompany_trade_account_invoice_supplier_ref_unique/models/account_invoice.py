@@ -8,7 +8,6 @@ from odoo import api, models
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
-    @api.multi
     def _prepare_intercompany_vals(self, config):
         res = super()._prepare_intercompany_vals(config)
         res.update({"supplier_invoice_number": self.number})
