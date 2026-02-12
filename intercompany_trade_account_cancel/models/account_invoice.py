@@ -9,7 +9,6 @@ from odoo.exceptions import Warning as UserError
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
-    @api.multi
     def action_invoice_cancel(self):
         invoices = self.filtered(lambda x: x.intercompany_trade and x.state != "draft")
         if invoices:

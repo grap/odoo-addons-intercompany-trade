@@ -42,11 +42,11 @@ class Test(TransactionCase):
     def test_01_cancel_invoice_confirmed(self):
         """Cancel an Out or In confirmed invoice should fail"""
 
-        self.intercompany_invoice.sudo(self.supplier_user).action_invoice_open()
+        self.intercompany_invoice.with_user(self.supplier_user).action_invoice_open()
 
         with self.assertRaises(UserError):
             # Try to cancel 'out invoice' should fail
-            self.intercompany_invoice.sudo(self.supplier_user).action_invoice_cancel()
+            self.intercompany_invoice.with_user(self.supplier_user).action_invoice_cancel()
 
         # Try to get the customer invoice
         invoices = self.AccountInvoice.search(
@@ -55,10 +55,10 @@ class Test(TransactionCase):
 
         with self.assertRaises(UserError):
             # Try to cancel 'in invoice' should fail
-            invoices.sudo(self.customer_user).action_invoice_cancel()
+            invoices.with_user(self.customer_user).action_invoice_cancel()
 
     def test_02_cancel_invoice_draft(self):
         """Cancel a draft invoice should success"""
 
-        invoice = self.intercompany_invoice.sudo(self.supplier_user)
+        invoice = self.intercompany_invoice.with_user(self.supplier_user)
         invoice.action_invoice_cancel()
