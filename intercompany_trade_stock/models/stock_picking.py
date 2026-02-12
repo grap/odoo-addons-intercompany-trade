@@ -8,7 +8,6 @@ from odoo import api, models
 class Picking(models.Model):
     _inherit = "stock.picking"
 
-    @api.multi
     def button_validate(self):
         res = super().button_validate()
         for picking in self:
