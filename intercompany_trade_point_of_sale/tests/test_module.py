@@ -17,7 +17,6 @@ class TestBase(TestIntercompanyTradeBase):
 
 
 class TestModule(TransactionCase):
-
     # Overload Section
     def setUp(self):
         super().setUp()
