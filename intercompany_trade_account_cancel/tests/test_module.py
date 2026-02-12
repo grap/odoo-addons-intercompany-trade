@@ -46,7 +46,9 @@ class Test(TransactionCase):
 
         with self.assertRaises(UserError):
             # Try to cancel 'out invoice' should fail
-            self.intercompany_invoice.with_user(self.supplier_user).action_invoice_cancel()
+            self.intercompany_invoice.with_user(
+                self.supplier_user
+            ).action_invoice_cancel()
 
         # Try to get the customer invoice
         invoices = self.AccountInvoice.search(
