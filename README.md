@@ -17,7 +17,11 @@ This project contains extra-addons modules for the project Odoo, to manage Inter
 
 [//]: # (addons)
 
-This part will be replaced when running the oca-gen-addons-table script from OCA/maintainer-tools.
+Available addons
+----------------
+addon | version | maintainers | summary
+--- | --- | --- | ---
+[intercompany_trade_stock](intercompany_trade_stock/) | 16.0.1.0.0 |  | Intercompany Trade - Stock
 
 [//]: # (end addons)
 
