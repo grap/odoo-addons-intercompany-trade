@@ -23,7 +23,6 @@ class TestBase(TestIntercompanyTradeBase):
 
 
 class Test(TransactionCase):
-
     # Overload Section
     def setUp(self):
         super().setUp()

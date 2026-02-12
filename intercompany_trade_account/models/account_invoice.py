@@ -75,11 +75,7 @@ class AccountInvoice(models.Model):
         if product_list:
             raise UserError(
                 _("Your customer should reference the following" " products: \n\n- %s")
-                % (
-                    "\n- ".join(
-                        ["[{}] {}".format(x.code, x.name) for x in product_list]
-                    )
-                )
+                % ("\n- ".join([f"[{x.code}] {x.name}" for x in product_list]))
             )
         else:
             self.env.user.notify_success(
