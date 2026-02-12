@@ -9,7 +9,6 @@ from odoo.exceptions import ValidationError
 class PosOrder(models.Model):
     _inherit = "pos.order"
 
-    @api.multi
     @api.constrains("partner_id")
     def _check_partner_integrated_trade(self):
         for order in self:
