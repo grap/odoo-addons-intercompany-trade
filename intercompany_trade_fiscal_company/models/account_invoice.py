@@ -30,7 +30,6 @@ class AccountInvoice(models.Model):
             same_fiscal_mother_company = config.same_fiscal_mother_company
 
         if same_fiscal_mother_company:
-
             # Check that Journal is OK for intercompany trade
             if not self.journal_id.is_intercompany_trade_fiscal_company:
                 raise UserError(
