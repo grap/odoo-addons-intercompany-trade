@@ -27,6 +27,7 @@ addon | version | maintainers | summary
 [intercompany_trade_fiscal_company_sale](intercompany_trade_fiscal_company_sale/) | 16.0.1.0.0 |  | Intercompany Trade - Fiscal Company - Sale
 [intercompany_trade_joint_buying_base](intercompany_trade_joint_buying_base/) | 16.0.1.0.0 |  | Intercompany Trade - Joint Buying Base
 [intercompany_trade_product](intercompany_trade_product/) | 16.0.1.0.0 |  | Intercompany Trade - Product
+[intercompany_trade_purchase](intercompany_trade_purchase/) | 16.0.1.0.0 |  | Intercompany Trade - Purchase
 [intercompany_trade_stock](intercompany_trade_stock/) | 16.0.1.0.0 |  | Intercompany Trade - Stock
 
 [//]: # (end addons)
