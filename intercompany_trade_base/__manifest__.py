@@ -30,5 +30,5 @@
         "demo/res_partner.xml",
         "demo/intercompany_trade_config.xml",
     ],
-    "installable": True,
+    "installable": False,
 }

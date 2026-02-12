@@ -10,5 +10,5 @@
     "license": "AGPL-3",
     "depends": ["fiscal_company_base", "intercompany_trade_base", "sale"],
     "auto_install": True,
-    "installable": True,
+    "installable": False,
 }
