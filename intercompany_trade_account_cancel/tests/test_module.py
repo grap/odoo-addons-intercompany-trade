@@ -24,7 +24,6 @@ _logger = logging.getLogger(__name__)
 
 
 class Test(TransactionCase):
-
     # Overload Section
     def setUp(self):
         super().setUp()
