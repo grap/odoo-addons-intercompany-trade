@@ -38,13 +38,11 @@ class ProductSupplierinfo(models.Model):
     )
 
     # Compute Section
-    @api.multi
     @api.depends("name")
     def _compute_is_intercompany_trade(self):
         for supplierinfo in self.filtered(lambda x: x.name):
             supplierinfo.is_intercompany_trade = supplierinfo.name.intercompany_trade
 
-    @api.multi
     @api.depends("name")
     def _compute_intercompany_trade_id(self):
         IntercompanyTradeConfig = self.sudo().env["intercompany.trade.config"]
@@ -56,7 +54,6 @@ class ProductSupplierinfo(models.Model):
                 ]
             ).id
 
-    @api.multi
     @api.depends("intercompany_trade_id", "supplier_product_id")
     def _compute_catalog_id(self):
         for supplierinfo in self.filtered(
@@ -70,7 +67,6 @@ class ProductSupplierinfo(models.Model):
                 )
             )
 
-    @api.multi
     def _inverse_catalog_id(self):
         for supplierinfo in self.filtered(lambda x: x.catalog_id):
             res = int(str(supplierinfo.catalog_id.id)[:-4])

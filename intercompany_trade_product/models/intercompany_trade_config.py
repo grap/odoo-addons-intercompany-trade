@@ -15,7 +15,6 @@ class IntercompanyTradeConfig(models.Model):
     )
 
     # Custom Section
-    @api.multi
     def get_customer_product(self, product):
         """
         Return the product in the customer company from a product in the
@@ -29,10 +28,9 @@ class IntercompanyTradeConfig(models.Model):
         if not customer_product:
             customer_product = self._get_customer_product_by_rule(product)
         if customer_product:
-            return customer_product.sudo(self.customer_user_id)
+            return customer_product.with_user(self.customer_user_id)
         return False
 
-    @api.multi
     def _get_customer_product_by_product(self, product):
         self.ensure_one()
 
@@ -52,7 +50,7 @@ class IntercompanyTradeConfig(models.Model):
             return False
         supplierinfo = supplierinfos[0]
         customer_products = (
-            ProductProduct.sudo(self.customer_user_id)
+            ProductProduct.with_user(self.customer_user_id)
             .with_context(active_test=False)
             .search(
                 [
@@ -72,7 +70,6 @@ class IntercompanyTradeConfig(models.Model):
             )
         return customer_products[0]
 
-    @api.multi
     def _get_customer_product_by_rule(self, product):
         """Overloadable function, allow to return a product if the
         customer did'nt referenced the supplier product, by category,

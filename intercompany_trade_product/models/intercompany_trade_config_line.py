@@ -27,12 +27,10 @@ class IntercompanyTradeConfigLine(models.Model):
         required=True,
     )
 
-    @api.multi
     def match_rule(self, product):
         self.ensure_one()
         return self._match_rule_category(product)
 
-    @api.multi
     def _match_rule_category(self, product):
         """
         Return True if the category of the product (or one of the parent

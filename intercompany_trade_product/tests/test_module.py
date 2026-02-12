@@ -106,7 +106,7 @@ class TestModule(TransactionCase):
 
     def _test_01_product_association_by_product(self):
         # Test if getting the product in the supplier context works.
-        customer_product = self.config.sudo(self.supplier_user).get_customer_product(
+        customer_product = self.config.with_user(self.supplier_user).get_customer_product(
             self.supplier_apple
         )
 
@@ -126,10 +126,10 @@ class TestModule(TransactionCase):
 
         with self.assertRaises(ValidationError):
             # this must fail
-            self.ProductSupplierinfo.sudo(self.customer_user).create(vals)
+            self.ProductSupplierinfo.with_user(self.customer_user).create(vals)
 
         # Test with another product
-        customer_product = self.config.sudo(self.supplier_user).get_customer_product(
+        customer_product = self.config.with_user(self.supplier_user).get_customer_product(
             self.supplier_service
         )
 
@@ -142,7 +142,7 @@ class TestModule(TransactionCase):
     def _test_02_product_association_by_rule(self):
         # Test if getting the product in the supplier context works.
         # by rule
-        customer_product = self.config.sudo(self.supplier_user).get_customer_product(
+        customer_product = self.config.with_user(self.supplier_user).get_customer_product(
             self.supplier_imac
         )
 
@@ -155,7 +155,7 @@ class TestModule(TransactionCase):
         # Change the rule category for a parent product
         self.config_line_category.categ_id = self.category_it_raws
 
-        customer_product = self.config.sudo(self.supplier_user).get_customer_product(
+        customer_product = self.config.with_user(self.supplier_user).get_customer_product(
             self.supplier_imac
         )
 
@@ -165,7 +165,7 @@ class TestModule(TransactionCase):
             "Recovering by category rule should succeed. (parent category)",
         )
 
-        customer_product = self.config.sudo(self.supplier_user).get_customer_product(
+        customer_product = self.config.with_user(self.supplier_user).get_customer_product(
             self.supplier_banana
         )
 
@@ -179,6 +179,6 @@ class TestModule(TransactionCase):
         self.config_line_category.categ_id = False
         self.config_line_category.categ_id = self.category_it_raws
 
-        customer_product = self.config.sudo(self.supplier_user).get_customer_product(
+        customer_product = self.config.with_user(self.supplier_user).get_customer_product(
             self.supplier_imac
         )
