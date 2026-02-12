@@ -3,8 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
-from odoo.exceptions import Warning as UserError
+from odoo.exceptions import UserError, ValidationError
 
 
 class ResPartner(models.Model):
@@ -12,15 +11,14 @@ class ResPartner(models.Model):
 
     intercompany_trade = fields.Boolean(
         readonly=True,
-        help="Indicate that this partner is a company in Odoo.",
+        help="Indicate that this partner is an integrated company of a CAE in Odoo.",
     )
 
-    # Overload Section
-    @api.model
-    def create(self, vals):
-        res = super().create(vals)
-        res._check_intercompany_trade_access(vals.keys())
-        return res
+    @api.model_create_multi
+    def create(self, vals_list):
+        partners = super().create(vals_list)
+        partners._check_intercompany_trade_access([0])
+        return partners
 
     def write(self, vals):
         self._check_intercompany_trade_access(vals.keys())
@@ -51,25 +49,33 @@ class ResPartner(models.Model):
     # Custom Section
     @api.model
     def _intercompany_trade_allowed_fields(self):
-        """Overload this function to allow basic users to change
+        """Overload this function to allow users to change
         some fields for intercompany trade partner"""
-        return []
+        res = []
+        for field_name in self._fields.keys():
+            if field_name.startswith("property_"):
+                res.append(field_name)
+        # User that can write companies could enable or disable
+        # intercompany trade partners
+        if self.env["res.company"].check_access_rights("write", raise_exception=False):
+            res.append("active")
+        return res
 
     def _check_intercompany_trade_access(self, fields):
-        """Restrict access of partner set as intercompany_trade for only
-        'intercompany_trade_manager' users."""
-        if self.env.context.get("ignore_intercompany_trade_check", False):
+        """Restrict access of intercompany_trade partner set only for allowed fields"""
+        partners = self.filtered(lambda x: x.intercompany_trade)
+        if not partners or self.env.context.get(
+            "ignore_intercompany_trade_check", False
+        ):
             return
         unallowed_fields = set(fields) - set(self._intercompany_trade_allowed_fields())
-        if not self.env.user.has_group(
-            "intercompany_trade_base.intercompany_trade_manager"
-        ):
-            for partner in self:
-                if partner.intercompany_trade and unallowed_fields:
-                    raise UserError(
-                        _(
-                            "Error: You have no right to create or"
-                            " update a partner that is set as"
-                            " 'Intercompany Trade'"
-                        )
-                    )
+
+        if unallowed_fields:
+            raise UserError(
+                _(
+                    "Error: You have no right to create, update or unlink"
+                    " partners that are flagged as 'Intercompany Trade'.\n\n"
+                    "%(partner_names)s",
+                    partner_names=", ".join(self.mapped("name")),
+                )
+            )

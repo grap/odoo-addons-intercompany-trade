@@ -15,7 +15,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="categ_id" ref="product.product_category_all" />
         <field name="uom_id" ref="uom.product_uom_unit" />
         <field name="uom_po_id" ref="uom.product_uom_unit" />
-        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="company_id" ref="intercompany_trade.supplier_company" />
         <field name="taxes_id" eval="[(4, ref('sale_vat_10_excluded'))]" />
     </record>
 
@@ -26,7 +26,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="categ_id" ref="product.product_category_all" />
         <field name="uom_id" ref="uom.product_uom_unit" />
         <field name="uom_po_id" ref="uom.product_uom_unit" />
-        <field name="company_id" ref="intercompany_trade_base.customer_company" />
+        <field name="company_id" ref="intercompany_trade.customer_company" />
         <field name="supplier_taxes_id" eval="[(4, ref('purchase_vat_10_excluded'))]" />
     </record>
 

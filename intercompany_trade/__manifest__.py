@@ -3,32 +3,23 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    "name": "Intercompany Trade - Base",
-    "version": "16.0.1.0.0",
+    "name": "Intercompany Trade",
+    "version": "16.0.2.0.0",
     "category": "Intercompany Trade",
     "author": "GRAP",
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
     "license": "AGPL-3",
     "depends": [
-        # Odoo
-        "base",
-        # OCA
-        "web_notify",  # used by account glue module
+        # GRAP
+        "fiscal_company_base",
     ],
     "data": [
         "security/ir_module_category.xml",
         "security/res_groups.xml",
-        "security/ir.model.access.csv",
-        "views/menu.xml",
+        "views/view_res_company.xml",
         "views/view_res_partner.xml",
-        "views/view_intercompany_trade_config.xml",
     ],
-    "demo": [
-        "demo/res_company.xml",
-        "demo/res_users.xml",
-        "demo/res_groups.xml",
-        "demo/res_partner.xml",
-        "demo/intercompany_trade_config.xml",
-    ],
-    "installable": False,
+    "post_init_hook": "post_init_hook",
+    "demo": ["demo/res_users.xml"],
+    "installable": True,
 }

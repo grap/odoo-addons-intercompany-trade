@@ -9,7 +9,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     <record id="view_account_invoice_search" model="ir.ui.view">
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account.view_account_invoice_filter"/>
-        <field name="groups_id" eval="[(4, ref('intercompany_trade_base.intercompany_trade_user'))]"/>
+        <field name="groups_id" eval="[(4, ref('intercompany_trade.intercompany_trade_user'))]"/>
         <field name="arch" type="xml">
             <field name="number" position="after">
                 <filter string="Intercompany Trade" name="intercompany_trade" domain="[('intercompany_trade','=',True)]"/>
@@ -20,7 +20,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     <record id="view_account_invoice_form" model="ir.ui.view">
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account.invoice_form"/>
-        <field name="groups_id" eval="[(4, ref('intercompany_trade_base.intercompany_trade_user'))]"/>
+        <field name="groups_id" eval="[(4, ref('intercompany_trade.intercompany_trade_user'))]"/>
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
                 <field name="intercompany_trade"/>
@@ -37,7 +37,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     <record id="view_account_invoice_form_supplier" model="ir.ui.view">
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account.invoice_supplier_form"/>
-        <field name="groups_id" eval="[(4, ref('intercompany_trade_base.intercompany_trade_user'))]"/>
+        <field name="groups_id" eval="[(4, ref('intercompany_trade.intercompany_trade_user'))]"/>
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
                 <field name="intercompany_trade"/>

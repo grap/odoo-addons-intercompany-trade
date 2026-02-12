@@ -9,8 +9,8 @@
     "author": "GRAP",
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
     "license": "AGPL-3",
-    "depends": ["intercompany_trade_base", "account_cancel"],
+    "depends": ["intercompany_trade", "account_cancel"],
     "demo": ["demo/account_journal.xml"],
-    "auto_install": True,
+    "auto_install": False,
     "installable": False,
 }

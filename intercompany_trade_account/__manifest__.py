@@ -12,7 +12,7 @@
     "depends": [
         "account",
         # Custom
-        "intercompany_trade_base",
+        "intercompany_trade",
     ],
     "demo": [
         "demo/res_groups.xml",

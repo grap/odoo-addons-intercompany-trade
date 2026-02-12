@@ -5,7 +5,7 @@
 from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
-from odoo.addons.intercompany_trade_base.tests.test_module import (
+from odoo.addons.intercompany_trade.tests.test_module import (
     TestModule as TestIntercompanyTradeBase,
 )
 
@@ -24,7 +24,7 @@ class TestModule(TransactionCase):
         self.PosSession = self.env["pos.session"]
         self.PosOrder = self.env["pos.order"]
         self.intercompany_trade = self.env.ref(
-            "intercompany_trade_base.intercompany_trade"
+            "intercompany_trade.intercompany_trade"
         )
         self.pos_config = self.env.ref("point_of_sale.pos_config_main").copy()
 

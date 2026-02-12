@@ -11,13 +11,13 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="name">Intercompany Trade - Customer Purchase Journal</field>
         <field name="code">CUS_PURCHASE</field>
         <field name="type">purchase</field>
-        <field name="company_id" ref="intercompany_trade_base.customer_company" />
+        <field name="company_id" ref="intercompany_trade.customer_company" />
     </record>
 
     <record id="supplier_journal_sale" model="account.journal">
         <field name="name">Intercompany Trade - Supplier Sale Journal</field>
         <field name="code">SUP_SALE</field>
         <field name="type">sale</field>
-        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="company_id" ref="intercompany_trade.supplier_company" />
     </record>
 </odoo>

@@ -1,6 +1,10 @@
-=========================
-Intercompany Trade - Base
-=========================
+.. image:: https://odoo-community.org/readme-banner-image
+   :target: https://odoo-community.org/get-involved?utm_source=readme
+   :alt: Odoo Community Association
+
+==================
+Intercompany Trade
+==================
 
 .. 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -13,32 +17,18 @@ Intercompany Trade - Base
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-grap%2Fodoo--addons--intercompany--trade-lightgray.png?logo=github
-    :target: https://github.com/grap/odoo-addons-intercompany-trade/tree/16.0/intercompany_trade_base
+    :target: https://github.com/grap/odoo-addons-intercompany-trade/tree/16.0/intercompany_trade
     :alt: grap/odoo-addons-intercompany-trade
 
 |badge1| |badge2| |badge3|
 
 This module extends the functionality of Odoo, to allow users for
-distinct companies to make purchases and sales between us.
-
-**Features**
-
-- Add a New Model Intercompany Trade that define that two companies can
-  realize purchases and sales between them with a supplier company and a
-  customer company
-- Add a new field ``intercompany_trade`` in ``res.partner`` model
-- Add new groups to manage intercompany trade
-- When we set a new intercompany trade, Odoo create a supplier in the
-  customer company and a customer in the supplier company
-- Intercompany trade partner can be accessed only by 'intercompany trade
-  manager' members, except for specific fields, declared in
-  ``_intercompany_trade_allowed_fields`` function
-- Updating a company will update associated partners, in each company
-  that has trade with the updated company
+distinct companies of the same CAE, to make purchases and sales between
+us.
 
 **Demo Data**
 
@@ -60,7 +50,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/grap/odoo-addons-intercompany-trade/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/grap/odoo-addons-intercompany-trade/issues/new?body=module:%20intercompany_trade_base%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/grap/odoo-addons-intercompany-trade/issues/new?body=module:%20intercompany_trade%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -80,6 +70,6 @@ Contributors
 Maintainers
 -----------
 
-This module is part of the `grap/odoo-addons-intercompany-trade <https://github.com/grap/odoo-addons-intercompany-trade/tree/16.0/intercompany_trade_base>`_ project on GitHub.
+This module is part of the `grap/odoo-addons-intercompany-trade <https://github.com/grap/odoo-addons-intercompany-trade/tree/16.0/intercompany_trade>`_ project on GitHub.
 
 You are welcome to contribute.
