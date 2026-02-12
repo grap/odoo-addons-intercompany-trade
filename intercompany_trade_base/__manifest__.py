@@ -13,7 +13,7 @@
         # Odoo
         "base",
         # OCA
-                "web_notify",  # used by account glue module
+        "web_notify",  # used by account glue module
     ],
     "data": [
         "security/ir_module_category.xml",
@@ -30,5 +30,5 @@
         "demo/res_partner.xml",
         "demo/intercompany_trade_config.xml",
     ],
-    "installable": True,
+    "installable": False,
 }

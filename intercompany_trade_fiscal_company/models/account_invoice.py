@@ -56,25 +56,28 @@ class AccountInvoice(models.Model):
                 if not line.account_id.is_intercompany_trade_fiscal_company:
                     raise UserError(
                         _(
-                            "the account %s-%s is not correct for an expense or an"
+                            "the account %(code)s-%(name)s is not"
+                            " correct for an expense or an"
                             " income in the case of intercompany trade invoice"
                             " between two companies that belong the same fiscal"
                             " company (CAE).\n"
-                            " Please contact your accountant."
+                            " Please contact your accountant.",
+                            code=line.account_id.code,
+                            name=line.account_id.name,
                         )
-                        % (line.account_id.code, line.account_id.name)
                     )
 
             # Check that main account is for intercompany trade
             if self.account_id != self.company_id.intercompany_trade_account_id:
                 raise UserError(
                     _(
-                        "the account %s-%s is not the correct one in the"
+                        "the account %(code)s-%(name)s is not the correct one in the"
                         " case of intercompany trade invoice between two companies"
                         " that belong the same fiscal company (CAE).\n"
-                        " Please contact your accountant."
+                        " Please contact your accountant.",
+                        code=self.account_id.code,
+                        name=self.account_id.name,
                     )
-                    % (self.account_id.code, self.account_id.name)
                 )
 
         else:

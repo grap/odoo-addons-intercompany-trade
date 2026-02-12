@@ -12,7 +12,6 @@ class IntercompanyTradeConfig(models.Model):
     # Columns Section
     same_fiscal_mother_company = fields.Boolean(
         compute="_compute_same_fiscal_mother_company",
-        string="Same Fiscal Mother Company",
         store=True,
         help="If this field is checked, the intercompany"
         " trade is realized between two fiscal child companies"

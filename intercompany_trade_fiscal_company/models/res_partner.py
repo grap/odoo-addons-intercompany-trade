@@ -24,11 +24,12 @@ class ResPartner(models.Model):
             ):
                 raise UserError(
                     _(
-                        "It's not possible to set the fiscal position '%s' to this partner.\n\n"
+                        "It's not possible to set the fiscal position"
+                        " '%(name)s' to this partner.\n\n"
                         " You should not use a fiscal position for intercompany trade"
-                        " between same fiscal companies."
+                        " between same fiscal companies.",
+                        name=fiscal_position.name,
                     )
-                    % (fiscal_position.name)
                 )
 
             # ref "and self.property_account_position_id"
@@ -44,9 +45,10 @@ class ResPartner(models.Model):
             ):
                 raise UserError(
                     _(
-                        "It's not possible to set the fiscal position '%s' to this partner.\n\n"
+                        "It's not possible to set the fiscal position"
+                        " '%(name)s' to this partner.\n\n"
                         " You should use a fiscal position for intercompany trade"
-                        " between same fiscal companies."
+                        " between same fiscal companies.",
+                        name=fiscal_position.name,
                     )
-                    % (fiscal_position.name)
                 )

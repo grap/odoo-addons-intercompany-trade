@@ -10,5 +10,5 @@
     "license": "AGPL-3",
     "depends": ["intercompany_trade_account", "account_invoice_supplier_ref_unique"],
     "auto_install": True,
-    "installable": True,
+    "installable": False,
 }

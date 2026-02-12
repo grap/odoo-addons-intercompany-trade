@@ -11,18 +11,14 @@ class IntercompanyTradeCatalog(models.Model):
     _auto = False
     _rec_name = "supplier_product_default_code"
 
-    # Column Section
     intercompany_trade_id = fields.Many2one(
-        string="Intercompany Trade",
         readonly=True,
         comodel_name="intercompany.trade.config",
     )
 
-    customer_company_id = fields.Many2one(
-        string="Customer Company", readonly=True, comodel_name="res.company"
-    )
+    customer_company_id = fields.Many2one(readonly=True, comodel_name="res.company")
 
-    supplier_product_name = fields.Char(string="Supplier Product Name", readonly=True)
+    supplier_product_name = fields.Char(readonly=True)
 
     supplier_product_uom = fields.Many2one(
         string="Supplier Product UoM",
@@ -30,25 +26,20 @@ class IntercompanyTradeCatalog(models.Model):
         comodel_name="uom.uom",
     )
 
-    supplier_product_default_code = fields.Char(
-        string="Supplier Product Code", readonly=True
-    )
+    supplier_product_default_code = fields.Char(readonly=True)
 
     supplier_partner_id = fields.Many2one(
         string="Supplier Partner", readonly=True, comodel_name="res.partner"
     )
 
-    supplier_partner_name = fields.Char(string="Supplier Partner Name", readonly=True)
+    supplier_partner_name = fields.Char(readonly=True)
 
     supplier_product_id = fields.Many2one(
-        string="Supplier Product",
         readonly=True,
         comodel_name="product.product",
     )
 
-    supplier_product_active = fields.Boolean(
-        string="Supplier Product Active", readonly=True
-    )
+    supplier_product_active = fields.Boolean(readonly=True)
 
     supplier_product_sale_ok = fields.Boolean(
         string="Supplier Product Can be sold", readonly=True

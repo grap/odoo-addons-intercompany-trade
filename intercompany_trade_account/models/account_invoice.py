@@ -28,8 +28,7 @@ class AccountInvoice(models.Model):
     )
 
     intercompany_trade_readonly = fields.Boolean(
-        string="Intercompany Trade Readonly",
-        compute="_compute_intercompany_trade_readonly",
+        compute="_compute_intercompany_trade_readonly"
     )
 
     # Compute Section
@@ -149,11 +148,14 @@ class AccountInvoice(models.Model):
                 raise UserError(
                     _(
                         "Unable to confirm this intercompany Trade invoice (or"
-                        " refund) because the field '%s' is not the same: \n"
-                        " - customer value : %s\n"
-                        " - supplier value : %s"
+                        " refund) because the field '%(field_name)s'"
+                        " is not the same: \n"
+                        " - customer value : %(customer_value)s\n"
+                        " - supplier value : %(supplier_value)s",
+                        field_name=field_name,
+                        customer_value=customer_value,
+                        supplier_value=supplier_value,
                     )
-                    % (field_name, customer_value, supplier_value)
                 )
 
         # Confirm Customer invoice

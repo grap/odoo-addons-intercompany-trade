@@ -107,7 +107,7 @@ class Test(TransactionCase):
             supplier_line
         ) in self.intercompany_invoice._get_intercompany_trade_invoiceable_lines():
             customer_line = customer_invoice_products.filtered(
-                lambda x: x.name == supplier_line.name
+                lambda x, supplier_line=supplier_line: x.name == supplier_line.name
             )
             self.assertEqual(
                 len(customer_line),

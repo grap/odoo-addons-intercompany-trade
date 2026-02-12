@@ -10,9 +10,7 @@ from odoo.exceptions import Warning as UserError
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    # Columns section
     intercompany_trade = fields.Boolean(
-        string="Intercompany Trade",
         readonly=True,
         help="Indicate that this partner is a company in Odoo.",
     )

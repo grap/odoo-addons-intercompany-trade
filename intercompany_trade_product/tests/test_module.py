@@ -106,9 +106,9 @@ class TestModule(TransactionCase):
 
     def _test_01_product_association_by_product(self):
         # Test if getting the product in the supplier context works.
-        customer_product = self.config.with_user(self.supplier_user).get_customer_product(
-            self.supplier_apple
-        )
+        customer_product = self.config.with_user(
+            self.supplier_user
+        ).get_customer_product(self.supplier_apple)
 
         self.assertEqual(
             customer_product,
@@ -129,9 +129,9 @@ class TestModule(TransactionCase):
             self.ProductSupplierinfo.with_user(self.customer_user).create(vals)
 
         # Test with another product
-        customer_product = self.config.with_user(self.supplier_user).get_customer_product(
-            self.supplier_service
-        )
+        customer_product = self.config.with_user(
+            self.supplier_user
+        ).get_customer_product(self.supplier_service)
 
         self.assertEqual(
             customer_product,
@@ -142,9 +142,9 @@ class TestModule(TransactionCase):
     def _test_02_product_association_by_rule(self):
         # Test if getting the product in the supplier context works.
         # by rule
-        customer_product = self.config.with_user(self.supplier_user).get_customer_product(
-            self.supplier_imac
-        )
+        customer_product = self.config.with_user(
+            self.supplier_user
+        ).get_customer_product(self.supplier_imac)
 
         self.assertEqual(
             customer_product,
@@ -155,9 +155,9 @@ class TestModule(TransactionCase):
         # Change the rule category for a parent product
         self.config_line_category.categ_id = self.category_it_raws
 
-        customer_product = self.config.with_user(self.supplier_user).get_customer_product(
-            self.supplier_imac
-        )
+        customer_product = self.config.with_user(
+            self.supplier_user
+        ).get_customer_product(self.supplier_imac)
 
         self.assertEqual(
             customer_product,
@@ -165,9 +165,9 @@ class TestModule(TransactionCase):
             "Recovering by category rule should succeed. (parent category)",
         )
 
-        customer_product = self.config.with_user(self.supplier_user).get_customer_product(
-            self.supplier_banana
-        )
+        customer_product = self.config.with_user(
+            self.supplier_user
+        ).get_customer_product(self.supplier_banana)
 
         self.assertEqual(
             customer_product,
@@ -179,6 +179,6 @@ class TestModule(TransactionCase):
         self.config_line_category.categ_id = False
         self.config_line_category.categ_id = self.category_it_raws
 
-        customer_product = self.config.with_user(self.supplier_user).get_customer_product(
-            self.supplier_imac
-        )
+        customer_product = self.config.with_user(
+            self.supplier_user
+        ).get_customer_product(self.supplier_imac)
