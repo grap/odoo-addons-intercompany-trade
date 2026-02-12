@@ -21,6 +21,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
+[intercompany_trade_account](intercompany_trade_account/) | 16.0.1.0.0 |  | Intercompany Trade - Account
 [intercompany_trade_account_cancel](intercompany_trade_account_cancel/) | 16.0.1.0.0 |  | Intercompany Trade - Account Cancel
 [intercompany_trade_account_invoice_supplier_ref_unique](intercompany_trade_account_invoice_supplier_ref_unique/) | 16.0.1.0.0 |  | Intercompany Trade - Account Invoice Supplier Ref Unique
 [intercompany_trade_base](intercompany_trade_base/) | 16.0.1.0.0 |  | Intercompany Trade - Base
