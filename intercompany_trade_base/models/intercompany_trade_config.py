@@ -113,7 +113,6 @@ class IntercompanyTradeConfig(models.Model):
             "logo",
         ]
 
-    @api.multi
     def _prepare_partner_from_company(self, company_id, inner_company_id):
         """
         Return vals for the creation of a partner, depending of
@@ -202,7 +201,6 @@ class IntercompanyTradeConfig(models.Model):
             )
         return config
 
-    @api.multi
     def write(self, vals):
         """Block possibility to change customer or supplier company"""
         if "customer_company_id" in vals.keys() or "supplier_company_id" in vals.keys():

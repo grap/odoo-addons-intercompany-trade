@@ -9,7 +9,6 @@ from odoo import api, models
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    @api.multi
     def write(self, vals):
         """update partners that are flagged as 'intercompany_trade' and
         are associated to the companies

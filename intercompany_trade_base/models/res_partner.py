@@ -24,12 +24,10 @@ class ResPartner(models.Model):
         res._check_intercompany_trade_access(vals.keys())
         return res
 
-    @api.multi
     def write(self, vals):
         self._check_intercompany_trade_access(vals.keys())
         return super().write(vals)
 
-    @api.multi
     def unlink(self):
         self._check_intercompany_trade_access([0])
         return super().unlink()
@@ -59,7 +57,6 @@ class ResPartner(models.Model):
         some fields for intercompany trade partner"""
         return []
 
-    @api.multi
     def _check_intercompany_trade_access(self, fields):
         """Restrict access of partner set as intercompany_trade for only
         'intercompany_trade_manager' users."""

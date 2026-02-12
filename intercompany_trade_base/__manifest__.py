@@ -4,7 +4,7 @@
 
 {
     "name": "Intercompany Trade - Base",
-    "version": "12.0.1.1.5",
+    "version": "16.0.1.0.0",
     "category": "Intercompany Trade",
     "author": "GRAP",
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
@@ -13,8 +13,7 @@
         # Odoo
         "base",
         # OCA
-        "base_suspend_security",
-        "web_notify",  # used by account glue module
+                "web_notify",  # used by account glue module
     ],
     "data": [
         "security/ir_module_category.xml",
