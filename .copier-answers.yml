@@ -1,8 +1,9 @@
 # Do NOT update manually; changes here will be overwritten by Copier
-_commit: ebd3bb9
-_src_path: https://github.com/grap/oca-addons-repo-template-new
+_commit: 352dc52
+_src_path: https://github.com/grap/oca-addons-repo-template-v16
+additional_ruff_rules: []
 ci: GitHub
-convert_readme_fragments_to_markdown: false
+convert_readme_fragments_to_markdown: true
 enable_checklog_odoo: false
 generate_requirements_txt: true
 github_check_license: true
@@ -23,8 +24,5 @@ repo_name: Integrated Trade Modules For Odoo
 repo_slug: odoo-addons-intercompany-trade
 repo_website: https://github.com/grap/odoo-addons-intercompany-trade
 use_pyproject_toml: false
-use_ruff: false
-
-convert_readme_fragments_to_markdown: true
-odoo_test_flavor: Odoo
 use_ruff: true
+
