@@ -60,11 +60,8 @@ class ProductSupplierinfo(models.Model):
             lambda x: x.intercompany_trade_id and x.supplier_product_id
         ):
             supplierinfo.catalog_id = int(
-                "%s%s"
-                % (
-                    supplierinfo.supplier_product_id.id,
-                    str(supplierinfo.intercompany_trade_id.id).rjust(4, "0"),
-                )
+                f"{supplierinfo.supplier_product_id.id}"
+                f"{str(supplierinfo.intercompany_trade_id.id).rjust(4, "0")}"
             )
 
     def _inverse_catalog_id(self):
@@ -102,12 +99,10 @@ class ProductSupplierinfo(models.Model):
             if len(res):
                 raise UserError(
                     _(
-                        "The product(s) %s  are still linked to the"
+                        "The product(s) %(names)s are still linked to the"
                         " the supplier product. You can not link the product"
-                        " %s."
-                    )
-                    % (
-                        ", ".join(res.mapped("product_tmpl_id.name")),
-                        supplierinfo.product_tmpl_id.name,
+                        " %(name)s.",
+                        names=", ".join(res.mapped("product_tmpl_id.name")),
+                        name=supplierinfo.product_tmpl_id.name,
                     )
                 )

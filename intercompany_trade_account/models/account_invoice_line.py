@@ -35,9 +35,10 @@ class AccountInvoiceLine(models.Model):
             raise UserError(
                 _(
                     "It is not possible to confirm this invoice, because"
-                    " your customer didn't referenced your product %s-%s"
+                    " your customer didn't referenced your product %(code)s-%(name)s",
+                    code=self.product_id.default_code,
+                    name=self.product_id.name,
                 )
-                % (self.product_id.default_code, self.product_id.name)
             )
 
         customer_template_product = customer_product.product_tmpl_id
@@ -49,11 +50,9 @@ class AccountInvoiceLine(models.Model):
                 _(
                     "It is not possible to confirm this invoice, because"
                     " the product of your customer doesn't have a correct"
-                    " accounting setting %s - %s"
-                )
-                % (
-                    customer_template_product.default_code,
-                    customer_template_product.name,
+                    " accounting setting %(code)s - %(name)s",
+                    code=customer_template_product.default_code,
+                    name=customer_template_product.name,
                 )
             )
         return {

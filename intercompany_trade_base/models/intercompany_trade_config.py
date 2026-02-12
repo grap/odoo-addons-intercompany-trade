@@ -11,10 +11,9 @@ class IntercompanyTradeConfig(models.Model):
     _description = "Intercompany Trade Configuration"
     _order = "customer_company_id, supplier_company_id"
 
-    name = fields.Char(string="Name", required=True, default="/")
+    name = fields.Char(required=True, default="/")
 
     active = fields.Boolean(
-        string="Active",
         default=True,
         help="By unchecking the active field"
         " you can disable the trading between the two company without"
@@ -22,7 +21,6 @@ class IntercompanyTradeConfig(models.Model):
     )
 
     customer_user_id = fields.Many2one(
-        string="Customer User",
         required=True,
         comodel_name="res.users",
         domain="[('company_id', '=', customer_company_id)]",
@@ -33,14 +31,12 @@ class IntercompanyTradeConfig(models.Model):
     )
 
     customer_company_id = fields.Many2one(
-        string="Customer Company",
         required=True,
         comodel_name="res.company",
         help="Select the company that could purchase to the other.",
     )
 
     supplier_company_id = fields.Many2one(
-        string="Supplier Company",
         required=True,
         comodel_name="res.company",
         help="Select the company that could sale to the other.",
