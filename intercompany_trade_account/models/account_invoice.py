@@ -33,7 +33,6 @@ class AccountInvoice(models.Model):
     )
 
     # Compute Section
-    @api.multi
     @api.depends("type", "intercompany_trade")
     def _compute_intercompany_trade_readonly(self):
         for invoice in self.filtered(
@@ -48,13 +47,11 @@ class AccountInvoice(models.Model):
         invoice._check_intercompany_trade_write(vals)
         return invoice
 
-    @api.multi
     def write(self, vals):
         res = super().write(vals)
         self._check_intercompany_trade_write(vals)
         return res
 
-    @api.multi
     def invoice_validate(self):
         for invoice in self.filtered(
             lambda x: x.intercompany_trade and "out_" in x.type
@@ -63,7 +60,6 @@ class AccountInvoice(models.Model):
         return super().invoice_validate()
 
     # Action Section
-    @api.multi
     def check_intercompany_trade_links(self):
         self.ensure_one()
         product_list = []
@@ -87,11 +83,9 @@ class AccountInvoice(models.Model):
             )
 
     # Custom Section
-    @api.multi
     def _get_intercompany_trade_invoiceable_lines(self):
         return self.mapped("invoice_line_ids").filtered(lambda x: not x.display_type)
 
-    @api.multi
     def _check_intercompany_trade_write(self, vals):
         # check if the operation is done in by a intercompany trade
         # process
@@ -115,7 +109,6 @@ class AccountInvoice(models.Model):
                     )
                 )
 
-    @api.multi
     def _create_intercompany_invoice(self):
         AccountInvoiceLine = self.env["account.invoice.line"]
         self.ensure_one()
@@ -123,7 +116,7 @@ class AccountInvoice(models.Model):
         invoice_vals = self._prepare_intercompany_vals(config)
         # Create Customer invoice
         customer_invoice = (
-            self.sudo(config.customer_user_id)
+            self.with_user(config.customer_user_id)
             .with_context(intercompany_trade_create=True)
             .create(invoice_vals)
         )
@@ -135,8 +128,8 @@ class AccountInvoice(models.Model):
             )
             # TODO: V10 Check if it is mandatory to use suspend_security()
             line = (
-                AccountInvoiceLine.sudo(config.customer_user_id)
-                .suspend_security()
+                AccountInvoiceLine.with_user(config.customer_user_id)
+                .sudo()
                 .with_context(intercompany_trade_create=True)
                 .create(line_vals)
             )
@@ -164,12 +157,11 @@ class AccountInvoice(models.Model):
                 )
 
         # Confirm Customer invoice
-        customer_invoice.sudo(config.customer_user_id).with_context(
+        customer_invoice.with_user(config.customer_user_id).with_context(
             intercompany_trade_create=True
         ).action_invoice_open()
         self.name = customer_invoice.number
 
-    @api.multi
     def _get_intercompany_trade_config_by_partner_company_type(self):
         Config = self.env["intercompany.trade.config"]
 
@@ -183,7 +175,6 @@ class AccountInvoice(models.Model):
             self.partner_id.id, self.company_id.id, regular_type
         )
 
-    @api.multi
     def _prepare_intercompany_vals(self, config):
         self.ensure_one()
         customer_user = config.customer_user_id
@@ -197,7 +188,7 @@ class AccountInvoice(models.Model):
             other_type = "in_refund"
 
         account_journal = (
-            self.sudo(customer_user)
+            self.with_user(customer_user)
             .with_context(type=other_type, company_id=other_company_id)
             ._default_journal()
         )

@@ -25,7 +25,6 @@ class AccountInvoiceLine(models.Model):
     )
 
     # Custom Section
-    @api.multi
     def _prepare_intercompany_vals(self, config, customer_invoice):
         self.ensure_one()
 
