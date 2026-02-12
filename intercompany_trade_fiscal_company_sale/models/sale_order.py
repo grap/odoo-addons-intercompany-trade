@@ -8,7 +8,6 @@ from odoo import api, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    @api.multi
     def _prepare_invoice(self):
         vals = super()._prepare_invoice()
         config = (
