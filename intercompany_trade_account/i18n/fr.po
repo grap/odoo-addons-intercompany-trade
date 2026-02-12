@@ -1,0 +1,119 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * intercompany_trade_account
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-02-01 13:53+0000\n"
+"PO-Revision-Date: 2020-02-01 13:53+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: intercompany_trade_account
+#: model_terms:ir.ui.view,arch_db:intercompany_trade_account.view_account_invoice_form
+msgid "Check Links"
+msgstr "Vérifier les liens"
+
+#. module: intercompany_trade_account
+#: model:product.product,name:intercompany_trade_account.product_customer_service_10_excl
+#: model:product.template,name:intercompany_trade_account.product_customer_service_10_excl_product_template
+msgid "Customer Service VAT 10% EXCLUDED"
+msgstr "Customer Service VAT 10% EXCLUDED"
+
+#. module: intercompany_trade_account
+#: model:ir.model.fields,help:intercompany_trade_account.field_account_invoice__intercompany_trade
+#: model:ir.model.fields,help:intercompany_trade_account.field_account_invoice_line__intercompany_trade
+msgid "Indicate that this partner is a company in Odoo."
+msgstr "Indique que le partenaire est une société dans Odoo."
+
+#. module: intercompany_trade_account
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_invoice__intercompany_trade
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_invoice_line__intercompany_trade
+#: model_terms:ir.ui.view,arch_db:intercompany_trade_account.view_account_invoice_search
+msgid "Intercompany Trade"
+msgstr "Transaction inter société"
+
+#. module: intercompany_trade_account
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_invoice__intercompany_trade_readonly
+msgid "Intercompany Trade Readonly"
+msgstr "Lecture seule Transaction inter société"
+
+#. module: intercompany_trade_account
+#: model:ir.model,name:intercompany_trade_account.model_account_invoice
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: intercompany_trade_account
+#: model:ir.model,name:intercompany_trade_account.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Ligne de facture"
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/models/account_invoice_line.py:37
+#, python-format
+msgid "It is not possible to confirm this invoice, because your customer didn't referenced your product %s-%s"
+msgstr "Il n'est pas possible de confirmer cette facture, car votre client n'a pas référencé votre produit %s-%s"
+
+#. module: intercompany_trade_account
+#: model:product.product,name:intercompany_trade_account.product_supplier_service_10_excl
+#: model:product.template,name:intercompany_trade_account.product_supplier_service_10_excl_product_template
+msgid "Supplier Service VAT 10% EXCLUDED"
+msgstr ""
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/models/account_invoice.py:163
+#, python-format
+msgid "Unable to confirm this intercompany Trade invoice (or refund) because the field '%s' is not the same: \n"
+" - customer value : %s\n"
+" - supplier value : %s"
+msgstr "Impossible de confirmer cette facture (ou avoir) Intersociété car le champ '%s' n'est pas le même: \n"
+" - Valeur chez le client : %s\n"
+" - Valeur chez le fournisseur : %s"
+
+#. module: intercompany_trade_account
+#: model:product.product,uom_name:intercompany_trade_account.product_customer_service_10_excl
+#: model:product.product,uom_name:intercompany_trade_account.product_supplier_service_10_excl
+#: model:product.template,uom_name:intercompany_trade_account.product_customer_service_10_excl_product_template
+#: model:product.template,uom_name:intercompany_trade_account.product_supplier_service_10_excl_product_template
+msgid "Unit(s)"
+msgstr "Unité(s)"
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/models/account_invoice.py:117
+#, python-format
+msgid "You can not create a supplier invoice or refund for intercompany trade supplier. Please ask to your supplier to create or update it"
+msgstr "Vous ne pouvez pas créer une facture ou un avoir fournisseur pour les transactions intersociété. Veuillez contacter votre fournisseur pour lui dire de créer ou de modifier sa facture client."
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/models/account_invoice.py:93
+#, python-format
+msgid "Your customer did the job.\n"
+"\n"
+" All the products are correctly referenced."
+msgstr "Votre client a fait la job.\n"
+"\n"
+" Tous les produits sont correctement référencés."
+
+#. module: intercompany_trade_account
+#: code:addons/intercompany_trade_account/models/account_invoice.py:81
+#, python-format
+msgid "Your customer should reference the following products: \n"
+"\n"
+"- %s"
+msgstr "Votre client doit référencer les produits suivants: \n"
+"\n"
+"- %s"
+
+#. module: intercompany_trade_account
+#: model:product.product,weight_uom_name:intercompany_trade_account.product_customer_service_10_excl
+#: model:product.product,weight_uom_name:intercompany_trade_account.product_supplier_service_10_excl
+#: model:product.template,weight_uom_name:intercompany_trade_account.product_customer_service_10_excl_product_template
+#: model:product.template,weight_uom_name:intercompany_trade_account.product_supplier_service_10_excl_product_template
+msgid "kg"
+msgstr "kg"

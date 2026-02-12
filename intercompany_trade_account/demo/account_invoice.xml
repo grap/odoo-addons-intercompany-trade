@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2017 - Today: GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+
+<odoo>
+
+    <record id="intercompany_invoice" model="account.invoice" context="{'tracking_disable': True}">
+        <field name="company_id" ref="intercompany_trade_base.supplier_company"/>
+        <field name="type">out_invoice</field>
+        <field name="currency_id" ref="base.EUR"/>
+        <field name="partner_id" eval="obj(ref('intercompany_trade_base.intercompany_trade')).customer_partner_id.id" model="intercompany.trade.config"/>
+        <field name="account_id" ref="supplier_account_receivable"/>
+        <field name="journal_id" ref="supplier_journal_sale"/>
+    </record>
+
+    <record id="supplier_invoice_line_1_section" model="account.invoice.line">
+        <field name="name">My Section</field>
+        <field name="display_type">line_section</field>
+        <field name="invoice_id" ref="intercompany_invoice"/>
+    </record>
+
+    <record id="supplier_invoice_line_2_note" model="account.invoice.line">
+        <field name="name">My Note</field>
+        <field name="display_type">line_note</field>
+        <field name="invoice_id" ref="intercompany_invoice"/>
+    </record>
+
+    <record id="supplier_invoice_line_3_product" model="account.invoice.line">
+        <field name="name">Supplier Apple (Strict Link - No Tax)</field>
+        <field name="quantity">10</field>
+        <field name="price_unit">4</field>
+        <field name="invoice_id" ref="intercompany_invoice"/>
+        <field name="product_id" ref="intercompany_trade_product.product_supplier_apple"/>
+        <field name="account_id" ref="supplier_account_income"/>
+    </record>
+
+    <record id="supplier_invoice_line_4_product" model="account.invoice.line">
+        <field name="name">Supplier Imac Computer (Approximate Link - No Tax)</field>
+        <field name="quantity">100</field>
+        <field name="price_unit">100</field>
+        <field name="invoice_id" ref="intercompany_invoice"/>
+        <field name="product_id" ref="intercompany_trade_product.product_supplier_imac_computer"/>
+        <field name="account_id" ref="supplier_account_income"/>
+    </record>
+
+    <record id="supplier_invoice_line_5_product" model="account.invoice.line">
+        <field name="name">Supplier Service (Strict Link - With Tax)</field>
+        <field name="quantity">20</field>
+        <field name="price_unit">10</field>
+        <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('sale_vat_10_excluded')])]"/>
+        <field name="invoice_id" ref="intercompany_invoice"/>
+        <field name="product_id" ref="product_supplier_service_10_excl"/>
+        <field name="account_id" ref="supplier_account_income"/>
+    </record>
+
+</odoo>
