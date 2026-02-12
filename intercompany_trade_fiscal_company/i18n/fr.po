@@ -1,0 +1,214 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * intercompany_trade_fiscal_company
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-23 13:09+0000\n"
+"PO-Revision-Date: 2023-05-23 13:09+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: intercompany_trade_fiscal_company
+#: code:addons/intercompany_trade_fiscal_company/models/intercompany_trade_config.py:82
+#, python-format
+msgid " For Intercompany Trade between two child companies  of the same fiscal company, please define first Intercompany Trade account in Companies Form"
+msgstr " Pour les Transaction Inter Société au sein d'une CAE, veuillez d'abord définir un compte comptable interne pour la société"
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model,name:intercompany_trade_fiscal_company.model_account_account
+msgid "Account"
+msgstr "Compte"
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_res_company__intercompany_trade_account_id
+msgid "Account for Intercompany Trade"
+msgstr "Compte pour transaction inter société"
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model.fields,help:intercompany_trade_fiscal_company.field_account_account__is_intercompany_trade_fiscal_company
+msgid "Check this box for integrated Trade into 2 companies of the same cooperative for the 'receivable' / 'payable' / 'Income' / 'Expense' accounts."
+msgstr "Cochez cette case pour les transaction Inter Société au sein d'une CAE."
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model.fields,help:intercompany_trade_fiscal_company.field_account_fiscal_position__is_intercompany_trade_fiscal_company
+msgid "Check this box to use this Fiscal position for integrated Trade into 2 companies of the same cooperative"
+msgstr "Cocher cette case si vous voulez utiliser la position fiscale pour transaction intersociété entre société de la même coopérative"
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model.fields,help:intercompany_trade_fiscal_company.field_account_bank_statement_import_journal_creation__is_intercompany_trade_fiscal_company
+#: model:ir.model.fields,help:intercompany_trade_fiscal_company.field_account_journal__is_intercompany_trade_fiscal_company
+msgid "Check this box to use this journal for integrated Trade into 2 companies of the same cooperative"
+msgstr "Cochez cette case pour utiliser ce journal dans le cadre de transaction inter société de la même CAE."
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model,name:intercompany_trade_fiscal_company.model_res_company
+msgid "Companies"
+msgstr "Sociétés"
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model,name:intercompany_trade_fiscal_company.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model,name:intercompany_trade_fiscal_company.model_account_fiscal_position
+msgid "Fiscal Position"
+msgstr "Position fiscale"
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model.fields,help:intercompany_trade_fiscal_company.field_intercompany_trade_config__same_fiscal_mother_company
+msgid "If this field is checked, the intercompany trade is realized between two fiscal child companies that have the same mother company. Special rules will be applied.\n"
+" * VAT are deleted;\n"
+" * Sale and Purchase Accounts are updated using a transcoding table; "
+msgstr "Si ce champ est coché, la transaction Inter Société est réalisée entre deux sociétés d'une même CAE. Des règles spéciales seront appliquée :.\n"
+" * Les TVA sont supprimées; * Les comptes comptables d'achat et de vente sont mis à jour en utilisant une table de transodage ;"
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_account_account__is_intercompany_trade_fiscal_company
+#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_account_bank_statement_import_journal_creation__is_intercompany_trade_fiscal_company
+#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_account_fiscal_position__is_intercompany_trade_fiscal_company
+#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_account_journal__is_intercompany_trade_fiscal_company
+msgid "Integrated Trade into a CAE"
+msgstr "Transaction Intersociété au sein d'une CAE"
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model,name:intercompany_trade_fiscal_company.model_intercompany_trade_config
+msgid "Intercompany Trade Configuration"
+msgstr "Configuration de transaction inter société"
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_res_company__intercompany_trade_fiscal_position_id
+msgid "Intercompany Trade Fiscal Position"
+msgstr "Position fiscale de Transaction intersociété"
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model,name:intercompany_trade_fiscal_company.model_account_invoice
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: intercompany_trade_fiscal_company
+#: code:addons/intercompany_trade_fiscal_company/models/res_partner.py:26
+#, python-format
+msgid "It's not possible to set the fiscal position '%s' to this partner.\n"
+"\n"
+" You should not use a fiscal position for intercompany trade between same fiscal companies."
+msgstr "Il n'est pas possible de paramétrer la position fiscale '%s' sur ce partenaire.\n"
+"\n"
+" Vous ne devez pas utiliser de position fiscale pour des transactions intersociétés"
+
+#. module: intercompany_trade_fiscal_company
+#: code:addons/intercompany_trade_fiscal_company/models/res_partner.py:46
+#, python-format
+msgid "It's not possible to set the fiscal position '%s' to this partner.\n"
+"\n"
+" You should use a fiscal position for intercompany trade between same fiscal companies."
+msgstr "Il n'est pas possible de paramétrer la position fiscale '%s' sur ce partenaire.\n"
+"\n"
+" Vous devez utiliser une position fiscale dédiée des transactions intersociétés"
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model,name:intercompany_trade_fiscal_company.model_account_journal
+msgid "Journal"
+msgstr ""
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_intercompany_trade_config__purchase_journal_id
+msgid "Journal in Customer Company"
+msgstr "Journal d'achat dans la société cliente"
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_intercompany_trade_config__sale_journal_id
+msgid "Journal in Supplier Company"
+msgstr "Journal de vente dans la société fournisseur"
+
+#. module: intercompany_trade_fiscal_company
+#: code:addons/intercompany_trade_fiscal_company/models/account_journal.py:24
+#, python-format
+msgid "Only 'Purchase' and 'Sale' Journals can be flaged as 'Internal Journal for Intercompany Trade'"
+msgstr "Seulement les journaux d'achat et de vente peuvent être identifié comme Journal interne pour transaction inter société de CAE."
+
+#. module: intercompany_trade_fiscal_company
+#: code:addons/intercompany_trade_fiscal_company/models/account_account.py:25
+#, python-format
+msgid "Only 'Receivable' and 'Other' Accounts can be flaged as 'Internal Account for Intercompany Trade'"
+msgstr "Les comptes comptables de type 'client' uniquement peuvent être marqué comme compte comptable pour Transaction Inter Société de CAE"
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_intercompany_trade_config__fiscal_company_supplier_account_id
+msgid "Payable Account for the Supplier"
+msgstr "Compte fournisseur"
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_intercompany_trade_config__fiscal_company_customer_account_id
+msgid "Receivable Account for the Customer"
+msgstr "Compte client"
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_intercompany_trade_config__same_fiscal_mother_company
+msgid "Same Fiscal Mother Company"
+msgstr "Même Société CAE"
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model.fields,help:intercompany_trade_fiscal_company.field_intercompany_trade_config__purchase_journal_id
+#: model:ir.model.fields,help:intercompany_trade_fiscal_company.field_intercompany_trade_config__sale_journal_id
+msgid "Set a journal to use for intercompany trade. This setting is used only for trade between child companies of the same fiscal company."
+msgstr "Mettre un journal a utiliser pour les Transactions Inter Société. Ce paramétrage est utilisé seulement pour des transactions entre deux sociétés appartenant à la même CAE."
+
+#. module: intercompany_trade_fiscal_company
+#: model:ir.model.fields,help:intercompany_trade_fiscal_company.field_intercompany_trade_config__fiscal_company_customer_account_id
+#: model:ir.model.fields,help:intercompany_trade_fiscal_company.field_intercompany_trade_config__fiscal_company_supplier_account_id
+#: model:ir.model.fields,help:intercompany_trade_fiscal_company.field_res_company__intercompany_trade_account_id
+msgid "Set an account if there is Intercompany Trade with this company. This setting will have an effect only in trade between two companies of the same cooperative"
+msgstr "Mettre un compte comptable s'il y a des transaction Inter Société avec d'autres structures de la même CAE"
+
+#. module: intercompany_trade_fiscal_company
+#: code:addons/intercompany_trade_fiscal_company/models/account_invoice.py:50
+#, python-format
+msgid "You can not use the fiscal position '%s' for Intercompany Trade."
+msgstr "Vous ne pouvez pas utiliser la position fiscale '%s' dédiée aux transactions internes pour CAE."
+
+#. module: intercompany_trade_fiscal_company
+#: code:addons/intercompany_trade_fiscal_company/models/account_invoice.py:97
+#, python-format
+msgid "You can not use the fiscal position '%s' for Non Intercompany Trade."
+msgstr "Vous ne pouvez pas utiliser la position fiscale '%s' en dehors des transactions internes pour CAE."
+
+#. module: intercompany_trade_fiscal_company
+#: code:addons/intercompany_trade_fiscal_company/models/account_invoice.py:37
+#, python-format
+msgid "You can not use the journal '%s' for Intercompany Trade."
+msgstr "Vous ne pouvez pas utiliser le journal '%s' dédié aux transactions internes pour CAE."
+
+#. module: intercompany_trade_fiscal_company
+#: code:addons/intercompany_trade_fiscal_company/models/account_invoice.py:87
+#, python-format
+msgid "You can not use the journal '%s' for Non Intercompany Trade."
+msgstr "Vous ne pouvez pas utiliser le journal '%s' en dehors des transactions internes pour CAE."
+
+#. module: intercompany_trade_fiscal_company
+#: code:addons/intercompany_trade_fiscal_company/models/account_invoice.py:44
+#, python-format
+msgid "You have to set a Fiscal position for Intercompany Trade."
+msgstr "Vous devez mettre une position fiscale dédiée aux transactions internes pour CAE."
+
+#. module: intercompany_trade_fiscal_company
+#: code:addons/intercompany_trade_fiscal_company/models/account_invoice.py:61
+#, python-format
+msgid "the account %s-%s is not correct for an expense or an income in the case of intercompany trade invoice between two companies that belong the same fiscal company (CAE).\n"
+" Please contact your accountant."
+msgstr "Le compte %s-%s n'est pas correct pour une dépense ou un revenue dans le cadre de transaction intersociété entre deux structures qui appartiennent à la même CAE.Veuillez contacter votre comptable."
+
+#. module: intercompany_trade_fiscal_company
+#: code:addons/intercompany_trade_fiscal_company/models/account_invoice.py:74
+#, python-format
+msgid "the account %s-%s is not the correct one in the case of intercompany trade invoice between two companies that belong the same fiscal company (CAE).\n"
+" Please contact your accountant."
+msgstr "Le compte %s-%s n'est pas correcte dans le cadre d'une transaction intersociété entre deux structures d'une même CAE.Veuillez contacter votre comptable."
+
