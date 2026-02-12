@@ -54,7 +54,6 @@ class IntercompanyTradeConfig(models.Model):
     )
 
     # Compute Section
-    @api.multi
     @api.depends("customer_company_id", "supplier_company_id")
     def _compute_same_fiscal_mother_company(self):
         for config in self:

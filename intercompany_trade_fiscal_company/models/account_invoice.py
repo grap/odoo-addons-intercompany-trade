@@ -10,14 +10,12 @@ class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
     # Overload Section
-    @api.multi
     def invoice_validate(self):
         for invoice in self:
             invoice._check_intercompany_trade_same_fiscal_company()
         return super().invoice_validate()
 
     # Custom Section
-    @api.multi
     def _check_intercompany_trade_same_fiscal_company(self):
         config_obj = self.env["intercompany.trade.config"]
         self.ensure_one()
@@ -100,7 +98,6 @@ class AccountInvoice(models.Model):
                     % (self.fiscal_position_id.name)
                 )
 
-    @api.multi
     def _prepare_intercompany_vals(self, config):
         vals = super()._prepare_intercompany_vals(config)
         if self.type == "out_invoice":
