@@ -16,7 +16,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="sale_ok">True</field>
         <field name="uom_id" ref="uom.product_uom_kgm"/>
         <field name="uom_po_id" ref="uom.product_uom_kgm"/>
-        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="company_id" ref="intercompany_trade.supplier_company" />
     </record>
 
     <record id="product_supplier_strawberry" model="product.product">
@@ -27,7 +27,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="sale_ok">True</field>
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="uom_po_id" ref="uom.product_uom_unit"/>
-        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="company_id" ref="intercompany_trade.supplier_company" />
     </record>
 
     <record id="product_supplier_apple" model="product.product">
@@ -38,7 +38,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="sale_ok">True</field>
         <field name="uom_id" ref="uom.product_uom_kgm"/>
         <field name="uom_po_id" ref="uom.product_uom_kgm"/>
-        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="company_id" ref="intercompany_trade.supplier_company" />
     </record>
 
     <record id="product_supplier_imac_computer" model="product.product">
@@ -49,7 +49,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="sale_ok">True</field>
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="uom_po_id" ref="uom.product_uom_unit"/>
-        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="company_id" ref="intercompany_trade.supplier_company" />
     </record>
 
     <record id="product_supplier_service" model="product.product">
@@ -58,7 +58,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="standard_price">80.00</field>
         <field name="list_price">100.00</field>
         <field name="type">service</field>
-        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="company_id" ref="intercompany_trade.supplier_company" />
     </record>
 
     <!-- Customer Products -->
@@ -70,7 +70,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="sale_ok">True</field>
         <field name="uom_id" ref="uom.product_uom_kgm"/>
         <field name="uom_po_id" ref="uom.product_uom_kgm"/>
-        <field name="company_id" ref="intercompany_trade_base.customer_company" />
+        <field name="company_id" ref="intercompany_trade.customer_company" />
     </record>
 
     <record id="product_customer_it_raws" model="product.product">
@@ -78,7 +78,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="default_code">CUSTOMER-IT-RAWS</field>
         <field name="categ_id" ref="category_it_raws"/>
         <field name="type">consu</field>
-        <field name="company_id" ref="intercompany_trade_base.customer_company" />
+        <field name="company_id" ref="intercompany_trade.customer_company" />
     </record>
 
     <record id="product_customer_service" model="product.product">
@@ -87,7 +87,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="standard_price">100.00</field>
         <field name="list_price">120.00</field>
         <field name="type">service</field>
-        <field name="company_id" ref="intercompany_trade_base.customer_company" />
+        <field name="company_id" ref="intercompany_trade.customer_company" />
     </record>
 
 </odoo>

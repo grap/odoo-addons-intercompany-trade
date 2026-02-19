@@ -8,7 +8,7 @@ import logging
 from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
-from odoo.addons.intercompany_trade_base.tests.test_module import (
+from odoo.addons.intercompany_trade.tests.test_module import (
     TestModule as TestIntercompanyTradeBase,
 )
 
@@ -32,7 +32,7 @@ class TestModule(TransactionCase):
         self.ProductSupplierinfo = self.env["product.supplierinfo"]
 
         # Get objects from xml_ids
-        self.config = self.env.ref("intercompany_trade_base.intercompany_trade")
+        self.config = self.env.ref("intercompany_trade.intercompany_trade")
         self.config_line_category = self.env.ref("intercompany_trade_product.it_line")
 
         self.category_it_raws = self.env.ref(
@@ -64,8 +64,8 @@ class TestModule(TransactionCase):
             "intercompany_trade_product.product_customer_it_raws"
         )
 
-        self.customer_user = self.env.ref("intercompany_trade_base.customer_user")
-        self.supplier_user = self.env.ref("intercompany_trade_base.supplier_user")
+        self.customer_user = self.env.ref("intercompany_trade.customer_user")
+        self.supplier_user = self.env.ref("intercompany_trade.supplier_user")
 
     # Test Section
     def test_01_product_association_by_product(self):

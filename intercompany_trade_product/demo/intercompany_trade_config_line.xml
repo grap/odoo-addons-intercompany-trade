@@ -8,7 +8,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 <odoo>
 
     <record id="it_line" model="intercompany.trade.config.line">
-        <field name="config_id" ref="intercompany_trade_base.intercompany_trade"/>
+        <field name="config_id" ref="intercompany_trade.intercompany_trade"/>
         <field name="sequence">1</field>
         <field name="categ_id" ref="category_it_raws"/>
         <field name="product_id" ref="product_customer_it_raws"/>

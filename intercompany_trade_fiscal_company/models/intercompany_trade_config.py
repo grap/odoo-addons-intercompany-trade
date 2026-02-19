@@ -10,17 +10,6 @@ class IntercompanyTradeConfig(models.Model):
     _inherit = "intercompany.trade.config"
 
     # Columns Section
-    same_fiscal_mother_company = fields.Boolean(
-        compute="_compute_same_fiscal_mother_company",
-        store=True,
-        help="If this field is checked, the intercompany"
-        " trade is realized between two fiscal child companies"
-        " that have the same mother company. Special rules"
-        " will be applied.\n"
-        " * VAT are deleted;\n"
-        " * Sale and Purchase Accounts are updated using a"
-        " transcoding table; ",
-    )
 
     sale_journal_id = fields.Many2one(
         comodel_name="account.journal",
@@ -52,37 +41,6 @@ class IntercompanyTradeConfig(models.Model):
         string="Payable Account for the Supplier",
     )
 
-    # Compute Section
-    @api.depends("customer_company_id", "supplier_company_id")
-    def _compute_same_fiscal_mother_company(self):
-        for config in self:
-            config.same_fiscal_mother_company = (
-                config.customer_company_id.fiscal_company_id.id is not False
-            ) and (
-                config.customer_company_id.fiscal_company_id.id
-                == config.supplier_company_id.fiscal_company_id.id
-            )
-
-    # Constraints Section
-    @api.constrains(
-        "customer_company_id",
-        "supplier_company_id",
-        "same_fiscal_mother_company",
-    )
-    def _check_account_settings_fiscal_company(self):
-        for config in self:
-            if config.same_fiscal_mother_company:
-                if (
-                    not config.fiscal_company_customer_account_id
-                    or not config.fiscal_company_supplier_account_id
-                ):
-                    raise UserError(
-                        _(
-                            " For Intercompany Trade between two child companies"
-                            "  of the same fiscal company, please define first"
-                            " Intercompany Trade account in Companies Form"
-                        )
-                    )
 
     # Custom Section
     def _prepare_partner_from_company(self, company_id, inner_company_id):

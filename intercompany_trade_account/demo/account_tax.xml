@@ -12,7 +12,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="type_tax_use">sale</field>
         <field name="amount">10</field>
         <field name="price_include" eval="False"/>
-        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="company_id" ref="intercompany_trade.supplier_company" />
     </record>
 
     <record id="sale_vat_10_included" model="account.tax">
@@ -20,7 +20,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="type_tax_use">sale</field>
         <field name="amount">10</field>
         <field name="price_include" eval="True"/>
-        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="company_id" ref="intercompany_trade.supplier_company" />
     </record>
 
     <record id="purchase_vat_10_excluded" model="account.tax">
@@ -28,7 +28,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="type_tax_use">purchase</field>
         <field name="amount">10</field>
         <field name="price_include" eval="False"/>
-        <field name="company_id" ref="intercompany_trade_base.customer_company" />
+        <field name="company_id" ref="intercompany_trade.customer_company" />
     </record>
 
 </odoo>

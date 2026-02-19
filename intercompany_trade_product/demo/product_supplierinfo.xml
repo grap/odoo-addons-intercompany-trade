@@ -8,9 +8,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 <odoo>
 
     <record id="supplierinfo_product_service" model="product.supplierinfo">
-        <field name="company_id" ref="intercompany_trade_base.customer_company"/>
+        <field name="company_id" ref="intercompany_trade.customer_company"/>
         <field name="name"
-            eval="obj(ref('intercompany_trade_base.intercompany_trade')).supplier_partner_id.id"
+            eval="obj(ref('intercompany_trade.intercompany_trade')).supplier_partner_id.id"
             model="intercompany.trade.config"/>
         <field name="product_tmpl_id"
             eval="obj(ref('intercompany_trade_product.product_customer_service')).product_tmpl_id.id"
@@ -19,9 +19,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     </record>
 
     <record id="supplierinfo_product_apple" model="product.supplierinfo">
-        <field name="company_id" ref="intercompany_trade_base.customer_company"/>
+        <field name="company_id" ref="intercompany_trade.customer_company"/>
         <field name="name"
-            eval="obj(ref('intercompany_trade_base.intercompany_trade')).supplier_partner_id.id"
+            eval="obj(ref('intercompany_trade.intercompany_trade')).supplier_partner_id.id"
             model="intercompany.trade.config"/>
         <field name="product_tmpl_id"
             eval="obj(ref('intercompany_trade_product.product_customer_apple')).product_tmpl_id.id"

@@ -11,7 +11,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="name">Intercompany Trade - Supplier Incomes</field>
         <field name="code">CUS_7</field>
         <field name="user_type_id" ref="account.data_account_type_revenue" />
-        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="company_id" ref="intercompany_trade.supplier_company" />
     </record>
 
     <record id="supplier_account_receivable" model="account.account">
@@ -19,7 +19,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="code">SUP_411</field>
         <field name="user_type_id" ref="account.data_account_type_receivable" />
         <field name="reconcile" eval="True"/>
-        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="company_id" ref="intercompany_trade.supplier_company" />
     </record>
 
     <record id="supplier_account_payable" model="account.account">
@@ -27,14 +27,14 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="code">SUP_401</field>
         <field name="user_type_id" ref="account.data_account_type_payable" />
         <field name="reconcile" eval="True"/>
-        <field name="company_id" ref="intercompany_trade_base.supplier_company" />
+        <field name="company_id" ref="intercompany_trade.supplier_company" />
     </record>
 
     <record id="customer_account_expense" model="account.account">
         <field name="name">Intercompany Trade - Customer Expenses</field>
         <field name="code">CUS_6</field>
         <field name="user_type_id" ref="account.data_account_type_expenses" />
-        <field name="company_id" ref="intercompany_trade_base.customer_company" />
+        <field name="company_id" ref="intercompany_trade.customer_company" />
     </record>
 
     <record id="customer_account_receivable" model="account.account">
@@ -42,7 +42,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="code">CUS_411</field>
         <field name="reconcile" eval="True"/>
         <field name="user_type_id" ref="account.data_account_type_receivable" />
-        <field name="company_id" ref="intercompany_trade_base.customer_company" />
+        <field name="company_id" ref="intercompany_trade.customer_company" />
     </record>
 
     <record id="customer_account_payable" model="account.account">
@@ -50,7 +50,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="code">CUS_401</field>
         <field name="reconcile" eval="True"/>
         <field name="user_type_id" ref="account.data_account_type_payable" />
-        <field name="company_id" ref="intercompany_trade_base.customer_company" />
+        <field name="company_id" ref="intercompany_trade.customer_company" />
     </record>
 
 </odoo>
