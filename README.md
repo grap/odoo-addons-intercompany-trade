@@ -34,6 +34,7 @@ addon | version | maintainers | summary
 [intercompany_trade_account_invoice_supplier_ref_unique](intercompany_trade_account_invoice_supplier_ref_unique/) | 16.0.1.0.0 (unported) |  | Intercompany Trade - Account Invoice Supplier Ref Unique
 [intercompany_trade_fiscal_company](intercompany_trade_fiscal_company/) | 16.0.1.0.0 (unported) |  | Intercompany Trade - Fiscal Company
 [intercompany_trade_fiscal_company_sale](intercompany_trade_fiscal_company_sale/) | 16.0.1.0.0 (unported) |  | Intercompany Trade - Fiscal Company - Sale
+[intercompany_trade_joint_buying_base](intercompany_trade_joint_buying_base/) | 16.0.1.0.0 (unported) |  | Intercompany Trade - Joint Buying Base
 [intercompany_trade_point_of_sale](intercompany_trade_point_of_sale/) | 16.0.1.0.0 (unported) |  | Intercompany Trade - Point Of Sale
 [intercompany_trade_purchase](intercompany_trade_purchase/) | 16.0.1.0.0 (unported) |  | Intercompany Trade - Purchase
 [intercompany_trade_stock](intercompany_trade_stock/) | 16.0.1.0.0 (unported) |  | Intercompany Trade - Stock
