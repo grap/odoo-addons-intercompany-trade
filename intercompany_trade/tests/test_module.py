@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestModule(TestAbstract):
+class TestIntercompanyTradeAbstract(TestAbstract):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
