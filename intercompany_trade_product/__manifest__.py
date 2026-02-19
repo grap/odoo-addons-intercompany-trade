@@ -10,20 +10,6 @@
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
     "license": "AGPL-3",
     "depends": ["intercompany_trade", "product"],
-    "data": [
-        "security/ir.model.access.csv",
-        "views/view_intercompany_trade_config.xml",
-        "views/view_product_supplierinfo.xml",
-    ],
-    "demo": [
-        "demo/res_groups.xml",
-        "demo/product_category.xml",
-        "demo/product_product.xml",
-        "demo/product_pricelist.xml",
-        "demo/product_product.xml",
-        "demo/product_supplierinfo.xml",
-        "demo/intercompany_trade_config_line.xml",
-    ],
     "auto_install": True,
-    "installable": False,
+    "installable": True,
 }

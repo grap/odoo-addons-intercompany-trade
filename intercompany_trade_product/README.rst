@@ -26,12 +26,11 @@ Intercompany Trade - Product
 
 |badge1| |badge2| |badge3|
 
-This module gives the possibility to customer to link a local product to
-a supplier product. This link will be used later, when supplier create a
-sale invoice, to generate automatically the purchase invoice in the
-customer context.
+This module is a glue module auto installed when ``intercompany_trade``
+module and ``product`` are installed.
 
-Two links are possible : by product, and by rule.
+It allows user to write on intercompany trade partners, to set customer
+pricelists.
 
 **Table of contents**
 
@@ -59,7 +58,7 @@ Authors
 Contributors
 ------------
 
-- Sylvain LE GAL (https://twitter.com/legalsylvain)
+- Sylvain LE GAL
 
 Maintainers
 -----------
