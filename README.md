@@ -22,6 +22,7 @@ Available addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [intercompany_trade](intercompany_trade/) | 16.0.2.0.1 |  | Intercompany Trade
+[intercompany_trade_product](intercompany_trade_product/) | 16.0.1.0.0 |  | Intercompany Trade - Product
 
 
 Unported addons
@@ -35,7 +36,6 @@ addon | version | maintainers | summary
 [intercompany_trade_fiscal_company_sale](intercompany_trade_fiscal_company_sale/) | 16.0.1.0.0 (unported) |  | Intercompany Trade - Fiscal Company - Sale
 [intercompany_trade_joint_buying_base](intercompany_trade_joint_buying_base/) | 16.0.1.0.0 (unported) |  | Intercompany Trade - Joint Buying Base
 [intercompany_trade_point_of_sale](intercompany_trade_point_of_sale/) | 16.0.1.0.0 (unported) |  | Intercompany Trade - Point Of Sale
-[intercompany_trade_product](intercompany_trade_product/) | 16.0.1.0.0 (unported) |  | Intercompany Trade - Product
 [intercompany_trade_purchase](intercompany_trade_purchase/) | 16.0.1.0.0 (unported) |  | Intercompany Trade - Purchase
 [intercompany_trade_stock](intercompany_trade_stock/) | 16.0.1.0.0 (unported) |  | Intercompany Trade - Stock
 
