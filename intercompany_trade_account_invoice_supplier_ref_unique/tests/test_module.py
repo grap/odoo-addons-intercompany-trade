@@ -6,7 +6,7 @@ import logging
 
 from odoo.tests.common import TransactionCase
 
-from odoo.addons.intercompany_trade_base.tests.test_module import (
+from odoo.addons.intercompany_trade.tests.test_module import (
     TestModule as TestIntercompanyTradeBase,
 )
 
@@ -30,9 +30,9 @@ class Test(TransactionCase):
         self.AccountInvoice = self.env["account.invoice"]
 
         # Get object from xml_ids
-        self.supplier_user = self.env.ref("intercompany_trade_base.supplier_user")
+        self.supplier_user = self.env.ref("intercompany_trade.supplier_user")
 
-        self.customer_company = self.env.ref("intercompany_trade_base.customer_company")
+        self.customer_company = self.env.ref("intercompany_trade.customer_company")
 
         self.intercompany_invoice = self.env.ref(
             "intercompany_trade_account.intercompany_invoice"

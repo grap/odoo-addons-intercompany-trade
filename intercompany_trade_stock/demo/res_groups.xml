@@ -9,8 +9,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
     <record id="stock.group_stock_manager" model="res.groups">
         <field name="users" eval="[
-            (4, ref('intercompany_trade_base.customer_user')),
-            (4, ref('intercompany_trade_base.supplier_user'))]" />
+            (4, ref('intercompany_trade.customer_user')),
+            (4, ref('intercompany_trade.supplier_user'))]" />
     </record>
 
     <record id="stock.group_tracking_owner" model="res.groups">
