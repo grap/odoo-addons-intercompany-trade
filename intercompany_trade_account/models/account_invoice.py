@@ -9,7 +9,6 @@ from odoo.exceptions import Warning as UserError
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
-    # Columns Section
     intercompany_trade = fields.Boolean(
         string="Intercompany Trade",
         related="partner_id.intercompany_trade",
