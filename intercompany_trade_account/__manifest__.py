@@ -25,7 +25,7 @@
         # "demo/product_supplierinfo.xml",
         # "demo/account_invoice.xml",
     ],
-    # "data": ["views/view_account_invoice.xml"],
+    "data": ["views/view_account_move.xml"],
     "auto_install": True,
     "installable": True,
 }

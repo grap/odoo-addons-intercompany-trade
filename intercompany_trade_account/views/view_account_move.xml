@@ -6,51 +6,28 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 <odoo>
 
-    <record id="view_account_invoice_search" model="ir.ui.view">
-        <field name="model">account.invoice</field>
+    <record id="view_account_move_search" model="ir.ui.view">
+        <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_account_invoice_filter"/>
-        <field name="groups_id" eval="[(4, ref('intercompany_trade.intercompany_trade_user'))]"/>
         <field name="arch" type="xml">
-            <field name="number" position="after">
-                <filter string="Intercompany Trade" name="intercompany_trade" domain="[('intercompany_trade','=',True)]"/>
-            </field>
+            <filter name="to_check" position="after">
+                <filter string="Intercompany Trade"
+                    name="filter_intercompany_trade"
+                    domain="[('intercompany_trade','=',True)]"
+                    groups="intercompany_trade.intercompany_trade_user"/>
+            </filter>
         </field>
     </record>
 
-    <record id="view_account_invoice_form" model="ir.ui.view">
-        <field name="model">account.invoice</field>
-        <field name="inherit_id" ref="account.invoice_form"/>
-        <field name="groups_id" eval="[(4, ref('intercompany_trade.intercompany_trade_user'))]"/>
+    <record id="view_account_move_form" model="ir.ui.view">
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
-                <field name="intercompany_trade"/>
+                <field name="intercompany_trade"
+                    attrs="{'visible': [('intercompany_trade', '=', True)]}"
+                    groups="intercompany_trade.intercompany_trade_user"/>
             </field>
-            <xpath expr="//header" position="inside">
-                <button name="check_intercompany_trade_links"
-                    type="object"
-                    string="Check Links"
-                    attrs="{'invisible': [('intercompany_trade', '=', False)]}"/>
-            </xpath>
-        </field>
-    </record>
-
-    <record id="view_account_invoice_form_supplier" model="ir.ui.view">
-        <field name="model">account.invoice</field>
-        <field name="inherit_id" ref="account.invoice_supplier_form"/>
-        <field name="groups_id" eval="[(4, ref('intercompany_trade.intercompany_trade_user'))]"/>
-        <field name="arch" type="xml">
-            <field name="partner_id" position="after">
-                <field name="intercompany_trade"/>
-            </field>
-            <field name="invoice_line_ids" position="attributes">
-                <attribute name="attrs">{'readonly': [('intercompany_trade', '=', True)]}</attribute>
-            </field>
-            <field name="tax_line_ids" position="attributes">
-                <attribute name="attrs">{'readonly': [('intercompany_trade', '=', True)]}</attribute>
-            </field>
-            <button name="action_invoice_draft" position="attributes">
-                <attribute name="attrs">{'invisible': ['|', ('intercompany_trade', '=', True), ('state', 'not in', ['cancel'])]}</attribute>
-            </button>
         </field>
     </record>
 
