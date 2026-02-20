@@ -28,25 +28,13 @@ Intercompany Trade - Account
 
 This module implements intercompany trade features for account module.
 
-Features
---------
-
-Confirm an customer account invoice create a supplier account invoice
+- When confirming a supplier (purchase) invoices, check if the related
+  customer invoice (sale) is correct and indentical, regarding amounts.
 
 **Table of contents**
 
 .. contents::
    :local:
-
-Known issues / Roadmap
-======================
-
-- For the time being, invoices validation process is quite hard because
-  Odoo uses workflow, where context can not be passed easily. To do in
-  V10 : simplify this module, removing CUSTOMER_ALLOWED_FIELDS system.
-- In V16, allow to generate intercompany trade 'In' invoices with
-  section and notes, as it is well handled in both 'Customers' and
-  'Vendors' parts.
 
 Bug Tracker
 ===========

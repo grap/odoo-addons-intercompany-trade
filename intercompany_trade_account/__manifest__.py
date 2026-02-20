@@ -10,21 +10,22 @@
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
     "license": "AGPL-3",
     "depends": [
+        # Odoo
         "account",
         # Custom
         "intercompany_trade",
     ],
     "demo": [
-        "demo/res_groups.xml",
-        "demo/account_account.xml",
-        "demo/account_journal.xml",
-        "demo/ir_property.xml",
-        "demo/account_tax.xml",
-        "demo/product_product.xml",
-        "demo/product_supplierinfo.xml",
-        "demo/account_invoice.xml",
+        # "demo/res_groups.xml",
+        # "demo/account_account.xml",
+        # "demo/account_journal.xml",
+        # "demo/ir_property.xml",
+        # "demo/account_tax.xml",
+        # "demo/product_product.xml",
+        # "demo/product_supplierinfo.xml",
+        # "demo/account_invoice.xml",
     ],
-    "data": ["views/menu.xml", "views/view_account_invoice.xml"],
+    # "data": ["views/view_account_invoice.xml"],
     "auto_install": True,
-    "installable": False,
+    "installable": True,
 }

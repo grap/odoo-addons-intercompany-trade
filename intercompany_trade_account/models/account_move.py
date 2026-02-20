@@ -2,8 +2,7 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
-from odoo.exceptions import Warning as UserError
+from odoo import fields, models
 
 
 class AccountInvoice(models.Model):
@@ -15,10 +14,12 @@ class AccountInvoice(models.Model):
         store=True,
     )
 
-    def invoice_validate(self):
-        for invoice in self.filtered(
-            lambda x: x.intercompany_trade and "out_" in x.type
-        ):
-            invoice._create_intercompany_invoice()
-        return super().invoice_validate()
-
+    # TODO, when validating in_ invoices (and related refund)
+    # Check if the according sale (out) invoice is correct.
+    #
+    # def invoice_validate(self):
+    #     for invoice in self.filtered(
+    #         lambda x: x.intercompany_trade and "out_" in x.type
+    #     ):
+    #         invoice._create_intercompany_invoice()
+    #     return super().invoice_validate()
