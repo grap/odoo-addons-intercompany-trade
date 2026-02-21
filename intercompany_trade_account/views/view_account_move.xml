@@ -23,10 +23,16 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
+            <field name="partner_id" position="attributes">
+                <attribute name="domain">[('type', '!=', 'private'), ('company_id', 'in', (False, company_id, fiscal_company_id))]</attribute>
+            </field>
             <field name="partner_id" position="after">
                 <field name="intercompany_trade"
-                    attrs="{'visible': [('intercompany_trade', '=', True)]}"
+                    attrs="{'invisible': [('intercompany_trade', '=', False)]}"
                     groups="intercompany_trade.intercompany_trade_user"/>
+            </field>
+            <field name="company_id" position="after">
+                <field name="fiscal_company_id" invisible="1" />
             </field>
         </field>
     </record>

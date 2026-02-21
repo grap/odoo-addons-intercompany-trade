@@ -20,11 +20,6 @@ def migrate(env, version):
 
     for cae_company in ResCompany.search([("fiscal_type", "=", "fiscal_mother")]):
         for child_company in ResCompany.search([("parent_id", "=", cae_company.id)]):
-            _logger.info("")
-            _logger.info("================================================")
-            _logger.info(f"Working on partners related to {child_company.name}")
-            _logger.info("================================================")
-            _logger.info("")
             # Get all customer partners
             env.cr.execute(
                 """

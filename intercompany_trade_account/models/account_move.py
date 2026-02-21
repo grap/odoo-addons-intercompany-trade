@@ -8,6 +8,14 @@ from odoo import fields, models
 class AccountMove(models.Model):
     _inherit = "account.move"
 
+    # We allow to create invoice for partner that belong to the
+    # fiscal company
+    partner_id = fields.Many2one(check_company=False)
+
+    fiscal_company_id = fields.Many2one(
+        comodel_name="res.company", related="company_id.fiscal_company_id"
+    )
+
     intercompany_trade = fields.Boolean(
         string="Intercompany Trade",
         related="partner_id.intercompany_trade",
