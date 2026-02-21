@@ -7,6 +7,13 @@
 [![codecov](https://codecov.io/gh/grap/odoo-addons-intercompany-trade/branch/16.0/graph/badge.svg)](https://codecov.io/gh/grap/odoo-addons-intercompany-trade)
 <!-- /!\ Non OCA Context : Set here the badge of your translation instance. -->
 
+Roadmap:
+
+* move modules into odoo-addons-cae folder, as now, the interocmpany-trade module are only usefull
+  in a CAE context.
+* FIX : remove `check_company = False` in many places, (and specially in `account_move.partner_id` field).
+  We could replace by another property like, `check_fiscal_company`.
+
 <!-- /!\ do not modify above this line -->
 
 This project contains extra-addons modules for the project Odoo, to manage Intercompany Trade into Odoo.
