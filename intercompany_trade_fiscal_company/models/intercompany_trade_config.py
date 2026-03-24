@@ -2,8 +2,7 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
-from odoo.exceptions import Warning as UserError
+from odoo import fields, models
 
 
 class IntercompanyTradeConfig(models.Model):
@@ -40,7 +39,6 @@ class IntercompanyTradeConfig(models.Model):
         readonly=True,
         string="Payable Account for the Supplier",
     )
-
 
     # Custom Section
     def _prepare_partner_from_company(self, company_id, inner_company_id):
