@@ -23,9 +23,7 @@ class TestModule(TransactionCase):
 
         self.PosSession = self.env["pos.session"]
         self.PosOrder = self.env["pos.order"]
-        self.intercompany_trade = self.env.ref(
-            "intercompany_trade.intercompany_trade"
-        )
+        self.intercompany_trade = self.env.ref("intercompany_trade.intercompany_trade")
         self.pos_config = self.env.ref("point_of_sale.pos_config_main").copy()
 
     # Test Section
