@@ -28,24 +28,3 @@ class ResPartner(models.Model):
                         name=fiscal_position.name,
                     )
                 )
-
-            # ref "and self.property_account_position_id"
-            # Ugly Hack do not check when creating partners from
-            # the creation of intercompany.trade.config
-            # this problem should come from the other problem with
-            # property_account_position_id / no_property_account_position_id
-            # TODO: Check in V16, if we can remove all the sudo() things.
-            if (
-                partner.intercompany_trade
-                and fiscal_position
-                and not fiscal_position.is_intercompany_trade
-            ):
-                raise UserError(
-                    _(
-                        "It's not possible to set the fiscal position"
-                        " '%(name)s' to this partner.\n\n"
-                        " You should use a fiscal position for intercompany trade"
-                        " between same fiscal companies.",
-                        name=fiscal_position.name,
-                    )
-                )

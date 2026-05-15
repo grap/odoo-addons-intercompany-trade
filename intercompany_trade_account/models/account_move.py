@@ -2,7 +2,8 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models
+from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 
 class AccountMove(models.Model):
@@ -21,6 +22,57 @@ class AccountMove(models.Model):
         related="partner_id.intercompany_trade",
         store=True,
     )
+
+    def _compute_fiscal_position_id(self):
+        intercompany_trade_moves = self.filtered(lambda move: move.intercompany_trade)
+        for move in intercompany_trade_moves:
+            move.fiscal_position_id = (
+                move.company_id.intercompany_trade_fiscal_position_id
+            )
+            if not move.fiscal_position_id:
+                raise UserError(
+                    _(
+                        "You can not select an Intercompany Trade partner '%s'"
+                        " because, your accountant did'nt set"
+                        " any intercompany trade fiscal position"
+                        " at the Mother company level."
+                        " Please ask to your accountant to do it."
+                    )
+                    % (self.move_id.partner_id.name)
+                )
+
+        return super(
+            AccountMove, self - intercompany_trade_moves
+        )._compute_fiscal_position_id()
+
+    def _compute_journal_id(self):
+        intercompany_trade_moves = self.filtered(lambda move: move.intercompany_trade)
+        for move in intercompany_trade_moves:
+            if move.is_sale_document(include_receipts=True):
+                field_name = "intercompany_trade_sale_journal_id"
+            elif move.is_purchase_document(include_receipts=True):
+                field_name = "intercompany_trade_purchase_journal_id"
+            else:
+                raise UserError(
+                    _(
+                        "You can not select an Intercompany Trade partner '%s'"
+                        " to create accouning move, that are not sale or purchase"
+                    )
+                )
+            move.journal_id = getattr(move.company_id, field_name)
+            if not move.journal_id:
+                raise UserError(
+                    _(
+                        "You can not select an Intercompany Trade partner '%s'"
+                        " because, your accountant did'nt set"
+                        " any intercompany trade journal (sale & purchase)"
+                        " at the Mother company level."
+                        " Please ask to your accountant to do it."
+                    )
+                    % (self.move_id.partner_id.name)
+                )
+
+        return super(AccountMove, self - intercompany_trade_moves)._compute_journal_id()
 
     # TODO, when validating in_ invoices (and related refund)
     # Check if the according sale (out) invoice is correct.
@@ -106,7 +158,8 @@ class AccountMove(models.Model):
     #         # Check that Journal is OK for NON intercompany trade
     #         if self.journal_id.is_intercompany_trade:
     #             raise UserError(
-    #                 _("You can not use the journal '%s'" " for Non Intercompany Trade.")
+    #                 _("You can not use the journal '%s'"
+    # " for Non Intercompany Trade.")
     #                 % (self.journal_id.name)
     #             )
 
@@ -139,7 +192,8 @@ class AccountMove(models.Model):
     #         return
 
     #     if config:
-    #         if self.type in ["in_invoice", "in_refund"] and config.purchase_journal_id:
+    #         if self.type in ["in_invoice", "in_refund"]
+    # and config.purchase_journal_id:
     #             self.journal_id = config.purchase_journal_id
 
     #         if self.type in ["out_invoice", "out_refund"] and config.sale_journal_id:

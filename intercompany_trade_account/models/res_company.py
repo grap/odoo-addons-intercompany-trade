@@ -12,7 +12,7 @@ class ResCompany(models.Model):
     intercompany_trade_account_id = fields.Many2one(
         comodel_name="account.account",
         domain="["
-        "('company_id', '=', fiscal_company_id),"
+        "('company_id', '=', id),"
         "('internal_type', 'not in', ('expense', 'income')),"
         "('is_intercompany_trade', '=', True)]",
         string="Account for Intercompany Trade",
@@ -24,5 +24,26 @@ class ResCompany(models.Model):
 
     intercompany_trade_fiscal_position_id = fields.Many2one(
         comodel_name="account.fiscal.position",
-        domain="[" "('is_intercompany_trade', '=', True)]",
+        domain="["
+        "('company_id', '=', id),"
+        "('is_intercompany_trade', '=', True)"
+        "]",
+    )
+
+    intercompany_trade_sale_journal_id = fields.Many2one(
+        comodel_name="account.journal",
+        domain="["
+        "('company_id', '=', id),"
+        "('is_intercompany_trade', '=', True),"
+        "('type', '='', 'sale'),"
+        "]",
+    )
+
+    intercompany_trade_purchase_journal_id = fields.Many2one(
+        comodel_name="account.journal",
+        domain="["
+        "('company_id', '=', id),"
+        "('is_intercompany_trade', '=', True),"
+        "('type', '='', 'purchase'),"
+        "]",
     )

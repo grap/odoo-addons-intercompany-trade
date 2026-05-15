@@ -5,9 +5,9 @@ Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
 License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 
-<odoo noupdate="1">
+<odoo>
 
-    <record id="customer_journal_purchase" model="account.journal">
+    <record id="journal_purchase" model="account.journal">
         <field name="name">Intercompany Trade - Customer Purchase Journal</field>
         <field name="code">IT_PURCHASE</field>
         <field name="type">purchase</field>
@@ -15,7 +15,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="company_id" ref="fiscal_company_base.company_fiscal_mother" />
     </record>
 
-    <record id="supplier_journal_sale" model="account.journal">
+    <record id="journal_sale" model="account.journal">
         <field name="name">Intercompany Trade - Supplier Sale Journal</field>
         <field name="code">IT_SALE</field>
         <field name="type">sale</field>
