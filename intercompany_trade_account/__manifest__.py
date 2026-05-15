@@ -20,10 +20,14 @@
         "demo/account_journal.xml",
         "demo/account_account.xml",
         "demo/product_product.xml",
+        "demo/account_fiscal_position.xml",
         "demo/res_company.xml",
         # "demo/account_invoice.xml",
     ],
-    "data": ["views/view_account_move.xml"],
+    "data": [
+        "views/view_account_move.xml",
+        "views/view_res_config_settings.xml",
+    ],
     "auto_install": True,
     "installable": True,
 }

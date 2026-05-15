@@ -13,13 +13,10 @@ class ResCompany(models.Model):
         comodel_name="account.account",
         domain="["
         "('company_id', '=', id),"
-        "('internal_type', 'not in', ('expense', 'income')),"
+        "('account_type', 'not in', ('expense', 'income')),"
         "('is_intercompany_trade', '=', True)]",
         string="Account for Intercompany Trade",
-        help="Set an account if there"
-        " is Intercompany Trade with this company. This setting will have"
-        " an effect only in trade between two companies of the same"
-        " cooperative. Typically a 181 account in France.",
+        help="Typically a 181 account in France.",
     )
 
     intercompany_trade_fiscal_position_id = fields.Many2one(
@@ -35,7 +32,7 @@ class ResCompany(models.Model):
         domain="["
         "('company_id', '=', id),"
         "('is_intercompany_trade', '=', True),"
-        "('type', '='', 'sale'),"
+        "('type', '=', 'sale'),"
         "]",
     )
 
@@ -44,6 +41,6 @@ class ResCompany(models.Model):
         domain="["
         "('company_id', '=', id),"
         "('is_intercompany_trade', '=', True),"
-        "('type', '='', 'purchase'),"
+        "('type', '=', 'purchase'),"
         "]",
     )
