@@ -13,7 +13,7 @@ class ResConfigSettings(models.TransientModel):
     )
 
     intercompany_trade_fiscal_position_id = fields.Many2one(
-        related=("company_id.fiscal_company_id.intercompany_trade_fiscal_position_id"),
+        related="company_id.fiscal_company_id.intercompany_trade_fiscal_position_id",
         readonly=False,
     )
 
