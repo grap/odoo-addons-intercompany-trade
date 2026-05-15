@@ -32,18 +32,18 @@ msgid "Account for Intercompany Trade"
 msgstr "Compte pour transaction inter société"
 
 #. module: intercompany_trade_fiscal_company
-#: model:ir.model.fields,help:intercompany_trade_fiscal_company.field_account_account__is_intercompany_trade_fiscal_company
+#: model:ir.model.fields,help:intercompany_trade_fiscal_company.field_account_account__is_intercompany_trade
 msgid "Check this box for integrated Trade into 2 companies of the same cooperative for the 'receivable' / 'payable' / 'Income' / 'Expense' accounts."
 msgstr "Cochez cette case pour les transaction Inter Société au sein d'une CAE."
 
 #. module: intercompany_trade_fiscal_company
-#: model:ir.model.fields,help:intercompany_trade_fiscal_company.field_account_fiscal_position__is_intercompany_trade_fiscal_company
+#: model:ir.model.fields,help:intercompany_trade_fiscal_company.field_account_fiscal_position__is_intercompany_trade
 msgid "Check this box to use this Fiscal position for integrated Trade into 2 companies of the same cooperative"
 msgstr "Cocher cette case si vous voulez utiliser la position fiscale pour transaction intersociété entre société de la même coopérative"
 
 #. module: intercompany_trade_fiscal_company
-#: model:ir.model.fields,help:intercompany_trade_fiscal_company.field_account_bank_statement_import_journal_creation__is_intercompany_trade_fiscal_company
-#: model:ir.model.fields,help:intercompany_trade_fiscal_company.field_account_journal__is_intercompany_trade_fiscal_company
+#: model:ir.model.fields,help:intercompany_trade_fiscal_company.field_account_bank_statement_import_journal_creation__is_intercompany_trade
+#: model:ir.model.fields,help:intercompany_trade_fiscal_company.field_account_journal__is_intercompany_trade
 msgid "Check this box to use this journal for integrated Trade into 2 companies of the same cooperative"
 msgstr "Cochez cette case pour utiliser ce journal dans le cadre de transaction inter société de la même CAE."
 
@@ -71,10 +71,10 @@ msgstr "Si ce champ est coché, la transaction Inter Société est réalisée en
 " * Les TVA sont supprimées; * Les comptes comptables d'achat et de vente sont mis à jour en utilisant une table de transodage ;"
 
 #. module: intercompany_trade_fiscal_company
-#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_account_account__is_intercompany_trade_fiscal_company
-#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_account_bank_statement_import_journal_creation__is_intercompany_trade_fiscal_company
-#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_account_fiscal_position__is_intercompany_trade_fiscal_company
-#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_account_journal__is_intercompany_trade_fiscal_company
+#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_account_account__is_intercompany_trade
+#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_account_bank_statement_import_journal_creation__is_intercompany_trade
+#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_account_fiscal_position__is_intercompany_trade
+#: model:ir.model.fields,field_description:intercompany_trade_fiscal_company.field_account_journal__is_intercompany_trade
 msgid "Integrated Trade into a CAE"
 msgstr "Transaction Intersociété au sein d'une CAE"
 

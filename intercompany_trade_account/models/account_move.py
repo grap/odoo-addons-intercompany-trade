@@ -51,7 +51,7 @@ class AccountMove(models.Model):
 
     #     if same_fiscal_mother_company:
     #         # Check that Journal is OK for intercompany trade
-    #         if not self.journal_id.is_intercompany_trade_fiscal_company:
+    #         if not self.journal_id.is_intercompany_trade:
     #             raise UserError(
     #                 _("You can not use the journal '%s'" " for Intercompany Trade.")
     #                 % (self.journal_id.name)
@@ -64,7 +64,7 @@ class AccountMove(models.Model):
     #             )
 
     #         # Check that Fiscal Position is OK for intercompany trade
-    #         if not self.fiscal_position_id.is_intercompany_trade_fiscal_company:
+    #         if not self.fiscal_position_id.is_intercompany_trade:
     #             raise UserError(
     #                 _(
     #                     "You can not use the fiscal position '%s'"
@@ -75,7 +75,7 @@ class AccountMove(models.Model):
 
     #         # check that expense / income account lines are OK for intercompany trade
     #         for line in self._get_intercompany_trade_invoiceable_lines():
-    #             if not line.account_id.is_intercompany_trade_fiscal_company:
+    #             if not line.account_id.is_intercompany_trade:
     #                 raise UserError(
     #                     _(
     #                         "the account %(code)s-%(name)s is not"
@@ -104,7 +104,7 @@ class AccountMove(models.Model):
 
     #     else:
     #         # Check that Journal is OK for NON intercompany trade
-    #         if self.journal_id.is_intercompany_trade_fiscal_company:
+    #         if self.journal_id.is_intercompany_trade:
     #             raise UserError(
     #                 _("You can not use the journal '%s'" " for Non Intercompany Trade.")
     #                 % (self.journal_id.name)
@@ -113,7 +113,7 @@ class AccountMove(models.Model):
     #         # Check that Fiscal Position is OK for NON intercompany trade
     #         if (
     #             self.fiscal_position_id
-    #             and self.fiscal_position_id.is_intercompany_trade_fiscal_company
+    #             and self.fiscal_position_id.is_intercompany_trade
     #         ):
     #             raise UserError(
     #                 _(
@@ -133,7 +133,7 @@ class AccountMove(models.Model):
     #         self.partner_id.id, self.company_id.id, self.type
     #     )
     #     if not config or not config.same_fiscal_mother_company:
-    #         if self.journal_id and self.journal_id.is_intercompany_trade_fiscal_company:
+    #         if self.journal_id and self.journal_id.is_intercompany_trade:
     #             # Reset to a classical journal
     #             self.journal_id = self._default_journal()
     #         return
