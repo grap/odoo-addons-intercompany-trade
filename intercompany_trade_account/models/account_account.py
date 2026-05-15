@@ -2,8 +2,7 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
-from odoo.exceptions import Warning as UserError
+from odoo import fields, models
 
 
 class AccountAccount(models.Model):
@@ -15,15 +14,3 @@ class AccountAccount(models.Model):
         " the same cooperative for the 'receivable' / 'payable' /"
         " 'Income' / 'Expense' accounts.",
     )
-
-    # Constraints Section
-    @api.constrains("is_intercompany_trade_fiscal_company", "user_type_id")
-    def _check_is_intercompany_trade_fiscal_company(self):
-        for account in self.filtered(lambda x: x.is_intercompany_trade_fiscal_company):
-            if account.user_type_id.type not in ("receivable", "other"):
-                raise UserError(
-                    _(
-                        "Only 'Receivable' and 'Other' Accounts can be flaged as"
-                        " 'Internal Account for Intercompany Trade'"
-                    )
-                )
