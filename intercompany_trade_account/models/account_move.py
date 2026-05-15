@@ -38,7 +38,7 @@ class AccountMove(models.Model):
                         " at the Mother company level."
                         " Please ask to your accountant to do it."
                     )
-                    % (self.move_id.partner_id.name)
+                    % (self.partner_id.name)
                 )
 
         return super(
@@ -69,7 +69,7 @@ class AccountMove(models.Model):
                         " at the Mother company level."
                         " Please ask to your accountant to do it."
                     )
-                    % (self.move_id.partner_id.name)
+                    % (self.partner_id.name)
                 )
 
         return super(AccountMove, self - intercompany_trade_moves)._compute_journal_id()

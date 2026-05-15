@@ -4,6 +4,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
+from odoo.osv.expression import AND
 
 
 class ResPartner(models.Model):
@@ -13,6 +14,10 @@ class ResPartner(models.Model):
         readonly=True,
         help="Indicate that this partner is an integrated company of a CAE in Odoo.",
     )
+
+    def _fiscal_company_forbid_fiscal_type_allow_exceptions(self):
+        res = super()._fiscal_company_forbid_fiscal_type_allow_exceptions()
+        return res.filtered(lambda x: not x.intercompany_trade)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -27,6 +32,16 @@ class ResPartner(models.Model):
     def unlink(self):
         self._check_intercompany_trade_access([0])
         return super().unlink()
+
+    def _search(self, args, **kwargs):
+        if self.env.company.fiscal_type == "fiscal_child":
+            args = AND(
+                [
+                    args,
+                    [("id", "!=", self.env.company.intercompany_trade_partner_id.id)],
+                ]
+            )
+        return super()._search(args, **kwargs)
 
     @api.constrains("intercompany_trade", "parent_id")
     def _check_intercompany_trade_parent(self):
