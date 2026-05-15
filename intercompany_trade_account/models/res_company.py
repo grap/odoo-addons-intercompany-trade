@@ -13,13 +13,13 @@ class ResCompany(models.Model):
         comodel_name="account.account",
         domain="["
         "('company_id', '=', fiscal_company_id),"
-        "('internal_type', '=', 'receivable'),"
+        "('internal_type', 'not in', ('expense', 'income')),"
         "('is_intercompany_trade', '=', True)]",
         string="Account for Intercompany Trade",
         help="Set an account if there"
         " is Intercompany Trade with this company. This setting will have"
         " an effect only in trade between two companies of the same"
-        " cooperative",
+        " cooperative. Typically a 181 account in France.",
     )
 
     intercompany_trade_fiscal_position_id = fields.Many2one(

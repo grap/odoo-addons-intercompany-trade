@@ -10,16 +10,8 @@
     "license": "AGPL-3",
     "depends": ["fiscal_company_base", "intercompany_trade", "account"],
     "data": [
-        "views/view_account_account.xml",
-        "views/view_account_journal.xml",
-        "views/view_account_fiscal_position.xml",
-        "views/view_intercompany_trade_config.xml",
-        "views/view_res_company.xml",
     ],
     "demo": [
-        "demo/account_account.xml",
-        "demo/res_company.xml",
-        "demo/intercompany_trade_config.xml",
     ],
     "auto_install": True,
     "installable": False,

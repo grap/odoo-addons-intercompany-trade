@@ -11,7 +11,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="code">181</field>
         <field name="name">Intercompany Trade Account for supplier / customer</field>
         <field name="is_intercompany_trade" eval="True"/>
-        <field name="account_type">asset_current</field>
+        <field name="account_type">liability_non_current</field>
         <field name="reconcile" eval="True"/>
         <field name="company_id" ref="fiscal_company_base.company_fiscal_mother"/>
     </record>
