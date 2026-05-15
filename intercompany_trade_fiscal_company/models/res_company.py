@@ -14,7 +14,7 @@ class ResCompany(models.Model):
         domain="["
         "('company_id', '=', fiscal_company_id),"
         "('internal_type', '=', 'receivable'),"
-        "('is_intercompany_trade_fiscal_company', '=', True)]",
+        "('is_intercompany_trade', '=', True)]",
         string="Account for Intercompany Trade",
         help="Set an account if there"
         " is Intercompany Trade with this company. This setting will have"
@@ -24,5 +24,5 @@ class ResCompany(models.Model):
 
     intercompany_trade_fiscal_position_id = fields.Many2one(
         comodel_name="account.fiscal.position",
-        domain="[" "('is_intercompany_trade_fiscal_company', '=', True)]",
+        domain="[" "('is_intercompany_trade', '=', True)]",
     )

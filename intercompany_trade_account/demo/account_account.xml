@@ -10,7 +10,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     <record id="intercompany_trade_account_company" model="account.account">
         <field name="code">181</field>
         <field name="name">Intercompany Trade Account for supplier / customer</field>
-        <field name="is_intercompany_trade_fiscal_company" eval="True"/>
+        <field name="is_intercompany_trade" eval="True"/>
         <field name="account_type">asset_current</field>
         <field name="reconcile" eval="True"/>
         <field name="company_id" ref="fiscal_company_base.company_fiscal_mother"/>
@@ -19,7 +19,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     <record id="intercompany_trade_account_expense" model="account.account">
         <field name="code">186</field>
         <field name="name">Intercompany Trade Expense</field>
-        <field name="is_intercompany_trade_fiscal_company" eval="True"/>
+        <field name="is_intercompany_trade" eval="True"/>
         <field name="account_type">expense</field>
         <field name="company_id" ref="fiscal_company_base.company_fiscal_mother"/>
     </record>
@@ -27,7 +27,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     <record id="intercompany_trade_account_income" model="account.account">
         <field name="code">187</field>
         <field name="name">Intercompany Trade Income</field>
-        <field name="is_intercompany_trade_fiscal_company" eval="True"/>
+        <field name="is_intercompany_trade" eval="True"/>
         <field name="account_type">income</field>
         <field name="company_id" ref="fiscal_company_base.company_fiscal_mother"/>
     </record>
