@@ -1,7 +1,6 @@
 exclude: |
   (?x)
   # NOT INSTALLABLE ADDONS
-  ^intercompany_trade_fiscal_company_sale/|
   ^intercompany_trade_joint_buying_base/|
   ^intercompany_trade_point_of_sale/|
   ^intercompany_trade_purchase/|
