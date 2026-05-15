@@ -22,11 +22,11 @@
         "demo/product_product.xml",
         "demo/account_fiscal_position.xml",
         "demo/res_company.xml",
-        # "demo/account_invoice.xml",
     ],
     "data": [
         "views/view_account_account.xml",
         "views/view_account_fiscal_position.xml",
+        "views/view_account_fiscal_position_template.xml",
         "views/view_account_journal.xml",
         "views/view_account_move.xml",
         "views/view_res_config_settings.xml",
