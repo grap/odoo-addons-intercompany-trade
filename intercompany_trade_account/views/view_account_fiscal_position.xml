@@ -10,7 +10,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="model">account.fiscal.position</field>
         <field name="inherit_id" ref="account.view_account_position_form" />
         <field name="arch" type="xml">
-            <field name="company_id" position="after">
+            <field name="name" position="after">
                 <field name="is_intercompany_trade"/>
             </field>
         </field>

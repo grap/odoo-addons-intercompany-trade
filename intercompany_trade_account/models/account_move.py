@@ -27,18 +27,17 @@ class AccountMove(models.Model):
         intercompany_trade_moves = self.filtered(lambda move: move.intercompany_trade)
         for move in intercompany_trade_moves:
             move.fiscal_position_id = (
-                move.company_id.intercompany_trade_fiscal_position_id
+                move.fiscal_company_id.intercompany_trade_fiscal_position_id
             )
             if not move.fiscal_position_id:
                 raise UserError(
                     _(
-                        "You can not select an Intercompany Trade partner '%s'"
-                        " because, your accountant did'nt set"
+                        "You can not select an Intercompany Trade partner"
+                        "'%(partner_name)s' because, your accountant did'nt set"
                         " any intercompany trade fiscal position"
                         " at the Mother company level."
-                        " Please ask to your accountant to do it."
-                    )
-                    % (self.partner_id.name)
+                    ),
+                    partner_name=self.partner_id.name,
                 )
 
         return super(
@@ -55,21 +54,22 @@ class AccountMove(models.Model):
             else:
                 raise UserError(
                     _(
-                        "You can not select an Intercompany Trade partner '%s'"
-                        " to create accouning move, that are not sale or purchase"
-                    )
+                        "You can not select an Intercompany Trade partner"
+                        "'%(partner_name)s' to create accouning move,"
+                        " that are not sale or purchase."
+                    ),
+                    partner_name=self.partner_id.name,
                 )
-            move.journal_id = getattr(move.company_id, field_name)
+            move.journal_id = getattr(move.fiscal_company_id, field_name)
             if not move.journal_id:
                 raise UserError(
                     _(
-                        "You can not select an Intercompany Trade partner '%s'"
-                        " because, your accountant did'nt set"
+                        "You can not select an Intercompany Trade partner"
+                        "'%(partner_name)s' because, your accountant did'nt set"
                         " any intercompany trade journal (sale & purchase)"
                         " at the Mother company level."
-                        " Please ask to your accountant to do it."
-                    )
-                    % (self.partner_id.name)
+                    ),
+                    partner_name=self.partner_id.name,
                 )
 
         return super(AccountMove, self - intercompany_trade_moves)._compute_journal_id()
@@ -84,7 +84,7 @@ class AccountMove(models.Model):
     #         invoice._create_intercompany_invoice()
     #     return super().invoice_validate()
 
-    def invoice_validate(self):
+    def _post(self, *args, **kwargs):
         intercompany_trade_invoices = self.filtered(lambda x: x.intercompany_trade)
 
         for invoice in self - intercompany_trade_invoices:
@@ -97,8 +97,7 @@ class AccountMove(models.Model):
             lambda x: x.is_purchase_document(include_receipts=True)
         ):
             pass
-
-        return super().invoice_validate()
+        return super()._post(*args, **kwargs)
 
     # Custom Section
     def _check_intercompany_trade_settings(self):
@@ -109,9 +108,9 @@ class AccountMove(models.Model):
             raise UserError(
                 _(
                     "You can not use the journal '%(journal_name)s'"
-                    " for Intercompany Trade."
+                    " for Intercompany Trade.",
+                    journal_name=self.journal_id.name,
                 ),
-                journal_name=self.journal_id.name,
             )
 
         # Check that Fiscal Position is defined for intercompany trade
@@ -125,29 +124,29 @@ class AccountMove(models.Model):
             raise UserError(
                 _(
                     "You can not use the fiscal position '%(fiscal_position_name)s'"
-                    " for Intercompany Trade."
+                    " for Intercompany Trade.",
+                    fiscal_position_name=self.fiscal_position_id.name,
                 ),
-                fiscal_position_name=self.fiscal_position_id.name,
             )
 
         # Check that main account is OK for intercompany trade
         for line in self.line_ids.filtered(
             lambda line: line.display_type == "payment_term"
         ):
-            if line.account_id != self.company_id.intercompany_trade_account_id:
+            if line.account_id != self.fiscal_company_id.intercompany_trade_account_id:
                 raise UserError(
                     _(
                         "the account %(code)s-%(name)s is not the correct one in the"
                         " case of intercompany trade invoice between two companies"
                         " that belong the same fiscal company (CAE).\n"
                         " Please contact your accountant.",
-                        code=self.account_id.code,
-                        name=self.account_id.name,
+                        code=line.account_id.code,
+                        name=line.account_id.name,
                     )
                 )
 
         # check that expense / income account lines are OK for intercompany trade
-        for line in self.filtered(
+        for line in self.line_ids.filtered(
             lambda line: line.display_type == "product"
             and line.move_id.is_invoice(True)
         ):
@@ -171,9 +170,9 @@ class AccountMove(models.Model):
             raise UserError(
                 _(
                     "You can not use the journal '%(journal_name)s'"
-                    " for Non Intercompany Trade."
+                    " for Non Intercompany Trade.",
+                    journal_name=self.journal_id.name,
                 ),
-                journal_name=self.journal_id.name,
             )
 
         # Check that Fiscal Position is OK for NON intercompany trade
@@ -181,16 +180,16 @@ class AccountMove(models.Model):
             raise UserError(
                 _(
                     "You can not use the fiscal position '%(fiscal_position_name)s'"
-                    " for Non Intercompany Trade."
+                    " for Non Intercompany Trade.",
+                    fiscal_position_name=self.fiscal_position_id.name,
                 ),
-                fiscal_position_name=self.fiscal_position_id.name,
             )
 
         # Check that main account is OK for NON intercompany trade
         for line in self.line_ids.filtered(
             lambda line: line.display_type == "payment_term"
         ):
-            if line.account_id == self.company_id.intercompany_trade_account_id:
+            if line.account_id == self.fiscal_company_id.intercompany_trade_account_id:
                 raise UserError(
                     _(
                         "the account %(code)s-%(name)s is not the correct one"
