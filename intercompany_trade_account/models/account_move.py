@@ -2,7 +2,7 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -23,6 +23,7 @@ class AccountMove(models.Model):
         store=True,
     )
 
+    @api.depends("partner_id", "partner_shipping_id", "company_id")
     def _compute_fiscal_position_id(self):
         intercompany_trade_moves = self.filtered(lambda move: move.intercompany_trade)
         for move in intercompany_trade_moves:
@@ -35,15 +36,16 @@ class AccountMove(models.Model):
                         "You can not select an Intercompany Trade partner"
                         "'%(partner_name)s' because, your accountant did'nt set"
                         " any intercompany trade fiscal position"
-                        " at the Mother company level."
+                        " at the Mother company level.",
+                        partner_name=self.partner_id.name,
                     ),
-                    partner_name=self.partner_id.name,
                 )
 
         return super(
             AccountMove, self - intercompany_trade_moves
         )._compute_fiscal_position_id()
 
+    @api.depends("move_type")
     def _compute_journal_id(self):
         intercompany_trade_moves = self.filtered(lambda move: move.intercompany_trade)
         for move in intercompany_trade_moves:

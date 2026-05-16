@@ -19,6 +19,14 @@ class TestIntercompanyTradeAccountAccountMove(TestIntercompanyTradeAccountAbstra
         super().setUpClass()
         cls.normal_partner = cls.env.ref("base.res_partner_2")
         cls.product = cls.env.ref("product.product_product_5")
+        cls.account_receivable_cae = cls.env.ref(
+            "fiscal_company_account.account_receivable_cae"
+        )
+        cls.account_income_cae = cls.env.ref(
+            "fiscal_company_account.account_income_cae"
+        )
+        cls.journal_sale = cls.env.ref("fiscal_company_account.journal_sale")
+        cls.fiscal_position = cls.env.ref("fiscal_company_account.fiscal_position")
 
     def _create_account_move_invoice(
         self, move_type="out_invoice", partner=False, company=False
@@ -88,3 +96,38 @@ class TestIntercompanyTradeAccountAccountMove(TestIntercompanyTradeAccountAbstra
             partner=self.customer_company.intercompany_trade_partner_id,
         )
         invoice.action_post()
+
+        # Put non IT fiscal position on IT invoice
+        new_invoice = invoice.copy()
+        new_invoice.write({"fiscal_position_id": self.fiscal_position.id})
+        with self.assertRaises(UserError):
+            new_invoice.action_post()
+
+        # Put Non IT journal on IT invoice
+        # Note: write on journal_id raise a recompute
+        # of company_id that we don't want.
+        # so we force to keep the existing company_id
+        new_invoice = invoice.copy()
+        new_invoice.write(
+            {
+                "journal_id": self.journal_sale.id,
+                "company_id": new_invoice.company_id.id,
+            }
+        )
+        with self.assertRaises(UserError):
+            new_invoice.action_post()
+
+        # Put Non IT partner account on IT invoice
+        new_invoice = invoice.copy()
+        with self.assertRaises(UserError):
+            new_invoice.line_ids.filtered(
+                lambda line: line.display_type == "payment_term"
+            ).write({"account_id": self.account_receivable_cae.id})
+
+        # Put Non IT product account on normal invoice
+        new_invoice = invoice.copy()
+        new_invoice.line_ids.filtered(
+            lambda line: line.display_type == "product"
+        ).write({"account_id": self.account_income_cae.id})
+        with self.assertRaises(UserError):
+            new_invoice.action_post()
