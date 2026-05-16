@@ -14,6 +14,7 @@
         "account",
         # Custom
         "intercompany_trade",
+        "fiscal_company_account",
     ],
     "demo": [
         "demo/res_groups.xml",
