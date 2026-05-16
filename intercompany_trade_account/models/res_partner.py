@@ -10,7 +10,6 @@ from odoo.exceptions import UserError
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    # Constraints Section
     @api.constrains(
         "intercompany_trade",
         "property_account_position_id",

@@ -6,36 +6,19 @@ import logging
 import time
 
 from odoo import Command
-from odoo.tests import tagged
+from odoo.exceptions import UserError
 
 from .test_abstract import TestIntercompanyTradeAccountAbstract
 
 _logger = logging.getLogger(__name__)
 
 
-# class TestIntercompanyTradeAccountAccountMove(TestIntercompanyTradeAccountAbstract):
-@tagged("post_install", "-at_install")
 class TestIntercompanyTradeAccountAccountMove(TestIntercompanyTradeAccountAbstract):
-    # AccountTestInvoicingCommon
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        # cls.AccountJournal = cls.env["account.account"]
         cls.normal_partner = cls.env.ref("base.res_partner_2")
         cls.product = cls.env.ref("product.product_product_5")
-
-        # TestIntercompanyTradeAccountAbstract create
-        # dedicated user for test.
-        # so we add Intercompany trade companies
-        # new_companies = (
-        #     cls.env.user.company_ids | cls.customer_company | cls.supplier_company
-        # )
-        # cls.env.user.write(
-        #     {
-        #         "company_ids": [Command.set(new_companies.ids)],
-        #         "company_id": cls.supplier_company.id,
-        #     }
-        # )
 
     def _create_account_move_invoice(
         self, move_type="out_invoice", partner=False, company=False
@@ -60,13 +43,48 @@ class TestIntercompanyTradeAccountAccountMove(TestIntercompanyTradeAccountAbstra
         )
 
     def test_post_normal_sale_invoice(self):
-        self._create_account_move_invoice(
+        invoice = self._create_account_move_invoice(
             move_type="out_invoice",
             partner=self.normal_partner,
-        ).action_post()
+        )
+        invoice.action_post()
+
+        # Put intercompany trade fiscal position on normal invoice
+        new_invoice = invoice.copy()
+        new_invoice.write({"fiscal_position_id": self.fiscal_position_it.id})
+        with self.assertRaises(UserError):
+            new_invoice.action_post()
+
+        # Put intercompany trade journal on normal invoice
+        new_invoice = invoice.copy()
+        new_invoice.write({"journal_id": self.journal_sale_it.id})
+        with self.assertRaises(UserError):
+            new_invoice.action_post()
+
+        # Put intercompany trade partner account on normal invoice
+        new_invoice = invoice.copy()
+        # specifict case where an error is raised by Odoo Core
+        # because account_partner_it is not the correct type.
+        # So we reconfigure the account to raise the error
+        # defined in the intercompany_trade_account module.
+        self.account_partner_it.account_type = "asset_receivable"
+        new_invoice.line_ids.filtered(
+            lambda line: line.display_type == "payment_term"
+        ).write({"account_id": self.account_partner_it.id})
+        with self.assertRaises(UserError):
+            new_invoice.action_post()
+
+        # Put intercompany trade product account on normal invoice
+        new_invoice = invoice.copy()
+        new_invoice.line_ids.filtered(
+            lambda line: line.display_type == "product"
+        ).write({"account_id": self.account_income_it.id})
+        with self.assertRaises(UserError):
+            new_invoice.action_post()
 
     def test_post_intercompany_trade_sale_invoice(self):
-        self._create_account_move_invoice(
+        invoice = self._create_account_move_invoice(
             move_type="out_invoice",
             partner=self.customer_company.intercompany_trade_partner_id,
-        ).action_post()
+        )
+        invoice.action_post()

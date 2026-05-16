@@ -185,8 +185,8 @@ class AccountMove(models.Model):
                     _(
                         "the account %(code)s-%(name)s is not the correct one"
                         " for Non Intercompany Trade.",
-                        code=self.account_id.code,
-                        name=self.account_id.name,
+                        code=line.account_id.code,
+                        name=line.account_id.name,
                     )
                 )
 

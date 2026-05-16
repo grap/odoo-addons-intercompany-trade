@@ -18,3 +18,10 @@ class TestIntercompanyTradeAccountAbstract(TestIntercompanyTradeAbstract):
         cls.fiscal_position_it = cls.env.ref(
             "intercompany_trade_account.fiscal_position"
         )
+        cls.journal_sale_it = cls.env.ref("intercompany_trade_account.journal_sale")
+        cls.account_partner_it = cls.env.ref(
+            "intercompany_trade_account.intercompany_trade_account_company"
+        )
+        cls.account_income_it = cls.env.ref(
+            "intercompany_trade_account.intercompany_trade_account_income"
+        )
