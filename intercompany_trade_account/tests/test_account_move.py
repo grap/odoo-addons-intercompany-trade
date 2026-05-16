@@ -3,11 +3,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
+import time
 
 from odoo import Command
 from odoo.tests import tagged
-
-from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 from .test_abstract import TestIntercompanyTradeAccountAbstract
 
@@ -16,9 +15,8 @@ _logger = logging.getLogger(__name__)
 
 # class TestIntercompanyTradeAccountAccountMove(TestIntercompanyTradeAccountAbstract):
 @tagged("post_install", "-at_install")
-class TestIntercompanyTradeAccountAccountMove(
-    TestIntercompanyTradeAccountAbstract, AccountTestInvoicingCommon
-):
+class TestIntercompanyTradeAccountAccountMove(TestIntercompanyTradeAccountAbstract):
+    # AccountTestInvoicingCommon
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -29,29 +27,46 @@ class TestIntercompanyTradeAccountAccountMove(
         # TestIntercompanyTradeAccountAbstract create
         # dedicated user for test.
         # so we add Intercompany trade companies
-        new_companies = (
-            cls.env.user.company_ids | cls.customer_company | cls.supplier_company
-        )
-        cls.env.user.write(
-            {
-                "company_ids": [Command.set(new_companies.ids)],
-            }
-        )
-        cls.normal_sale_invoice = cls.init_invoice(
-            "out_invoice",
-            partner=cls.normal_partner,
-            products=[cls.product],
-            company=cls.supplier_company,
-        )
-        cls.intercompany_trade_sale_invoice = cls.init_invoice(
-            "out_invoice",
-            partner=cls.customer_company.intercompany_trade_partner_id,
-            products=[cls.product],
-            company=cls.supplier_company,
+        # new_companies = (
+        #     cls.env.user.company_ids | cls.customer_company | cls.supplier_company
+        # )
+        # cls.env.user.write(
+        #     {
+        #         "company_ids": [Command.set(new_companies.ids)],
+        #         "company_id": cls.supplier_company.id,
+        #     }
+        # )
+
+    def _create_account_move_invoice(self, move_type="out_invoice", partner=False):
+        date_invoice = time.strftime("%Y") + "-07-01"
+        invoice_vals = {
+            "move_type": move_type,
+            "partner_id": partner and partner.id or self.normal_partner.id,
+            "invoice_date": date_invoice,
+            "date": date_invoice,
+            "invoice_line_ids": [
+                Command.create(
+                    {
+                        "product_id": self.product.id,
+                        "tax_ids": [Command.set([])],
+                    }
+                )
+            ],
+        }
+        return (
+            self.env["account.move"]
+            .with_context(default_move_type=move_type)
+            .create(invoice_vals)
         )
 
     def test_post_normal_sale_invoice(self):
-        self.normal_sale_invoice.action_post()
+        self._create_account_move_invoice(
+            move_type="out_invoice",
+            partner=self.normal_partner,
+        ).action_post()
 
     def test_post_intercompany_trade_sale_invoice(self):
-        self.intercompany_trade_sale_invoice.action_post()
+        self._create_account_move_invoice(
+            move_type="out_invoice",
+            partner=self.customer_company.intercompany_trade_partner_id,
+        ).action_post()
