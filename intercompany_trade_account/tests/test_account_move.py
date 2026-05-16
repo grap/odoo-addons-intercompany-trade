@@ -41,7 +41,9 @@ class TestIntercompanyTradeAccountAccountMove(TestIntercompanyTradeAccountAbstra
             "company_id": company.id,
             "date": date_invoice,
             "invoice_line_ids": [
-                Command.create({"product_id": self.product.id, "tax_ids": []})
+                Command.create(
+                    {"product_id": self.product.id, "tax_ids": [], "price_unit": 100}
+                )
             ],
         }
         return (
@@ -131,3 +133,28 @@ class TestIntercompanyTradeAccountAccountMove(TestIntercompanyTradeAccountAbstra
         ).write({"account_id": self.account_income_cae.id})
         with self.assertRaises(UserError):
             new_invoice.action_post()
+
+    def test_post_intercompany_trade_purchase_invoice(self):
+        sale_invoice = self._create_account_move_invoice(
+            move_type="out_invoice",
+            partner=self.customer_company.intercompany_trade_partner_id,
+        )
+        sale_invoice.action_post()
+
+        purchase_invoice = self._create_account_move_invoice(
+            move_type="in_invoice",
+            company=self.customer_company,
+            partner=self.supplier_company.intercompany_trade_partner_id,
+        )
+
+        with self.assertRaises(UserError):
+            purchase_invoice.action_post()
+
+        purchase_invoice.write(
+            {
+                "invoice_date": sale_invoice.invoice_date,
+                "ref": sale_invoice.name,
+            }
+        )
+
+        purchase_invoice.action_post()

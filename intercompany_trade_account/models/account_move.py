@@ -2,8 +2,10 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import float_compare
 
 
 class AccountMove(models.Model):
@@ -164,6 +166,15 @@ class AccountMove(models.Model):
                     )
                 )
 
+        # check that expense / income account lines doesn't have any tax
+        if self.line_ids.tax_ids:
+            raise UserError(
+                _(
+                    "An intercompany trade invoice should not have"
+                    " any taxes defined in lines",
+                )
+            )
+
     def _check_not_intercompany_trade_settings(self):
         # Check that Journal is OK for NON intercompany trade
         if self.journal_id.is_intercompany_trade:
@@ -215,8 +226,11 @@ class AccountMove(models.Model):
                 )
 
     def _check_intercompany_trade_purchase_invoice(self):
-        """Check if there is an according sale invoice
-        and if the data are matching."""
+        """Check if
+        - the bill reference has been entered
+        - we can indentify the related supplier invoice
+        - if the related invoice has the same date
+        """
         self.ensure_one()
         if not self.ref:
             raise UserError(
@@ -253,6 +267,56 @@ class AccountMove(models.Model):
                     supplier_invoice_name=self.ref,
                 )
             )
-        import pdb
+        if supplier_invoice.state in ["draft", "cancel"]:
+            raise UserError(
+                _(
+                    "The state of the supplier invoice is invalid:"
+                    " '%(supplier_invoice_state)s'.",
+                    supplier_invoice_state=supplier_invoice.state,
+                )
+            )
+        if self.invoice_date != supplier_invoice.invoice_date:
+            raise UserError(
+                _(
+                    "The date of your invoice %(your_invoice_date)s"
+                    " doesn't match with the date of the supplier invoice"
+                    " %(supplier_invoice_date)s.",
+                    your_invoice_date=self.invoice_date,
+                    supplier_invoice_date=supplier_invoice.invoice_date,
+                )
+            )
 
-        pdb.set_trace()
+        currency = self.currency_id
+        if float_compare(
+            self.amount_untaxed,
+            supplier_invoice.amount_untaxed,
+            precision_digits=currency.decimal_places,
+        ):
+            raise UserError(
+                _(
+                    "The untaxed total of your invoice %(your_amount_untaxed)s"
+                    " doesn't match with the untaxed total of the supplier invoice"
+                    " %(supplier_amount_untaxed)s.",
+                    your_amount_untaxed=currency.format(self.amount_untaxed),
+                    supplier_amount_untaxed=currency.format(
+                        supplier_invoice.amount_untaxed
+                    ),
+                )
+            )
+
+        if float_compare(
+            self.amount_total,
+            supplier_invoice.amount_total,
+            precision_digits=currency.decimal_places,
+        ):
+            raise UserError(
+                _(
+                    "The Amount total of your invoice %(your_amount_total)s"
+                    " doesn't match with the amount total of the supplier invoice"
+                    " %(supplier_amount_total)s.",
+                    your_amount_total=currency.format(self.amount_total),
+                    supplier_amount_total=currency.format(
+                        supplier_invoice.amount_total
+                    ),
+                )
+            )
