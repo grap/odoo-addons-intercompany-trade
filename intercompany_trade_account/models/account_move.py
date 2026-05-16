@@ -21,6 +21,7 @@ class AccountMove(models.Model):
         string="Intercompany Trade",
         related="partner_id.intercompany_trade",
         store=True,
+        precompute=True,
     )
 
     @api.depends("partner_id", "partner_shipping_id", "company_id")
@@ -45,7 +46,7 @@ class AccountMove(models.Model):
             AccountMove, self - intercompany_trade_moves
         )._compute_fiscal_position_id()
 
-    @api.depends("move_type")
+    @api.depends("move_type", "intercompany_trade")
     def _compute_journal_id(self):
         intercompany_trade_moves = self.filtered(lambda move: move.intercompany_trade)
         for move in intercompany_trade_moves:
@@ -73,6 +74,13 @@ class AccountMove(models.Model):
                         partner_name=self.partner_id.name,
                     ),
                 )
+        # reset journal to false, if there is an intercompany trade journal
+        # on classic account moves.
+        # so calling super will rededuce correct account journal
+        for move in (self - intercompany_trade_moves).filtered(
+            lambda x: x.journal_id.is_intercompany_trade
+        ):
+            move.journal_id = False
 
         return super(AccountMove, self - intercompany_trade_moves)._compute_journal_id()
 
@@ -85,11 +93,10 @@ class AccountMove(models.Model):
         for invoice in intercompany_trade_invoices:
             invoice._check_intercompany_trade_settings()
 
-        for _invoice in intercompany_trade_invoices.filtered(
+        for invoice in intercompany_trade_invoices.filtered(
             lambda x: x.is_purchase_document(include_receipts=True)
         ):
-            # TODO, check if sale document exist in the other company
-            pass
+            invoice._check_intercompany_trade_purchase_invoice()
         return super()._post(*args, **kwargs)
 
     # Custom Section
@@ -206,3 +213,46 @@ class AccountMove(models.Model):
                         name=line.account_id.name,
                     )
                 )
+
+    def _check_intercompany_trade_purchase_invoice(self):
+        """Check if there is an according sale invoice
+        and if the data are matching."""
+        self.ensure_one()
+        if not self.ref:
+            raise UserError(
+                _(
+                    "Intercompany Trade Supplier invoice should have"
+                    " a Bill reference to be confirmed.",
+                )
+            )
+        supplier_company = self.env["res.company"].search(
+            [("intercompany_trade_partner_id", "=", self.partner_id.id)]
+        )
+        if not supplier_company:
+            raise UserError(
+                _(
+                    "Unexpected error. The related supplier company has not been"
+                    " identified for the supplier %(supplier_name)s."
+                    " Please contact the IT Team.",
+                    supplier_name=self.partner_id.name,
+                )
+            )
+
+        supplier_invoice = (
+            self.env["account.move"]
+            .sudo()
+            .search([("company_id", "=", supplier_company.id), ("name", "=", self.ref)])
+        )
+
+        if not supplier_invoice:
+            raise UserError(
+                _(
+                    "The related intercompany supplier invoice"
+                    " %(supplier_invoice_name)s has not be found in its database.\n\n"
+                    " Did you entered correctly the reference ?",
+                    supplier_invoice_name=self.ref,
+                )
+            )
+        import pdb
+
+        pdb.set_trace()
