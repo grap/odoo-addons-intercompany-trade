@@ -11,5 +11,5 @@
     "depends": ["intercompany_trade", "point_of_sale"],
     # "data": ["views/assets.xml"],
     "auto_install": True,
-    "installable": True,
+    "installable": False,
 }
