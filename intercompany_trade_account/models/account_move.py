@@ -56,9 +56,9 @@ class AccountMove(models.Model):
                     _(
                         "You can not select an Intercompany Trade partner"
                         "'%(partner_name)s' to create accouning move,"
-                        " that are not sale or purchase."
+                        " that are not sale or purchase.",
+                        partner_name=self.partner_id.name,
                     ),
-                    partner_name=self.partner_id.name,
                 )
             move.journal_id = getattr(move.fiscal_company_id, field_name)
             if not move.journal_id:
@@ -67,9 +67,9 @@ class AccountMove(models.Model):
                         "You can not select an Intercompany Trade partner"
                         "'%(partner_name)s' because, your accountant did'nt set"
                         " any intercompany trade journal (sale & purchase)"
-                        " at the Mother company level."
+                        " at the Mother company level.",
+                        partner_name=self.partner_id.name,
                     ),
-                    partner_name=self.partner_id.name,
                 )
 
         return super(AccountMove, self - intercompany_trade_moves)._compute_journal_id()

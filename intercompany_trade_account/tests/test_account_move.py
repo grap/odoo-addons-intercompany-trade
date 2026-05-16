@@ -37,20 +37,20 @@ class TestIntercompanyTradeAccountAccountMove(TestIntercompanyTradeAccountAbstra
         #     }
         # )
 
-    def _create_account_move_invoice(self, move_type="out_invoice", partner=False):
+    def _create_account_move_invoice(
+        self, move_type="out_invoice", partner=False, company=False
+    ):
         date_invoice = time.strftime("%Y") + "-07-01"
+        if not company:
+            company = self.supplier_company
         invoice_vals = {
             "move_type": move_type,
             "partner_id": partner and partner.id or self.normal_partner.id,
             "invoice_date": date_invoice,
+            "company_id": company.id,
             "date": date_invoice,
             "invoice_line_ids": [
-                Command.create(
-                    {
-                        "product_id": self.product.id,
-                        "tax_ids": [Command.set([])],
-                    }
-                )
+                Command.create({"product_id": self.product.id, "tax_ids": []})
             ],
         }
         return (
