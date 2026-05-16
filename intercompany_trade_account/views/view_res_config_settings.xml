@@ -13,42 +13,59 @@
                 <h2>Intercompany Trade Settings</h2>
                 <div class="row mt16 o_settings_container" name="export_setting_container">
 
-                    <div class="col-12 col-lg-6 o_setting_box" id="intercompany_trade_account_id">
+                    <div class="col-12 col-lg-12 o_setting_box" id="intercompany_trade_account_id">
                         <div class="o_setting_left_pane" />
                         <div class="o_setting_right_pane">
                             <label for="intercompany_trade_account_id"/>
                             <span class="fa fa-lg fa-home" title="Values set here are company-specific." aria-label="Values set here are Fiscal Mother company Specific." groups="base.group_multi_company" role="img"/>
                             <div class="text-muted">
-                               Typically a 181 account in France.
+                                This account will be used in the sale and purchase moves, in a integrated trade context, for the line of the third party ('payment_term' lines), instead of the classic receivable / payable account. Typically a 181 account in France (instead of the 401 / 411).
                             </div>
-                            <field name="intercompany_trade_account_id"/>
+                            <div>
+                                <field name="intercompany_trade_account_id"/>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-12 col-lg-6 o_setting_box" id="intercompany_trade_fiscal_position_id">
+                    <div class="col-12 col-lg-12 o_setting_box" id="intercompany_trade_fiscal_position_id">
                         <div class="o_setting_left_pane" />
                         <div class="o_setting_right_pane">
                             <label for="intercompany_trade_fiscal_position_id"/>
                             <span class="fa fa-lg fa-home" title="Values set here are company-specific." aria-label="Values set here are Fiscal Mother company Specific." groups="base.group_multi_company" role="img"/>
-                            <field name="intercompany_trade_fiscal_position_id"/>
+                            <div class="text-muted">
+                                This Fiscal position will be used in the sale and purchase moves, in a integrated trade context. This fiscal position should map the classic income and expense accounts to accounts flagged as 'Intercompany Trade'. It should also map all the taxes with nothing, as there is no taxes in intercompany trade context.
+                            </div>
+                            <div>
+                                <field name="intercompany_trade_fiscal_position_id"/>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-12 col-lg-6 o_setting_box" id="intercompany_trade_sale_journal_id">
+                    <div class="col-12 col-lg-12 o_setting_box" id="intercompany_trade_sale_journal_id">
                         <div class="o_setting_left_pane" />
                         <div class="o_setting_right_pane">
                             <label for="intercompany_trade_sale_journal_id"/>
                             <span class="fa fa-lg fa-home" title="Values set here are company-specific." aria-label="Values set here are Fiscal Mother company Specific." groups="base.group_multi_company" role="img"/>
-                            <field name="intercompany_trade_sale_journal_id"/>
+                            <div class="text-muted">
+                                This journal will be used for the sale moves in a integrated trade context.
+                            </div>
+                            <div>
+                                <field name="intercompany_trade_sale_journal_id"/>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-12 col-lg-6 o_setting_box" id="intercompany_trade_purchase_journal_id">
+                    <div class="col-12 col-lg-12 o_setting_box" id="intercompany_trade_purchase_journal_id">
                         <div class="o_setting_left_pane" />
                         <div class="o_setting_right_pane">
                             <label for="intercompany_trade_purchase_journal_id"/>
                             <span class="fa fa-lg fa-home" title="Values set here are company-specific." aria-label="Values set here are Fiscal Mother company Specific." groups="base.group_multi_company" role="img"/>
-                            <field name="intercompany_trade_purchase_journal_id"/>
+                            <div class="text-muted">
+                                This journal will be used for the purchase moves in a integrated trade context.
+                            </div>
+                            <div>
+                                <field name="intercompany_trade_purchase_journal_id"/>
+                            </div>
                         </div>
                     </div>
                 </div>

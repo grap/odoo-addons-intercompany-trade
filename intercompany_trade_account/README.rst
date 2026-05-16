@@ -28,13 +28,36 @@ Intercompany Trade - Account
 
 This module implements intercompany trade features for account module.
 
-- When confirming a supplier (purchase) invoices, check if the related
-  customer invoice (sale) is correct and indentical, regarding amounts.
+- It adds a checkbox named 'Intercompany Trade' at journal, account and
+  fiscal position models. if checked, that item can only be used in an
+  intercompany trade account moves. (An error will be raised otherwise).
+
+- Once configured, when creating an 'Intercompany trade' accounting move
+  the journal, fiscal position and accounts will be set automatically.
+
+- Check are done when confirming to avoid misconfiguration.
+
+- When creating a supplier invoices,
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Configuration
+=============
+
+- Go to "Accounting > Configuration > Settings"
+
+- At the end of the setting part, you can configure the accouting
+  configuration related to Intercompany trades.
+
+Note that you can only select items flagged as 'Intercompany Trade'
+here.
+
+|res_config_settings_form|
+
+.. |res_config_settings_form| image:: https://raw.githubusercontent.com/grap/odoo-addons-intercompany-trade/16.0/intercompany_trade_account/static/description/res_config_settings_form.png
 
 Bug Tracker
 ===========

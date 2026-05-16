@@ -5,24 +5,15 @@
 import logging
 
 from odoo.exceptions import UserError
-from odoo.tests.common import TransactionCase
 
-from odoo.addons.intercompany_trade.tests.test_module import (
-    TestModule as TestIntercompanyTradeBase,
+from odoo.addons.intercompany_trade.tests.test_abstract import (
+    TestIntercompanyTradeAbstract,
 )
 
 _logger = logging.getLogger(__name__)
 
 
-class TestBase(TestIntercompanyTradeBase):
-    def setUp(self):
-        super().setUp()
-
-    def test_super(self):
-        self.test_00_log_installed_modules()
-
-
-class Test(TransactionCase):
+class TestIntercompanyTradeAccount(TestIntercompanyTradeAbstract):
     # Overload Section
     def setUp(self):
         super().setUp()
@@ -31,9 +22,6 @@ class Test(TransactionCase):
         self.AccountInvoice = self.env["account.invoice"]
 
         # Get object from xml_ids
-        self.supplier_user = self.env.ref("intercompany_trade.supplier_user")
-
-        self.customer_company = self.env.ref("intercompany_trade.customer_company")
 
         self.intercompany_invoice = self.env.ref(
             "intercompany_trade_account.intercompany_invoice"

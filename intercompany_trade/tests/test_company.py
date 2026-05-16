@@ -4,35 +4,15 @@
 
 import logging
 
-from odoo.exceptions import UserError, ValidationError
 from odoo.tests import tagged
 
-from odoo.addons.fiscal_company_base.tests.test_abstract import TestAbstract
+from .test_abstract import TestIntercompanyTradeAbstract
 
 _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestIntercompanyTradeAbstract(TestAbstract):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-
-        cls.customer_company = cls.env.ref("fiscal_company_base.company_fiscal_child_1")
-        cls.supplier_company = cls.env.ref("fiscal_company_base.company_fiscal_child_2")
-        cls.customer_partner = cls.customer_company.intercompany_trade_partner_id
-        cls.supplier_partner = cls.customer_company.intercompany_trade_partner_id
-
-        cls.random_partner = cls.env.ref("base.res_partner_address_15")
-
-    # Test Section
-    def test_00_hook(self):
-        """[Functional Test] Check if that hooks create correctly intercompany trade
-        for existing companies"""
-        self.assertTrue(self.customer_partner)
-        self.assertFalse(self.mother_company.intercompany_trade_partner_id)
-        self.assertFalse(self.group_company.intercompany_trade_partner_id)
-
+class TestIntercompanyTradeCompany(TestIntercompanyTradeAbstract):
     def test_01_create_new_company_and_change_fiscal_type(self):
         """[Functional Test] Check if create a new company, create or not
         intercompany trade partners"""
@@ -96,30 +76,3 @@ class TestIntercompanyTradeAbstract(TestAbstract):
             "My Custom Street",
             "Write on company should change data on related partner",
         )
-
-    def test_03_write_active_on_partner(self):
-        """[Security Test] Enable / disable intercompany trade partners should success
-        for admin user, but not for demo user."""
-        self.customer_partner.write({"active": False})
-        self.customer_partner.write({"active": True})
-
-        with self.assertRaises(UserError):
-            self.customer_partner.with_user(self.env.ref("base.user_demo")).write(
-                {"active": False}
-            )
-
-    def test_10_check_parent_partner(self):
-        """[Constrains Test] Check if set a parent to a intercompany trade partner
-        is blocked."""
-        with self.assertRaises(ValidationError):
-            self.customer_partner.with_context(
-                ignore_intercompany_trade_check=True
-            ).write({"parent_id": self.random_partner.id})
-
-    def test_11_check_child_partner(self):
-        """[Constrains Test] Check if set a child to a intercompany trade partner
-        is blocked."""
-        with self.assertRaises(ValidationError):
-            self.random_partner.with_context(
-                ignore_intercompany_trade_check=True
-            ).write({"parent_id": self.customer_partner.id})

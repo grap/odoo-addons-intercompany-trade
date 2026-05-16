@@ -15,12 +15,12 @@ class ResCompany(models.Model):
         "('company_id', '=', id),"
         "('account_type', 'not in', ('expense', 'income')),"
         "('is_intercompany_trade', '=', True)]",
-        string="Account for Intercompany Trade",
-        help="Typically a 181 account in France.",
+        string="Third Party Account for Intercompany Trade",
     )
 
     intercompany_trade_fiscal_position_id = fields.Many2one(
         comodel_name="account.fiscal.position",
+        string="Fiscal Position for Intercompany Trade",
         domain="["
         "('company_id', '=', id),"
         "('is_intercompany_trade', '=', True)"
@@ -29,6 +29,7 @@ class ResCompany(models.Model):
 
     intercompany_trade_sale_journal_id = fields.Many2one(
         comodel_name="account.journal",
+        string="Sale Journal for Intercompany Trade",
         domain="["
         "('company_id', '=', id),"
         "('is_intercompany_trade', '=', True),"
@@ -38,6 +39,7 @@ class ResCompany(models.Model):
 
     intercompany_trade_purchase_journal_id = fields.Many2one(
         comodel_name="account.journal",
+        string="Purchase Journal for Intercompany Trade",
         domain="["
         "('company_id', '=', id),"
         "('is_intercompany_trade', '=', True),"
