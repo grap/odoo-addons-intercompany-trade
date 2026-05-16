@@ -15,7 +15,6 @@ class TestIntercompanyTradeAccountCheckPartner(TestIntercompanyTradeAccountAbstr
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-
         cls.ResPartner = cls.env["res.partner"]
 
     def test_01_classic_partner(self):

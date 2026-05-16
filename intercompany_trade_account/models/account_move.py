@@ -74,16 +74,6 @@ class AccountMove(models.Model):
 
         return super(AccountMove, self - intercompany_trade_moves)._compute_journal_id()
 
-    # TODO, when validating in_ invoices (and related refund)
-    # Check if the according sale (out) invoice is correct.
-    #
-    # def invoice_validate(self):
-    #     for invoice in self.filtered(
-    #         lambda x: x.intercompany_trade and "out_" in x.type
-    #     ):
-    #         invoice._create_intercompany_invoice()
-    #     return super().invoice_validate()
-
     def _post(self, *args, **kwargs):
         intercompany_trade_invoices = self.filtered(lambda x: x.intercompany_trade)
 
@@ -96,6 +86,7 @@ class AccountMove(models.Model):
         for _invoice in intercompany_trade_invoices.filtered(
             lambda x: x.is_purchase_document(include_receipts=True)
         ):
+            # TODO, check if sale document exist in the other company
             pass
         return super()._post(*args, **kwargs)
 
@@ -200,7 +191,7 @@ class AccountMove(models.Model):
                 )
 
         # check that expense / income account lines are OK for NON intercompany trade
-        for line in self.filtered(
+        for line in self.line_ids.filtered(
             lambda line: line.display_type == "product"
             and line.move_id.is_invoice(True)
         ):
