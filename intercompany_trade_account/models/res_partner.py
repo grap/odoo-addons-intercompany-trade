@@ -18,13 +18,13 @@ class ResPartner(models.Model):
     def _check_intercompany_trade_same_fiscal_company_fiscal_position(self):
         for partner in self:
             fiscal_position = partner.property_account_position_id
-            if not partner.intercompany_trade and fiscal_position.is_intercompany_trade:
+            if (partner.intercompany_trade) ^ (fiscal_position.is_intercompany_trade):
                 raise UserError(
                     _(
                         "It's not possible to set the fiscal position"
                         " '%(name)s' to this partner.\n\n"
-                        " You should not use a fiscal position for intercompany trade"
-                        " between same fiscal companies.",
+                        " Only intercompany partner can have"
+                        " intercompany fiscal position.",
                         name=fiscal_position.name,
                     )
                 )
