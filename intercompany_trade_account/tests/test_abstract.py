@@ -15,6 +15,6 @@ class TestIntercompanyTradeAccountAbstract(TestIntercompanyTradeAbstract):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.it_fiscal_position = cls.env.ref(
+        cls.fiscal_position_it = cls.env.ref(
             "intercompany_trade_account.fiscal_position"
         )
