@@ -9,7 +9,15 @@
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
     "license": "AGPL-3",
     "depends": ["intercompany_trade", "point_of_sale"],
-    # "data": ["views/assets.xml"],
+    "assets": {
+        "point_of_sale.assets": [
+            "intercompany_trade_point_of_sale/static/src/js/**/*.js",
+        ],
+    },
+    "demo": [
+        "demo/pos_payment_method.xml",
+        "demo/pos_config.xml",
+    ],
     "auto_install": True,
-    "installable": False,
+    "installable": True,
 }

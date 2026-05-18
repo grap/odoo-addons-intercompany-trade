@@ -2,7 +2,6 @@ exclude: |
   (?x)
   # NOT INSTALLABLE ADDONS
   ^intercompany_trade_joint_buying_base/|
-  ^intercompany_trade_point_of_sale/|
   # END NOT INSTALLABLE ADDONS
   # <GRAP> Do no touch encrypted files
   .*\.encrypted|

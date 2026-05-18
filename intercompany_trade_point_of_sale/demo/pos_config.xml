@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2026 - Today GRAP (http://www.grap.coop)
+@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+    <record id="pos_config_child_company_1" model="pos.config">
+        <field name="name">Company 1</field>
+        <field name="company_id" ref="fiscal_company_base.company_fiscal_child_1" />
+        <field name="invoice_journal_id" ref="fiscal_company_account.journal_sale" />
+        <field name="journal_id" ref="fiscal_company_account.journal_sale" />
+        <field name="payment_method_ids" eval="[Command.link(ref('intercompany_trade_point_of_sale.payment_method_child_company_1'))]" />
+        <field name="pricelist_id" ref="product.list0" />
+    </record>
+
+    <record id="pos_config_child_company_2" model="pos.config">
+        <field name="name">Company 1</field>
+        <field name="company_id" ref="fiscal_company_base.company_fiscal_child_2" />
+        <field name="invoice_journal_id" ref="fiscal_company_account.journal_sale" />
+        <field name="journal_id" ref="fiscal_company_account.journal_sale" />
+        <field name="payment_method_ids" eval="[Command.link(ref('intercompany_trade_point_of_sale.payment_method_child_company_2'))]" />
+        <field name="pricelist_id" ref="product.list0" />
+    </record>
+
+</odoo>
