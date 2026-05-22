@@ -267,6 +267,7 @@ class AccountMove(models.Model):
                     supplier_invoice_name=self.ref,
                 )
             )
+
         if supplier_invoice.state in ["draft", "cancel"]:
             raise UserError(
                 _(

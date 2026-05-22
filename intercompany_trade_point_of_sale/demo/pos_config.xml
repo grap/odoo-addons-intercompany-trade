@@ -12,8 +12,11 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
         <field name="company_id" ref="fiscal_company_base.company_fiscal_child_1" />
         <field name="invoice_journal_id" ref="fiscal_company_account.journal_sale" />
         <field name="journal_id" ref="fiscal_company_account.journal_sale" />
-        <field name="payment_method_ids" eval="[Command.link(ref('intercompany_trade_point_of_sale.payment_method_child_company_1'))]" />
-        <field name="pricelist_id" ref="product.list0" />
+        <field name="payment_method_ids" eval="[Command.set([ref('intercompany_trade_point_of_sale.payment_method_child_company_1')])]" />
+        <field name="pricelist_id" ref="fiscal_company_product.pricelist_child_1" />
+        <field name="available_pricelist_ids" eval="[Command.set([ref('fiscal_company_product.pricelist_child_1')])]" />
+        <field name="picking_type_id" model="stock.picking.type" eval="obj().search([('code', '=', 'outgoing'), ('company_id', '=', ref('fiscal_company_base.company_fiscal_child_1'))], limit=1)"/>
+
     </record>
 
     <record id="pos_config_child_company_2" model="pos.config">
@@ -21,8 +24,10 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
         <field name="company_id" ref="fiscal_company_base.company_fiscal_child_2" />
         <field name="invoice_journal_id" ref="fiscal_company_account.journal_sale" />
         <field name="journal_id" ref="fiscal_company_account.journal_sale" />
-        <field name="payment_method_ids" eval="[Command.link(ref('intercompany_trade_point_of_sale.payment_method_child_company_2'))]" />
-        <field name="pricelist_id" ref="product.list0" />
+        <field name="payment_method_ids" eval="[Command.set([ref('intercompany_trade_point_of_sale.payment_method_child_company_2')])]" />
+        <field name="pricelist_id" ref="fiscal_company_product.pricelist_child_2" />
+        <field name="available_pricelist_ids" eval="[Command.set([ref('fiscal_company_product.pricelist_child_2')])]" />
+        <field name="picking_type_id" model="stock.picking.type" eval="obj().search([('code', '=', 'outgoing'), ('company_id', '=', ref('fiscal_company_base.company_fiscal_child_2'))], limit=1)"/>
     </record>
 
 </odoo>

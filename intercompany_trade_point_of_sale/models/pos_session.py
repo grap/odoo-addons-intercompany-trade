@@ -8,5 +8,7 @@ from odoo import models
 class PosSession(models.Model):
     _inherit = "pos.session"
 
-    def _get_pos_ui_res_partner(self, params):
-        return self.env["res.partner"].search_read(**params["search_params"])
+    def _loader_params_res_partner(self):
+        res = super()._loader_params_res_partner()
+        res["search_params"]["fields"].append("intercompany_trade")
+        return res
