@@ -21,32 +21,12 @@ class ResPartner(models.Model):
                 fiscal_position
                 and partner.intercompany_trade ^ fiscal_position.is_intercompany_trade
             ):
-                # if partner.intercompany_trade:
-                #     raise UserError(
-                #         _(
-                #             "It is useless to set a fiscal position on partner"
-                #             " '%(partner_name)s' as it is flagged as"
-                #             " intercompany trade."
-                #             " This setting will not be taken into account.",
-                #             partner_name=partner.name,
-                #         )
-                #     )
-                # elif fiscal_position.is_intercompany_trade:
-                #     raise UserError(
-                #         _(
-                #             "It's not possible to set the fiscal position"
-                #             " '%(fp_name)s' to this partner %(partner_name)s.\n\n"
-                #             " as this fiscal position is flagged as intercompany trade",
-                #             fp_name=fiscal_position.name,
-                #             partner_name=partner.name,
-                #         )
-                #     )
-
                 raise UserError(
                     _(
                         "It's not possible to set the fiscal position"
                         " '%(fp_name)s' to this partner %(partner_name)s.\n\n"
-                        " as there are incompatible in an Intercompany trade point of view",
+                        " as there are incompatible in an Intercompany trade"
+                        " point of view",
                         fp_name=fiscal_position.name,
                         partner_name=partner.name,
                     )

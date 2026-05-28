@@ -9,7 +9,7 @@ from odoo.exceptions import ValidationError
 class PosOrder(models.Model):
     _inherit = "pos.order"
 
-    @api.constrains("partner_id")
+    @api.constrains("partner_id", "to_invoice")
     def _check_partner_integrated_trade(self):
         for order in self:
             if order.partner_id.intercompany_trade and not order.to_invoice:
