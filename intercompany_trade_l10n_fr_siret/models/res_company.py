@@ -9,17 +9,17 @@ class ResCompany(models.Model):
     _inherit = "res.company"
 
     def _prepare_intercompany_trade_partner_from_company(self):
-        res = super()._prepare_intercompany_trade_partner_from_company()
-        res.update(
+        vals = super()._prepare_intercompany_trade_partner_from_company()
+        vals.update(
             {
                 "siren": self.siren,
                 "nic": self.nic,
             }
         )
-        return res
+        return vals
 
     @api.model
-    def _prepare_intercompany_trade_partner_fields(self):
-        res = super()._prepare_intercompany_trade_partner_fields()
+    def _get_intercompany_trade_partner_fields(self):
+        res = super()._get_intercompany_trade_partner_fields()
         res += ["siren", "nic"]
         return res

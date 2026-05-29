@@ -47,6 +47,17 @@ class ResCompany(models.Model):
         "]",
     )
 
+    def _prepare_intercompany_trade_partner_from_company(self):
+        vals = super()._prepare_intercompany_trade_partner_from_company()
+        position_id = self.intercompany_trade_fiscal_position_id.id
+        vals.update({"property_account_position_id": position_id})
+        return vals
+
+    def _get_intercompany_trade_partner_fields(self):
+        res = super()._get_intercompany_trade_partner_fields()
+        res += ["intercompany_trade_fiscal_position_id"]
+        return res
+
     @api.model_create_multi
     def create(self, vals_list):
         companies = super().create(vals_list)
