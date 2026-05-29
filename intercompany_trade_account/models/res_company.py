@@ -49,7 +49,7 @@ class ResCompany(models.Model):
 
     def _prepare_intercompany_trade_partner_from_company(self):
         vals = super()._prepare_intercompany_trade_partner_from_company()
-        position_id = self.intercompany_trade_fiscal_position_id.id
+        position_id = self.fiscal_company_id.intercompany_trade_fiscal_position_id.id
         vals.update({"property_account_position_id": position_id})
         return vals
 
