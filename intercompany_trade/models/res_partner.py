@@ -15,6 +15,19 @@ class ResPartner(models.Model):
         help="Indicate that this partner is an integrated company of a CAE in Odoo.",
     )
 
+    @api.depends("vat", "company_id", "company_registry")
+    def _compute_same_vat_partner_id(self):
+        """Remove the useless warning message that mention that
+        another partner has the same vat / company registry
+        by design all the intercompany trades has the same IDs and it's OK.
+        """
+        for partner in self.filtered(lambda x: x.intercompany_trade):
+            partner.same_vat_partner_id = False
+            partner.same_company_registry_partner_id = False
+        return super(
+            ResPartner, self.filtered(lambda x: not x.intercompany_trade)
+        )._compute_same_vat_partner_id()
+
     def _fiscal_company_forbid_fiscal_type_allow_exceptions(self):
         res = super()._fiscal_company_forbid_fiscal_type_allow_exceptions()
         return res.filtered(lambda x: not x.intercompany_trade)
