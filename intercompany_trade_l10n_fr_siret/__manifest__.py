@@ -1,0 +1,21 @@
+# Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
+# @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+
+{
+    "name": "Intercompany Trade - SIRET",
+    "version": "16.0.1.0.0",
+    "category": "Intercompany Trade",
+    "author": "GRAP",
+    "website": "https://github.com/grap/odoo-addons-intercompany-trade",
+    "license": "AGPL-3",
+    "depends": [
+        # OCA
+        "l10n_fr_siret",
+        # Custom
+        "intercompany_trade",
+    ],
+    "post_init_hook": "post_init_hook",
+    "auto_install": True,
+    "installable": True,
+}
