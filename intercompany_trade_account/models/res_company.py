@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class ResCompany(models.Model):
@@ -46,3 +46,33 @@ class ResCompany(models.Model):
         "('type', '=', 'purchase'),"
         "]",
     )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        companies = super().create(vals_list)
+        for company, vals in zip(companies, vals_list, strict=True):
+            if vals.get("fiscal_type") == "fiscal_mother":
+                company._create_intercompany_trade_fiscal_position_id()
+        return companies
+
+    def write(self, vals):
+        res = super().write(vals)
+
+        if vals.get("fiscal_type") == "fiscal_mother":
+            self._create_intercompany_trade_fiscal_position_id()
+
+        return res
+
+    def _create_intercompany_trade_fiscal_position_id(self):
+        self.ensure_one()
+        if self.intercompany_trade_fiscal_position_id:
+            return
+        fiscal_position = self.env["account.fiscal.position"].create(
+            self.env[
+                "account.fiscal.position"
+            ]._prepare_intercompany_trade_fiscal_position_vals(self)
+        )
+        self.intercompany_trade_fiscal_position_id = fiscal_position.id
+        self.mapped("child_ids.intercompany_trade_partner_id").write(
+            {"property_account_position_id": fiscal_position.id}
+        )

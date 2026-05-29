@@ -2,7 +2,7 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models
+from odoo import _, fields, models
 
 
 class AccountFiscalPosition(models.Model):
@@ -13,3 +13,11 @@ class AccountFiscalPosition(models.Model):
         help="Check this box to use this Fiscal position for integrated Trade"
         " into 2 companies of the same cooperative",
     )
+
+    def _prepare_intercompany_trade_fiscal_position_vals(self, company):
+        return {
+            "name": _(
+                "Intercompany Trade in %(company_name)s", company_name=company.name
+            ),
+            "is_intercompany_trade": True,
+        }

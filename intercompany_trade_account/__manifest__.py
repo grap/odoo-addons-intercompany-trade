@@ -4,7 +4,7 @@
 
 {
     "name": "Intercompany Trade - Account",
-    "version": "16.0.1.0.0",
+    "version": "16.0.3.0.0",
     "category": "Intercompany Trade",
     "author": "GRAP",
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
@@ -32,6 +32,7 @@
         "views/view_account_move.xml",
         "views/view_res_config_settings.xml",
     ],
+    "post_init_hook": "post_init_hook",
     "auto_install": True,
     "installable": True,
 }
