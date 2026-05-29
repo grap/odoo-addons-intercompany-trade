@@ -58,7 +58,7 @@ Authors
 Contributors
 ------------
 
-- Sylvain LE GAL (https://twitter.com/legalsylvain)
+- Sylvain LE GAL
 
 Maintainers
 -----------
