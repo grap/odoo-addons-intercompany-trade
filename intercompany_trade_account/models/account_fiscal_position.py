@@ -19,5 +19,6 @@ class AccountFiscalPosition(models.Model):
             "name": _(
                 "Intercompany Trade in %(company_name)s", company_name=company.name
             ),
+            "company_id": self.id,
             "is_intercompany_trade": True,
         }
