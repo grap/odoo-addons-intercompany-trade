@@ -29,6 +29,9 @@ class TestIntercompanyTradeAccountFiscalPosition(TestIntercompanyTradeAccountAbs
             "intercompany_trade_account.fiscal_position"
         )
         cls.cae_fiscal_position = cls.env.ref("fiscal_company_account.fiscal_position")
+        cls.product = cls.env.ref(
+            "intercompany_trade_account.product_supplier_service_10_excl"
+        )
 
     def test_01_correct_fiscal_configuration(self):
         self.assertEqual(
@@ -49,3 +52,14 @@ class TestIntercompanyTradeAccountFiscalPosition(TestIntercompanyTradeAccountAbs
 
         with self.assertRaises(UserError):
             self.it_partner.property_account_position_id = self.cae_fiscal_position
+
+    def test_20_propagate_taxes(self):
+        new_tax = self.env["account.tax"].create(
+            {"name": "New Tax", "company_id": self.mother_company.id}
+        )
+
+        self.assertNotIn(new_tax, self.it_fiscal_position.mapped("tax_ids.tax_src_id"))
+
+        self.product.taxes_id |= new_tax
+
+        self.assertIn(new_tax, self.it_fiscal_position.mapped("tax_ids.tax_src_id"))
