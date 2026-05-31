@@ -10,8 +10,6 @@
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
     "license": "AGPL-3",
     "depends": [
-        # Odoo
-        "account",
         # Custom
         "intercompany_trade",
         "fiscal_company_account",

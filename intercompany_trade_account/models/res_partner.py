@@ -31,3 +31,22 @@ class ResPartner(models.Model):
                         partner_name=partner.name,
                     )
                 )
+
+    def write(self, vals):
+        res = super().write(vals)
+        if (
+            "property_account_position_id" in vals.keys()
+            and not vals.get("property_account_position_id")
+            and self.filtered(lambda x: x.intercompany_trade)
+        ):
+            raise UserError(
+                _(
+                    "It's not possible to remove the fiscal position"
+                    " 'to the partner(s) %(partner_names)s.\n\n"
+                    " as there are Intercompany trade partners.",
+                    partner_names=",".join(
+                        self.filtered(lambda x: x.intercompany_trade).mapped("name")
+                    ),
+                )
+            )
+        return res

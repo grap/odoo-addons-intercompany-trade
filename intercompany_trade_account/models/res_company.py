@@ -77,13 +77,14 @@ class ResCompany(models.Model):
     def _create_intercompany_trade_fiscal_position_id(self):
         self.ensure_one()
         if self.intercompany_trade_fiscal_position_id:
-            return
-        fiscal_position = self.env["account.fiscal.position"].create(
-            self.env[
-                "account.fiscal.position"
-            ]._prepare_intercompany_trade_fiscal_position_vals(self)
-        )
-        self.intercompany_trade_fiscal_position_id = fiscal_position.id
+            fiscal_position = self.intercompany_trade_fiscal_position_id
+        else:
+            fiscal_position = self.env["account.fiscal.position"].create(
+                self.env[
+                    "account.fiscal.position"
+                ]._prepare_intercompany_trade_fiscal_position_vals(self)
+            )
+            self.intercompany_trade_fiscal_position_id = fiscal_position.id
         self.mapped("child_ids.intercompany_trade_partner_id").write(
             {"property_account_position_id": fiscal_position.id}
         )
