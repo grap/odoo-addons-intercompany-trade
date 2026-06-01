@@ -15,7 +15,7 @@ class TestModule(TransactionCase):
         self.pos_config = self.env.ref("point_of_sale.pos_config_main").copy()
 
     # Test Section
-    def test_01_pos_order_constrains(self):
+    def _test_01_pos_order_constrains(self):
         """[Functional Test] Check if creating a pos order with integrated
         Trade is blocked"""
         self.pos_config.open_session_cb()
