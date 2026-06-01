@@ -8,7 +8,13 @@
     "author": "GRAP",
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
     "license": "AGPL-3",
-    "depends": ["intercompany_trade", "point_of_sale"],
+    "depends": [
+        # Odoo
+        "point_of_sale",
+        # Custom
+        "intercompany_trade",
+        "fiscal_company_product",
+    ],
     "assets": {
         "point_of_sale.assets": [
             "intercompany_trade_point_of_sale/static/src/js/**/*.js",
