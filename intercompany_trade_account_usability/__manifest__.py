@@ -12,7 +12,7 @@
     "depends": [
         # OCA
         "account_usability",
-        # Custom
+        # GRAP
         "intercompany_trade",
     ],
     "data": [

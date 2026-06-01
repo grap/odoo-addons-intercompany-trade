@@ -44,7 +44,7 @@ def migrate(env, version):
                 WHERE rc.id = ai.company_id
                 AND rc.parent_id = %s
                 AND aa_temp.id = ai.account_id
-                AND aa_temp.code ilike '181%'
+                AND aa_temp.code ilike '181%%'
                 AND aa_temp.code != '181';
             """,
             (
@@ -67,7 +67,7 @@ def migrate(env, version):
                 WHERE rc.id = ail.company_id
                 AND rc.parent_id = %s
                 AND aa_temp.id = ail.account_id
-                AND aa_temp.code ilike '181%'
+                AND aa_temp.code ilike '181%%'
                 AND aa_temp.code != '181';
             """,
             (
@@ -90,7 +90,7 @@ def migrate(env, version):
                 WHERE rc.id = aml.company_id
                 AND rc.parent_id = %s
                 AND aa_temp.id = aml.account_id
-                AND aa_temp.code ilike '181%'
+                AND aa_temp.code ilike '181%%'
                 AND aa_temp.code != '181';
             """,
             (

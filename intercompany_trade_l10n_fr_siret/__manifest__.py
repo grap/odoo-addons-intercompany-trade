@@ -12,7 +12,7 @@
     "depends": [
         # OCA
         "l10n_fr_siret",
-        # Custom
+        # GRAP
         "intercompany_trade",
     ],
     "post_init_hook": "post_init_hook",

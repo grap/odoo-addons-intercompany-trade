@@ -11,19 +11,15 @@
     "depends": [
         # Odoo
         "point_of_sale",
-        # Custom
+        # GRAP
         "intercompany_trade",
-        "fiscal_company_product",
+        "fiscal_company_point_of_sale",
     ],
     "assets": {
         "point_of_sale.assets": [
             "intercompany_trade_point_of_sale/static/src/js/**/*.js",
         ],
     },
-    "demo": [
-        "demo/pos_payment_method.xml",
-        "demo/pos_config.xml",
-    ],
     "auto_install": True,
     "installable": True,
 }

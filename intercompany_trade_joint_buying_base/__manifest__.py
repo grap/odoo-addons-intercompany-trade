@@ -9,7 +9,11 @@
     "author": "GRAP",
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
     "license": "AGPL-3",
-    "depends": ["intercompany_trade", "joint_buying_base"],
+    "depends": [
+        # GRAP
+
+        "intercompany_trade", "joint_buying_base",
+    ],
     "auto_install": False,
     "installable": False,
 }
