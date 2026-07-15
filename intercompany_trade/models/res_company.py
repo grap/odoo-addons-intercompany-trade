@@ -30,7 +30,7 @@ class ResCompany(models.Model):
         # Do not rewrite all related partners, if interesting data
         # didn't changed.
         if not list(
-            set(vals.keys()) & set(self._prepare_intercompany_trade_partner_fields())
+            set(vals.keys()) & set(self._get_intercompany_trade_partner_fields())
         ):
             return res
 
@@ -78,7 +78,7 @@ class ResCompany(models.Model):
         Return vals for the creation of an 'intercompany_trade' partner.
 
         Note: if you change this function, please update also
-        the function _prepare_intercompany_trade_partner_fields()
+        the function _get_intercompany_trade_partner_fields()
         """
         self.ensure_one()
         return {
@@ -101,13 +101,13 @@ class ResCompany(models.Model):
         }
 
     @api.model
-    def _prepare_intercompany_trade_partner_fields(self):
+    def _get_intercompany_trade_partner_fields(self):
         """
         List of company fields that should raise the rewrite of related
         intercompany_trade partners.
 
         Note: if you change this function, please update also
-        the function _prepare_intercompany_trade_partner_fields()
+        the function _get_intercompany_trade_partner_fields()
         """
         return [
             "name",

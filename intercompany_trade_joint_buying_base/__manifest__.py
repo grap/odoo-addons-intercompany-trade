@@ -1,5 +1,5 @@
 # Copyright (C) 2022 - Today: GRAP (http://www.grap.coop)
-# @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+# @author: Sylvain LE GAL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
@@ -9,7 +9,11 @@
     "author": "GRAP",
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
     "license": "AGPL-3",
-    "depends": ["intercompany_trade", "joint_buying_base"],
+    "depends": [
+        # GRAP
+
+        "intercompany_trade", "joint_buying_base",
+    ],
     "auto_install": False,
     "installable": False,
 }

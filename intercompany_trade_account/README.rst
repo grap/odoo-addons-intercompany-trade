@@ -28,25 +28,36 @@ Intercompany Trade - Account
 
 This module implements intercompany trade features for account module.
 
-Features
---------
+- It adds a checkbox named 'Intercompany Trade' at journal, account and
+  fiscal position models. if checked, that item can only be used in an
+  intercompany trade account moves. (An error will be raised otherwise).
 
-Confirm an customer account invoice create a supplier account invoice
+- Once configured, when creating an 'Intercompany trade' accounting move
+  the journal, fiscal position and accounts will be set automatically.
+
+- Check are done when confirming to avoid misconfiguration.
+
+- When creating a supplier invoices,
 
 **Table of contents**
 
 .. contents::
    :local:
 
-Known issues / Roadmap
-======================
+Configuration
+=============
 
-- For the time being, invoices validation process is quite hard because
-  Odoo uses workflow, where context can not be passed easily. To do in
-  V10 : simplify this module, removing CUSTOMER_ALLOWED_FIELDS system.
-- In V16, allow to generate intercompany trade 'In' invoices with
-  section and notes, as it is well handled in both 'Customers' and
-  'Vendors' parts.
+- Go to "Accounting > Configuration > Settings"
+
+- At the end of the setting part, you can configure the accouting
+  configuration related to Intercompany trades.
+
+Note that you can only select items flagged as 'Intercompany Trade'
+here.
+
+|res_config_settings_form|
+
+.. |res_config_settings_form| image:: https://raw.githubusercontent.com/grap/odoo-addons-intercompany-trade/16.0/intercompany_trade_account/static/description/res_config_settings_form.png
 
 Bug Tracker
 ===========
@@ -69,7 +80,7 @@ Authors
 Contributors
 ------------
 
-- Sylvain LE GAL (https://twitter.com/legalsylvain)
+- Sylvain LE GAL
 
 Maintainers
 -----------

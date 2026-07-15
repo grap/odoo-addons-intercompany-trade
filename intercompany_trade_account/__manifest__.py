@@ -1,30 +1,36 @@
 # Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
-# @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+# @author: Sylvain LE GAL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
     "name": "Intercompany Trade - Account",
-    "version": "16.0.1.0.0",
+    "version": "16.0.3.0.0",
     "category": "Intercompany Trade",
     "author": "GRAP",
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
     "license": "AGPL-3",
     "depends": [
-        "account",
-        # Custom
+        # GRAP
         "intercompany_trade",
+        "fiscal_company_account",
     ],
     "demo": [
         "demo/res_groups.xml",
-        "demo/account_account.xml",
         "demo/account_journal.xml",
-        "demo/ir_property.xml",
-        "demo/account_tax.xml",
+        "demo/account_account.xml",
         "demo/product_product.xml",
-        "demo/product_supplierinfo.xml",
-        "demo/account_invoice.xml",
+        "demo/account_fiscal_position.xml",
+        "demo/res_company.xml",
     ],
-    "data": ["views/menu.xml", "views/view_account_invoice.xml"],
+    "data": [
+        "views/view_account_account.xml",
+        "views/view_account_fiscal_position.xml",
+        "views/view_account_fiscal_position_template.xml",
+        "views/view_account_journal.xml",
+        "views/view_account_move.xml",
+        "views/view_res_config_settings.xml",
+    ],
+    "post_init_hook": "post_init_hook",
     "auto_install": True,
-    "installable": False,
+    "installable": True,
 }

@@ -1,3 +1,6 @@
 odoo-test-helper
 
-git+https://github.com/grap/odoo-addons-cae@16.0#subdirectory=setup/fiscal_company_base
+git+https://github.com/grap/odoo-addons-cae@16.0-IMP-fiscal_company_base-display-partner-of-cae-SLG#subdirectory=setup/fiscal_company_base
+git+https://github.com/grap/odoo-addons-cae@16.0-IMP-fiscal_company_base-display-partner-of-cae-SLG#subdirectory=setup/fiscal_company_product
+git+https://github.com/grap/odoo-addons-cae@16.0-IMP-fiscal_company_base-display-partner-of-cae-SLG#subdirectory=setup/fiscal_company_account
+git+https://github.com/grap/odoo-addons-cae@16.0-IMP-fiscal_company_base-display-partner-of-cae-SLG#subdirectory=setup/fiscal_company_point_of_sale

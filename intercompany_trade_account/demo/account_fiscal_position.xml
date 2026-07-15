@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
+@author Sylvain LE GAL
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+
+<odoo>
+
+    <record id="fiscal_position" model="account.fiscal.position">
+        <field name="name">Intercompany Trade - Fiscal Position</field>
+        <field name="is_intercompany_trade" eval="True"/>
+        <field name="company_id" ref="fiscal_company_base.company_fiscal_mother" />
+    </record>
+
+    <record id="fiscal_position_account_186" model="account.fiscal.position.account">
+        <field name="position_id" ref="fiscal_position" />
+        <field name="account_src_id" ref="fiscal_company_account.account_expense_cae" />
+        <field name="account_dest_id" ref="intercompany_trade_account_expense" />
+    </record>
+
+    <record id="fiscal_position_account_187" model="account.fiscal.position.account">
+        <field name="position_id" ref="fiscal_position" />
+        <field name="account_src_id" ref="fiscal_company_account.account_income_cae" />
+        <field name="account_dest_id" ref="intercompany_trade_account_income" />
+    </record>
+
+
+
+</odoo>

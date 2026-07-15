@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2017 - Today: GRAP (http://www.grap.coop)
+@author Sylvain LE GAL
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+
+<odoo>
+
+    <record model="res.company" id="fiscal_company_base.company_fiscal_mother">
+        <field name="intercompany_trade_account_id" ref="intercompany_trade_account_company"/>
+        <field name="intercompany_trade_fiscal_position_id" ref="fiscal_position"/>
+        <field name="intercompany_trade_sale_journal_id" ref="journal_sale"/>
+        <field name="intercompany_trade_purchase_journal_id" ref="journal_purchase"/>
+    </record>
+
+</odoo>

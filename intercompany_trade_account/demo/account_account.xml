@@ -1,56 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
-@author Sylvain LE GAL (https://twitter.com/legalsylvain)
+@author Sylvain LE GAL
 License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 
 <odoo>
 
-    <record id="supplier_account_income" model="account.account">
-        <field name="name">Intercompany Trade - Supplier Incomes</field>
-        <field name="code">CUS_7</field>
-        <field name="user_type_id" ref="account.data_account_type_revenue" />
-        <field name="company_id" ref="intercompany_trade.supplier_company" />
-    </record>
-
-    <record id="supplier_account_receivable" model="account.account">
-        <field name="name">Intercompany Trade - Supplier Debtors</field>
-        <field name="code">SUP_411</field>
-        <field name="user_type_id" ref="account.data_account_type_receivable" />
+    <record id="intercompany_trade_account_company" model="account.account">
+        <field name="code">181</field>
+        <field name="name">Intercompany Trade Account for supplier / customer</field>
+        <field name="is_intercompany_trade" eval="True"/>
+        <field name="account_type">liability_non_current</field>
         <field name="reconcile" eval="True"/>
-        <field name="company_id" ref="intercompany_trade.supplier_company" />
+        <field name="company_id" ref="fiscal_company_base.company_fiscal_mother"/>
     </record>
 
-    <record id="supplier_account_payable" model="account.account">
-        <field name="name">Intercompany Trade - Supplier Creditors</field>
-        <field name="code">SUP_401</field>
-        <field name="user_type_id" ref="account.data_account_type_payable" />
-        <field name="reconcile" eval="True"/>
-        <field name="company_id" ref="intercompany_trade.supplier_company" />
+    <record id="intercompany_trade_account_expense" model="account.account">
+        <field name="code">186</field>
+        <field name="name">Intercompany Trade Expense</field>
+        <field name="is_intercompany_trade" eval="True"/>
+        <field name="account_type">expense</field>
+        <field name="company_id" ref="fiscal_company_base.company_fiscal_mother"/>
     </record>
 
-    <record id="customer_account_expense" model="account.account">
-        <field name="name">Intercompany Trade - Customer Expenses</field>
-        <field name="code">CUS_6</field>
-        <field name="user_type_id" ref="account.data_account_type_expenses" />
-        <field name="company_id" ref="intercompany_trade.customer_company" />
+    <record id="intercompany_trade_account_income" model="account.account">
+        <field name="code">187</field>
+        <field name="name">Intercompany Trade Income</field>
+        <field name="is_intercompany_trade" eval="True"/>
+        <field name="account_type">income</field>
+        <field name="company_id" ref="fiscal_company_base.company_fiscal_mother"/>
     </record>
 
-    <record id="customer_account_receivable" model="account.account">
-        <field name="name">Intercompany Trade - Customer Debtors</field>
-        <field name="code">CUS_411</field>
-        <field name="reconcile" eval="True"/>
-        <field name="user_type_id" ref="account.data_account_type_receivable" />
-        <field name="company_id" ref="intercompany_trade.customer_company" />
-    </record>
-
-    <record id="customer_account_payable" model="account.account">
-        <field name="name">Intercompany Trade - Customer Creditors</field>
-        <field name="code">CUS_401</field>
-        <field name="reconcile" eval="True"/>
-        <field name="user_type_id" ref="account.data_account_type_payable" />
-        <field name="company_id" ref="intercompany_trade.customer_company" />
-    </record>
 
 </odoo>

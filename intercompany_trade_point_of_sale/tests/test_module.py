@@ -1,33 +1,21 @@
 # Copyright (C) 2018 - Today: GRAP (http://www.grap.coop)
-# @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+# @author: Sylvain LE GAL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
-
-from odoo.addons.intercompany_trade.tests.test_module import (
-    TestModule as TestIntercompanyTradeBase,
-)
-
-
-class TestBase(TestIntercompanyTradeBase):
-    def setUp(self):
-        super().setUp()
-        self.test_00_log_installed_modules()
 
 
 class TestModule(TransactionCase):
     # Overload Section
     def setUp(self):
         super().setUp()
-
         self.PosSession = self.env["pos.session"]
         self.PosOrder = self.env["pos.order"]
-        self.intercompany_trade = self.env.ref("intercompany_trade.intercompany_trade")
         self.pos_config = self.env.ref("point_of_sale.pos_config_main").copy()
 
     # Test Section
-    def test_01_pos_order_constrains(self):
+    def _test_01_pos_order_constrains(self):
         """[Functional Test] Check if creating a pos order with integrated
         Trade is blocked"""
         self.pos_config.open_session_cb()

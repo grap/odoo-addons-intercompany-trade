@@ -1,9 +1,10 @@
 # Copyright (C) 2014 - Today: GRAP (http://www.grap.coop)
-# @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+# @author: Sylvain LE GAL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
+from odoo.osv.expression import AND
 
 
 class ResPartner(models.Model):
@@ -13,6 +14,23 @@ class ResPartner(models.Model):
         readonly=True,
         help="Indicate that this partner is an integrated company of a CAE in Odoo.",
     )
+
+    @api.depends("vat", "company_id", "company_registry")
+    def _compute_same_vat_partner_id(self):
+        """Remove the useless warning message that mention that
+        another partner has the same vat / company registry
+        by design all the intercompany trades has the same IDs and it's OK.
+        """
+        for partner in self.filtered(lambda x: x.intercompany_trade):
+            partner.same_vat_partner_id = False
+            partner.same_company_registry_partner_id = False
+        return super(
+            ResPartner, self.filtered(lambda x: not x.intercompany_trade)
+        )._compute_same_vat_partner_id()
+
+    def _fiscal_company_forbid_fiscal_type_allow_exceptions(self):
+        res = super()._fiscal_company_forbid_fiscal_type_allow_exceptions()
+        return res.filtered(lambda x: not x.intercompany_trade)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -27,6 +45,16 @@ class ResPartner(models.Model):
     def unlink(self):
         self._check_intercompany_trade_access([0])
         return super().unlink()
+
+    def _search(self, args, **kwargs):
+        if self.env.company.fiscal_type == "fiscal_child":
+            args = AND(
+                [
+                    args,
+                    [("id", "!=", self.env.company.intercompany_trade_partner_id.id)],
+                ]
+            )
+        return super()._search(args, **kwargs)
 
     @api.constrains("intercompany_trade", "parent_id")
     def _check_intercompany_trade_parent(self):

@@ -5,6 +5,8 @@ import logging
 
 from openupgradelib import openupgrade
 
+# pylint: disable=W8150
+
 _logger = logging.getLogger(__name__)
 
 
@@ -17,14 +19,13 @@ def migrate(env, version):
     MergeModel = env["base.partner.merge.automatic.wizard"].with_context(
         ignore_intercompany_trade_check=True
     )
+    _logger.info("Create all intercompany trade partners ...")
+    env["res.company"].with_context(active_test=False).search(
+        []
+    )._manage_intercompany_trade_partners()
 
     for cae_company in ResCompany.search([("fiscal_type", "=", "fiscal_mother")]):
         for child_company in ResCompany.search([("parent_id", "=", cae_company.id)]):
-            _logger.info("")
-            _logger.info("================================================")
-            _logger.info(f"Working on partners related to {child_company.name}")
-            _logger.info("================================================")
-            _logger.info("")
             # Get all customer partners
             env.cr.execute(
                 """
@@ -45,35 +46,28 @@ def migrate(env, version):
             )
             supplier_partner_ids = [x[0] for x in env.cr.fetchall()]
 
-            partner_ids = customer_partner_ids + supplier_partner_ids
+            partner_ids = list(set(customer_partner_ids + supplier_partner_ids))
 
             if len(partner_ids) == 0:
-                _logger.info(
-                    f"Company #{child_company.id} - {child_company.name}."
-                    " No transaction partners found. Creating a new one"
-                )
-                child_company._create_intercompany_trade_partner()
+                _logger.info("No intercompany trade partners found.")
+                continue
 
-            if len(partner_ids) == 1:
-                main_partner = ResPartner.browse(partner_ids[0])
-            else:
-                # We search the older partner.
-                # It will be the target partner during the merge process
-                main_partner = ResPartner.search(
-                    [("id", "in", partner_ids)], limit=1, order="create_date"
-                )
-
-            # We change the company of the main partner
             _logger.info(
-                f"Partner #{main_partner.id} - {main_partner.name}: Link to CAE."
-                f" (previously in {main_partner.company_id.name})"
+                f"{len(partner_ids)} intercompany trade partners to merge found."
+                f" {partner_ids}."
             )
-            main_partner.company_id = cae_company.id
-            child_company.intercompany_trade_partner_id = main_partner
 
-            partner_ids.remove(main_partner.id)
+            main_partner = child_company.intercompany_trade_partner_id.with_context(
+                ignore_intercompany_trade_check=True
+            )
 
-            for partner_id in partner_ids:
+            for partner_id in partner_ids[::-1]:
+                partner = ResPartner.browse(partner_id)
+                _logger.info(
+                    f"Merging the partner #{partner_id} - {partner.name}"
+                    f" of company {partner.company_id.code} {partner.company_id.name}"
+                    f" with main partner (#{main_partner.id})"
+                )
                 MergeModel._merge(
                     [partner_id, main_partner.id],
                     dst_partner=main_partner,
