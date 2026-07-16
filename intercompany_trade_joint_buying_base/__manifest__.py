@@ -11,8 +11,8 @@
     "license": "AGPL-3",
     "depends": [
         # GRAP
-
-        "intercompany_trade", "joint_buying_base",
+        "intercompany_trade",
+        "joint_buying_base",
     ],
     "auto_install": False,
     "installable": False,
