@@ -54,8 +54,9 @@ class AccountMoveLine(models.Model):
                 ):
                     raise UserError(
                         _(
-                            "In intercompany trade moves the account"
-                            " %(account_code)s - %(account_name)s"
+                            "Configuration error for"
+                            " %(account_code)s - %(account_name)s.\n\n"
+                            "In intercompany trade moves, only the account"
                             " for partners should have a 'liability_non_current' type.",
                             account_code=line.account_id.code,
                             account_name=line.account_id.name,
