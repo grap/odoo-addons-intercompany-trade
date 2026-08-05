@@ -39,8 +39,13 @@ class AccountMove(models.Model):
                         "You can not select an Intercompany Trade partner"
                         "'%(partner_name)s' because, your accountant did'nt set"
                         " any intercompany trade fiscal position"
-                        " at the Mother company level.",
-                        partner_name=self.partner_id.name,
+                        " at the Mother company level."
+                        " Account move:  %(move_name)s. (#%(move_id)s)."
+                        " Company: %(company_name)s.",
+                        partner_name=move.partner_id.name,
+                        move_name=move.name,
+                        move_id=move.id,
+                        company_name=move.company_id.name,
                     ),
                 )
 
@@ -62,7 +67,12 @@ class AccountMove(models.Model):
                         "You can not select an Intercompany Trade partner"
                         "'%(partner_name)s' to create accouning move,"
                         " that are not sale or purchase.",
-                        partner_name=self.partner_id.name,
+                        " Account move:  %(move_name)s. (#%(move_id)s)."
+                        " Company: %(company_name)s.",
+                        partner_name=move.partner_id.name,
+                        move_name=move.name,
+                        move_id=move.id,
+                        company_name=move.company_id.name,
                     ),
                 )
             move.journal_id = getattr(move.fiscal_company_id, field_name)
@@ -73,7 +83,12 @@ class AccountMove(models.Model):
                         "'%(partner_name)s' because, your accountant did'nt set"
                         " any intercompany trade journal (sale & purchase)"
                         " at the Mother company level.",
-                        partner_name=self.partner_id.name,
+                        " Account move:  %(move_name)s. (#%(move_id)s)."
+                        " Company: %(company_name)s.",
+                        partner_name=move.partner_id.name,
+                        move_name=move.name,
+                        move_id=move.id,
+                        company_name=move.company_id.name,
                     ),
                 )
         # reset journal to false, if there is an intercompany trade journal
