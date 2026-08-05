@@ -87,6 +87,10 @@ class AccountMove(models.Model):
         return super(AccountMove, self - intercompany_trade_moves)._compute_journal_id()
 
     def _post(self, *args, **kwargs):
+        self._check_all_intercompany_trade()
+        return super()._post(*args, **kwargs)
+
+    def _check_all_intercompany_trade(self):
         intercompany_trade_invoices = self.filtered(lambda x: x.intercompany_trade)
 
         for invoice in self - intercompany_trade_invoices:
@@ -99,7 +103,6 @@ class AccountMove(models.Model):
             lambda x: x.is_purchase_document(include_receipts=True)
         ):
             invoice._check_intercompany_trade_purchase_invoice()
-        return super()._post(*args, **kwargs)
 
     # Custom Section
     def _check_intercompany_trade_settings(self):
