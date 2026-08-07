@@ -7,27 +7,29 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-01 15:40+0000\n"
-"PO-Revision-Date: 2020-02-01 15:40+0000\n"
+"PO-Revision-Date: 2026-08-07 10:08+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #. module: intercompany_trade_point_of_sale
-#. openerp-web
-#: code:addons/intercompany_trade_point_of_sale/static/src/js/screens.js:19
+#. odoo-javascript
+#: code:addons/intercompany_trade_point_of_sale/static/src/js/Screens/PaymentScreen.esm.js:0
 #, python-format
-msgid "An order cannot be done for Intercompany Trade"
-msgstr "Vous ne pouvez pas vendre en transaction inter société"
+msgid "Order to invoice"
+msgstr "Commande à facture"
 
 #. module: intercompany_trade_point_of_sale
-#. openerp-web
-#: code:addons/intercompany_trade_point_of_sale/static/src/js/screens.js:20
+#. odoo-javascript
+#: code:addons/intercompany_trade_point_of_sale/static/src/js/Screens/PaymentScreen.esm.js:0
 #, python-format
-msgid "Please create a delivered order instead"
-msgstr "Veuillez créer un bon de livraison à la place"
+msgid "Please check the box 'To invoice'."
+msgstr "Veuillez cocher la case 'A facturer'."
 
 #. module: intercompany_trade_point_of_sale
 #: model:ir.model,name:intercompany_trade_point_of_sale.model_pos_order
@@ -35,7 +37,31 @@ msgid "Point of Sale Orders"
 msgstr "Commandes du point de vente"
 
 #. module: intercompany_trade_point_of_sale
-#: code:addons/intercompany_trade_point_of_sale/models/pos_order.py:18
+#: model:ir.model,name:intercompany_trade_point_of_sale.model_pos_session
+msgid "Point of Sale Session"
+msgstr "Session du point de vente"
+
+#. module: intercompany_trade_point_of_sale
+#. odoo-javascript
+#: code:addons/intercompany_trade_point_of_sale/static/src/js/Screens/PaymentScreen.esm.js:0
 #, python-format
-msgid "You can not select a partner marked as 'integrated Trade' in a Point of sale context. Please use the sale or the invoice module instead."
-msgstr "Vous ne pouvez pas sélectionner un partenaire marqué comme 'Transaction Intersociété' dans un contexte de point de vente. Veuillez utiliser le module de vente, ou le module de facturation à la place."
+msgid ""
+"When the customer is flagged as 'Intercompany Trade', the order has to be "
+"invoiced."
+msgstr ""
+"Quand le client est un partenaire intra-CAE, alors la commande doit être "
+"marquée comme 'à facturer'."
+
+#. module: intercompany_trade_point_of_sale
+#. odoo-python
+#: code:addons/intercompany_trade_point_of_sale/models/pos_order.py:0
+#, python-format
+msgid ""
+"You can not select a partner marked as 'integrated Trade' to create a "
+"regular PoS Order. Please create an PoS Order 'to invoice', or use the sale "
+"or the invoice module instead."
+msgstr ""
+"Vous ne pouvez pas sélectionner un partenaire intra-CAE pour créer une "
+"commande de pointe vente classique. Veuillez créer une commande marquée "
+"comme 'à facturer'.\n"
+"Alternativement, vous pouvez utiliser le module de devis ou de facturation."
