@@ -7,113 +7,530 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-01 13:53+0000\n"
-"PO-Revision-Date: 2020-02-01 13:53+0000\n"
+"PO-Revision-Date: 2026-08-07 10:03+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #. module: intercompany_trade_account
-#: model_terms:ir.ui.view,arch_db:intercompany_trade_account.view_account_invoice_form
-msgid "Check Links"
-msgstr "Vérifier les liens"
+#: model_terms:ir.ui.view,arch_db:intercompany_trade_account.view_res_config_settings_form
+msgid ""
+"<span class=\"fa fa-lg fa-home\" title=\"Values set here are company-"
+"specific.\" aria-label=\"Values set here are Fiscal Mother company Specific."
+"\" groups=\"base.group_multi_company\" role=\"img\"/>"
+msgstr ""
+"<span class=\"fa fa-lg fa-home\" title=\"Cette valeur dépend de la CAE\" "
+"aria-label=\"Cette valeur dépend de la CAE\" groups=\"base."
+"group_multi_company\" role=\"img\"/>"
 
 #. module: intercompany_trade_account
-#: model:product.product,name:intercompany_trade_account.product_customer_service_10_excl
+#: model:ir.model,name:intercompany_trade_account.model_account_account
+msgid "Account"
+msgstr "Compte"
+
+#. module: intercompany_trade_account
+#: model:ir.model,name:intercompany_trade_account.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Modèle de plan comptable"
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
+#, python-format
+msgid ""
+"An intercompany trade invoice should not have any taxes defined in lines"
+msgstr ""
+"Une facture de transaction intra-CAE ne devraient avoir aucune taxe définie "
+"dans ses lignes"
+
+#. module: intercompany_trade_account
+#: model:ir.model.fields,help:intercompany_trade_account.field_account_account__is_intercompany_trade
+#: model:ir.model.fields,help:intercompany_trade_account.field_account_account_template__is_intercompany_trade
+msgid ""
+"Check this box for integrated Trade into 2 companies of the same cooperative "
+"for the 'receivable' / 'payable' / 'Income' / 'Expense' accounts."
+msgstr ""
+"Cocher cette case pour les transaction intra-CAE pour les comptes comptables "
+"de tiers, de revenus et de dépenses."
+
+#. module: intercompany_trade_account
+#: model:ir.model.fields,help:intercompany_trade_account.field_account_fiscal_position__is_intercompany_trade
+#: model:ir.model.fields,help:intercompany_trade_account.field_account_fiscal_position_template__is_intercompany_trade
+msgid ""
+"Check this box to use this Fiscal position for integrated Trade into 2 "
+"companies of the same cooperative"
+msgstr ""
+"Cocher cette case pour utiliser cette position fiscale pour des transactions "
+"intra-CAE"
+
+#. module: intercompany_trade_account
+#: model:ir.model.fields,help:intercompany_trade_account.field_account_journal__is_intercompany_trade
+msgid ""
+"Check this box to use this journal for integrated Trade into 2 companies of "
+"the same cooperative"
+msgstr ""
+"Cocher cette case si ce journal est utilisé dans le cadre de transactions "
+"intra-CAE"
+
+#. module: intercompany_trade_account
+#: model:ir.model,name:intercompany_trade_account.model_res_company
+msgid "Companies"
+msgstr "Sociétés"
+
+#. module: intercompany_trade_account
+#: model:ir.model,name:intercompany_trade_account.model_res_config_settings
+msgid "Config Settings"
+msgstr "Paramètres de configuration"
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move_line.py:0
+#, python-format
+msgid ""
+"Configuration error for %(account_code)s - %(account_name)s.\n"
+"\n"
+"In intercompany trade moves, only the account for partners should have a "
+"'liability_non_current' type."
+msgstr ""
+"Erreur de configuration pour %(account_code)s - %(account_name)s.\n"
+"\n"
+"Dans les transactions intra-CAE, seulement les comptes comptables pour les "
+"partenaires doivent être de type 'Passif "
+"immobilisé' ('liability_non_current')."
+
+#. module: intercompany_trade_account
+#: model:ir.model,name:intercompany_trade_account.model_res_partner
+msgid "Contact"
+msgstr "Contact"
+
+#. module: intercompany_trade_account
 #: model:product.template,name:intercompany_trade_account.product_customer_service_10_excl_product_template
 msgid "Customer Service VAT 10% EXCLUDED"
-msgstr "Customer Service VAT 10% EXCLUDED"
+msgstr "Client Service TVA 10% HT"
 
 #. module: intercompany_trade_account
-#: model:ir.model.fields,help:intercompany_trade_account.field_account_invoice__intercompany_trade
-#: model:ir.model.fields,help:intercompany_trade_account.field_account_invoice_line__intercompany_trade
-msgid "Indicate that this partner is a company in Odoo."
-msgstr "Indique que le partenaire est une société dans Odoo."
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_bank_statement_line__fiscal_company_id
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_move__fiscal_company_id
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_payment__fiscal_company_id
+msgid "Fiscal Company"
+msgstr "CAE"
 
 #. module: intercompany_trade_account
-#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_invoice__intercompany_trade
-#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_invoice_line__intercompany_trade
-#: model_terms:ir.ui.view,arch_db:intercompany_trade_account.view_account_invoice_search
+#: model:ir.model,name:intercompany_trade_account.model_account_fiscal_position
+msgid "Fiscal Position"
+msgstr "Position fiscale"
+
+#. module: intercompany_trade_account
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_res_company__intercompany_trade_fiscal_position_id
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_res_config_settings__intercompany_trade_fiscal_position_id
+msgid "Fiscal Position for Intercompany Trade"
+msgstr "Position fiscale intra-CAE"
+
+#. module: intercompany_trade_account
+#: model:ir.model.fields,help:intercompany_trade_account.field_account_bank_statement_line__intercompany_trade
+#: model:ir.model.fields,help:intercompany_trade_account.field_account_move__intercompany_trade
+#: model:ir.model.fields,help:intercompany_trade_account.field_account_payment__intercompany_trade
+msgid "Indicate that this partner is an integrated company of a CAE in Odoo."
+msgstr ""
+"Indique que le partenaire est une activité intégrée d'une CAE dans Odoo."
+
+#. module: intercompany_trade_account
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_account__is_intercompany_trade
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_account_template__is_intercompany_trade
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_fiscal_position__is_intercompany_trade
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_fiscal_position_template__is_intercompany_trade
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_journal__is_intercompany_trade
+msgid "Integrated Trade into a CAE"
+msgstr "Transaction intra-CAE"
+
+#. module: intercompany_trade_account
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_bank_statement_line__intercompany_trade
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_move__intercompany_trade
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_payment__intercompany_trade
+#: model_terms:ir.ui.view,arch_db:intercompany_trade_account.view_account_move_search
 msgid "Intercompany Trade"
-msgstr "Transaction inter société"
+msgstr "Transaction intra-CAE"
 
 #. module: intercompany_trade_account
-#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_invoice__intercompany_trade_readonly
-msgid "Intercompany Trade Readonly"
-msgstr "Lecture seule Transaction inter société"
+#: model_terms:ir.ui.view,arch_db:intercompany_trade_account.view_res_config_settings_form
+msgid "Intercompany Trade Settings"
+msgstr "Paramétrage de transaction intra-CAE"
 
 #. module: intercompany_trade_account
-#: model:ir.model,name:intercompany_trade_account.model_account_invoice
-msgid "Invoice"
-msgstr "Facture"
-
-#. module: intercompany_trade_account
-#: model:ir.model,name:intercompany_trade_account.model_account_invoice_line
-msgid "Invoice Line"
-msgstr "Ligne de facture"
-
-#. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/models/account_invoice_line.py:37
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
 #, python-format
-msgid "It is not possible to confirm this invoice, because your customer didn't referenced your product %s-%s"
-msgstr "Il n'est pas possible de confirmer cette facture, car votre client n'a pas référencé votre produit %s-%s"
+msgid ""
+"Intercompany Trade Supplier invoice should have a Bill reference to be "
+"confirmed."
+msgstr ""
+"Les factures d'achat intra-CAE doivent avoir un numéro de facture "
+"fournisseur pour être confirmée."
 
 #. module: intercompany_trade_account
-#: model:product.product,name:intercompany_trade_account.product_supplier_service_10_excl
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_fiscal_position.py:0
+#, python-format
+msgid "Intercompany Trade in %(company_name)s"
+msgstr "Transaction intra-CAE dans %(company_name)s"
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/res_partner.py:0
+#, python-format
+msgid ""
+"It's not possible to remove the fiscal position 'to the partner(s) "
+"%(partner_names)s.\n"
+"\n"
+" as there are Intercompany trade partners."
+msgstr ""
+"Il n'est pas possible de retirer la position fiscale au(x) contact(s) "
+"%(partner_names)s car ils sont des contacts de transactions intra-CAE."
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/res_partner.py:0
+#, python-format
+msgid ""
+"It's not possible to set the fiscal position '%(fp_name)s' to this partner "
+"%(partner_name)s.\n"
+"\n"
+" as there are incompatible in an Intercompany trade point of view"
+msgstr ""
+"Il n'est pas possible de mettre la position fiscale '%(fp_name)s' à ce "
+"contact %(partner_name)s, car ce paramétrage est incompatible d'un point de "
+"vue des transactions intra-CAE"
+
+#. module: intercompany_trade_account
+#: model:ir.model,name:intercompany_trade_account.model_account_journal
+msgid "Journal"
+msgstr "Journal"
+
+#. module: intercompany_trade_account
+#: model:ir.model,name:intercompany_trade_account.model_account_move
+msgid "Journal Entry"
+msgstr "Pièce comptable"
+
+#. module: intercompany_trade_account
+#: model:ir.model,name:intercompany_trade_account.model_account_move_line
+msgid "Journal Item"
+msgstr "Écriture comptable"
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_journal.py:0
+#, python-format
+msgid ""
+"Only 'Purchase' and 'Sale' Journals can be flaged as 'Internal Journal for "
+"Intercompany Trade'"
+msgstr ""
+"Seulement les journaux d'achat et de vente peuvent être marqués comme dédiés "
+"aux transactions intra-CAE"
+
+#. module: intercompany_trade_account
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_account_move__partner_id
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: intercompany_trade_account
+#: model:ir.model,name:intercompany_trade_account.model_product_template
+msgid "Product"
+msgstr "Produit"
+
+#. module: intercompany_trade_account
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_res_company__intercompany_trade_purchase_journal_id
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_res_config_settings__intercompany_trade_purchase_journal_id
+msgid "Purchase Journal for Intercompany Trade"
+msgstr "Journal d'achat pour les transactions intra-CAE"
+
+#. module: intercompany_trade_account
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_res_company__intercompany_trade_sale_journal_id
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_res_config_settings__intercompany_trade_sale_journal_id
+msgid "Sale Journal for Intercompany Trade"
+msgstr "Journal de vente pour les transactions intra-CAE"
+
+#. module: intercompany_trade_account
 #: model:product.template,name:intercompany_trade_account.product_supplier_service_10_excl_product_template
 msgid "Supplier Service VAT 10% EXCLUDED"
+msgstr "TVA 10% HT (fournisseur de service)"
+
+#. module: intercompany_trade_account
+#: model:ir.model,name:intercompany_trade_account.model_account_fiscal_position_template
+msgid "Template for Fiscal Position"
+msgstr "Modèle de position fiscale"
+
+#. module: intercompany_trade_account
+#: model:ir.model,name:intercompany_trade_account.model_account_account_template
+msgid "Templates for Accounts"
+msgstr "Modèles de comptes comptables"
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
+#, python-format
+msgid ""
+"The Amount total of your invoice %(your_amount_total)s doesn't match with "
+"the amount total of the supplier invoice %(supplier_amount_total)s."
+msgstr ""
+"Le montant total de votre facture (%(your_amount_total)s) ne correspond pas "
+"au montant total de la facture chez votre fournisseur "
+"(%(supplier_amount_total)s)."
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
+#, python-format
+msgid ""
+"The date of your invoice %(your_invoice_date)s doesn't match with the date "
+"of the supplier invoice %(supplier_invoice_date)s."
+msgstr ""
+"La date de votre facture (%(your_invoice_date)s) ne correspond pas à la date "
+"de facture chez votre fournisseur (%(supplier_invoice_date)s)."
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
+#, python-format
+msgid ""
+"The related intercompany supplier invoice %(supplier_invoice_name)s has not "
+"be found in its database.\n"
+"\n"
+" Did you entered correctly the reference ?"
+msgstr ""
+"La facture fournisseur intra-CAE (%(supplier_invoice_name)s) n'a pas été "
+"trouvée dans la base de données.\n"
+"\n"
+"Avez-vous saisie la référence correctement ?"
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
+#, python-format
+msgid ""
+"The state of the supplier invoice is invalid: '%(supplier_invoice_state)s'."
+msgstr ""
+"L'état de la facture fournisseur est invalide: '%(supplier_invoice_state)s'."
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
+#, python-format
+msgid ""
+"The untaxed total of your invoice %(your_amount_untaxed)s doesn't match with "
+"the untaxed total of the supplier invoice %(supplier_amount_untaxed)s."
+msgstr ""
+"Le montant HT de votre facture (%(your_amount_untaxed)s) ne correspond pas "
+"avec le montant total de la facture chez le fournisseur "
+"(%(supplier_amount_untaxed)s)."
+
+#. module: intercompany_trade_account
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_res_company__intercompany_trade_account_id
+#: model:ir.model.fields,field_description:intercompany_trade_account.field_res_config_settings__intercompany_trade_account_id
+msgid "Third Party Account for Intercompany Trade"
+msgstr "Compte de tiers de transaction intra-CAE"
+
+#. module: intercompany_trade_account
+#: model_terms:ir.ui.view,arch_db:intercompany_trade_account.view_res_config_settings_form
+msgid ""
+"This Fiscal position will be used in the sale and purchase moves, in a "
+"integrated trade context. This fiscal position should map the classic income "
+"and expense accounts to accounts flagged as 'Intercompany Trade'. It should "
+"also map all the taxes with nothing, as there is no taxes in intercompany "
+"trade context."
+msgstr ""
+"La position fiscale sera utilisée dans les pièces comptables de vente et "
+"d'achat dans le cadre de transactions intra-CAE. La position fiscale devra "
+"définir une correspondance d'un compte comptable classique de revenu ou de "
+"dépense vers un compte comptable marqué comme transaction intra-CAE. Elle "
+"devra également définir une correspondance toutes les taxes vers rien, car "
+"il n'y pas pas taxes dans un contexte de transaction intra-CAE."
+
+#. module: intercompany_trade_account
+#: model_terms:ir.ui.view,arch_db:intercompany_trade_account.view_res_config_settings_form
+msgid ""
+"This account will be used in the sale and purchase moves, in a integrated "
+"trade context, for the line of the third party ('payment_term' lines), "
+"instead of the classic receivable / payable account. Typically a 181 account "
+"in France (instead of the 401 / 411)."
+msgstr ""
+"Le compte comptable sera utilisé dans les pièces de vente et d'achat, dans "
+"le cadre d'une transaction intra-CAE, pour les lignes comptables de comptes "
+"de tiers. (lignes marquées comme 'payment_term')"
+
+#. module: intercompany_trade_account
+#: model_terms:ir.ui.view,arch_db:intercompany_trade_account.view_res_config_settings_form
+msgid ""
+"This journal will be used for the purchase moves in a integrated trade "
+"context."
+msgstr ""
+"Le journal sera utilisé pour les pièces d'achat dans le cadre de transaction "
+"intra-CAE."
+
+#. module: intercompany_trade_account
+#: model_terms:ir.ui.view,arch_db:intercompany_trade_account.view_res_config_settings_form
+msgid ""
+"This journal will be used for the sale moves in a integrated trade context."
+msgstr ""
+"Le journal sera utilisé pour les pièces de vente dans le cadre de "
+"transaction intra-CAE."
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
+#, python-format
+msgid ""
+"Unexpected error. The related supplier company has not been identified for "
+"the supplier %(supplier_name)s. Please contact the IT Team."
+msgstr ""
+"Erreur inattendue. La société fournisseur n'a pas été identifiée pour le "
+"fournisseur %(supplier_name)s. Veuillez contacter l'équipe informatique."
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move_line.py:0
+#, python-format
+msgid ""
+"You can not select an Intercompany Trade partner '%(partner_name)s' because, "
+"your accountant did'nt set any intercompany trade account at the Mother "
+"company level."
+msgstr ""
+"Vous ne pouvez pas sélectionner un partenaire de transaction intra-CAE "
+"'%(partner_name)s' car votre comptable n'a pas défini de compte comptable de "
+"transaction intra-CAE au niveau de la CAE."
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
+#, python-format
+msgid ""
+"You can not select an Intercompany Trade partner'%(partner_name)s' because, "
+"your accountant did'nt set any intercompany trade fiscal position at the "
+"Mother company level. Account move:  %(move_name)s. (#%(move_id)s). Company: "
+"%(company_name)s."
+msgstr ""
+"Vous ne pouvez pas sélectionner de partenaire intra-CAE '%(partner_name)s' "
+"car votre comptable n'a pas défini de position fiscale de transaction intra-"
+"CAE, au niveau de la CAE. Pièce comptable :  %(move_name)s. (#%(move_id)s). "
+"Société : %(company_name)s."
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
+#, python-format
+msgid ""
+"You can not select an Intercompany Trade partner'%(partner_name)s' because, "
+"your accountant did'nt set any intercompany trade journal (sale & purchase) "
+"at the Mother company level."
+msgstr ""
+"Vous ne pouvez pas sélectionner de partenaire intra-CAE '%(partner_name)s' "
+"car votre comptable n'a pas défini de journal d'achat et de vente pour les "
+"transaction intra-CAE, au niveau de la CAE."
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
+#, python-format
+msgid ""
+"You can not select an Intercompany Trade partner'%(partner_name)s' to create "
+"accouning move, that are not sale or purchase."
+msgstr ""
+"Vous ne pouvez pas sélectionner de partenaire intra-CAE '%(partner_name)s' "
+"pour les pièces comptables qui ne sont pas des pièces d'achat ou de vente."
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
+#, python-format
+msgid ""
+"You can not use the fiscal position '%(fiscal_position_name)s' for "
+"Intercompany Trade."
+msgstr ""
+"Vous ne pouvez pas utiliser la position fiscale '%(fiscal_position_name)s' "
+"pour une transaction intra-CAE."
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
+#, python-format
+msgid ""
+"You can not use the fiscal position '%(fiscal_position_name)s' for Non "
+"Intercompany Trade."
+msgstr ""
+"Vous ne pouvez pas utiliser la position fiscale '%(fiscal_position_name)s' "
+"pour les transactions qui ne sont pas intra-CAE."
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
+#, python-format
+msgid "You can not use the journal '%(journal_name)s' for Intercompany Trade."
+msgstr ""
+"Vous ne pouvez pas utiliser le journal '%(journal_name)s' pour une "
+"transaction intra-CAE."
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
+#, python-format
+msgid ""
+"You can not use the journal '%(journal_name)s' for Non Intercompany Trade."
+msgstr ""
+"Vous ne pouvez pas utiliser le journal '%(journal_name)s' pour les "
+"transactions qui ne sont pas intra-CAE."
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
+#, python-format
+msgid "You have to set a Fiscal position for Intercompany Trade."
+msgstr ""
+"Vous devez paramétrer une position fiscale pour les transactions intra-CAE."
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
+#, python-format
+msgid ""
+"the account %(code)s-%(name)s is not correct for Non Intercompany Trade.\n"
+msgstr ""
+"le compte comptable %(code)s-%(name)s n'est pas correcte dans le cadre du "
+"transaction qui n'est pas intra-CAE.\n"
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
+#, python-format
+msgid ""
+"the account %(code)s-%(name)s is not correct for an expense or an income in "
+"the case of intercompany trade invoice between two companies that belong the "
+"same fiscal company (CAE).\n"
+" Please contact your accountant."
+msgstr ""
+"le compte comptable '%(code)s-%(name)s' n'est pas correct pour une dépense "
+"ou un revenu dans le cas d'une transaction intra-CAE.\n"
+"Veuillez contacter votre comptable."
+
+#. module: intercompany_trade_account
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
+#, python-format
+msgid ""
+"the account %(code)s-%(name)s is not the correct one for Non Intercompany "
+"Trade."
 msgstr ""
 
 #. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/models/account_invoice.py:163
+#. odoo-python
+#: code:addons/intercompany_trade_account/models/account_move.py:0
 #, python-format
-msgid "Unable to confirm this intercompany Trade invoice (or refund) because the field '%s' is not the same: \n"
-" - customer value : %s\n"
-" - supplier value : %s"
-msgstr "Impossible de confirmer cette facture (ou avoir) Intersociété car le champ '%s' n'est pas le même: \n"
-" - Valeur chez le client : %s\n"
-" - Valeur chez le fournisseur : %s"
-
-#. module: intercompany_trade_account
-#: model:product.product,uom_name:intercompany_trade_account.product_customer_service_10_excl
-#: model:product.product,uom_name:intercompany_trade_account.product_supplier_service_10_excl
-#: model:product.template,uom_name:intercompany_trade_account.product_customer_service_10_excl_product_template
-#: model:product.template,uom_name:intercompany_trade_account.product_supplier_service_10_excl_product_template
-msgid "Unit(s)"
-msgstr "Unité(s)"
-
-#. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/models/account_invoice.py:117
-#, python-format
-msgid "You can not create a supplier invoice or refund for intercompany trade supplier. Please ask to your supplier to create or update it"
-msgstr "Vous ne pouvez pas créer une facture ou un avoir fournisseur pour les transactions intersociété. Veuillez contacter votre fournisseur pour lui dire de créer ou de modifier sa facture client."
-
-#. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/models/account_invoice.py:93
-#, python-format
-msgid "Your customer did the job.\n"
-"\n"
-" All the products are correctly referenced."
-msgstr "Votre client a fait la job.\n"
-"\n"
-" Tous les produits sont correctement référencés."
-
-#. module: intercompany_trade_account
-#: code:addons/intercompany_trade_account/models/account_invoice.py:81
-#, python-format
-msgid "Your customer should reference the following products: \n"
-"\n"
-"- %s"
-msgstr "Votre client doit référencer les produits suivants: \n"
-"\n"
-"- %s"
-
-#. module: intercompany_trade_account
-#: model:product.product,weight_uom_name:intercompany_trade_account.product_customer_service_10_excl
-#: model:product.product,weight_uom_name:intercompany_trade_account.product_supplier_service_10_excl
-#: model:product.template,weight_uom_name:intercompany_trade_account.product_customer_service_10_excl_product_template
-#: model:product.template,weight_uom_name:intercompany_trade_account.product_supplier_service_10_excl_product_template
-msgid "kg"
-msgstr "kg"
+msgid ""
+"the account %(code)s-%(name)s is not the correct one in the case of "
+"intercompany trade invoice between two companies that belong the same fiscal "
+"company (CAE).\n"
+" Please contact your accountant."
+msgstr ""
