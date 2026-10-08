@@ -59,11 +59,28 @@ class ResCompany(models.Model):
             lambda x: x.fiscal_type == "fiscal_child"
             and x.intercompany_trade_partner_id
         ):
-            company.intercompany_trade_partner_id.with_company(
-                company.parent_id
-            ).with_context(ignore_intercompany_trade_check=True).write(
+            # Avoid to raise a lot of recomputation.
+            # we so rewrite only values that changed
+            partner_all_vals = (
                 company._prepare_intercompany_trade_partner_from_company()
             )
+            partner = company.intercompany_trade_partner_id.with_company(
+                company.parent_id
+            ).with_context(ignore_intercompany_trade_check=True)
+
+            partner_new_vals = {}
+            for k, v in partner_all_vals.items():
+                if k.endswith("_id"):
+                    current_value = getattr(partner, k).id
+                elif k.endswith("_ids"):
+                    raise NotImplementedError()
+                else:
+                    current_value = getattr(partner, k)
+                if current_value != v:
+                    partner_new_vals[k] = v
+
+            if partner_new_vals:
+                partner.write(partner_new_vals)
 
         for company in self.filtered(
             lambda x: x.fiscal_type != "fiscal_child"

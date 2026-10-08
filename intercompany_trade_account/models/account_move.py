@@ -39,8 +39,13 @@ class AccountMove(models.Model):
                         "You can not select an Intercompany Trade partner"
                         "'%(partner_name)s' because, your accountant did'nt set"
                         " any intercompany trade fiscal position"
-                        " at the Mother company level.",
-                        partner_name=self.partner_id.name,
+                        " at the Mother company level."
+                        " Account move:  %(move_name)s. (#%(move_id)s)."
+                        " Company: %(company_name)s.",
+                        partner_name=move.partner_id.name,
+                        move_name=move.name,
+                        move_id=move.id,
+                        company_name=move.company_id.name,
                     ),
                 )
 
@@ -61,8 +66,13 @@ class AccountMove(models.Model):
                     _(
                         "You can not select an Intercompany Trade partner"
                         "'%(partner_name)s' to create accouning move,"
-                        " that are not sale or purchase.",
-                        partner_name=self.partner_id.name,
+                        " that are not sale or purchase."
+                        " Account move:  %(move_name)s. (#%(move_id)s)."
+                        " Company: %(company_name)s.",
+                        partner_name=move.partner_id.name,
+                        move_name=move.name,
+                        move_id=move.id,
+                        company_name=move.company_id.name,
                     ),
                 )
             move.journal_id = getattr(move.fiscal_company_id, field_name)
@@ -72,8 +82,13 @@ class AccountMove(models.Model):
                         "You can not select an Intercompany Trade partner"
                         "'%(partner_name)s' because, your accountant did'nt set"
                         " any intercompany trade journal (sale & purchase)"
-                        " at the Mother company level.",
-                        partner_name=self.partner_id.name,
+                        " at the Mother company level."
+                        " Account move:  %(move_name)s. (#%(move_id)s)."
+                        " Company: %(company_name)s.",
+                        partner_name=move.partner_id.name,
+                        move_name=move.name,
+                        move_id=move.id,
+                        company_name=move.company_id.name,
                     ),
                 )
         # reset journal to false, if there is an intercompany trade journal
@@ -87,6 +102,10 @@ class AccountMove(models.Model):
         return super(AccountMove, self - intercompany_trade_moves)._compute_journal_id()
 
     def _post(self, *args, **kwargs):
+        self._check_all_intercompany_trade()
+        return super()._post(*args, **kwargs)
+
+    def _check_all_intercompany_trade(self):
         intercompany_trade_invoices = self.filtered(lambda x: x.intercompany_trade)
 
         for invoice in self - intercompany_trade_invoices:
@@ -99,7 +118,6 @@ class AccountMove(models.Model):
             lambda x: x.is_purchase_document(include_receipts=True)
         ):
             invoice._check_intercompany_trade_purchase_invoice()
-        return super()._post(*args, **kwargs)
 
     # Custom Section
     def _check_intercompany_trade_settings(self):

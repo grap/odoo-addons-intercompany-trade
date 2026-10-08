@@ -50,3 +50,8 @@ class ResPartner(models.Model):
                 )
             )
         return res
+
+    def _increase_rank(self, field, n=1):
+        return super(
+            ResPartner, self.filtered(lambda x: not x.intercompany_trade)
+        )._increase_rank(field, n=n)
