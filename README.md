@@ -29,7 +29,7 @@ Available addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [intercompany_trade](intercompany_trade/) | 16.0.2.1.1 |  | Intercompany Trade
-[intercompany_trade_account](intercompany_trade_account/) | 16.0.3.1.0 |  | Intercompany Trade - Account
+[intercompany_trade_account](intercompany_trade_account/) | 16.0.3.1.1 |  | Intercompany Trade - Account
 [intercompany_trade_account_edi](intercompany_trade_account_edi/) | 16.0.1.1.0 |  | Intercompany Trade - Account EDI
 [intercompany_trade_account_usability](intercompany_trade_account_usability/) | 16.0.1.1.0 |  | Intercompany Trade - Account Usability
 [intercompany_trade_l10n_fr_siret](intercompany_trade_l10n_fr_siret/) | 16.0.1.1.0 |  | Intercompany Trade - SIRET
