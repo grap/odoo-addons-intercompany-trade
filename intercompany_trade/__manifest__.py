@@ -4,7 +4,7 @@
 
 {
     "name": "Intercompany Trade",
-    "version": "16.0.2.1.0",
+    "version": "16.0.2.1.1",
     "category": "Intercompany Trade",
     "author": "GRAP",
     "website": "https://github.com/grap/odoo-addons-intercompany-trade",
