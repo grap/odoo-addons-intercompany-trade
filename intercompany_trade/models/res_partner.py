@@ -80,12 +80,26 @@ class ResPartner(models.Model):
         """Overload this function to allow users to change
         some fields for intercompany trade partner"""
         res = []
+
+        # We add automatically all properties, as there
+        # impact only the current company, and not all CAE companies
         for field_name in self._fields.keys():
             if field_name.startswith("property_"):
                 res.append(field_name)
-        # User that can write companies could enable or disable
-        # intercompany trade partners
+
         if self.env["res.company"].check_access_rights("write", raise_exception=False):
+            # Put here some NOT company dependent fields
+            # that are not "very important" and if
+            # there are not exact, that's not a big deal.
+            # Write here to avoid extra fastidious glue modules.
+            res += [
+                # grap / grap-odoo-business
+                # partner_distribution_channel_criterion
+                "distribution_channel_criterion",
+            ]
+
+            # User that can write companies could enable or disable
+            # intercompany trade partners
             res.append("active")
         return res
 
