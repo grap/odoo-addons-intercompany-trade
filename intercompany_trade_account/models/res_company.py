@@ -49,9 +49,9 @@ class ResCompany(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         companies = super().create(vals_list)
-        for company, vals in zip(companies, vals_list, strict=True):
-            if vals.get("fiscal_type") == "fiscal_mother":
-                company._create_intercompany_trade_fiscal_position_id()
+        companies.filtered(
+            lambda x: x.fiscal_type == "fiscal_mother"
+        )._create_intercompany_trade_fiscal_position_id()
         return companies
 
     def write(self, vals):
@@ -63,16 +63,16 @@ class ResCompany(models.Model):
         return res
 
     def _create_intercompany_trade_fiscal_position_id(self):
-        self.ensure_one()
-        if self.intercompany_trade_fiscal_position_id:
-            fiscal_position = self.intercompany_trade_fiscal_position_id
-        else:
-            fiscal_position = self.env["account.fiscal.position"].create(
-                self.env[
-                    "account.fiscal.position"
-                ]._prepare_intercompany_trade_fiscal_position_vals(self)
+        for company in self:
+            if company.intercompany_trade_fiscal_position_id:
+                fiscal_position = company.intercompany_trade_fiscal_position_id
+            else:
+                fiscal_position = self.env["account.fiscal.position"].create(
+                    self.env[
+                        "account.fiscal.position"
+                    ]._prepare_intercompany_trade_fiscal_position_vals(company)
+                )
+                company.intercompany_trade_fiscal_position_id = fiscal_position.id
+            company.mapped("child_ids.intercompany_trade_partner_id").write(
+                {"property_account_position_id": fiscal_position.id}
             )
-            self.intercompany_trade_fiscal_position_id = fiscal_position.id
-        self.mapped("child_ids.intercompany_trade_partner_id").write(
-            {"property_account_position_id": fiscal_position.id}
-        )
