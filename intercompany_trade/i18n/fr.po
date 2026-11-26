@@ -38,8 +38,7 @@ msgstr "Contact"
 #: code:addons/intercompany_trade/models/res_partner.py:0
 #, fuzzy, python-format
 msgid ""
-"Error: You have no right to create, update or unlink partners that are "
-"flagged as 'Intercompany Trade'.\n"
+"Error: You have no right to create, update or unlink partners that are flagged as 'Intercompany Trade'.\n"
 "\n"
 "%(partner_names)s"
 msgstr ""
@@ -78,8 +77,8 @@ msgstr "Gestionnaire"
 #. module: intercompany_trade
 #: model:ir.model.fields,help:intercompany_trade.field_res_company__intercompany_trade_partner_id
 msgid ""
-"Partner used for Intercompany Trade in the other Integrated Companies of the "
-"CAE."
+"Partner used for Intercompany Trade in the other Integrated Companies of the"
+" CAE."
 msgstr ""
 "Partenaire utilisé pour les transactions inter-sociétés, dans les sociétés "
 "intégrées de la CAE."
@@ -97,7 +96,7 @@ msgstr "Utilise le module transaction inter-sociétés"
 #. module: intercompany_trade
 #: model:res.groups,name:intercompany_trade.intercompany_trade_user
 msgid "User"
-msgstr "Utilisateur"
+msgstr "Utilisateur·rice"
 
 #. module: intercompany_trade
 #. odoo-python
@@ -105,7 +104,8 @@ msgstr "Utilisateur"
 #, python-format
 msgid "You can not set Child Partner to an Intercompany Trade Partner"
 msgstr ""
-"Vous ne pouvez pas définir de contact enfant pour un partenaire inter-société"
+"Vous ne pouvez pas définir de contact enfant pour un partenaire inter-"
+"société"
 
 #. module: intercompany_trade
 #. odoo-python
